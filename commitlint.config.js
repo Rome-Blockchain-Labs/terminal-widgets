@@ -19,6 +19,8 @@ module.exports = {
         "test",
         //tool - when adding and configuring dev dependencies
         "tool",
+        //minor - when adding minor changes to an existing feat
+        "minor",
       ],
     ],
   },
