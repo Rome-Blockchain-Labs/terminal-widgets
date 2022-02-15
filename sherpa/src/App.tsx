@@ -1,8 +1,18 @@
 import './App.css'
+import { useWallets } from './WalletContext/WalletContext'
+import { useEffect } from 'react'
+import WalletSelectionModal from './WalletContext/WalletSelectionModal'
+import WalletButton from './WalletContext/WalletButton'
 
 function App() {
+  const { active, library, connectToWallet } = useWallets()
+
   return (
-    <h1 className="text-3xl font-bold underlineu bg-red-500">Hello world!</h1>
+    <>
+      <button onClick={() => connectToWallet('metamask')}>connect</button>
+      <WalletButton />
+      <WalletSelectionModal>asdasd</WalletSelectionModal>
+    </>
   )
 }
 

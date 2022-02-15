@@ -3,17 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@ethersproject/providers": "^5.5.3",
+    "@popperjs/core": "^2.11.2",
+    "@reach/portal": "^0.16.2",
+    "@web3-react/abstract-connector": "^6.0.7",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "assert": "^2.0.0",
+    "ethers": "^5.5.4",
+    "lodash": "^4.17.21",
+    "polished": "^4.1.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-feather": "^2.0.9",
+    "react-popper": "^2.2.5",
+    "react-responsive": "^9.0.0-beta.6",
     "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
+    "react-tooltip": "^4.2.21",
+    "rebass": "^4.0.7",
+    "styled-components": "^5.3.3",
+    "tiny-invariant": "^1.2.0",
+    "twin.macro": "^2.8.2",
+    "use-onclickoutside": "^0.4.0",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.7.0",
+    "websnark": "github:poma/websnark"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -38,6 +60,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^16.11.24",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
