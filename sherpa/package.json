@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.3",
     "@popperjs/core": "^2.11.2",
     "@reach/portal": "^0.16.2",
