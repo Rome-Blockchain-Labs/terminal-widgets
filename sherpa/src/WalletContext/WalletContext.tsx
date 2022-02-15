@@ -85,15 +85,19 @@ export const WalletsContextProvider: FC<ProviderProps> = (props) => {
     if (!active || !networkName) {
       promptWalletChange()
     } else {
+      console.log(networkName)
       //todo make this more generic -- ie switch network for non evm
       await window?.ethereum
         ?.request({
           method: 'wallet_switchEthereumChain',
+
           params: [{ chainId: getChainHexByNetworkName(networkName) }],
         })
         .catch((err: any) => {
+          console.log(err)
           const { blockExplorerUrl, chainHex, name, nativeCurrency, rpcUrl } =
             getNetworkByNetworkName(networkName)
+
           window?.ethereum?.request({
             method: 'wallet_addEthereumChain',
             params: [

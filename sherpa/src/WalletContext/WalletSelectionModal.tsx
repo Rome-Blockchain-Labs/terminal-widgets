@@ -103,6 +103,9 @@ const WalletSelectionModal: (props: { children?: any }) => any = (props) => {
             <HoverBox text={'BSC'} onClick={() => switchNetwork('BSC')}>
               <BinanceIcon color={'gray-100'} />
             </HoverBox>
+            <HoverBox text={'Rinkeby'} onClick={() => switchNetwork('Rinkeby')}>
+              <BinanceIcon color={'gray-100'} />
+            </HoverBox>
           </div>
         </div>
       </div>

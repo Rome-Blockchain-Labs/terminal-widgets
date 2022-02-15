@@ -1,7 +1,7 @@
 import * as ethers from 'ethers'
 import { keyBy } from 'lodash'
 
-export type NetworkName = 'Ethereum' | 'Avalanche' | 'BSC'
+export type NetworkName = 'Ethereum' | 'Avalanche' | 'BSC' | 'Rinkeby'
 export type WalletName = 'metamask'
 
 type Network = {
@@ -20,6 +20,22 @@ type Network = {
 }
 
 const networks: Array<Network> = [
+  {
+    blockExplorerUrl: 'https://etherscan.io/',
+    chainHex: '0x4',
+    chainId: 4,
+    name: 'Rinkeby',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'Ethereum',
+      symbol: 'Eth',
+    },
+    provider: new ethers.providers.JsonRpcProvider(
+      'https://rinkeby.infura.io/v3/f731a1ccfb1a4cc8bc8017b635686621'
+    ),
+    rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    supportingWallets: ['metamask'],
+  },
   {
     blockExplorerUrl: 'https://etherscan.io/',
     chainHex: '0x1',
