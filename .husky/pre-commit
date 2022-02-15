@@ -3,4 +3,4 @@
 
 # sherpa pre-commit script
 cd sherpa
-pnpm lint-staged
+npm lint-staged

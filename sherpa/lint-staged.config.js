@@ -1,15 +1,15 @@
 // lint-staged.config.js
 module.exports = {
   // Type check TypeScript files
-  '**/*.(ts|tsx)': () => 'pnpm tsc --noEmit',
+  '**/*.(ts|tsx)': () => 'npm tsc --noEmit',
 
   // Lint then format TypeScript and JavaScript files
   '**/*.(ts|tsx|js)': (filenames) => [
-    `pnpm eslint --fix ${filenames.join(' ')}`,
-    `pnpm prettier --write ${filenames.join(' ')}`,
+    `npm eslint --fix ${filenames.join(' ')}`,
+    `npm prettier --write ${filenames.join(' ')}`,
   ],
 
   // Format MarkDown and JSON
   '**/*.(md|json)': (filenames) =>
-    `pnpm prettier --write ${filenames.join(' ')}`,
+    `npm prettier --write ${filenames.join(' ')}`,
 }
