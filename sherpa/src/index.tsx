@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
-import { WalletsContextProvider } from './WalletContext/WalletContext'
 import GlobalStyles from './styles/GlobalStyles'
 
 export default function getLibrary(provider: any): Web3Provider {
@@ -17,19 +16,12 @@ export default function getLibrary(provider: any): Web3Provider {
 if ('ethereum' in window) {
   window.ethereum.autoRefreshOnNetworkChange = false
 }
-const NetworkContextName = 'NETWORK'
-
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 ReactDOM.render(
   <React.StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Web3ProviderNetwork getLibrary={getLibrary}>
-        <WalletsContextProvider>
-          <GlobalStyles />
-          <App />
-        </WalletsContextProvider>
-      </Web3ProviderNetwork>
+      <GlobalStyles />
+      <App />
     </Web3ReactProvider>
     ,
   </React.StrictMode>,

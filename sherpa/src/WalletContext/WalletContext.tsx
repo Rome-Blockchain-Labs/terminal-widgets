@@ -69,6 +69,8 @@ export const WalletsContextProvider: FC<ProviderProps> = (props) => {
   const promptWalletChange = () => setPromptingWalletChange(true)
   const cancelWalletChangePrompt = () => setPromptingWalletChange(false)
 
+  // checks if metamask is authorized for that domain
+  // if not then handle error
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
       if (isAuthorized || (isMobile && window.ethereum)) {
