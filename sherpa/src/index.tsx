@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import { WalletsContextProvider } from './WalletContext/WalletContext'
+import GlobalStyles from './styles/GlobalStyles'
 
 export default function getLibrary(provider: any): Web3Provider {
   const library = new Web3Provider(provider)
@@ -25,6 +26,7 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <WalletsContextProvider>
+          <GlobalStyles />
           <App />
         </WalletsContextProvider>
       </Web3ProviderNetwork>

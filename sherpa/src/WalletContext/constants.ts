@@ -33,7 +33,7 @@ const networks: Array<Network> = [
     provider: new ethers.providers.JsonRpcProvider(
       'https://rinkeby.infura.io/v3/f731a1ccfb1a4cc8bc8017b635686621'
     ),
-    rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    rpcUrl: 'https://rinkeby.infura.io/v3/f731a1ccfb1a4cc8bc8017b635686621',
     supportingWallets: ['metamask'],
   },
   {

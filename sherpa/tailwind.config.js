@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+
 const { isObject, keys } = require('lodash')
 
 const themeColors = {
@@ -108,8 +110,9 @@ const generateBackgroundColors = (colors) => {
 
   return bgColors
 }
+
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       backgroundImage: {
@@ -245,5 +248,4 @@ module.exports = {
       '9xl': 'var(--font-9xl-size)',
     },
   },
-  plugins: [],
 }
