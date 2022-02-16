@@ -20,6 +20,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
+    "@types/lodash": "^4.14.178",
     "husky": "^7.0.0"
   }
 }

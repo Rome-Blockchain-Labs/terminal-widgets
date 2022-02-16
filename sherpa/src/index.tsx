@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { WalletsContextProvider } from "@rbl/terminal-library/WalletContext/src/WalletContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <WalletsContextProvider>
+      <App />
+    </WalletsContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )
