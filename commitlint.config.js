@@ -21,6 +21,8 @@ module.exports = {
         "tool",
         //minor - when adding minor changes to an existing feat
         "minor",
+        //wip
+        "wip",
       ],
     ],
   },
