@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20af1b90-faae-4660-976f-cd363f0df8f2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sherpa/npmrc-template" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sherpats/npmrc-template" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sherpa/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/sherpa/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sherpa/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/sherpa/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sherpa/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/sherpa/src/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +23,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/sherpa/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/sherpats" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -38,6 +36,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sherpats" />
       <recent name="$PROJECT_DIR$/sherpa/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -56,7 +55,8 @@
       <workItem from="1644962799518" duration="168000" />
       <workItem from="1644962981542" duration="3586000" />
       <workItem from="1645030913973" duration="2662000" />
-      <workItem from="1645036541047" duration="3968000" />
+      <workItem from="1645036541047" duration="6241000" />
+      <workItem from="1645069261305" duration="3920000" />
     </task>
     <servers />
   </component>
