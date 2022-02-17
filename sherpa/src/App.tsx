@@ -1,9 +1,6 @@
-import { useWallets } from './WalletContext/WalletContext'
-import WalletSelectionModal from './WalletContext/WalletSelectionModal'
-import WalletButton from './WalletContext/WalletButton'
 import { Contract } from '@ethersproject/contracts'
 import CampaignFactory from './build/CampaignFactory.json'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import tw, { styled, css, theme } from 'twin.macro'
 import { useWeb3React } from '@web3-react/core'
 import {
@@ -11,9 +8,14 @@ import {
   getChainHexByNetworkName,
   getNetworkByNetworkName,
 } from './WalletContext/constants'
+import { InjectedConnector } from '@web3-react/injected-connector'
+import { injected } from './connectors'
+import { isMobile } from 'react-device-detect'
+
+const injectedProvider = new InjectedConnector({})
 function App() {
   const FACTORY_ADDRESS = '0x1da8a83eD1e8d76B8dE28653E657Efc8295b1ee6'
-  const { library, active } = useWeb3React()
+  const { library, active, activate, deactivate } = useWeb3React()
   const [campaigns, setCampaigns] = useState()
   const [loading, setLoading] = useState(false)
   // connect to rinkeby before clicking to init contract button
@@ -26,20 +28,39 @@ function App() {
     setLoading(false)
   }
 
+  const connectToWallet = async () => {
+    console.log('connecting')
+
+    await activate(injectedProvider)
+  }
+  useEffect(() => {
+    injected.isAuthorized().then((isAuthorized) => {
+      console.log('is authorized', isAuthorized)
+      if (isAuthorized || (isMobile && window.ethereum)) {
+        activate(injected)
+        // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
+        window?.ethereum?.removeAllListeners(['networkChanged'])
+      }
+    })
+  }, [activate])
+
   return (
     <div className="flex flex-col items-center gap-y-4">
       {console.log(active)}
       {loading && <div>getting campaigns...</div>}
       {campaigns && <div>{JSON.stringify(campaigns)}</div>}
-      {/* <button onClick={() => connectToWallet('metamask')}>connect</button> */}
       <button onClick={initContract} className="border bg-slate-400">
         Instantiate Contract and get deployed campaign
       </button>
-      {/* <WalletButton /> */}
-      {/* <WalletSelectionModal /> */}
       <div tw="bg-red-500 text-xl">daksdksj</div>
       <Button variant="primary" onClick={() => switchNetwork('Rinkeby')}>
-        smmasd
+        switch network
+      </Button>
+      <Button variant="primary" onClick={() => connectToWallet()}>
+        wallet connect
+      </Button>
+      <Button variant="primary" onClick={deactivate}>
+        disconnect
       </Button>
     </div>
   )
