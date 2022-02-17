@@ -12,6 +12,8 @@ module.exports = {
         buffer: require.resolve('buffer'),
         http: require.resolve('http-browserify'),
         https: require.resolve('https-browserify'),
+        url: require.resolve('url'),
+        os: require.resolve('os-browserify/browser'),
       }
       // Issue: https://github.com/webpack/changelog-v5/issues/10
       webpackConfig.plugins.push(

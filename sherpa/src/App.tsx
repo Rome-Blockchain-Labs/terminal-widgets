@@ -13,6 +13,7 @@ import { injected } from './connectors'
 import { isMobile } from 'react-device-detect'
 import * as sherpa from 'sherpa'
 import { ethers } from 'ethers'
+import web3 from './web3'
 
 const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
 const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
@@ -29,30 +30,38 @@ function App() {
   // connect to rinkeby before clicking to init contract button
   const initContract = async () => {
     setLoading(true)
-    const signer = library.getSigner()
-    const contract = new Contract(FACTORY_ADDRESS, CampaignFactory.abi, signer)
-    const c = await contract.getDeployedCampaigns()
+    // const signer = library.getSigner()
+    const accounts = await web3.eth.getAccounts()
+    const instance = new web3.eth.Contract(CampaignFactory.abi, FACTORY_ADDRESS)
+    const c = await instance.methods.getDeployedCampaigns().call()
+    // const c = await instance.getDeployedCampaigns().call()
+    // const contract = new Contract(FACTORY_ADDRESS, CampaignFactory.abi, signer)
+    // const c = await contract.getDeployedCampaigns()
     setCampaigns(c)
     setLoading(false)
   }
 
   const confirmDeposit = async () => {
-    const signer = library.getSigner()
-    const weiValue = 10
-    const ethValue = ethers.utils.formatEther(weiValue)
+    // const signer = library.getSigner()
 
+    const accounts = await web3.eth.getAccounts()
+    // const weiValue = 10
+    // const tokens = web3.utils.toWei(weiValue, 'avax')
+    // const ethValue = ethers.utils.formatEther(weiValue)
+    const weiToEther = (x) => x * 1e18
     const netId = 43113
-    const deposit = await sherpa.createDeposit(ethValue, 'avax', netId)
+    const deposit = await sherpa.createDeposit(weiToEther(10), 'avax', netId)
     console.log('withdrawl info within', deposit) //todo add download step
     const commitment = deposit.commitment
     await sherpa.sendDeposit(
-      ethValue,
+      library,
+      weiToEther(10),
       sherpaProxyAddress,
       netId,
       selectedContractAddress,
       commitment,
       'avax',
-      signer
+      accounts[0]
     )
   }
 
@@ -91,6 +100,9 @@ function App() {
       <div tw="bg-red-500 text-xl">{active}</div>
       <Button variant="primary" onClick={() => switchNetwork('Avalanche Fuji')}>
         switch network avalanche
+      </Button>
+      <Button variant="primary" onClick={() => switchNetwork('Rinkeby')}>
+        connect to rinkeby
       </Button>
       <Button variant="primary" onClick={() => connectToWallet()}>
         wallet connect
