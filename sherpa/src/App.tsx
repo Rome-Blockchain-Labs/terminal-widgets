@@ -11,11 +11,19 @@ import {
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { injected } from './connectors'
 import { isMobile } from 'react-device-detect'
+import * as sherpa from 'sherpa'
+import { ethers } from 'ethers'
 
+const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
+const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
 const injectedProvider = new InjectedConnector({})
 function App() {
+  const [commitment, setCommitment] = useState()
+  console.log(sherpa)
   const FACTORY_ADDRESS = '0x1da8a83eD1e8d76B8dE28653E657Efc8295b1ee6'
+
   const { library, active, activate, deactivate } = useWeb3React()
+
   const [campaigns, setCampaigns] = useState()
   const [loading, setLoading] = useState(false)
   // connect to rinkeby before clicking to init contract button
@@ -28,14 +36,42 @@ function App() {
     setLoading(false)
   }
 
-  const connectToWallet = async () => {
-    console.log('connecting')
+  const confirmDeposit = async () => {
+    const signer = library.getSigner()
+    const weiValue = 10
+    const ethValue = ethers.utils.formatEther(weiValue)
 
+    const netId = 43113
+    const deposit = await sherpa.createDeposit(ethValue, 'avax', netId)
+    console.log('withdrawl info within', deposit) //todo add download step
+    const commitment = deposit.commitment
+    await sherpa.sendDeposit(
+      ethValue,
+      sherpaProxyAddress,
+      netId,
+      selectedContractAddress,
+      commitment,
+      'avax',
+      signer
+    )
+  }
+
+  const connectToWallet = async () => {
     await activate(injectedProvider)
   }
   useEffect(() => {
+    const makeDeposit = async () => {
+      const netId = 43113
+      const deposit = await sherpa.createDeposit(10, 'avax', netId)
+      setCommitment(deposit.commitment)
+
+      console.log(deposit)
+    }
+    makeDeposit()
+  }, [])
+
+  useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
-      console.log('is authorized', isAuthorized)
       if (isAuthorized || (isMobile && window.ethereum)) {
         activate(injected)
         // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
@@ -52,9 +88,9 @@ function App() {
       <button onClick={initContract} className="border bg-slate-400">
         Instantiate Contract and get deployed campaign
       </button>
-      <div tw="bg-red-500 text-xl">daksdksj</div>
-      <Button variant="primary" onClick={() => switchNetwork('Rinkeby')}>
-        switch network
+      <div tw="bg-red-500 text-xl">{active}</div>
+      <Button variant="primary" onClick={() => switchNetwork('Avalanche Fuji')}>
+        switch network avalanche
       </Button>
       <Button variant="primary" onClick={() => connectToWallet()}>
         wallet connect
@@ -62,6 +98,7 @@ function App() {
       <Button variant="primary" onClick={deactivate}>
         disconnect
       </Button>
+      <Button onClick={confirmDeposit}>finalize deposit</Button>
     </div>
   )
 }

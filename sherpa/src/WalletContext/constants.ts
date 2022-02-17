@@ -1,7 +1,12 @@
 import * as ethers from 'ethers'
 import { keyBy } from 'lodash'
 
-export type NetworkName = 'Ethereum' | 'Avalanche' | 'BSC' | 'Rinkeby'
+export type NetworkName =
+  | 'Ethereum'
+  | 'Avalanche'
+  | 'BSC'
+  | 'Rinkeby'
+  | 'Avalanche Fuji'
 export type WalletName = 'metamask'
 
 type Network = {
@@ -66,6 +71,22 @@ const networks: Array<Network> = [
       'https://api.avax.network/ext/bc/C/rpc'
     ),
     rpcUrl: 'https://api.avax.network/ext/bc/C/rpc',
+    supportingWallets: ['metamask'],
+  },
+  {
+    blockExplorerUrl: 'https://snowtrace.io/',
+    chainHex: '0xa869',
+    chainId: 43113,
+    name: 'Avalanche Fuji',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'AVAX',
+      symbol: 'AVAX',
+    },
+    provider: new ethers.providers.JsonRpcProvider(
+      'https://api.avax-test.network/ext/bc/C/rpc'
+    ),
+    rpcUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
     supportingWallets: ['metamask'],
   },
   {
