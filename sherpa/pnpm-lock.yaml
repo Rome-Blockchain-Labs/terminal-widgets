@@ -20,6 +20,7 @@ specifiers:
   '@web3-react/injected-connector': ^6.0.7
   assert: ^2.0.0
   autoprefixer: ^10.4.2
+  babel-plugin-macros: ^3.1.0
   babel-plugin-styled-components: ^2.0.2
   eslint: ^8.9.0
   eslint-config-prettier: ^8.3.0
@@ -59,6 +60,7 @@ dependencies:
   '@web3-react/core': 6.1.9_react@17.0.2
   '@web3-react/injected-connector': 6.0.7
   assert: 2.0.0
+  babel-plugin-macros: 3.1.0
   babel-plugin-styled-components: 2.0.2_styled-components@5.3.3
   ethers: 5.5.4
   lodash: 4.17.21
