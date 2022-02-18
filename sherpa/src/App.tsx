@@ -14,12 +14,17 @@ import { isMobile } from 'react-device-detect'
 import * as sherpa from 'sherpa'
 import { ethers } from 'ethers'
 import web3 from './web3'
-
+import { ToggleButton } from 'components/ToggleButton'
+import { InformationCircleIcon } from '@heroicons/react/outline'
+import { ToggleSwitch } from 'components/ToogleSwitch'
 const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
 const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
 const injectedProvider = new InjectedConnector({})
 function App() {
   const [commitment, setCommitment] = useState()
+  const [transaction, setTransaction] = useState<'deposit' | 'withdraw'>(
+    'deposit'
+  )
   console.log(sherpa)
   const FACTORY_ADDRESS = '0x1da8a83eD1e8d76B8dE28653E657Efc8295b1ee6'
 
@@ -90,7 +95,10 @@ function App() {
   }, [activate])
 
   return (
-    <div className="flex flex-col items-center gap-y-4">
+    <div className="">
+      {console.log(transaction !== 'deposit', 'transaction')}
+
+      {console.log(transaction !== 'withdraw', 'transaction')}
       {console.log(active)}
       {loading && <div>getting campaigns...</div>}
       {campaigns && <div>{JSON.stringify(campaigns)}</div>}
@@ -111,12 +119,49 @@ function App() {
         disconnect
       </Button>
       <Button onClick={confirmDeposit}>finalize deposit</Button>
+      <div tw="bg-red-700">faldf</div>
+      <div tw="bg-contain bg-sherpa-bg w-[522px] h-[266px] flex justify-center px-[34px] py-[23px] gap-[15px]">
+        <div tw="rounded-6 flex-grow backdrop-filter backdrop-blur-md bg-white bg-opacity-10  px-[15px] py-[9px] ">
+          <div tw="bg-white rounded-full flex">
+            <ToggleButton disabled={transaction !== 'deposit'}>
+              Deposit
+            </ToggleButton>
+            <ToggleButton disabled={transaction !== 'withdraw'}>
+              Withdraw
+            </ToggleButton>
+          </div>
+
+          <div tw="flex w-full mt-2">
+            <div>
+              <div tw="flex">
+                <span tw="font-medium text-[9px]">Relayer Mode</span>
+                <InformationCircleIcon tw="mb-2 h-2 w-2" />
+              </div>
+              <ToggleSwitch type="checkbox" />
+            </div>
+
+            <div>
+              <div tw="flex">
+                <span tw="font-medium text-[9px]">Relayer Mode</span>
+                <InformationCircleIcon tw="mb-2 h-2 w-2" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div tw="flex-grow border border-black">adfsdf</div>
+      </div>
     </div>
   )
 }
 
 export default App
-
+// const DepositButton = ({ disabled, children }) => {
+//   return <ToggleButton disabled={disabled}>{children}</ToggleButton>
+// }
+// const WithdrawButton = ({ disabled, children }) => {
+//   return <ToggleButton disabled={disabled}>{children}</ToggleButton>
+// }
 // const Input = ({ hasHover }) => (
 //   <input css={[tw`text-black border`, hasHover && tw`hover:border-black`]} />
 // )
