@@ -120,11 +120,7 @@ function App() {
       </Button>
       <Button onClick={confirmDeposit}>finalize deposit</Button> */}
       {/* <div tw="bg-red-700">faldf</div> */}
-      <Foo>
-        <div className="hello">
-          <div className="hi">hello</div>
-        </div>
-      </Foo>
+      <div tw="text-xs">hello</div>
       <hr tw="mb-4" />
 
       <div tw="bg-contain bg-sherpa-bg w-[522px] h-[266px] flex justify-center px-[34px] py-[23px] gap-[15px]">
