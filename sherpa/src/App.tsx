@@ -16,7 +16,7 @@ import { ethers } from 'ethers'
 import web3 from './web3'
 import { ToggleButton } from 'components/ToggleButton'
 import { InformationCircleIcon } from '@heroicons/react/outline'
-import { ToggleSwitch } from 'components/ToogleSwitch'
+import { ToggleSwitch } from 'components/ToggleSwitch'
 const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
 const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
 const injectedProvider = new InjectedConnector({})
@@ -102,7 +102,7 @@ function App() {
       {console.log(active)}
       {loading && <div>getting campaigns...</div>}
       {campaigns && <div>{JSON.stringify(campaigns)}</div>}
-      <button onClick={initContract} className="border bg-slate-400">
+      {/* <button onClick={initContract} className="border bg-slate-400">
         Instantiate Contract and get deployed campaign
       </button>
       <div tw="bg-red-500 text-xl">{active}</div>
@@ -118,10 +118,17 @@ function App() {
       <Button variant="primary" onClick={deactivate}>
         disconnect
       </Button>
-      <Button onClick={confirmDeposit}>finalize deposit</Button>
-      <div tw="bg-red-700">faldf</div>
+      <Button onClick={confirmDeposit}>finalize deposit</Button> */}
+      {/* <div tw="bg-red-700">faldf</div> */}
+      <Foo>
+        <div className="hello">
+          <div className="hi">hello</div>
+        </div>
+      </Foo>
+      <hr tw="mb-4" />
+
       <div tw="bg-contain bg-sherpa-bg w-[522px] h-[266px] flex justify-center px-[34px] py-[23px] gap-[15px]">
-        <div tw="rounded-6 flex-grow backdrop-filter backdrop-blur-md bg-white bg-opacity-10  px-[15px] py-[9px] ">
+        <div tw="rounded-md flex-grow backdrop-filter backdrop-blur-md bg-white bg-opacity-10  px-[15px] py-[9px] ">
           <div tw="bg-white rounded-full flex">
             <ToggleButton disabled={transaction !== 'deposit'}>
               Deposit
@@ -137,7 +144,7 @@ function App() {
                 <span tw="font-medium text-[9px]">Relayer Mode</span>
                 <InformationCircleIcon tw="mb-2 h-2 w-2" />
               </div>
-              <ToggleSwitch type="checkbox" />
+              <ToggleSwitch />
             </div>
 
             <div>
@@ -226,3 +233,11 @@ const switchNetwork = async (networkName: NetworkName) => {
       })
     })
 }
+
+const Foo = styled.div`
+  .hello {
+    .hi {
+      ${tw`bg-red-800`}
+    }
+  }
+`
