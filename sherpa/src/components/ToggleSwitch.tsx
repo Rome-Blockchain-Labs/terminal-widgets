@@ -46,12 +46,12 @@ const SwitchContainer = styled.label`
     ${tw`transform translate-x-[26px]`}
   }
   > input:checked + .slider > span {
-    ${tw`transform -translate-x-3`}
+    ${tw`transform -translate-x-3 `}
   }
 
   > div {
     span {
-      ${tw` text-white absolute transform translate-x-1/2 translate-y-1/2 right-[15px] bottom-3  text-[10px]`}
+      ${tw` transition duration-500 ease-in-out text-white absolute transform translate-x-1/2 translate-y-1/2 right-[15px] bottom-3  text-[10px]`}
     }
     .on {
       ${tw`hidden`}
