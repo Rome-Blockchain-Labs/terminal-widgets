@@ -25,8 +25,8 @@ const SwitchContainer = styled.label`
     &:before {
       position: absolute;
       content: '';
-      height: 18px;
-      width: 18px;
+      height: 20px;
+      width: 20px;
       left: 2px;
       bottom: 4px;
       background-color: #cdcdcd;
@@ -43,7 +43,7 @@ const SwitchContainer = styled.label`
   }
 
   > input:checked + div:before {
-    ${tw`transform translate-x-[26px]`}
+    ${tw`transform translate-x-[23px]`}
   }
   > input:checked + .slider > span {
     ${tw`transform -translate-x-3 `}

@@ -15,7 +15,7 @@ import { ethers } from 'ethers'
 import { ToggleButton } from 'components/ToggleButton'
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import { ToggleSwitch } from 'components/ToggleSwitch'
-import Deposit from 'components/Deposit'
+import DepositStat from 'components/DepositStat'
 import web3 from '../web3'
 import { injected } from 'connectors'
 
@@ -213,7 +213,7 @@ const Home = () => {
             {Array(12)
               .fill(undefined)
               .map((ele) => {
-                return <Deposit key={ele} />
+                return <DepositStat key={ele} />
               })}
           </div>
         </div>
