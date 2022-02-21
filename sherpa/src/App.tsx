@@ -17,6 +17,8 @@ import web3 from './web3'
 import { ToggleButton } from 'components/ToggleButton'
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import { ToggleSwitch } from 'components/ToggleSwitch'
+import Deposit from 'components/Deposit'
+
 const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
 const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
 const injectedProvider = new InjectedConnector({})
@@ -120,11 +122,9 @@ function App() {
       </Button>
       <Button onClick={confirmDeposit}>finalize deposit</Button> */}
       {/* <div tw="bg-red-700">faldf</div> */}
-      <div tw="text-xs">hello</div>
-      <hr tw="mb-4" />
 
-      <div tw="bg-contain bg-sherpa-bg w-[522px] h-[266px] flex justify-center px-[34px] py-[23px] gap-[15px]">
-        <div tw="rounded-md flex-grow backdrop-filter backdrop-blur-md bg-white bg-opacity-10  px-[15px] py-[9px] ">
+      <div tw="bg-contain bg-sherpa-bg w-[522px]  flex justify-center items-stretch px-[34px] py-[23px] gap-[15px]">
+        <div tw="rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
           <div tw="bg-white rounded-full flex">
             <ToggleButton disabled={transaction !== 'deposit'}>
               Deposit
@@ -143,62 +143,86 @@ function App() {
               <ToggleSwitch />
             </div>
 
-            <div>
+            <div tw="ml-2">
               <div tw="flex">
-                <span tw="font-medium text-[9px]">Relayer Mode</span>
+                <span tw="font-medium text-[9px]">Relayer Fee</span>
                 <InformationCircleIcon tw="mb-2 h-2 w-2" />
+              </div>
+              <select tw="rounded-sm w-[118px] h-[26px] bg-[#03283D] text-[#19A99D] font-bold text-[9px]">
+                <option
+                  value="asd"
+                  tw="w-[120px] h-[26px] bg-[#03283D] text-[#19A99D]"
+                >
+                  Sherpa Relayer - 1%
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div tw="flex">
+              <span tw="font-medium text-[9px]">Unique Key</span>
+              <InformationCircleIcon tw="mb-2 h-2 w-2" />
+            </div>
+            <input
+              tw="px-2 rounded-sm text-[7px] h-[26px] w-full bg-[#03283D] text-white placeholder:text-[#707070]"
+              placeholder="Insert Unique Key Here"
+            />
+          </div>
+
+          <div tw="mt-[6px]">
+            <div tw="flex">
+              <span tw="font-medium text-[9px]">Recipient Wallet Address</span>
+              <InformationCircleIcon tw="mb-2 h-2 w-2" />
+            </div>
+            <input
+              tw="px-2 rounded-sm text-[7px] h-[26px] w-full bg-[#03283D] text-white placeholder:text-[#707070]"
+              placeholder="Insert Address Here"
+            />
+          </div>
+
+          <button tw="mt-[7px] rounded-full w-full h-[28px] text-[#03283D] text-[11px] bg-white">
+            Withdraw
+          </button>
+        </div>
+
+        <div tw="rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-[#24466D] bg-opacity-50  px-[15px] py-[9px] ">
+          <div tw="flex">
+            <div tw="text-white text-[11px] font-bold">STATISTICS</div>
+            <div tw="ml-auto">
+              <div tw="rounded-[4px]  bg-[#03283D] text-[#19A99D] p-[6px] text-[11px] font-bold">
+                10
               </div>
             </div>
           </div>
-        </div>
+          <div tw="flex mt-2">
+            <span tw="text-[10px] text-white">Anonymity Set</span>
+            <InformationCircleIcon tw="mb-2 h-2 w-2 text-white" />
+            <div tw="text-[7px] text-white ml-auto mr-1">AVAX</div>
+          </div>
 
-        <div tw="flex-grow border border-black">adfsdf</div>
+          <div tw="flex mt-1 items-center">
+            <div tw="rounded-[4px]  bg-[#03283D] text-[#19A99D] py-[4px] px-[11px] text-[11px] font-bold">
+              4685
+            </div>
+            <span tw="text-[9px] ml-[5px] text-white">equal user deposits</span>
+          </div>
+
+          <div tw="text-[10px] text-white mt-[12px]">Anonymity Set</div>
+          <div tw="grid grid-cols-2 grid-rows-6 grid-flow-col gap-y-[6px] mt-1">
+            {Array(12)
+              .fill(undefined)
+              .map((ele) => {
+                return <Deposit key={ele} />
+              })}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
 export default App
-// const DepositButton = ({ disabled, children }) => {
-//   return <ToggleButton disabled={disabled}>{children}</ToggleButton>
-// }
-// const WithdrawButton = ({ disabled, children }) => {
-//   return <ToggleButton disabled={disabled}>{children}</ToggleButton>
-// }
-// const Input = ({ hasHover }) => (
-//   <input css={[tw`text-black border`, hasHover && tw`hover:border-black`]} />
-// )
-
-// const Inputa = styled.input(({ hasHover }) => [
-//   hasHover === 'primary' && tw`text-black bg-black border-black`,
-// ])
-
-const Button = styled.button(({ variant, isSmall }) => [
-  // The common button styles added with the tw import
-  tw`px-8 py-2 duration-75 transform rounded focus:outline-none`,
-
-  // Use the variant grouping feature to add variants to multiple classes
-  tw`hocus:(scale-105 text-yellow-400)`,
-
-  // Use props to conditionally style your components
-  variant === 'primary' && tw`text-white bg-black border-black`,
-
-  // Combine regular css with tailwind classes within backticks
-  variant === 'secondary' && [
-    css`
-      box-shadow: 0 0.1em 0 0 rgba(0, 0, 0, 0.25);
-    `,
-    tw`border-2 border-yellow-600`,
-  ],
-
-  // Conditional props can be used
-  isSmall ? tw`text-sm` : tw`text-lg`,
-
-  // The theme import can supply values from your tailwind.config.js
-  css`
-    color: ${theme`colors.white`};
-  `,
-])
 
 const switchNetwork = async (networkName: NetworkName) => {
   console.log(networkName)
@@ -229,11 +253,3 @@ const switchNetwork = async (networkName: NetworkName) => {
       })
     })
 }
-
-const Foo = styled.div`
-  .hello {
-    .hi {
-      ${tw`bg-red-800`}
-    }
-  }
-`

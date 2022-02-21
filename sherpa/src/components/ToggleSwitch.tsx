@@ -13,7 +13,7 @@ export const ToggleSwitch = () => {
 }
 
 const SwitchContainer = styled.label`
-  ${tw`relative inline-block w-[48px] h-[22px]`}
+  ${tw`relative inline-block w-[48px] h-[27px]`}
 
   > input {
     ${tw`hidden`}
@@ -28,7 +28,7 @@ const SwitchContainer = styled.label`
       height: 18px;
       width: 18px;
       left: 2px;
-      bottom: 2px;
+      bottom: 4px;
       background-color: #cdcdcd;
       -webkit-transition: 0.4s;
       transition: 0.4s;

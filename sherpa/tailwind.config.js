@@ -14,6 +14,9 @@ module.exports = {
       fontSize: {
         xs: 'clamp(1rem, 10vmin, 20rem)',
       },
+      fontFamily: {
+        sans: 'Roboto',
+      },
     },
   },
   variants: {
