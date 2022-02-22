@@ -1,6 +1,10 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 const UniqueKey = () => {
+  const {
+    state: { commitment, contract },
+  } = useLocation()
   return (
     <div tw="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">
       <div tw="text-primary text-[10px] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
