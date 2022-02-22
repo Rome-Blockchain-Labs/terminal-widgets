@@ -5,7 +5,7 @@ const Count = styled.div`
   ${tw`rounded-sm px-2 py-[2px]  bg-[#03283D] font-bold text-white text-[7px]`}
 `
 
-const Deposit = () => {
+const DepositStat = () => {
   return (
     <div tw="flex">
       <Count>3685</Count>
@@ -14,4 +14,4 @@ const Deposit = () => {
   )
 }
 
-export default Deposit
+export default DepositStat

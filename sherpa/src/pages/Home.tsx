@@ -18,6 +18,7 @@ import { ToggleSwitch } from 'components/ToggleSwitch'
 import DepositStat from 'components/DepositStat'
 import web3 from '../web3'
 import { injected } from 'connectors'
+import Select from 'components/Select'
 
 const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
 const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
@@ -148,14 +149,15 @@ const Home = () => {
                 <span tw="font-medium text-[9px]">Relayer Fee</span>
                 <InformationCircleIcon tw="mb-2 h-2 w-2" />
               </div>
-              <select tw="rounded-sm w-[118px] h-[26px] bg-[#03283D] text-[#19A99D] font-bold text-[9px]">
+              <Select />
+              {/* <select tw="rounded-sm w-[118px] h-[26px] bg-[#03283D] text-[#19A99D] font-bold text-[9px]">
                 <option
                   value="asd"
                   tw="w-[120px] h-[26px] bg-[#03283D] text-[#19A99D]"
                 >
                   Sherpa Relayer - 1%
                 </option>
-              </select>
+              </select> */}
             </div>
           </div>
 
