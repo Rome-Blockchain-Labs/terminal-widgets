@@ -1,7 +1,11 @@
 const webpack = require('webpack')
 module.exports = {
   babel: {
-    plugins: ['babel-plugin-macros', 'babel-plugin-styled-components'],
+    plugins: [
+      'babel-plugin-twin',
+      'babel-plugin-macros',
+      'babel-plugin-styled-components',
+    ],
   },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {

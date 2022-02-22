@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import tw, { styled } from 'twin.macro'
 
 const DropDownContainer = styled.div`
-  ${tw`rounded-sm w-[118px] bg-[#03283D] text-[#19A99D] font-bold text-[9px] flex flex-col`}
+  ${tw`rounded-sm w-[118px] bg-primary text-secondary font-bold text-[9px] flex flex-col`}
 `
 const DropDownHeader = styled('div')`
   ${tw`flex items-center w-full my-auto h-[26px] px-1 `}
@@ -13,7 +13,7 @@ const DropDownListContainer = styled.div`
 `
 
 const DropDownList = styled('ul')`
-  ${tw`bg-[#03283D] text-[#19A99D]`}
+  ${tw`bg-primary text-secondary`}
 `
 
 const ListItem = styled.li`

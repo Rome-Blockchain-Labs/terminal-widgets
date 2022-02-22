@@ -20,7 +20,7 @@ const SwitchContainer = styled.label`
   }
 
   > div {
-    ${tw`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-[50px] before:rounded-[50px] bg-[#03283D] transition duration-300`}
+    ${tw`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-[50px] before:rounded-[50px] bg-primary transition duration-300`}
 
     &:before {
       position: absolute;

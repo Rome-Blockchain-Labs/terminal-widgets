@@ -6,6 +6,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import GlobalStyles from './styles/GlobalStyles'
 import Web3 from 'web3'
+import { BrowserRouter } from 'react-router-dom'
 
 // export default function getLibrary(provider: any): Web3Provider {
 //   const library = new Web3Provider(provider)
@@ -27,7 +28,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <GlobalStyles />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Web3ReactProvider>
     ,
   </React.StrictMode>,
