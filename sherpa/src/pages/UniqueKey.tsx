@@ -1,12 +1,41 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import tw, { styled } from 'twin.macro'
 
+interface LocationState {
+  commitment: string
+  contract: string
+}
 const UniqueKey = () => {
-  const {
-    state: { commitment, contract },
-  } = useLocation()
+  const location = useLocation()
+  const state = location.state as LocationState
+  const [checked, setIsChecked] = useState(false)
+
+  function isChecked(e: React.ChangeEvent<HTMLInputElement>): void {
+    const checked = e.target.checked
+    setIsChecked(checked)
+  }
+
+  const downloadUniqueKey = () => {
+    const element = document.createElement('a')
+    const file = new Blob([state.commitment], {
+      type: 'text/plain;charset=utf-8',
+    })
+    element.href = URL.createObjectURL(file)
+    element.download = 'unique-key.txt'
+    document.body.appendChild(element)
+    element.click()
+  }
+
+  useEffect(() => {
+    if (!state || !state.commitment) return
+    downloadUniqueKey()
+  }, [])
+
   return (
     <div tw="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">
+      {console.log(checked)}
       <div tw="text-primary text-[10px] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
         <div tw="text-[11px] font-bold">Make a Deposit</div>
         <div tw="mt-1">
@@ -18,7 +47,10 @@ const UniqueKey = () => {
         <div tw="flex w-full items-center  mt-[14px]">
           <div>
             <div tw="text-[11px] font-bold">Unique Key</div>
-            <button tw="rounded mt-1 flex w-[105px] bg-secondary text-white justify-around items-center h-[32px] ">
+            <button
+              onClick={downloadUniqueKey}
+              tw="rounded mt-1 flex w-[105px] bg-secondary text-white justify-around items-center h-[32px] "
+            >
               <span>Download</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -37,17 +69,21 @@ const UniqueKey = () => {
             </button>
           </div>
           <div tw="flex mt-auto mb-2 ml-14">
-            <input type={'checkbox'} />
+            <input onChange={(e) => isChecked(e)} type={'checkbox'} />
             <span tw="ml-2">I backed up the note</span>
           </div>
         </div>
 
-        <button tw="mt-auto  mb-3 rounded-full w-full h-[28px] text-primary text-[11px] bg-white">
-          Deposit
-        </button>
+        <DepositButton disabled={!checked}>Deposit</DepositButton>
       </div>
     </div>
   )
 }
 
 export default UniqueKey
+
+const DepositButton = styled.button<{ disabled: boolean }>`
+  ${tw`mt-auto  mb-3 rounded-full w-full h-[28px] text-primary text-[11px] bg-white`}
+
+  ${({ disabled }) => disabled && tw`bg-opacity-40 opacity-40 `}
+`

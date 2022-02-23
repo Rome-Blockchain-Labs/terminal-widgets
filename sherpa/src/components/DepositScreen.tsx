@@ -80,7 +80,10 @@ const DepositScreen = () => {
         })}
       </div>
 
-      <button tw="mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white">
+      <button
+        onClick={createCommitment}
+        tw="mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
+      >
         Deposit
       </button>
     </div>
