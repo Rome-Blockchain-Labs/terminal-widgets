@@ -11,8 +11,8 @@ interface WithdrawScreenProps {
   selectedContract: any
 }
 const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
-  const [destinationAddress, setDestinationAddress] = useState('')
-  const [uniqueKey, setUniqueKey] = useState('')
+  const [destinationAddress, setDestinationAddress] = useState('0xB1Eb136EfAB647b2c99e9C08aC21F2BD7d79794E')
+  const [uniqueKey, setUniqueKey] = useState('sherpa-avax-10000000000000000000-43113-0x1dacb1e8b89a4d857153cb35831751b7b91caa950355a2128b7ae67d025e792d0a0dcfe92e9ea1ddfb59fa8004e4538ea2275100fb351923657a5dc70d23')
   const [selfRelay, setSelfRelay] = useState(false)
 
   const handleOnChange = (e) => {
@@ -25,11 +25,13 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
 
   const withdraw = async () => {
     const [_, selectedToken, valueWei] = uniqueKey.split('-')
-    await sherpaClient.fetchEvents(valueWei, selectedToken)
+    await sherpaClient.fetchCircuitAndProvingKey()
+    const events = await sherpaClient.fetchEvents(valueWei, selectedToken)
     const a = await sherpaClient.withdraw(
       uniqueKey,
       destinationAddress,
-      selfRelay
+      selfRelay,
+      sherpaClient.getRelayerList()[0]//todo move this into the button and control it
     )
     const b = JSON.stringify(a)
     alert(b)
@@ -70,6 +72,7 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
           onChange={(e) => setUniqueKey(e.target.value)}
           tw="px-2 rounded-sm text-[7px] h-[26px] w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Unique Key Here"
+          value={uniqueKey}
         />
       </div>
 
@@ -82,6 +85,7 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
           onChange={(e) => setDestinationAddress(e.target.value)}
           tw="px-2 rounded-sm text-[7px] h-[26px] w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Address Here"
+          value={destinationAddress}
         />
       </div>
 
