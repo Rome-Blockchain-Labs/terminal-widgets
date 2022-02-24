@@ -11,6 +11,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.16.2
   '@testing-library/react': ^12.1.2
   '@testing-library/user-event': ^13.5.0
+  '@types/file-saver': ^2.0.5
   '@types/jest': ^27.4.0
   '@types/lodash': ^4.14.178
   '@types/node': ^16.11.24
@@ -30,6 +31,7 @@ specifiers:
   eslint: ^8.9.0
   eslint-config-prettier: ^8.3.0
   ethers: ^5.5.4
+  file-saver: ^2.0.5
   http-browserify: ^1.7.0
   https-browserify: ^1.0.0
   husky: ^7.0.0
@@ -50,7 +52,7 @@ specifiers:
   react-select: ^5.2.2
   react-tooltip: ^4.2.21
   rebass: ^4.0.7
-  sherpa: github:iandjx/sherpa-sdk#fix-local-keys
+  sherpa: git+https://github.com/Sherpa-Cash/sherpa-sdk.git#fixes
   stream-browserify: ^3.0.0
   styled-components: ^5.3.3
   tailwindcss: ^2.2.19
@@ -71,6 +73,7 @@ dependencies:
   '@heroicons/react': 1.0.5_react@17.0.2
   '@popperjs/core': 2.11.2
   '@reach/portal': 0.16.2_react-dom@17.0.2+react@17.0.2
+  '@types/file-saver': 2.0.5
   '@web3-react/abstract-connector': 6.0.7
   '@web3-react/core': 6.1.9_react@17.0.2
   '@web3-react/injected-connector': 6.0.7
@@ -80,6 +83,7 @@ dependencies:
   buffer: 6.0.3
   crypto-browserify: 3.12.0
   ethers: 5.5.4
+  file-saver: 2.0.5
   http-browserify: 1.7.0
   https-browserify: 1.0.0
   lodash: 4.17.21
@@ -96,7 +100,7 @@ dependencies:
   react-select: 5.2.2_b8fdba992ce7d797017dc07106486496
   react-tooltip: 4.2.21_react-dom@17.0.2+react@17.0.2
   rebass: 4.0.7_react@17.0.2
-  sherpa: github.com/iandjx/sherpa-sdk/12bc26e30aa5c26f1ea644586fd70587e69d99cb
+  sherpa: github.com/Sherpa-Cash/sherpa-sdk/d27d8b211ebc11feca86d08925208d8161a4d273
   stream-browserify: 3.0.0
   styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
   tiny-invariant: 1.2.0
@@ -3006,6 +3010,10 @@ packages:
       '@types/serve-static': 1.13.10
     dev: false
 
+  /@types/file-saver/2.0.5:
+    resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
+    dev: false
+
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
@@ -3903,6 +3911,14 @@ packages:
   /axe-core/4.4.1:
     resolution: {integrity: sha512-gd1kmb21kwNuWr6BQz8fv6GNECPBnUasepcoLbekws23NVBLODdsClRZ+bQ8+9Uomf3Sm3+Vwn0oYG9NvwnJCw==}
     engines: {node: '>=4'}
+    dev: false
+
+  /axios/0.26.0:
+    resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
+    dependencies:
+      follow-redirects: 1.14.8
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /axobject-query/2.2.0:
@@ -6541,6 +6557,10 @@ packages:
       loader-utils: 2.0.2
       schema-utils: 3.1.1
       webpack: 5.68.0
+    dev: false
+
+  /file-saver/2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
     dev: false
 
   /file-uri-to-path/1.0.0:
@@ -13726,20 +13746,13 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  github.com/Sherpa-Cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f:
-    resolution: {tarball: https://codeload.github.com/Sherpa-Cash/websnark/tar.gz/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f}
-    name: websnark
-    version: 0.0.4
-    dependencies:
-      big-integer: 1.6.51
-    dev: false
-
-  github.com/iandjx/sherpa-sdk/12bc26e30aa5c26f1ea644586fd70587e69d99cb:
-    resolution: {tarball: https://codeload.github.com/iandjx/sherpa-sdk/tar.gz/12bc26e30aa5c26f1ea644586fd70587e69d99cb}
+  github.com/Sherpa-Cash/sherpa-sdk/d27d8b211ebc11feca86d08925208d8161a4d273:
+    resolution: {tarball: https://codeload.github.com/Sherpa-Cash/sherpa-sdk/tar.gz/d27d8b211ebc11feca86d08925208d8161a4d273}
     name: nodejs
     version: 1.0.0
     dependencies:
       '@urql/core': 2.4.2_graphql@16.3.0
+      axios: 0.26.0
       circomlib: github.com/tornadocash/circomlib/3b492f9801573eebcfe1b6c584afe8a3beecf2b4
       dotenv: 16.0.0
       graphql: 16.3.0
@@ -13749,8 +13762,17 @@ packages:
       web3: 1.7.0
       websnark: github.com/Sherpa-Cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f
     transitivePeerDependencies:
+      - debug
       - encoding
       - supports-color
+    dev: false
+
+  github.com/Sherpa-Cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f:
+    resolution: {tarball: https://codeload.github.com/Sherpa-Cash/websnark/tar.gz/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f}
+    name: websnark
+    version: 0.0.4
+    dependencies:
+      big-integer: 1.6.51
     dev: false
 
   github.com/tornadocash/circomlib/3b492f9801573eebcfe1b6c584afe8a3beecf2b4:

@@ -2,6 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import tw, { styled } from 'twin.macro'
+import { saveAs } from 'file-saver';
 
 import * as sherpa from 'sherpa'
 import { useWeb3React } from '@web3-react/core'
@@ -26,14 +27,7 @@ const UniqueKey = () => {
   }
 
   const downloadUniqueKey = () => {
-    const element = document.createElement('a')
-    const file = new Blob([state.noteString], {
-      type: 'text/plain;charset=utf-8',
-    })
-    element.href = URL.createObjectURL(file)
-    element.download = 'unique-key.txt'
-    document.body.appendChild(element)
-    element.click()
+    sherpaClient.downloadNote(state.noteString, saveAs)
   }
   const deposit = async () => {
     const accounts = await web3.eth.getAccounts()
