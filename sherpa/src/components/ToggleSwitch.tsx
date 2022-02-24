@@ -1,9 +1,9 @@
 import tw, { styled } from 'twin.macro'
 
-export const ToggleSwitch = () => {
+export const ToggleSwitch = ({ onChange }) => {
   return (
     <SwitchContainer>
-      <input type="checkbox" id="togBtn" />
+      <input onChange={(e) => onChange(e)} type="checkbox" id="togBtn" />
       <div className="slider round">
         <span className="on">ON</span>
         <span className="off">OFF</span>

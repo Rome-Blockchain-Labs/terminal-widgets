@@ -3,6 +3,7 @@ import tw, { styled } from 'twin.macro'
 import { useEffect, useState } from 'react'
 import * as sherpa from 'sherpa'
 import { useNavigate } from 'react-router-dom'
+import { AVAXContracts } from '../pages/Home'
 
 const Token = styled.div`
   ${tw`mt-1 flex items-center rounded-sm w-full h-[26px] bg-primary text-secondary font-bold text-[9px] pl-2 `}
@@ -18,24 +19,16 @@ const AVAX = styled.span<{ active: boolean }>`
   ${({ active }) => active && tw`text-white `}
 `
 
-const AVAXContracts = [
-  {
-    val: 10,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-  {
-    val: 100,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-  {
-    val: 500,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-]
-
-const DepositScreen = () => {
-  const [selectedContract, setSelectedContract] = useState(AVAXContracts[0])
+interface DepositScreenProps {
+  selectedContract: any
+  setSelectedContract: any
+}
+const DepositScreen = ({
+  selectedContract,
+  setSelectedContract,
+}: DepositScreenProps) => {
   const [commitment, setCommitment] = useState()
+  const [noteString, setNoteString] = useState()
   const navigate = useNavigate()
 
   const createCommitment = async () => {
@@ -44,19 +37,22 @@ const DepositScreen = () => {
     const deposit = await sherpa
       .createDeposit(weiToEther(10), 'avax', netId)
       .catch((err) => console.log(err))
+
     setCommitment(deposit.commitment)
+    setNoteString(deposit.noteString)
   }
 
   useEffect(() => {
-    if (commitment) {
+    if (commitment && noteString) {
       navigate('/unique', {
         state: {
           commitment,
+          noteString,
           contract: selectedContract,
         },
       })
     }
-  }, [commitment])
+  }, [commitment, noteString])
 
   return (
     <div tw="mt-2 flex flex-col flex-grow">

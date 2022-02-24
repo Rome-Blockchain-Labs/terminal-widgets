@@ -50,7 +50,7 @@ specifiers:
   react-select: ^5.2.2
   react-tooltip: ^4.2.21
   rebass: ^4.0.7
-  sherpa: iandjx/sherpa-sdk#fixes
+  sherpa: github:iandjx/sherpa-sdk#fixes
   stream-browserify: ^3.0.0
   styled-components: ^5.3.3
   tailwindcss: ^2.2.19
@@ -96,7 +96,7 @@ dependencies:
   react-select: 5.2.2_b8fdba992ce7d797017dc07106486496
   react-tooltip: 4.2.21_react-dom@17.0.2+react@17.0.2
   rebass: 4.0.7_react@17.0.2
-  sherpa: github.com/iandjx/sherpa-sdk/88543d064d723837c11ddb00dc069a64845dd2ed
+  sherpa: github.com/iandjx/sherpa-sdk/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1
   stream-browserify: 3.0.0
   styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
   tiny-invariant: 1.2.0
@@ -4580,48 +4580,6 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /circom/0.5.21:
-    resolution: {integrity: sha512-Om90wztN6Y4Gg5ks4n+iTKU/5bR1gkPyRPzEi5gtu0brbSqnKfAnYWp8d/U28h2353rj476I1KNArg/QVNzBaw==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    hasBin: true
-    dependencies:
-      chai: 4.3.6
-      circom_runtime: 0.1.4
-      fastfile: 0.0.12
-      ffiasm: 0.1.1
-      ffjavascript: 0.2.10
-      ffwasm: 0.0.7
-      fnv-plus: 1.3.1
-      r1csfile: 0.0.14
-      tmp-promise: 2.1.1
-      wasmbuilder: 0.0.10
-    dev: false
-
-  /circom_runtime/0.0.1:
-    resolution: {integrity: sha512-8j/UBzGHhCyGfAaxKz2kFFEUwmfbp1iC10js382t3hy4RvCyrqQhssFVUXP3GNGKwu7W9ecdHbyODcg5MgffsA==}
-    hasBin: true
-    dependencies:
-      big-integer: 1.6.51
-      fnv-plus: 1.3.1
-    dev: false
-
-  /circom_runtime/0.1.4:
-    resolution: {integrity: sha512-sQWeEBD3o2jIdrKPf3VDu7DNfP+NfscYO/pxi73FE0qQW8TXTfwno8Grdl++h6OKWbzvWJdG5jQvS+WGKjpMOg==}
-    hasBin: true
-    dependencies:
-      ffjavascript: 0.2.10
-      fnv-plus: 1.3.1
-    dev: false
-
-  /circomlib/0.2.4:
-    resolution: {integrity: sha512-5x1/kn+7MJaakdGdKRCDMSCVsioyhFgWYCf2dbbd9xMmnZkMFjJpKzsE0UxncprFjyU2A8sVB1eb5Gj0pMaQBg==}
-    dependencies:
-      blake-hash: 1.1.1
-      blake2b: 2.1.4
-      circom: 0.5.21
-      ffjavascript: 0.1.0
-    dev: false
-
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
     dev: false
@@ -4685,14 +4643,6 @@ packages:
       string-width: 2.1.1
       strip-ansi: 4.0.0
       wrap-ansi: 2.1.0
-    dev: false
-
-  /cliui/6.0.0:
-    resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
-    dependencies:
-      string-width: 4.2.3
-      strip-ansi: 6.0.1
-      wrap-ansi: 6.2.0
     dev: false
 
   /cliui/7.0.4:
@@ -6526,14 +6476,6 @@ packages:
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
 
-  /fastfile/0.0.12:
-    resolution: {integrity: sha512-0EZo2y5eW8X0oiDDRvcnufjVxlM96CQL5hvmRQtbRABWlCkH73IHwkzl0qOSdxtchaMr+0TSB7GVqaVEixRr1Q==}
-    dev: false
-
-  /fastfile/0.0.7:
-    resolution: {integrity: sha512-Zk7sdqsV6DsN/rhjULDfCCowPiMDsziTMFicdkrKN80yybr/6YFf9H91ELXN85dVEf6EYkVR5EHkZNc0dMqZKA==}
-    dev: false
-
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -6550,44 +6492,6 @@ packages:
     resolution: {integrity: sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==}
     dependencies:
       bser: 2.1.1
-    dev: false
-
-  /ffiasm/0.1.1:
-    resolution: {integrity: sha512-irMMHiR9JJ7BVBrAhtliUawxVdPYSdyl81taUYJ4C1mJ0iw2ueThE/qtr0J8B83tsIY8HJvh0lg5F+6ClK4xpA==}
-    hasBin: true
-    dependencies:
-      big-integer: 1.6.51
-      ejs: 3.1.6
-      yargs: 15.4.1
-    dev: false
-
-  /ffjavascript/0.1.0:
-    resolution: {integrity: sha512-dmKlUasSfvUcxBm8nCSKl2x7EFJsXA7OVP8XLFA03T2+6mAc3IiVLC2ambEVOcMOhyhl0vJfVZjM9f9d38D1rw==}
-    dependencies:
-      big-integer: 1.6.51
-    dev: false
-
-  /ffjavascript/0.2.10:
-    resolution: {integrity: sha512-GQI6gHYYG5/iD4Kt3VzezzK7fARJzP0zkc82V/+JAdjfeKBXhDSo5rpKFuK3cDcrdW0Fu2emuYNMEAuFqhEQvQ==}
-    dependencies:
-      big-integer: 1.6.51
-      wasmcurves: 0.0.5
-      worker-threads: 1.0.0
-    dev: false
-
-  /ffjavascript/0.2.4:
-    resolution: {integrity: sha512-XFeWcjUDFPavN+DDOxhE8p5MOhZQJc9oO1Sj4ml1pyjqNhS1ujEamcjFyK0cctdnat61i7lvpTYzdtS3RYDC8w==}
-    dependencies:
-      big-integer: 1.6.51
-      wasmcurves: 0.0.4
-      worker-threads: 1.0.0
-    dev: false
-
-  /ffwasm/0.0.7:
-    resolution: {integrity: sha512-17cTLzv7HHAKqZbX8MvHxjSrR0yDdn1sh4TVsTbAvO9e6klhFicnyoVXc/sCuViV/M8g65sCmVrAmoPCZp1YkQ==}
-    dependencies:
-      big-integer: 1.6.51
-      wasmbuilder: 0.0.10
     dev: false
 
   /figures/2.0.0:
@@ -6720,10 +6624,6 @@ packages:
 
   /flatted/3.2.5:
     resolution: {integrity: sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==}
-
-  /fnv-plus/1.3.1:
-    resolution: {integrity: sha512-Gz1EvfOneuFfk4yG458dJ3TLJ7gV19q3OM/vVvvHf7eT02Hm1DleB4edsia6ahbKgAYxO9gvyQ1ioWZR+a00Yw==}
-    dev: false
 
   /follow-redirects/1.14.8:
     resolution: {integrity: sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==}
@@ -7783,6 +7683,15 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+
+  /isomorphic-fetch/3.0.0:
+    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
+    dependencies:
+      node-fetch: 2.6.7
+      whatwg-fetch: 3.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /isstream/0.1.2:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
@@ -10555,17 +10464,6 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
-  /r1csfile/0.0.1:
-    resolution: {integrity: sha512-1mUgD7XXpU/EAf4xWiIt1jaQbQuMBDKAiEJ2eZYsN9rHOJtBWZqLYDkAmC4WJhCwK3O3NZKhvRMaNBM5dBpp1Q==}
-    dev: false
-
-  /r1csfile/0.0.14:
-    resolution: {integrity: sha512-7m4eWpnbjkwGGUaRmIAJc4w+HvaeBPJXUKHIqLkHeD9Yyjem6/EHmlgDVl+4hWNWGZqdhXuMqWSH9+O6QOXBdw==}
-    dependencies:
-      fastfile: 0.0.7
-      ffjavascript: 0.2.4
-    dev: false
-
   /raf/3.4.1:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
     dependencies:
@@ -11083,10 +10981,6 @@ packages:
     resolution: {integrity: sha1-l/cXtp1IeE9fUmpsWqj/3aBVpNE=}
     dev: false
 
-  /require-main-filename/2.0.0:
-    resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
-    dev: false
-
   /requires-port/1.0.0:
     resolution: {integrity: sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=}
     dev: false
@@ -11189,13 +11083,6 @@ packages:
 
   /rimraf/2.6.3:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
-    hasBin: true
-    dependencies:
-      glob: 7.2.0
-    dev: false
-
-  /rimraf/2.7.1:
-    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
     hasBin: true
     dependencies:
       glob: 7.2.0
@@ -11603,22 +11490,6 @@ packages:
       ansi-styles: 6.1.0
       is-fullwidth-code-point: 4.0.0
     dev: true
-
-  /snarkjs/0.2.0:
-    resolution: {integrity: sha512-RmTL85RoxJyL9q20VgWbuV1XEenr/3fjraGtIxljmLbxhgn7LaXw0NAbZrwkg2TC6rk2hdrAxCn0T8y143AtBw==}
-    hasBin: true
-    dependencies:
-      big-integer: 1.6.51
-      chai: 4.3.6
-      circom_runtime: 0.0.1
-      escape-string-regexp: 1.0.5
-      eslint: 5.16.0
-      keccak: 2.1.0
-      r1csfile: 0.0.1
-      yargs: 12.0.5
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /sockjs/0.3.24:
     resolution: {integrity: sha512-GJgLTZ7vYb/JtPSSZ10hsOYIvEYsjbNU+zPdIHcUaWVNUEPivzxku31865sSSud0Da0W4lEeOPlmw93zLQchuQ==}
@@ -12413,24 +12284,11 @@ packages:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
     dev: false
 
-  /tmp-promise/2.1.1:
-    resolution: {integrity: sha512-Z048AOz/w9b6lCbJUpevIJpRpUztENl8zdv1bmAKVHimfqRFl92ROkmT9rp7TVBnrEw2gtMTol/2Cp2S2kJa4Q==}
-    dependencies:
-      tmp: 0.1.0
-    dev: false
-
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
     dependencies:
       os-tmpdir: 1.0.2
-    dev: false
-
-  /tmp/0.1.0:
-    resolution: {integrity: sha512-J7Z2K08jbGcdA1kkQpJSqLF6T0tdQqpR2pnSUXsIchbPdTI9v3e85cLW0d6WDhwuAleOV71j2xWs8qMPfK7nKw==}
-    engines: {node: '>=6'}
-    dependencies:
-      rimraf: 2.7.1
     dev: false
 
   /tmp/0.2.1:
@@ -12909,26 +12767,6 @@ packages:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
-
-  /wasmbuilder/0.0.10:
-    resolution: {integrity: sha512-zQSvZ7d74d9OvN+mCN6ucNne4QS5/cBBYTHldX0Oe+u9gStY21orapvuX1ajisA7RVIpuFhYg+ZgdySsPfeh0A==}
-    dependencies:
-      big-integer: 1.6.51
-    dev: false
-
-  /wasmcurves/0.0.4:
-    resolution: {integrity: sha512-c/Tob+F/7jJhep1b2qtj54r4nkGaRifNbQ1OJx8cBBFH1RlHbWIbISHWONClOxiVwy/JZOpbN4SgvSX/4lF80A==}
-    dependencies:
-      big-integer: 1.6.51
-      blakejs: 1.1.1
-    dev: false
-
-  /wasmcurves/0.0.5:
-    resolution: {integrity: sha512-BmI4GXLjLawGg2YkvHa8zRsnWec+d1uwoxE+Iov8cqOpDL7GA5XO2pk2yuDbXHMzwIug2exnKot3baRZ86R0pA==}
-    dependencies:
-      big-integer: 1.6.51
-      blakejs: 1.1.1
     dev: false
 
   /watchpack/2.3.1:
@@ -13653,10 +13491,6 @@ packages:
       workbox-core: 6.4.2
     dev: false
 
-  /worker-threads/1.0.0:
-    resolution: {integrity: sha512-vK6Hhvph8oLxocEJIlc3YfGAZhm210uGzjZsXSu+JYLAQ/s/w4Tqgl60JrdH58hW8NSGP4m3bp8a92qPXgX05w==}
-    dev: false
-
   /wrap-ansi/2.1.0:
     resolution: {integrity: sha1-2Pw9KE3QV5T+hJc8rs3Rz4JP3YU=}
     engines: {node: '>=0.10.0'}
@@ -13672,6 +13506,7 @@ packages:
       ansi-styles: 4.3.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+    dev: true
 
   /wrap-ansi/7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
@@ -13824,14 +13659,6 @@ packages:
       decamelize: 1.2.0
     dev: false
 
-  /yargs-parser/18.1.3:
-    resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}
-    engines: {node: '>=6'}
-    dependencies:
-      camelcase: 5.3.1
-      decamelize: 1.2.0
-    dev: false
-
   /yargs-parser/20.2.9:
     resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
     engines: {node: '>=10'}
@@ -13852,23 +13679,6 @@ packages:
       which-module: 2.0.0
       y18n: 4.0.3
       yargs-parser: 11.1.1
-    dev: false
-
-  /yargs/15.4.1:
-    resolution: {integrity: sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==}
-    engines: {node: '>=8'}
-    dependencies:
-      cliui: 6.0.0
-      decamelize: 1.2.0
-      find-up: 4.1.0
-      get-caller-file: 2.0.5
-      require-directory: 2.1.1
-      require-main-filename: 2.0.0
-      set-blocking: 2.0.0
-      string-width: 4.2.3
-      which-module: 2.0.0
-      y18n: 4.0.3
-      yargs-parser: 18.1.3
     dev: false
 
   /yargs/16.2.0:
@@ -13894,27 +13704,58 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  github.com/iandjx/sherpa-sdk/88543d064d723837c11ddb00dc069a64845dd2ed:
-    resolution: {tarball: https://codeload.github.com/iandjx/sherpa-sdk/tar.gz/88543d064d723837c11ddb00dc069a64845dd2ed}
+  github.com/Sherpa-Cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f:
+    resolution: {tarball: https://codeload.github.com/Sherpa-Cash/websnark/tar.gz/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f}
+    name: websnark
+    version: 0.0.4
+    dependencies:
+      big-integer: 1.6.51
+    dev: false
+
+  github.com/iandjx/sherpa-sdk/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1:
+    resolution: {tarball: https://codeload.github.com/iandjx/sherpa-sdk/tar.gz/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1}
     name: nodejs
     version: 1.0.0
     dependencies:
-      circomlib: 0.2.4
+      circomlib: github.com/tornadocash/circomlib/3b492f9801573eebcfe1b6c584afe8a3beecf2b4
       dotenv: 16.0.0
       graphql: 16.3.0
       graphql-request: 4.0.0_graphql@16.3.0
-      snarkjs: 0.2.0
+      isomorphic-fetch: 3.0.0
+      snarkjs: github.com/tornadocash/snarkjs/869181cfaf7526fe8972073d31655493a04326d5
       web3: 1.7.0
-      websnark: github.com/sherpa-cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f
+      websnark: github.com/Sherpa-Cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: false
 
-  github.com/sherpa-cash/websnark/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f:
-    resolution: {tarball: https://codeload.github.com/sherpa-cash/websnark/tar.gz/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f}
-    name: websnark
-    version: 0.0.4
+  github.com/tornadocash/circomlib/3b492f9801573eebcfe1b6c584afe8a3beecf2b4:
+    resolution: {tarball: https://codeload.github.com/tornadocash/circomlib/tar.gz/3b492f9801573eebcfe1b6c584afe8a3beecf2b4}
+    name: circomlib
+    version: 0.0.20
+    dependencies:
+      blake-hash: 1.1.1
+      blake2b: 2.1.4
+      snarkjs: github.com/tornadocash/snarkjs/869181cfaf7526fe8972073d31655493a04326d5
+      typedarray-to-buffer: 3.1.5
+      web3: 1.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  github.com/tornadocash/snarkjs/869181cfaf7526fe8972073d31655493a04326d5:
+    resolution: {tarball: https://codeload.github.com/tornadocash/snarkjs/tar.gz/869181cfaf7526fe8972073d31655493a04326d5}
+    name: snarkjs
+    version: 0.1.20
+    hasBin: true
     dependencies:
       big-integer: 1.6.51
+      chai: 4.3.6
+      escape-string-regexp: 1.0.5
+      eslint: 5.16.0
+      keccak: 2.1.0
+      yargs: 12.0.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false

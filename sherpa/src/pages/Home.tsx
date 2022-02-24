@@ -1,7 +1,4 @@
-import { Contract } from '@ethersproject/contracts'
-import CampaignFactory from '../build/CampaignFactory.json'
 import { useEffect, useState } from 'react'
-import tw, { styled, css, theme } from 'twin.macro'
 import { useWeb3React } from '@web3-react/core'
 import {
   NetworkName,
@@ -10,81 +7,43 @@ import {
 } from '../WalletContext/constants'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { isMobile } from 'react-device-detect'
-import * as sherpa from 'sherpa'
-import { ethers } from 'ethers'
 import { ToggleButton } from 'components/ToggleButton'
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import DepositStat from 'components/DepositStat'
-import web3 from '../web3'
 import { injected } from 'connectors'
 import WithdrawScreen from '../components/WithdrawScreen'
 import DepositScreen from 'components/DepositScreen'
+import * as sherpa from 'sherpa'
 
-const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
-const selectedContractAddress = '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f' //fuji 10avax
 const injectedProvider = new InjectedConnector({})
+
+export const AVAXContracts = [
+  {
+    val: 10,
+    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
+  },
+  {
+    val: 100,
+    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
+  },
+  {
+    val: 500,
+    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
+  },
+]
+
 const Home = () => {
-  const [commitment, setCommitment] = useState()
   const [transaction, setTransaction] = useState<'deposit' | 'withdraw'>(
     'deposit'
   )
-  const FACTORY_ADDRESS = '0x1da8a83eD1e8d76B8dE28653E657Efc8295b1ee6'
+
+  const [selectedContract, setSelectedContract] = useState(AVAXContracts[0])
 
   const { library, active, activate, deactivate } = useWeb3React()
-
-  const [campaigns, setCampaigns] = useState()
-  const [loading, setLoading] = useState(false)
-  // connect to rinkeby before clicking to init contract button
-  const initContract = async () => {
-    setLoading(true)
-    // const signer = library.getSigner()
-    const accounts = await web3.eth.getAccounts()
-    const instance = new web3.eth.Contract(CampaignFactory.abi, FACTORY_ADDRESS)
-    const c = await instance.methods.getDeployedCampaigns().call()
-    // const c = await instance.getDeployedCampaigns().call()
-    // const contract = new Contract(FACTORY_ADDRESS, CampaignFactory.abi, signer)
-    // const c = await contract.getDeployedCampaigns()
-    setCampaigns(c)
-    setLoading(false)
-  }
-
-  const confirmDeposit = async () => {
-    // const signer = library.getSigner()
-
-    const accounts = await web3.eth.getAccounts()
-    // const weiValue = 10
-    // const tokens = web3.utils.toWei(weiValue, 'avax')
-    // const ethValue = ethers.utils.formatEther(weiValue)
-    const weiToEther = (x) => x * 1e18
-    const netId = 43113
-    const deposit = await sherpa.createDeposit(weiToEther(10), 'avax', netId)
-    console.log('withdrawl info within', deposit) //todo add download step
-    const commitment = deposit.commitment
-    await sherpa.sendDeposit(
-      library,
-      weiToEther(10),
-      sherpaProxyAddress,
-      netId,
-      selectedContractAddress,
-      commitment,
-      'avax',
-      accounts[0]
-    )
-  }
 
   const connectToWallet = async () => {
     await activate(injectedProvider)
   }
-  useEffect(() => {
-    const makeDeposit = async () => {
-      const netId = 43113
-      const deposit = await sherpa.createDeposit(10, 'avax', netId)
-      setCommitment(deposit.commitment)
-
-      console.log(deposit)
-    }
-    makeDeposit()
-  }, [])
 
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
@@ -98,6 +57,7 @@ const Home = () => {
 
   return (
     <div>
+      {console.log(library)}
       <div tw="bg-contain bg-sherpa-bg w-[522px]  flex justify-center items-stretch px-[34px] py-[23px] gap-[15px]">
         <div tw="flex flex-col rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
           <div tw="bg-white rounded-full flex">
@@ -114,8 +74,14 @@ const Home = () => {
               Withdraw
             </ToggleButton>
           </div>
-          {console.log(transaction)}
-          {transaction === 'deposit' ? <DepositScreen /> : <WithdrawScreen />}
+          {transaction === 'deposit' ? (
+            <DepositScreen
+              selectedContract={selectedContract}
+              setSelectedContract={setSelectedContract}
+            />
+          ) : (
+            <WithdrawScreen selectedContract={selectedContract} />
+          )}
         </div>
 
         <div tw="rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-[#24466D] bg-opacity-50  px-[15px] py-[9px] ">
