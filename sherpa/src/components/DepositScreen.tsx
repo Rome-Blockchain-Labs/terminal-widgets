@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import * as sherpa from 'sherpa'
 import { useNavigate } from 'react-router-dom'
 import { AVAXContracts } from '../pages/Home'
+import sherpaClient from 'utils/sherpa'
 
 const Token = styled.div`
   ${tw`mt-1 flex items-center rounded-sm w-full h-[26px] bg-primary text-secondary font-bold text-[9px] pl-2 `}
@@ -33,11 +34,7 @@ const DepositScreen = ({
 
   const createCommitment = async () => {
     const weiToEther = (x) => x * 1e18
-    const netId = 43113
-    const deposit = await sherpa
-      .createDeposit(weiToEther(10), 'avax', netId)
-      .catch((err) => console.log(err))
-
+    const deposit = sherpaClient.createDeposit(weiToEther(10), 'avax')
     setCommitment(deposit.commitment)
     setNoteString(deposit.noteString)
   }

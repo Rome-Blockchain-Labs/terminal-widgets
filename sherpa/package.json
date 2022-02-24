@@ -22,7 +22,7 @@
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
     "lodash": "^4.17.21",
-    "sherpa": "github:iandjx/sherpa-sdk#fixes",
+    "sherpa": "github:iandjx/sherpa-sdk#fix-local-keys",
     "os-browserify": "^0.3.0",
     "polished": "^4.1.4",
     "react": "^17.0.2",

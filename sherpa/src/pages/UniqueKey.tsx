@@ -6,6 +6,7 @@ import tw, { styled } from 'twin.macro'
 import * as sherpa from 'sherpa'
 import { useWeb3React } from '@web3-react/core'
 import web3 from '../web3'
+import sherpaClient from 'utils/sherpa'
 
 interface LocationState {
   noteString: string
@@ -13,12 +14,8 @@ interface LocationState {
   contract: any
 }
 
-const sherpaProxyAddress = '0xC0EB087ac8C732AC23c52A16627c4539d8966d79' //fuji
-
-const netId = 43113
 const weiToEther = (x) => x * 1e18
 const UniqueKey = () => {
-  const { library, active, activate, deactivate } = useWeb3React()
   const location = useLocation()
   const state = location.state as LocationState
   const [checked, setIsChecked] = useState(false)
@@ -40,13 +37,9 @@ const UniqueKey = () => {
   }
   const deposit = async () => {
     const accounts = await web3.eth.getAccounts()
-    console.log('library', library)
-    await sherpa.sendDeposit(
-      library,
+    // valueWei, commitment, selectedToken, fromAddress
+    await sherpaClient.sendDeposit(
       weiToEther(10),
-      sherpaProxyAddress,
-      netId,
-      state.contract.address,
       state.commitment,
       'avax',
       accounts[0]

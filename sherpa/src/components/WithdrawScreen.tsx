@@ -1,17 +1,18 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Select from './Select'
 import { ToggleSwitch } from './ToggleSwitch'
 import * as sherpa from 'sherpa'
 import { useState } from 'react'
 import web3 from '../web3'
+import sherpaClient from 'utils/sherpa'
 
 interface WithdrawScreenProps {
   selectedContract: any
 }
 const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
   const [destinationAddress, setDestinationAddress] = useState('')
-  const [commitment, setCommitment] = useState('')
+  const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
 
   const handleOnChange = (e) => {
@@ -23,37 +24,23 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
   }
 
   const withdraw = async () => {
-    const state = sherpa.state()
-    console.log(state)
-    const netId = 43113
-    const events = await sherpa.getters.getEvents(
-      state,
-      selectedContract.address,
-      netId
-    )
-    function sortEventsByLeafIndex(a, b) {
-      return a.leafIndex < b.leafIndex ? 1 : -1
-    }
-    const depositEvents = events.events
-      .filter((e) => e.type === 'Deposit')
-      .sort(sortEventsByLeafIndex)
-
-    const circuit = await (await fetch('/withdraw.json')).json()
-    const provingKey = await (
-      await fetch('/withdraw_proving_key.bin')
-    ).arrayBuffer()
-
-    await sherpa.withdraw(
-      commitment,
+    const [_, selectedToken, valueWei] = uniqueKey.split('-')
+    await sherpaClient.fetchEvents(valueWei, selectedToken)
+    const a = await sherpaClient.withdraw(
+      uniqueKey,
       destinationAddress,
-      selfRelay,
-      netId,
-      web3,
-      { depositEvents },
-      circuit,
-      provingKey
+      selfRelay
     )
+    const b = JSON.stringify(a)
+    alert(b)
   }
+  useEffect(() => {
+    const refreshSherpaClient = async () => {
+      await sherpaClient.fetchCircuitAndProvingKey() //must be done but can be done eagerly
+    }
+    refreshSherpaClient()
+  }, [])
+
   return (
     <div tw="flex flex-col flex-grow">
       <div tw="flex w-full mt-2">
@@ -80,7 +67,7 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
           <InformationCircleIcon tw="mb-2 h-2 w-2" />
         </div>
         <input
-          onChange={(e) => setCommitment(e.target.value)}
+          onChange={(e) => setUniqueKey(e.target.value)}
           tw="px-2 rounded-sm text-[7px] h-[26px] w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Unique Key Here"
         />

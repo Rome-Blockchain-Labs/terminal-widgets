@@ -50,7 +50,7 @@ specifiers:
   react-select: ^5.2.2
   react-tooltip: ^4.2.21
   rebass: ^4.0.7
-  sherpa: github:iandjx/sherpa-sdk#fixes
+  sherpa: github:iandjx/sherpa-sdk#fix-local-keys
   stream-browserify: ^3.0.0
   styled-components: ^5.3.3
   tailwindcss: ^2.2.19
@@ -96,7 +96,7 @@ dependencies:
   react-select: 5.2.2_b8fdba992ce7d797017dc07106486496
   react-tooltip: 4.2.21_react-dom@17.0.2+react@17.0.2
   rebass: 4.0.7_react@17.0.2
-  sherpa: github.com/iandjx/sherpa-sdk/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1
+  sherpa: github.com/iandjx/sherpa-sdk/12bc26e30aa5c26f1ea644586fd70587e69d99cb
   stream-browserify: 3.0.0
   styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
   tiny-invariant: 1.2.0
@@ -2173,6 +2173,14 @@ packages:
       '@ethersproject/strings': 5.5.0
     dev: false
 
+  /@graphql-typed-document-node/core/3.1.1_graphql@16.3.0:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.3.0
+    dev: false
+
   /@headlessui/react/1.5.0_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==}
     engines: {node: '>=10'}
@@ -3332,6 +3340,16 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.11.0
       eslint-visitor-keys: 3.3.0
+
+  /@urql/core/2.4.2_graphql@16.3.0:
+    resolution: {integrity: sha512-MRqhhxTPuqYGttB/WL55kOIZN5tHFpbOJqmuSuDYvHaNFVSoRJfO3VhSr2rBI3zjC5oz8///dFNDEyClK/bBZw==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.3.0
+      graphql: 16.3.0
+      wonka: 4.0.15
+    dev: false
 
   /@web3-react/abstract-connector/6.0.7:
     resolution: {integrity: sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==}
@@ -13320,6 +13338,10 @@ packages:
     dependencies:
       isexe: 2.0.0
 
+  /wonka/4.0.15:
+    resolution: {integrity: sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==}
+    dev: false
+
   /word-wrap/1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
@@ -13712,11 +13734,12 @@ packages:
       big-integer: 1.6.51
     dev: false
 
-  github.com/iandjx/sherpa-sdk/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1:
-    resolution: {tarball: https://codeload.github.com/iandjx/sherpa-sdk/tar.gz/6cd5d5c816e6907b7facf5940a51d8b7bb5cb5c1}
+  github.com/iandjx/sherpa-sdk/12bc26e30aa5c26f1ea644586fd70587e69d99cb:
+    resolution: {tarball: https://codeload.github.com/iandjx/sherpa-sdk/tar.gz/12bc26e30aa5c26f1ea644586fd70587e69d99cb}
     name: nodejs
     version: 1.0.0
     dependencies:
+      '@urql/core': 2.4.2_graphql@16.3.0
       circomlib: github.com/tornadocash/circomlib/3b492f9801573eebcfe1b6c584afe8a3beecf2b4
       dotenv: 16.0.0
       graphql: 16.3.0
