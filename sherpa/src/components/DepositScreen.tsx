@@ -34,7 +34,7 @@ const DepositScreen = ({
   const createCommitment = async () => {
     const weiToEther = (x) => x * 1e18
     const deposit = sherpaClient.createDeposit(
-      weiToEther(selectedContract),
+      weiToEther(selectedContract.val),
       'avax'
     )
     setCommitment(deposit.commitment)
