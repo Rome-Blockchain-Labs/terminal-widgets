@@ -2,12 +2,10 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import tw, { styled } from 'twin.macro'
-import { saveAs } from 'file-saver';
-
-import * as sherpa from 'sherpa'
-import { useWeb3React } from '@web3-react/core'
+import { saveAs } from 'file-saver'
 import web3 from '../web3'
 import sherpaClient from 'utils/sherpa'
+import { LoadingSpinner } from '../components/icons/LoadingSpinner'
 
 interface LocationState {
   noteString: string
@@ -20,6 +18,8 @@ const UniqueKey = () => {
   const location = useLocation()
   const state = location.state as LocationState
   const [checked, setIsChecked] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [transaction, setTransaction] = useState('')
 
   function isChecked(e: React.ChangeEvent<HTMLInputElement>): void {
     const checked = e.target.checked
@@ -30,14 +30,19 @@ const UniqueKey = () => {
     sherpaClient.downloadNote(state.noteString, saveAs)
   }
   const deposit = async () => {
+    setLoading(true)
     const accounts = await web3.eth.getAccounts()
-    // valueWei, commitment, selectedToken, fromAddress
-    await sherpaClient.sendDeposit(
-      weiToEther(10),
+
+    const res = await sherpaClient.sendDeposit(
+      weiToEther(state.contract.val),
       state.commitment,
       'avax',
       accounts[0]
     )
+    if (res) {
+      setTransaction(res)
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -47,7 +52,6 @@ const UniqueKey = () => {
 
   return (
     <div tw="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">
-      {console.log(checked)}
       <div tw="text-primary text-[10px] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
         <div tw="text-[11px] font-bold">Make a Deposit</div>
         <div tw="mt-1">
@@ -87,7 +91,13 @@ const UniqueKey = () => {
         </div>
 
         <DepositButton onClick={deposit} disabled={!checked}>
-          Deposit
+          {loading ? (
+            <LoadingSpinner />
+          ) : transaction ? (
+            'Deposit Success'
+          ) : (
+            'Deposit'
+          )}
         </DepositButton>
       </div>
     </div>
@@ -97,7 +107,7 @@ const UniqueKey = () => {
 export default UniqueKey
 
 const DepositButton = styled.button<{ disabled: boolean }>`
-  ${tw`mt-auto  mb-3 rounded-full w-full h-[28px] text-primary text-[11px] bg-white`}
+  ${tw`grid place-items-center mt-auto  mb-3 rounded-full w-full h-[28px] text-primary text-[11px] bg-white`}
 
   ${({ disabled }) => disabled && tw`bg-opacity-40 opacity-40 `}
 `

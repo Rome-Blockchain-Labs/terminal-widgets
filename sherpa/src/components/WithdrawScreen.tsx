@@ -1,19 +1,16 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Select from './Select'
 import { ToggleSwitch } from './ToggleSwitch'
-import * as sherpa from 'sherpa'
 import { useState } from 'react'
-import web3 from '../web3'
 import sherpaClient from 'utils/sherpa'
+import { LoadingSpinner } from './icons/LoadingSpinner'
 
-interface WithdrawScreenProps {
-  selectedContract: any
-}
-const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
-  const [destinationAddress, setDestinationAddress] = useState('0xB1Eb136EfAB647b2c99e9C08aC21F2BD7d79794E')
-  const [uniqueKey, setUniqueKey] = useState('sherpa-avax-10000000000000000000-43113-0x1dacb1e8b89a4d857153cb35831751b7b91caa950355a2128b7ae67d025e792d0a0dcfe92e9ea1ddfb59fa8004e4538ea2275100fb351923657a5dc70d23')
+const WithdrawScreen = () => {
+  const [destinationAddress, setDestinationAddress] = useState('')
+  const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleOnChange = (e) => {
     if (e.target.checked) {
@@ -24,17 +21,18 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
   }
 
   const withdraw = async () => {
+    setLoading(true)
     const [_, selectedToken, valueWei] = uniqueKey.split('-')
-    await sherpaClient.fetchCircuitAndProvingKey()
-    const events = await sherpaClient.fetchEvents(valueWei, selectedToken)
-    const a = await sherpaClient.withdraw(
+    await sherpaClient.fetchEvents(valueWei, selectedToken)
+    const res = await sherpaClient.withdraw(
       uniqueKey,
       destinationAddress,
       selfRelay,
-      sherpaClient.getRelayerList()[0]//todo move this into the button and control it
+      sherpaClient.getRelayerList()[0] //todo move this into the button and control it
     )
-    const b = JSON.stringify(a)
-    alert(b)
+    if (res) {
+      setLoading(false)
+    }
   }
   useEffect(() => {
     const refreshSherpaClient = async () => {
@@ -91,9 +89,9 @@ const WithdrawScreen = ({ selectedContract }: WithdrawScreenProps) => {
 
       <button
         onClick={withdraw}
-        tw="mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
+        tw="grid place-items-center mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
       >
-        Withdraw
+        {loading ? <LoadingSpinner /> : 'Withdraw'}
       </button>
     </div>
   )

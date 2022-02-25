@@ -1,7 +1,6 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import tw, { styled } from 'twin.macro'
 import { useEffect, useState } from 'react'
-import * as sherpa from 'sherpa'
 import { useNavigate } from 'react-router-dom'
 import { AVAXContracts } from '../pages/Home'
 import sherpaClient from 'utils/sherpa'
@@ -34,7 +33,10 @@ const DepositScreen = ({
 
   const createCommitment = async () => {
     const weiToEther = (x) => x * 1e18
-    const deposit = sherpaClient.createDeposit(weiToEther(10), 'avax')
+    const deposit = sherpaClient.createDeposit(
+      weiToEther(selectedContract),
+      'avax'
+    )
     setCommitment(deposit.commitment)
     setNoteString(deposit.noteString)
   }
@@ -63,6 +65,7 @@ const DepositScreen = ({
         {AVAXContracts.map((contract, index) => {
           return (
             <Amount
+              key={index}
               active={contract.val === selectedContract.val}
               onClick={() => setSelectedContract(AVAXContracts[index])}
             >
