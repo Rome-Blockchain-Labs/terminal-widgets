@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import tw, { styled } from 'twin.macro'
 import { saveAs } from 'file-saver'
-import web3 from '../web3'
 import sherpaClient from 'utils/sherpa'
 import { LoadingSpinner } from '../components/icons/LoadingSpinner'
+import { useWeb3React } from '@web3-react/core'
 
 interface LocationState {
   noteString: string
@@ -15,6 +15,7 @@ interface LocationState {
 
 const weiToEther = (x) => x * 1e18
 const UniqueKey = () => {
+  const { account } = useWeb3React()
   const location = useLocation()
   const state = location.state as LocationState
   const [checked, setIsChecked] = useState(false)
@@ -31,13 +32,12 @@ const UniqueKey = () => {
   }
   const deposit = async () => {
     setLoading(true)
-    const accounts = await web3.eth.getAccounts()
 
     const res = await sherpaClient.sendDeposit(
       weiToEther(state.contract.val),
       state.commitment,
       'avax',
-      accounts[0]
+      account
     )
     if (res) {
       setTransaction(res)
@@ -52,6 +52,7 @@ const UniqueKey = () => {
 
   return (
     <div tw="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">
+      {console.log('account', account)}
       <div tw="text-primary text-[10px] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
         <div tw="text-[11px] font-bold">Make a Deposit</div>
         <div tw="mt-1">
