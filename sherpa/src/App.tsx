@@ -1,7 +1,7 @@
 import Compliance from 'pages/Compliance'
 import ConnectWallet from 'pages/ConnectWallet'
 import Home from 'pages/Home'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import UniqueKey from './pages/UniqueKey'
 
 const App = () => {
