@@ -2,8 +2,8 @@ import { InformationCircleIcon } from '@heroicons/react/outline'
 import tw, { styled } from 'twin.macro'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AVAXContracts } from '../pages/Home'
 import sherpaClient from 'utils/sherpa'
+import useSherpaContext from '../hooks/useSherpaContext'
 
 const Token = styled.div`
   ${tw`mt-1 flex items-center rounded-sm w-full h-[26px] bg-primary text-secondary font-bold text-[9px] pl-2 `}
@@ -27,6 +27,7 @@ const DepositScreen = ({
   selectedContract,
   setSelectedContract,
 }: DepositScreenProps) => {
+  const { AVAXContracts } = useSherpaContext()
   const [commitment, setCommitment] = useState()
   const [noteString, setNoteString] = useState()
   const navigate = useNavigate()

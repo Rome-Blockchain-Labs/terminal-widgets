@@ -1,31 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { isMobile } from 'react-device-detect'
 import { ToggleButton } from 'components/ToggleButton'
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import DepositStat from 'components/DepositStat'
-import { injected } from 'connectors'
 import WithdrawScreen from '../components/WithdrawScreen'
 import DepositScreen from 'components/DepositScreen'
-import sherpaClient from 'utils/sherpa'
 import LoadingScreen from 'components/LoadingScreen'
-
-export const AVAXContracts = [
-  {
-    val: 10,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-  {
-    val: 100,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-  {
-    val: 500,
-    address: '0x66F4f64f9Dce3eB1476af5E1f530228b8eD0a63f',
-  },
-]
+import useSherpaContext from '../hooks/useSherpaContext'
 
 const Home = () => {
+  const { AVAXContracts, sherpaClient } = useSherpaContext()
+  const client = sherpaClient as any
   const [transaction, setTransaction] = useState<'deposit' | 'withdraw'>(
     'deposit'
   )
@@ -35,23 +19,12 @@ const Home = () => {
   const [loading, setLoading] = useState(false)
   const [totalDeps, setTotalDeps] = useState()
 
-  const { activate } = useWeb3React()
-
-  useEffect(() => {
-    injected.isAuthorized().then((isAuthorized) => {
-      if (isAuthorized || (isMobile && window.ethereum)) {
-        activate(injected)
-        // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
-        window?.ethereum?.removeAllListeners(['networkChanged'])
-      }
-    })
-  }, [activate])
-
   useEffect(() => {
     const fetchEvents = async () => {
+      if (!client) return
       setLoading(true)
       const weiToEther = (x) => x * 1e18
-      const res = await sherpaClient.fetchEvents(
+      const res = await client.fetchEvents(
         weiToEther(selectedContract.val),
         'avax'
       )
@@ -61,11 +34,12 @@ const Home = () => {
       setLoading(false)
     }
     fetchEvents()
-  }, [selectedContract])
+  }, [AVAXContracts, client, selectedContract])
 
   return (
     <div>
       <div tw="bg-contain bg-sherpa-bg w-[522px] flex justify-center items-stretch px-[34px] py-[23px] gap-[15px]">
+        <LoadingScreen />
         {loading && <LoadingScreen />}
         <div tw="flex flex-col rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
           <div tw="bg-white rounded-full flex">

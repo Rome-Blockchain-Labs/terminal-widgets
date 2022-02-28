@@ -3,10 +3,12 @@ import { useEffect } from 'react'
 import Select from './Select'
 import { ToggleSwitch } from './ToggleSwitch'
 import { useState } from 'react'
-import sherpaClient from 'utils/sherpa'
 import { LoadingSpinner } from './icons/LoadingSpinner'
+import useSherpaContext from '../hooks/useSherpaContext'
 
 const WithdrawScreen = () => {
+  const { sherpaClient } = useSherpaContext()
+  const client = sherpaClient as any
   const [destinationAddress, setDestinationAddress] = useState('')
   const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
@@ -21,14 +23,15 @@ const WithdrawScreen = () => {
   }
 
   const withdraw = async () => {
+    if (!client) return
     setLoading(true)
-    const [_, selectedToken, valueWei] = uniqueKey.split('-')
-    await sherpaClient.fetchEvents(valueWei, selectedToken)
-    const res = await sherpaClient.withdraw(
+    const [, selectedToken, valueWei] = uniqueKey.split('-')
+    await client.fetchEvents(valueWei, selectedToken)
+    const res = await client.withdraw(
       uniqueKey,
       destinationAddress,
       selfRelay,
-      sherpaClient.getRelayerList()[0] //todo move this into the button and control it
+      client.getRelayerList()[0] //todo move this into the button and control it
     )
     if (res) {
       setLoading(false)
@@ -36,10 +39,11 @@ const WithdrawScreen = () => {
   }
   useEffect(() => {
     const refreshSherpaClient = async () => {
-      await sherpaClient.fetchCircuitAndProvingKey() //must be done but can be done eagerly
+      if (!client) return
+      await client.fetchCircuitAndProvingKey() //must be done but can be done eagerly
     }
     refreshSherpaClient()
-  }, [])
+  }, [client])
 
   return (
     <div tw="flex flex-col flex-grow">

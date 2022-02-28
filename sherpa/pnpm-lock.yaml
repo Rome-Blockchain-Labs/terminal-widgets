@@ -31,6 +31,7 @@ specifiers:
   date-fns: ^2.28.0
   eslint: ^8.9.0
   eslint-config-prettier: ^8.3.0
+  eslint-config-react: ^1.1.7
   ethers: ^5.5.4
   file-saver: ^2.0.5
   http-browserify: ^1.7.0
@@ -84,6 +85,7 @@ dependencies:
   buffer: 6.0.3
   crypto-browserify: 3.12.0
   date-fns: 2.28.0
+  eslint-config-react: 1.1.7
   ethers: 5.5.4
   file-saver: 2.0.5
   http-browserify: 1.7.0
@@ -5906,6 +5908,10 @@ packages:
       - jest
       - supports-color
       - typescript
+    dev: false
+
+  /eslint-config-react/1.1.7:
+    resolution: {integrity: sha1-oJGND8R9DpvRYaRzCAIdqF0lhbM=}
     dev: false
 
   /eslint-import-resolver-node/0.3.6:

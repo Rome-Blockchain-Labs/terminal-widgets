@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import tw, { styled } from 'twin.macro'
 import { saveAs } from 'file-saver'
-import sherpaClient from 'utils/sherpa'
 import { LoadingSpinner } from '../components/icons/LoadingSpinner'
 import { useWeb3React } from '@web3-react/core'
+import useSherpaContext from 'hooks/useSherpaContext'
 
 interface LocationState {
   noteString: string
@@ -21,19 +21,23 @@ const UniqueKey = () => {
   const [checked, setIsChecked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [transaction, setTransaction] = useState('')
+  const { sherpaClient } = useSherpaContext()
+  const client = sherpaClient as any
 
   function isChecked(e: React.ChangeEvent<HTMLInputElement>): void {
     const checked = e.target.checked
     setIsChecked(checked)
   }
 
-  const downloadUniqueKey = () => {
-    sherpaClient.downloadNote(state.noteString, saveAs)
-  }
+  const downloadUniqueKey = useCallback(() => {
+    if (!sherpaClient) return
+    client.downloadNote(state.noteString, saveAs)
+  }, [client, sherpaClient, state.noteString])
   const deposit = async () => {
+    if (!sherpaClient) return
     setLoading(true)
 
-    const res = await sherpaClient.sendDeposit(
+    const res = await client.sendDeposit(
       weiToEther(state.contract.val),
       state.commitment,
       'avax',
@@ -48,7 +52,7 @@ const UniqueKey = () => {
   useEffect(() => {
     if (!state || !state.commitment) return
     downloadUniqueKey()
-  }, [])
+  }, [downloadUniqueKey, state])
 
   return (
     <div tw="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">

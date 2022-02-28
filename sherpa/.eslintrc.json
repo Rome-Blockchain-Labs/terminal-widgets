@@ -1,8 +1,7 @@
 {
-  "plugins": ["@typescript-eslint"],
   "ignorePatterns": "**/*.js",
   "extends": [
-    "plugin:@typescript-eslint/recommended",
+    "react-app",
     "prettier" // Add "prettier" last. This will turn off eslint rules conflicting with prettier. This is not what will format our code.
   ],
   "rules": {
