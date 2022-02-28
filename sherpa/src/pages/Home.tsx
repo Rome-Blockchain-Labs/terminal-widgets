@@ -39,7 +39,6 @@ const Home = () => {
   return (
     <div>
       <div tw="bg-contain bg-sherpa-bg w-[522px] flex justify-center items-stretch px-[34px] py-[23px] gap-[15px]">
-        <LoadingScreen />
         {loading && <LoadingScreen />}
         <div tw="flex flex-col rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
           <div tw="bg-white rounded-full flex">

@@ -5,6 +5,12 @@ import { ToggleSwitch } from './ToggleSwitch'
 import { useState } from 'react'
 import { LoadingSpinner } from './icons/LoadingSpinner'
 import useSherpaContext from '../hooks/useSherpaContext'
+import { SherpaSDK } from 'sherpa'
+
+import WorkerBuilder from '../worker/worker-builder'
+import SherpaWorker from '../worker/sherpa.worker'
+
+const instance = new WorkerBuilder(SherpaWorker)
 
 const WithdrawScreen = () => {
   const { sherpaClient } = useSherpaContext()
@@ -27,12 +33,37 @@ const WithdrawScreen = () => {
     setLoading(true)
     const [, selectedToken, valueWei] = uniqueKey.split('-')
     await client.fetchEvents(valueWei, selectedToken)
-    const res = await client.withdraw(
+    const res = await client.withdrawPrep(
       uniqueKey,
       destinationAddress,
       selfRelay,
-      client.getRelayerList()[0] //todo move this into the button and control it
+      client.getRelayerList()[0] //todo
     )
+    console.log(res)
+    // sherpaContract,
+    // parsedNote,
+    // depositEvents,
+    // withdrawAddress,
+    // circuit,
+    // provingKey,
+    // relayerProofArgs
+    // const a = await SherpaSDK.calculateProof(
+    //   res.sherpaContract,
+    //   res.parsedNote,
+    //   res.depositEvents,
+    //   res.withdrawAddress,
+    //   res.circuit,
+    //   res.provingKey,
+    //   res.relayerProofArgs
+    // )
+    // console.log(a)
+    instance.postMessage('helo')
+    // const res = await client.withdraw(
+    //   uniqueKey,
+    //   destinationAddress,
+    //   selfRelay,
+    //   client.getRelayerList()[0] //todo move this into the button and control it
+    // )
     if (res) {
       setLoading(false)
     }
@@ -47,6 +78,7 @@ const WithdrawScreen = () => {
 
   return (
     <div tw="flex flex-col flex-grow">
+      {console.log(client)}
       <div tw="flex w-full mt-2">
         <div>
           <div tw="flex">
