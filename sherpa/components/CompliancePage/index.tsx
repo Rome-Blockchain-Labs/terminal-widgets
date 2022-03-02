@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
-import { classNames } from '../../../sherpa-react/src/utils/twUtils'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import Button from './Button'
+import { classNames } from '../../utils/twUtils'
 
 interface Report {
   deposit: {

@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
-import { classNames } from '../../../sherpa-react/src/utils/twUtils'
+import { classNames } from '../../utils/twUtils'
 
 export default function ToggleSwitch() {
   const [enabled, setEnabled] = useState(false)
