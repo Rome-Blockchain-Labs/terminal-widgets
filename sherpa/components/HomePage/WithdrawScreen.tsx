@@ -54,7 +54,6 @@ const WithdrawScreen = () => {
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <Toggle />
-          {/* <ToggleSwitch onChange={handleOnChange} /> */}
         </div>
 
         <div className="ml-2">

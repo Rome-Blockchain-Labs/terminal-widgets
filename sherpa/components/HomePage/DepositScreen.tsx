@@ -36,7 +36,7 @@ const DepositScreen = ({
         query: {
           commitment,
           noteString,
-          contract: selectedContract,
+          contract: JSON.stringify(selectedContract),
         },
       })
     }
