@@ -1,21 +1,22 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import Web3 from "web3";
-import { Web3ReactProvider } from "@web3-react/core";
-import { useEffect } from "react";
-import SherpaContextProvider from "../context/SherpaContext";
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import Web3 from 'web3'
+import { Web3ReactProvider } from '@web3-react/core'
+import { useEffect } from 'react'
+import SherpaContextProvider from '../context/SherpaContext'
+import Head from 'next/head'
 
 function getLibrary(provider: any) {
-  const library = new Web3(provider);
+  const library = new Web3(provider)
   // library.pollingInterval = 15000
-  return library;
+  return library
 }
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.autoRefreshOnNetworkChange = false;
+      window.ethereum.autoRefreshOnNetworkChange = false
     }
-  }, []);
+  }, [])
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
@@ -23,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </SherpaContextProvider>
     </Web3ReactProvider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
