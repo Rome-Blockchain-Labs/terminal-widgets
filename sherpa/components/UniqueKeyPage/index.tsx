@@ -4,8 +4,8 @@ import { saveAs } from 'file-saver'
 import { useWeb3React } from '@web3-react/core'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
-import { classNames } from '../../../sherpa-react/src/utils/twUtils'
 import { useRouter } from 'next/router'
+import { classNames } from '../../utils/twUtils'
 
 const weiToEther = (x: any) => x * 1e18
 const UniqueKey = () => {
