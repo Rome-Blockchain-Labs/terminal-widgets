@@ -22,6 +22,7 @@ steps:
       - us-central1
       - '--tag'
       - '${_BRANCH_COMMIT_TAG_SANITIZED}'
+      - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
     id: publish
