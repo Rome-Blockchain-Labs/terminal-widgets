@@ -5,8 +5,8 @@ steps:
       - "-t"
       - "gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA"
       - "-f"
-      - Dockerfile
-      - "$TRIGGER_NAME/." #the trigger name must match the widget's directory
+      - "$TRIGGER_NAME/Dockerfile"
+#      - "/." #the trigger name must match the widget's directory
   - name: gcr.io/cloud-builders/docker
     args:
       - push
