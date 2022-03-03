@@ -5580,7 +5580,7 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
 
-"websnark@github:Sherpa-Cash/websnark#8533e8e8d8c30fd0cc12f8ad08dee26613bf567f":
+"websnark@github:Sherpa-Cash/websnark.git#8533e8e8d8c30fd0cc12f8ad08dee26613bf567f":
   version "0.0.4"
   resolved "https://codeload.github.com/Sherpa-Cash/websnark/tar.gz/8533e8e8d8c30fd0cc12f8ad08dee26613bf567f"
   dependencies:
