@@ -19,7 +19,7 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . /usr/src/app
 
 
-RUN  yarn --cwd ./usr/src/app build
+RUN  yarn build
 EXPOSE 3000
 
-CMD "yarn" "--cwd" "./usr/src/app" "run" "start"
+CMD "yarn" "run" "start"
