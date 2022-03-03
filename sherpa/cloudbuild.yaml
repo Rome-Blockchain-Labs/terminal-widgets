@@ -17,7 +17,7 @@ steps:
       - deploy
       - "${TRIGGER_NAME}"
       - "--image"
-      - "gcr.io/${PROJECT_ID}/sherpa-next:${SHORT_SHA}"
+      - "gcr.io/${PROJECT_ID}/$TRIGGER_NAME:${SHORT_SHA}"
       - "--region"
       - us-central1
       - "--tag"
