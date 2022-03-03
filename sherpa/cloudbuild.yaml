@@ -2,28 +2,31 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
-      - "-t"
-      - "gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA"
-      - "$TRIGGER_NAME/"
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
+      - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - "gcr.io/$PROJECT_ID/$TRIGGER_NAME"
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME'
   - name: gcr.io/cloud-builders/gcloud
     args:
       - run
       - deploy
-      - "$TRIGGER_NAME"
-      - "--image"
-      - "gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA"
-      - "--region"
+      - '$TRIGGER_NAME'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
+      - '--region'
       - us-central1
-      - "--tag"
-      - "$_BRANCH_COMMIT_TAG_SANITIZED"
+      - '--tag'
+      - '$_BRANCH_COMMIT_TAG_SANITIZED'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
     id: publish
 timeout: 1800s
 options:
-  machineType: "E2_HIGHCPU_8"
+  machineType: 'E2_HIGHCPU_8'
   dynamic_substitutions: true
 substitutions:
   #Combined traffic tag and service name cannot exceed 46 characters.
