@@ -6,14 +6,20 @@ RUN apk add --no-cache libc6-compat
 ENV PORT 3000
 
 # Create app directory
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 # Installing dependencies
-COPY package*.json /app
-COPY . /app
-RUN yarn install
+COPY package*.json /usr/src/app/
+RUN yarn
 
-RUN  yarn run build
+FROM node:16-alpine AS builder
+WORKDIR /usr/src/app
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY . /usr/src/app
+
+
+RUN  yarn --cwd ./usr/src/app build
 EXPOSE 3000
 
-CMD "yarn" "run" "start"
+CMD "yarn" "--cwd" "./usr/src/app" "run" "start"
