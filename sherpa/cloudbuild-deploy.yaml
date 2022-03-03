@@ -3,25 +3,23 @@ steps:
     args:
       - build
       - '-t'
-      - 'gcr.io/$PROJECT_ID/sherpa-next:$SHORT_SHA'
-      - '-f'
-      - Dockerfile
-      - .
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
+      - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - gcr.io/$PROJECT_ID/sherpa-next
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
   - name: gcr.io/cloud-builders/gcloud
     args:
       - run
       - deploy
-      - '${_CLOUD_RUN_DEPLOY_NAME}'
+      - '$PROJECT_ID'
       - '--image'
-      - 'gcr.io/${PROJECT_ID}/sherpa-next:${SHORT_SHA}'
+      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
       - '--region'
       - us-central1
       - '--tag'
-      - '${_BRANCH_COMMIT_TAG_SANITIZED}'
+      - '$_BRANCH_COMMIT_TAG_SANITIZED'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
@@ -32,7 +30,6 @@ options:
   dynamic_substitutions: true
 substitutions:
   #Combined traffic tag and service name cannot exceed 46 characters.
-  # 46 chars minus (rt-prod (service name) + - + shortSha) leaves 31 chars, truncating to 25 for safety
   _BRANCH_NAME_SHORT: ${BRANCH_NAME:0:25}
   _BRANCH_COMMIT_TAG: ${_BRANCH_NAME_SHORT}-${SHORT_SHA}
   _BRANCH_COMMIT_TAG_LOWERCASE: ${_BRANCH_COMMIT_TAG,,}
