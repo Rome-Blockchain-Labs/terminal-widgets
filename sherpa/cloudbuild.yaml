@@ -13,13 +13,14 @@ steps:
     args:
       - run
       - deploy
-      - '$PROJECT_ID'
+      - '${_CLOUD_RUN_DEPLOY_NAME}'
+      # - '$PROJECT_ID'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
+      - 'gcr.io/${PROJECT_ID}/${TRIGGER_NAME}:${SHORT_SHA}'
       - '--region'
       - us-central1
       - '--tag'
-      - '$_BRANCH_COMMIT_TAG_SANITIZED'
+      - '${_BRANCH_COMMIT_TAG_SANITIZED}'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
