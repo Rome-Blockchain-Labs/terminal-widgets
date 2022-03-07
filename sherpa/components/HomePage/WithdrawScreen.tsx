@@ -6,31 +6,30 @@ import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
 
-//todo fetch dynamically
-const options = ['Sherpa Relayer - 1%', 'Local Test Relayer - 1%']
+const getNameFromRelayer = (relayer:any) => `${relayer?.["name"]} - ${relayer?.["fee"]}%`
 
 const WithdrawScreen = () => {
-  const { sherpaClient } = useSherpaContext()
+  const { sherpaClient, sherpaRelayerOptions } = useSherpaContext()
   const client = sherpaClient as any
   const [destinationAddress, setDestinationAddress] = useState('')
   const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(options[0])
+  const [isWithdrawing, setIsWithdrawing] = useState(false)
+  const [selectedOption, setSelectedOption] = useState("")
 
   const withdraw = async () => {
     if (!client) return
-    setLoading(true)
+    setIsWithdrawing(true)
     const [, selectedToken, valueWei] = uniqueKey.split('-')
     await client.fetchEvents(valueWei, selectedToken)
     const res = await client.withdraw(
       uniqueKey,
       destinationAddress,
       selfRelay,
-      client.getRelayerList()[0] //todo move this into the button and control it
+      selectedOption
     )
     if (res) {
-      setLoading(false)
+      setIsWithdrawing(false)
     }
   }
   useEffect(() => {
@@ -58,7 +57,7 @@ const WithdrawScreen = () => {
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <Select
-            possibleOptions={options.filter(o=>o!==selectedOption)}
+            possibleOptions={sherpaRelayerOptions.filter(o=>o!==selectedOption).map(getNameFromRelayer)}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption} />
         </div>
@@ -96,7 +95,7 @@ const WithdrawScreen = () => {
         onClick={withdraw}
         className="grid place-items-center mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
       >
-        {loading ? <LoadingSpinner /> : 'Withdraw'}
+        {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>
     </div>
   )

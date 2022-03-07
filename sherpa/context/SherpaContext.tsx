@@ -2,8 +2,8 @@ import React, { createContext, ReactNode, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
 import { injected } from "../connectors";
-import * as sherpa from "@iandjx/sherpasdk";
-const netId = 43113;
+import * as sherpa from "@iandjx/sherpasdk";//todo use real sdk
+const netId = 43113;//todo config
 const AVAXContracts = [
   {
     val: 10,
@@ -21,6 +21,7 @@ const AVAXContracts = [
 
 const defaultValue = {
   sherpaClient: null,
+  sherpaRelayerOptions:[],
   AVAXContracts,
 };
 export const SherpaContext = createContext(defaultValue);
@@ -32,6 +33,7 @@ interface SherpaContextProps {
 const SherpaContextProvider = ({ children }: SherpaContextProps) => {
   const { library, active, activate } = useWeb3React();
   const [sherpaClient, setSherpaClient] = useState<any>(null);
+  const [ sherpaRelayerOptions, setSherpaRelayerOptions ] = useState<any>([])
 
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
@@ -45,15 +47,15 @@ const SherpaContextProvider = ({ children }: SherpaContextProps) => {
 
   useEffect(() => {
     if (active) {
-      console.log("netid", netId);
       const client = new sherpa.SherpaSDK(netId, library);
-      console.log(client);
+      setSherpaRelayerOptions(client.getRelayerList())
       setSherpaClient(client);
     }
   }, [active, library]);
 
   const context = {
     sherpaClient,
+    sherpaRelayerOptions,
     AVAXContracts,
   };
   return (
