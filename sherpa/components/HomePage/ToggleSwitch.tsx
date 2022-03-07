@@ -1,15 +1,14 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { classNames } from '../../utils/twUtils'
 
-export default function ToggleSwitch() {
-  const [enabled, setEnabled] = useState(false)
+export default function ToggleSwitch(props:any) {
+  const { enabled, toggle } = props
 
   return (
     <Switch
       checked={enabled}
-      onChange={setEnabled}
+      onChange={toggle}
       className={classNames(
         enabled ? 'bg-primary' : 'bg-gray-200',
         'relative inline-flex flex-shrink-0 h-6 w-12 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary'

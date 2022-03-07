@@ -6,6 +6,9 @@ import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
 
+//todo fetch dynamically
+const options = ['Sherpa Relayer - 1%', 'Local Test Relayer - 1%']
+
 const WithdrawScreen = () => {
   const { sherpaClient } = useSherpaContext()
   const client = sherpaClient as any
@@ -13,14 +16,7 @@ const WithdrawScreen = () => {
   const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  const handleOnChange = (e: any) => {
-    if (e.target.checked) {
-      setSelfRelay(true)
-    } else {
-      setSelfRelay(false)
-    }
-  }
+  const [selectedOption, setSelectedOption] = useState(options[0])
 
   const withdraw = async () => {
     if (!client) return
@@ -53,7 +49,7 @@ const WithdrawScreen = () => {
             <span className="font-medium text-[9px]">Relayer Mode</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Toggle />
+          <Toggle enabled={selfRelay} toggle={()=>setSelfRelay(b=>!b)} />
         </div>
 
         <div className="ml-2">
@@ -61,7 +57,10 @@ const WithdrawScreen = () => {
             <span className="font-medium text-[9px]">Relayer Fee</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Select />
+          <Select
+            possibleOptions={options.filter(o=>o!==selectedOption)}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption} />
         </div>
       </div>
 
