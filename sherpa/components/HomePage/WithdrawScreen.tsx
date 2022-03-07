@@ -26,7 +26,7 @@ const WithdrawScreen = () => {
       uniqueKey,
       destinationAddress,
       selfRelay,
-      selectedOption
+      sherpaRelayerOptions.find(o=>selectedOption.includes(o?.["name"]))
     )
     if (res) {
       setIsWithdrawing(false)
