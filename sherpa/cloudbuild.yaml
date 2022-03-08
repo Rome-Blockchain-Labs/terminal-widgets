@@ -13,7 +13,6 @@ steps:
     args:
       - run
       - deploy
-      # - '${_CLOUD_RUN_DEPLOY_NAME}'
       - '$PROJECT_ID'
       - '--image'
       - 'gcr.io/${PROJECT_ID}/${TRIGGER_NAME}:${SHORT_SHA}'
