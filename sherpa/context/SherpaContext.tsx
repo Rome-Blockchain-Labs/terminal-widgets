@@ -5,8 +5,9 @@ import { injected } from '../connectors'
 // import * as sherpa from "@iandjx/sherpasdk";//todo use real sdk
 // import * as sherpa from '@rome/sherpasdk'
 import sherpa from 'sherpa'
+import {useTestnet} from "../config";
 
-const netId = 43113 //todo config
+const netId = useTestnet ? 43113 : 43114
 const AVAXContracts = [
   {
     val: 10,

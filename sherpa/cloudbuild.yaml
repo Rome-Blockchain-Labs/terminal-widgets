@@ -4,6 +4,8 @@ steps:
       - build
       - '-t'
       - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
+      - '--build-arg'
+      - 'NEXT_USE_TESTNET=${_NEXT_USE_TESTNET}'
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
     args:

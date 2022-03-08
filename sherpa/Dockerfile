@@ -4,6 +4,8 @@ RUN apk add git
 RUN apk add --no-cache libc6-compat
 ENV PORT 3000
 
+ARG NEXT_USE_TESTNET=
+ENV NEXT_USE_TESTNET=$NEXT_USE_TESTNET
 
 
 RUN mkdir -p /usr/src/app
