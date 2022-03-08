@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { injected } from '../connectors'
 // import * as sherpa from "@iandjx/sherpasdk";//todo use real sdk
 // import * as sherpa from '@rome/sherpasdk'
-import * as sherpa from 'ian-sherpasdk-beta'
+import sherpa from 'sherpa'
 
 const netId = 43113 //todo config
 const AVAXContracts = [
