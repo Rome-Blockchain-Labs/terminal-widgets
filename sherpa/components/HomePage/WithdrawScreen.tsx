@@ -40,8 +40,6 @@ const WithdrawScreen = () => {
     refreshSherpaClient()
   }, [client])
 
-  console.log("self",selfRelay)
-
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex w-full mt-2">
