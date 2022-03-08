@@ -23,6 +23,7 @@
     "file-saver": "^2.0.5",
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
+    "ian-sherpasdk-beta": "^0.0.4",
     "next": "12.1.0",
     "next-transpile-modules": "^9.0.0",
     "os-browserify": "^0.3.0",

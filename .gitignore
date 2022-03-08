@@ -1,3 +1,5 @@
 /node_modules
 .idea
 .pnpm-debug.log
+bridge-sdk/dist
+bridge-sdk/node_modules
