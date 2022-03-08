@@ -40,6 +40,8 @@ const WithdrawScreen = () => {
     refreshSherpaClient()
   }, [client])
 
+  console.log("self",selfRelay)
+
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex w-full mt-2">
@@ -48,7 +50,7 @@ const WithdrawScreen = () => {
             <span className="font-medium text-[9px]">Relayer Mode</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Toggle enabled={selfRelay} toggle={()=>setSelfRelay(b=>!b)} />
+          <Toggle enabled={!selfRelay} toggle={()=>setSelfRelay(b=>!b)} />
         </div>
 
         <div className="ml-2">
