@@ -1,5 +1,5 @@
 {
-  "name": "@iandjx/bridgesdk",
+  "name": "@rome/bridgesdk",
   "version": "0.0.29",
   "description": "widget-parent & widget-widget communication inside Rome Terminal",
   "main": "./dist/index.js",

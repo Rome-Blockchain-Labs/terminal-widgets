@@ -45,10 +45,11 @@ export class BridgeSDK {
     this.bus
       .respondStream("widget-rome", undefined, this.widgetID)
       .generate((request: Event) => {
+        if (!messageHandlers) return;
         const handler = messageHandlers.find(
           (messageHandler) => request.type === messageHandler.event.type
         );
-        if (!handler) return;
+        if (!handler || !handler.handler) return;
         return handler.handler(request);
       });
   }
@@ -57,19 +58,18 @@ export class BridgeSDK {
     this.bus
       .listenStream("widget-rome", undefined, this.widgetID)
       .handle((request: Event) => {
+        if (!messageHandlers) return;
         const handler = messageHandlers.find(
           (messageHandler) => request.type === messageHandler.event.type
         );
-        if (!handler) return;
+        if (!handler || !handler.handler) return;
         handler.handler(request);
       });
   }
 
   // sends message to the parent terminal
   sendMessage({ message }: Message): void {
-console.log(this.bus.sendResponseMessage)
-              this.bus.sendResponseMessage("widget-rome", "send response message");
-    this.bus.sendRequestMessageWithId("widget-rome", message, this.widgetID);
+    this.bus.requestOnceWithId(this.widgetID, "widget-rome", message);
   }
 
   // sends a request to the parent terminal expecting a response
@@ -84,10 +84,10 @@ console.log(this.bus.sendResponseMessage)
 
 export interface MessageHandler {
   event: Event;
-  handler: (event: Event) => any;
+  handler?: (event: Event) => any;
 }
 export interface Stream {
-  messageHandlers: MessageHandler[];
+  messageHandlers?: MessageHandler[];
 }
 export interface Request {
   request: Event;
@@ -113,7 +113,7 @@ export type Type =
 
 export interface Event {
   type: Type;
-  timestamp: number;
-  broadcast: boolean;
-  payload: any | undefined;
+  timestamp?: number;
+  broadcast?: boolean;
+  payload?: any;
 }
