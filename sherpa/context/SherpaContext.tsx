@@ -2,11 +2,12 @@ import React, { createContext, ReactNode, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { injected } from '../connectors'
-import * as sherpa from 'sherpa'
-import {useTestnet} from "../config";
+import * as sherpa from 'ian-sherpasdk-beta'
+// import * as sherpa from 'sherpa'
+import { useTestnet } from '../config'
 
 const netId = useTestnet ? 43113 : 43114
-const AVAXContracts = [{val: 10,}, {val: 100,}, {val: 500,},]
+const AVAXContracts = [{ val: 10 }, { val: 100 }, { val: 500 }]
 
 const defaultValue = {
   sherpaClient: null,
