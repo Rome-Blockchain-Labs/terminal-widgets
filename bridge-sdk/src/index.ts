@@ -15,9 +15,7 @@ export class BridgeSDK {
   }
 
   static async init(widgetID: string) {
-    console.log("init called");
     if (typeof window === "undefined" || !window) {
-      console.log("client window", window);
       throw new Error("You tried to import client-only code on the server.");
     }
     await import("./scripts/transport.umd.min.js");
@@ -43,7 +41,7 @@ export class BridgeSDK {
 
   startRespondStream({ messageHandlers }: Stream): void {
     this.bus
-      .respondStream("widget-rome", undefined, this.widgetID)
+      .respondStream("widget-rome", undefined)
       .generate((request: Event) => {
         if (!messageHandlers) return;
         const handler = messageHandlers.find(
@@ -55,16 +53,14 @@ export class BridgeSDK {
   }
   // waits for messages from parent terminal and acts on the message
   startListenStream({ messageHandlers }: Stream): void {
-    this.bus
-      .listenStream("widget-rome", undefined, this.widgetID)
-      .handle((request: Event) => {
-        if (!messageHandlers) return;
-        const handler = messageHandlers.find(
-          (messageHandler) => request.type === messageHandler.event.type
-        );
-        if (!handler || !handler.handler) return;
-        handler.handler(request);
-      });
+    this.bus.listenStream("widget-rome", undefined).handle((request: Event) => {
+      if (!messageHandlers) return;
+      const handler = messageHandlers.find(
+        (messageHandler) => request.type === messageHandler.event.type
+      );
+      if (!handler || !handler.handler) return;
+      handler.handler(request);
+    });
   }
 
   // sends message to the parent terminal
