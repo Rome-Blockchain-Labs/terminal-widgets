@@ -1,1 +1,1 @@
-export const useTestnet = String(process.env.NEXT_USE_TESTNET) === 'true';
+export const useTestnet = String(process.env.NEXT_PUBLIC_USE_TESTNET) === 'true'
