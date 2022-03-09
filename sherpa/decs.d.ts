@@ -1,7 +1,7 @@
 interface Window {
-  ethereum?: any;
+  ethereum?: any
 }
 
-declare module "sherpa";
-declare module "tiny-invariant";
-declare module "@iandjx/sherpasdk";
+declare module 'sherpa'
+declare module 'tiny-invariant'
+declare module 'ian-sherpasdk-beta'

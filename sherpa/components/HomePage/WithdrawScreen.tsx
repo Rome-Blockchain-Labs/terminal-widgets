@@ -6,35 +6,30 @@ import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
 
+const getNameFromRelayer = (relayer:any) => `${relayer?.["name"]} - ${relayer?.["fee"]}%`
+
 const WithdrawScreen = () => {
-  const { sherpaClient } = useSherpaContext()
+  const { sherpaClient, sherpaRelayerOptions } = useSherpaContext()
   const client = sherpaClient as any
   const [destinationAddress, setDestinationAddress] = useState('')
   const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  const handleOnChange = (e: any) => {
-    if (e.target.checked) {
-      setSelfRelay(true)
-    } else {
-      setSelfRelay(false)
-    }
-  }
+  const [isWithdrawing, setIsWithdrawing] = useState(false)
+  const [selectedOption, setSelectedOption] = useState("")
 
   const withdraw = async () => {
     if (!client) return
-    setLoading(true)
+    setIsWithdrawing(true)
     const [, selectedToken, valueWei] = uniqueKey.split('-')
     await client.fetchEvents(valueWei, selectedToken)
     const res = await client.withdraw(
       uniqueKey,
       destinationAddress,
       selfRelay,
-      client.getRelayerList()[0] //todo move this into the button and control it
+      sherpaRelayerOptions.find(o=>selectedOption.includes(o?.["name"]))
     )
     if (res) {
-      setLoading(false)
+      setIsWithdrawing(false)
     }
   }
   useEffect(() => {
@@ -53,7 +48,7 @@ const WithdrawScreen = () => {
             <span className="font-medium text-[9px]">Relayer Mode</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Toggle />
+          <Toggle enabled={!selfRelay} toggle={()=>setSelfRelay(b=>!b)} />
         </div>
 
         <div className="ml-2">
@@ -61,7 +56,10 @@ const WithdrawScreen = () => {
             <span className="font-medium text-[9px]">Relayer Fee</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Select />
+          <Select
+            possibleOptions={sherpaRelayerOptions.filter(o=>o!==selectedOption).map(getNameFromRelayer)}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption} />
         </div>
       </div>
 
@@ -97,7 +95,7 @@ const WithdrawScreen = () => {
         onClick={withdraw}
         className="grid place-items-center mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
       >
-        {loading ? <LoadingSpinner /> : 'Withdraw'}
+        {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>
     </div>
   )

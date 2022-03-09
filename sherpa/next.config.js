@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+
 module.exports = {
   async headers() {
+    const origin =
+      process.env.NODE_ENV === 'production' ? '*.rometerminal.io' : '*.'
     return [
       {
         source: '/(.*)?',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: '*',
+            value: origin,
           },
           {
             key: 'Access-Control-Allow-Methods',

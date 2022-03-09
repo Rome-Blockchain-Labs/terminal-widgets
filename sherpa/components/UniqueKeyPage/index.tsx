@@ -54,7 +54,6 @@ const UniqueKey = () => {
 
   return (
     <div className="bg-cover bg-sherpa-bg w-[522px] h-[247px] flex justify-center px-[34px] py-[23px]">
-      {console.log('account', account)}
       <div className="text-primary text-[10px] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
         <div className="text-[11px] font-bold">Make a Deposit</div>
         <div className="mt-1">
@@ -93,7 +92,7 @@ const UniqueKey = () => {
           </div>
         </div>
 
-        <DepositButton onClick={deposit} disabled={!checked}>
+        <DepositButton onClick={deposit} disabled={!checked || !selectedContract}>
           {loading ? (
             <LoadingSpinner />
           ) : transaction ? (

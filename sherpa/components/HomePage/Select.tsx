@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 
-const options = ['Sherpa Relayer - 1%', 'Local Test Relayer - 1%']
-
-export default function Select() {
+export default function Select(props:any) {
+  const {selectedOption, setSelectedOption, possibleOptions} = props
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(options[0])
-  const option = selectedOption === options[0] ? options[1] : options[0]
+  const options = possibleOptions
 
   const toggling = () => setIsOpen(!isOpen)
 
@@ -36,8 +34,9 @@ export default function Select() {
           />
         </svg>
       </div>
-      {isOpen && (
-        <div className="w-[118px] absolute mt-[27px]">
+      {/*todo overlay the UI so it appears on top*/}
+      {isOpen && options.map((option:any)=>
+        <div key={option} /**className="w-[118px] absolute mt-[27px]"**/>
           <ul className="bg-primary text-secondary">
             <li
               className="h-[26px] flex items-center pl-1 "

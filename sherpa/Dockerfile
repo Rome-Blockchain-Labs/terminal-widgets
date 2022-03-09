@@ -1,38 +1,26 @@
-# FROM node:latest
-# WORKDIR /src
-# COPY . .
-# RUN yarn install \
-#   --prefer-offline \
-#   --frozen-lockfile \
-#   --non-interactive \
-#   --production=false
-# RUN yarn build
-# CMD ["yarn", "start"]
-
-
-# # Install dependencies only when needed
 FROM node:16-alpine AS deps
 RUN apk add git
-# # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
+
 ENV PORT 3000
+WORKDIR /app
+COPY . .
+ARG DOPPLER_TOKEN
+RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub
+RUN echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories
+RUN apk add doppler
+RUN doppler secrets download --no-file --format env > build.env
+RUN export $(cat build.env | xargs) && yarn install && yarn build
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+COPY --from=deps /app/build.env ./
+COPY --from=deps /app/public ./public
+COPY --from=deps /app/.next ./.next
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json ./package.json
 
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-# Installing dependencies
-COPY package*.json /usr/src/app/
-RUN yarn
-
-FROM node:16-alpine AS builder
-WORKDIR /usr/src/app
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY . /usr/src/app
-
-
-RUN  yarn build
 EXPOSE 3000
 
-CMD "yarn" "run" "start"
+CMD yarn start 
