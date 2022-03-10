@@ -7,7 +7,6 @@ import { LoadingSpinner } from '../shared/LoadingSpinner'
 import { useRouter } from 'next/router'
 import { classNames } from '../../utils/twUtils'
 import Success from '../shared/SuccessAlert'
-
 const weiToEther = (x: any) => x * 1e18
 const UniqueKey = () => {
   const { account } = useWeb3React()
@@ -51,10 +50,10 @@ const UniqueKey = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (!commitment) return
-  //   downloadUniqueKey()
-  // }, [commitment, downloadUniqueKey])
+  useEffect(() => {
+    if (!commitment) return
+    downloadUniqueKey()
+  }, [commitment, downloadUniqueKey])
 
   return (
     <div className="grid w-screen h-screen place-items-center">
@@ -68,16 +67,16 @@ const UniqueKey = () => {
           </div>
 
           <div className="flex w-full items-center  mt-[14px]">
-            <div className="w-30%">
+            <div className="w-[25%]">
               <div className="text-[2.4vw] font-bold">Unique Key</div>
               <button
                 onClick={downloadUniqueKey}
-                className="rounded mt-1 flex w-full bg-secondary text-white justify-around items-center p-[2%] "
+                className="rounded mt-[2%] flex w-full bg-secondary text-white justify-around items-center p-[2%] "
               >
                 <span>Download</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
+                  className="w-[2vw] h-[2vw]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -96,9 +95,12 @@ const UniqueKey = () => {
               <span className="ml-2">I backed up the note</span>
             </div>
           </div>
-          {/* {!transaction && (
-          <Success message="Deposit success! Redirecting you back to the homepage" />
-        )} */}
+
+          {transaction && (
+            <div className="mt-[4%]">
+              <Success message="Deposit success! Redirecting you back to the homepage ... " />
+            </div>
+          )}
 
           <DepositButton
             onClick={deposit}

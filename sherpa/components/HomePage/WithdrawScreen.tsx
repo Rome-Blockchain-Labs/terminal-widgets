@@ -5,6 +5,8 @@ import Toggle from './ToggleSwitch'
 import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
+import Error from '../shared/ErrorAlert'
+import Success from '../shared/SuccessAlert'
 
 const getNameFromRelayer = (relayer: any) =>
   `${relayer?.['name']} - ${relayer?.['fee']}%`
@@ -17,20 +19,40 @@ const WithdrawScreen = () => {
   const [selfRelay, setSelfRelay] = useState(false)
   const [isWithdrawing, setIsWithdrawing] = useState(false)
   const [selectedOption, setSelectedOption] = useState('')
+  const [error, setError] = useState<string>()
+  const [success, setSuccess] = useState<boolean>()
 
   const withdraw = async () => {
     if (!client) return
+    if (!selfRelay && selectedOption === '') {
+      setError('Select a relayer fee.')
+      return
+    }
+    if (!destinationAddress) {
+      setError('Set receipient address')
+      return
+    }
+    if (!uniqueKey) {
+      setError('Set a unique key')
+      return
+    }
     setIsWithdrawing(true)
     const [, selectedToken, valueWei] = uniqueKey.split('-')
     await client.fetchEvents(valueWei, selectedToken)
-    const res = await client.withdraw(
-      uniqueKey,
-      destinationAddress,
-      selfRelay,
-      sherpaRelayerOptions.find((o) => selectedOption.includes(o?.['name']))
-    )
-    if (res) {
-      setIsWithdrawing(false)
+    try {
+      const res = await client.withdraw(
+        uniqueKey,
+        destinationAddress,
+        selfRelay,
+        sherpaRelayerOptions.find((o) => selectedOption.includes(o?.['name']))
+      )
+
+      if (res) {
+        setSuccess(true)
+        setIsWithdrawing(false)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   useEffect(() => {
@@ -43,6 +65,7 @@ const WithdrawScreen = () => {
 
   return (
     <div className="flex flex-col flex-grow">
+      {console.log(selfRelay)}
       <div className="flex w-full mt-[5%]">
         <div className="w-[40%]">
           <div className="flex">
@@ -94,10 +117,20 @@ const WithdrawScreen = () => {
           value={destinationAddress}
         />
       </div>
+      {error && (
+        <div className="mt-[4%]">
+          <Error message={error} />
+        </div>
+      )}
+      {success && (
+        <div className="mt-[4%]">
+          <Success message="Withdrawal success." />
+        </div>
+      )}
 
       <button
         onClick={withdraw}
-        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] mb-[10%] bg-white"
+        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] mb-[10%] bg-white min-h-[2.4vw]"
       >
         {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>
