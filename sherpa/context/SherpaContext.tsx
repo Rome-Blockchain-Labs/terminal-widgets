@@ -7,8 +7,6 @@ import * as sherpa from 'ian-sherpasdk-beta'
 import { useTestnet } from '../config'
 
 const netId = useTestnet ? 43113 : 43114
-console.log(netId)
-console.log(process.env.NEXT_PUBLIC_USE_TESTNET)
 const AVAXContracts = [{ val: 10 }, { val: 100 }, { val: 500 }]
 
 const defaultValue = {

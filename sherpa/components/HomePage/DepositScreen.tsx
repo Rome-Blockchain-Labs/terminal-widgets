@@ -44,12 +44,12 @@ const DepositScreen = ({
 
   return (
     <div className="flex flex-col flex-grow mt-2">
-      <div className="text-primary text-[9px] font-medium ">Token</div>
-      <div className="mt-1 flex items-center rounded-sm w-full h-[26px] bg-primary text-secondary font-bold text-[9px] pl-2 ">
+      <div className="text-primary text-[1.9vw] font-medium ">Token</div>
+      <div className="mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold text-[1.9vw] pl-2 ">
         AVAX
       </div>
       <div className="flex mt-2">
-        <span className="font-medium text-[9px]">Amount</span>
+        <span className="font-medium text-[1.9vw]">Amount</span>
         <InformationCircleIcon className="w-2 h-2 mb-2" />
       </div>
       <div className="flex justify-between mt-2">
@@ -69,7 +69,7 @@ const DepositScreen = ({
 
       <button
         onClick={createCommitment}
-        className="mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
+        className="mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] bg-white mb-[10%]"
       >
         Deposit
       </button>
@@ -91,7 +91,7 @@ const Amount = ({ active, children, onClick }: AmountProps) => {
       onClick={onClick}
       className={`${
         active ? 'bg-white text-primary' : 'bg-primary text-secondary'
-      } flex flex-col items-center justify-center w-12 h-12 rounded-full `}
+      } flex flex-col items-center justify-center w-[25%] aspect-square rounded-full `}
     >
       {children}
     </button>
@@ -106,7 +106,9 @@ const AVAX = ({
 }) => {
   return (
     <span
-      className={`${!active ? 'text-white' : 'text-primary'} text-[8px] -mt-1`}
+      className={`${
+        !active ? 'text-white' : 'text-primary'
+      } text-[1.9vw] -mt-1`}
     >
       {children}
     </span>

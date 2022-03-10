@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateRows: {
+        8: 'repeat(8, minmax(0, 1fr))',
+      },
       backgroundImage: {
         darkConnect: 'linear-gradient(180deg, transparent 0%, #001016 80%)',
         darkPage: 'linear-gradient(128deg, #006C8F 0%, #070707 100%)',

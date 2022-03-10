@@ -6,7 +6,8 @@ import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
 
-const getNameFromRelayer = (relayer:any) => `${relayer?.["name"]} - ${relayer?.["fee"]}%`
+const getNameFromRelayer = (relayer: any) =>
+  `${relayer?.['name']} - ${relayer?.['fee']}%`
 
 const WithdrawScreen = () => {
   const { sherpaClient, sherpaRelayerOptions } = useSherpaContext()
@@ -15,7 +16,7 @@ const WithdrawScreen = () => {
   const [uniqueKey, setUniqueKey] = useState('')
   const [selfRelay, setSelfRelay] = useState(false)
   const [isWithdrawing, setIsWithdrawing] = useState(false)
-  const [selectedOption, setSelectedOption] = useState("")
+  const [selectedOption, setSelectedOption] = useState('')
 
   const withdraw = async () => {
     if (!client) return
@@ -26,7 +27,7 @@ const WithdrawScreen = () => {
       uniqueKey,
       destinationAddress,
       selfRelay,
-      sherpaRelayerOptions.find(o=>selectedOption.includes(o?.["name"]))
+      sherpaRelayerOptions.find((o) => selectedOption.includes(o?.['name']))
     )
     if (res) {
       setIsWithdrawing(false)
@@ -42,35 +43,38 @@ const WithdrawScreen = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <div className="flex w-full mt-2">
-        <div>
+      <div className="flex w-full mt-[5%]">
+        <div className="w-[40%]">
           <div className="flex">
-            <span className="font-medium text-[9px]">Relayer Mode</span>
+            <span className="font-medium text-[1.7vw]">Relayer Mode</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
-          <Toggle enabled={!selfRelay} toggle={()=>setSelfRelay(b=>!b)} />
+          <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
         </div>
 
-        <div className="ml-2">
+        <div className="ml-2 grow">
           <div className="flex">
-            <span className="font-medium text-[9px]">Relayer Fee</span>
+            <span className="font-medium text-[1.7vw]">Relayer Fee</span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <Select
-            possibleOptions={sherpaRelayerOptions.filter(o=>o!==selectedOption).map(getNameFromRelayer)}
+            possibleOptions={sherpaRelayerOptions
+              .filter((o) => o !== selectedOption)
+              .map(getNameFromRelayer)}
             selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption} />
+            setSelectedOption={setSelectedOption}
+          />
         </div>
       </div>
 
       <div>
         <div className="flex">
-          <span className="font-medium text-[9px]">Unique Key</span>
+          <span className="font-medium text-[1.9vw]">Unique Key</span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
         <input
           onChange={(e) => setUniqueKey(e.target.value)}
-          className="px-2 rounded-sm text-[7px] h-[26px] w-full bg-primary text-white placeholder:text-[#707070]"
+          className="px-2 rounded-sm text-[1.7vw] p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Unique Key Here"
           value={uniqueKey}
         />
@@ -78,14 +82,14 @@ const WithdrawScreen = () => {
 
       <div className="mt-[6px]">
         <div className="flex">
-          <span className="font-medium text-[9px]">
+          <span className="font-medium text-[1.9vw]">
             Recipient Wallet Address
           </span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
         <input
           onChange={(e) => setDestinationAddress(e.target.value)}
-          className="px-2 rounded-sm text-[7px] h-[26px] w-full bg-primary text-white placeholder:text-[#707070]"
+          className="px-2 rounded-sm text-[1.7vw] p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Address Here"
           value={destinationAddress}
         />
@@ -93,7 +97,7 @@ const WithdrawScreen = () => {
 
       <button
         onClick={withdraw}
-        className="grid place-items-center mt-auto rounded-full w-full h-[28px] text-primary text-[11px] bg-white"
+        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] mb-[10%] bg-white"
       >
         {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>

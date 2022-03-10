@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-export default function Select(props:any) {
-  const {selectedOption, setSelectedOption, possibleOptions} = props
+export default function Select(props: any) {
+  const { selectedOption, setSelectedOption, possibleOptions } = props
   const [isOpen, setIsOpen] = useState(false)
   const options = possibleOptions
 
@@ -13,9 +13,9 @@ export default function Select(props:any) {
   }
 
   return (
-    <div className=" rounded-sm w-[118px] bg-primary text-secondary font-bold text-[9px] flex flex-col">
+    <div className=" rounded-sm w-full min-h-[5vw] p-[2%] bg-primary text-secondary font-bold text-[1.9vw] flex flex-col">
       <div
-        className="flex items-center w-full my-auto h-[26px] px-1 "
+        className="flex items-center w-full px-1 my-auto "
         onClick={toggling}
       >
         <span>{selectedOption}</span>
@@ -35,18 +35,22 @@ export default function Select(props:any) {
         </svg>
       </div>
       {/*todo overlay the UI so it appears on top*/}
-      {isOpen && options.map((option:any)=>
-        <div key={option} /**className="w-[118px] absolute mt-[27px]"**/>
-          <ul className="bg-primary text-secondary">
-            <li
-              className="h-[26px] flex items-center pl-1 "
-              onClick={onOptionClicked(option)}
-            >
-              {option}
-            </li>
-          </ul>
-        </div>
-      )}
+      {isOpen &&
+        options.map((option: any) => (
+          <div
+            key={option}
+            /**className="w-[118px] absolute mt-[27px]"**/
+          >
+            <ul className=" bg-primary text-secondary">
+              <li
+                className="flex p-[2%] items-center"
+                onClick={onOptionClicked(option)}
+              >
+                {option}
+              </li>
+            </ul>
+          </div>
+        ))}
     </div>
   )
 }

@@ -14,7 +14,7 @@ export const ToggleButton = ({
       onClick={onClick}
       className={` ${
         !disabled ? 'bg-white text-primary' : 'text-white bg-secondary'
-      } m-[2px] py-2 flex-grow  font-bold cursor-pointer text-[11px] rounded-[50px] `}
+      } m-[2px] py-2 flex-grow  font-bold cursor-pointer text-[2.4vw] rounded-[50px] `}
     >
       {children}
     </button>
