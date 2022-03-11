@@ -4,7 +4,7 @@ import Web3 from 'web3'
 import { Web3ReactProvider } from '@web3-react/core'
 import { useEffect } from 'react'
 import SherpaContextProvider from '../context/SherpaContext'
-import Head from 'next/head'
+import IframeContext from '../context/IframeContext'
 
 function getLibrary(provider: any) {
   const library = new Web3(provider)
@@ -19,11 +19,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <SherpaContextProvider>
-        <Component {...pageProps} />
-      </SherpaContextProvider>
-    </Web3ReactProvider>
+    <IframeContext>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <SherpaContextProvider>
+          <Component {...pageProps} />
+        </SherpaContextProvider>
+      </Web3ReactProvider>
+    </IframeContext>
   )
 }
 
