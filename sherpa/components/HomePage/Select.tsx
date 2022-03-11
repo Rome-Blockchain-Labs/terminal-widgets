@@ -13,7 +13,7 @@ export default function Select(props: any) {
   }
 
   return (
-    <div className=" rounded-sm w-full min-h-[5vw] p-[2%] bg-primary text-secondary font-bold text-[1.9vw] flex flex-col">
+    <div className="rounded-sm w-full min-h-[5vw] lg:min-h-[50px] p-[2%] bg-primary text-secondary font-bold text-[1.9vw] lg:text-lg flex flex-col">
       <div
         className="flex items-center w-full px-1 my-auto "
         onClick={toggling}

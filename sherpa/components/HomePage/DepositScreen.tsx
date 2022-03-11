@@ -44,12 +44,14 @@ const DepositScreen = ({
 
   return (
     <div className="flex flex-col flex-grow mt-2">
-      <div className="text-primary text-[1.9vw] font-medium ">Token</div>
-      <div className="mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold text-[1.9vw] pl-2 ">
+      <div className="text-primary text-[1.9vw] font-medium lg:text-lg ">
+        Token
+      </div>
+      <div className="lg:text-lg mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold text-[1.9vw] pl-2 ">
         AVAX
       </div>
       <div className="flex mt-2">
-        <span className="font-medium text-[1.9vw]">Amount</span>
+        <span className="font-medium text-[1.9vw] lg:text-xl">Amount</span>
         <InformationCircleIcon className="w-2 h-2 mb-2" />
       </div>
       <div className="flex justify-between mt-2">
@@ -69,7 +71,7 @@ const DepositScreen = ({
 
       <button
         onClick={createCommitment}
-        className="mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] bg-white mb-[10%]"
+        className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl bg-white sm:mb-[10%]"
       >
         Deposit
       </button>
@@ -108,7 +110,7 @@ const AVAX = ({
     <span
       className={`${
         !active ? 'text-white' : 'text-primary'
-      } text-[1.9vw] -mt-1`}
+      } text-[1.9vw] lg:text-xl  -mt-1`}
     >
       {children}
     </span>

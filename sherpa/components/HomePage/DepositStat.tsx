@@ -14,10 +14,10 @@ const DepositStat = ({
   const diffInDays = diff > 24 && differenceInDays(new Date(), dateTime)
   return (
     <div className="flex">
-      <div className="rounded-sm px-2 py-[2px]  bg-primary font-bold text-white text-[1.5vw]">
+      <div className="rounded-sm px-2 py-[2px]  bg-primary font-bold text-white text-[1.5vw] lg:text-lg">
         {leafIndex}
       </div>
-      <div className="ml-[6px] text-primary text-[1.5vw]">
+      <div className="ml-[6px] text-primary text-[1.5vw] lg:text-lg">
         {' '}
         {diffInDays ? diffInDays + ' days ago' : diff + ' hours ago'}
       </div>

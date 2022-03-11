@@ -26,9 +26,11 @@ const Compliance = () => {
   const client = sherpaClient as any
   return (
     <div className="grid w-screen h-screen place-items-center">
-      <div className="bg-cover bg-sherpa-bg w-full max-w-5xl   flex justify-center px-[6.5%] py-[4.4%]">
-        <div className="text-primary text-[1.9vw] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[3vw] py-[1.8vw] ">
-          <div className="text-[2.4vw] font-bold">Compliance tool</div>
+      <div className="bg-cover bg-sherpa-bg w-full flex justify-center px-[6.5%] py-[4.4%] max-w-5xl">
+        <div className="text-primary text-[1.9vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[3vw] py-[1.8vw] ">
+          <div className="text-[2.4vw] lg:text-2xl font-bold">
+            Compliance tool
+          </div>
           <div className="mt-1">
             You can generate a report for all your deposit/withdraw operations
             processed with SHERPA using the compliance tool. Only you can
@@ -39,7 +41,9 @@ const Compliance = () => {
             relevant authorities
           </div>
           <div className="flex mt-2">
-            <span className="font-medium text-[1.9vw]">Unique Key</span>
+            <span className="font-medium text-[1.9vw] lg:text-lg">
+              Unique Key
+            </span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <input
@@ -51,7 +55,7 @@ const Compliance = () => {
                 setReport(compliance)
               }
             }}
-            className="px-2 rounded-sm text-[1.7vw] p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
+            className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
             placeholder="Insert Unique Key Here"
             value={uniqueKey}
           />
@@ -74,15 +78,19 @@ const Compliance = () => {
           {report && (
             <div className="flex flex-col mt-3 gap-y-1">
               <div className="flex">
-                <div className="text-[2.4vw] font-bold">Deposit</div>
+                <div className="text-[2.4vw] lg:text-2xl font-bold">
+                  Deposit
+                </div>
                 {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
               </div>
               <Label>Transaction</Label>
               <Value>{report.deposit.transaction}</Value>
               <Label>From Address</Label>
               <Value>{report.deposit.address}</Value>
-              <div className="flex">
-                <div className="text-[2.4vw] font-bold">Withdrawal</div>
+              <div className="flex mt-3">
+                <div className="text-[2.4vw] lg:text-2xl font-bold">
+                  Withdrawal
+                </div>
                 {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
               </div>
               <Label>Transaction</Label>
@@ -110,7 +118,7 @@ const Value = ({
     <div
       className={classNames(
         className ? className : '',
-        'px-2 rounded-sm text-[1.7vw] p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
+        'px-2 rounded-sm text-[1.7vw] lg:text-lg p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
       )}
     >
       {children}
@@ -118,5 +126,5 @@ const Value = ({
   )
 }
 const Label = ({ children }: { children: ReactNode }) => {
-  return <div className="font-medium text-[1.9vw]">{children}</div>
+  return <div className="font-medium text-[1.9vw] lg:text-xl">{children}</div>
 }

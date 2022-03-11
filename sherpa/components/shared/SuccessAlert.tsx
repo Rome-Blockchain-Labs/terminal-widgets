@@ -12,7 +12,9 @@ export default function Success({ message }: { message: string }) {
           />
         </div>
         <div className="ml-3">
-          <p className="text-[1.6vw] font-medium text-green-800">{message}</p>
+          <p className="text-[1.6vw] lg:text-lg font-medium text-green-800">
+            {message}
+          </p>
         </div>
       </div>
     </div>

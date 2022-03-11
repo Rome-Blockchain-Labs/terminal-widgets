@@ -69,7 +69,9 @@ const WithdrawScreen = () => {
       <div className="flex w-full mt-[5%]">
         <div className="w-[40%]">
           <div className="flex">
-            <span className="font-medium text-[1.7vw]">Relayer Mode</span>
+            <span className="font-medium text-[1.7vw] lg:text-lg ">
+              Relayer Mode
+            </span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
@@ -77,7 +79,9 @@ const WithdrawScreen = () => {
 
         <div className="ml-2 grow">
           <div className="flex">
-            <span className="font-medium text-[1.7vw]">Relayer Fee</span>
+            <span className="font-medium text-[1.7vw] lg:text-lg">
+              Relayer Fee
+            </span>
             <InformationCircleIcon className="w-2 h-2 mb-2" />
           </div>
           <Select
@@ -92,12 +96,14 @@ const WithdrawScreen = () => {
 
       <div>
         <div className="flex">
-          <span className="font-medium text-[1.9vw]">Unique Key</span>
+          <span className="font-medium text-[1.9vw]  lg:text-lg">
+            Unique Key
+          </span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
         <input
           onChange={(e) => setUniqueKey(e.target.value)}
-          className="px-2 rounded-sm text-[1.7vw] p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+          className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Unique Key Here"
           value={uniqueKey}
         />
@@ -105,19 +111,19 @@ const WithdrawScreen = () => {
 
       <div className="mt-[6px]">
         <div className="flex">
-          <span className="font-medium text-[1.9vw]">
+          <span className="font-medium text-[1.9vw] lg:text-xl">
             Recipient Wallet Address
           </span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
         <input
           onChange={(e) => setDestinationAddress(e.target.value)}
-          className="px-2 rounded-sm text-[1.7vw] p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+          className="px-2 rounded-sm text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
           placeholder="Insert Address Here"
           value={destinationAddress}
         />
       </div>
-      {error && (
+      {error && !success && (
         <div className="mt-[4%]">
           <Error message={error} />
         </div>
@@ -130,7 +136,7 @@ const WithdrawScreen = () => {
 
       <button
         onClick={withdraw}
-        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] mb-[10%] bg-white min-h-[2.4vw]"
+        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl mb-[10%] bg-white min-h-[2.4vw]"
       >
         {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>
