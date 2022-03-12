@@ -1,12 +1,11 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import { useEffect } from 'react'
-import Select from './Select'
 import Toggle from './ToggleSwitch'
 import { useState } from 'react'
 import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
-import Error from '../shared/ErrorAlert'
-import Success from '../shared/SuccessAlert'
+import DropDown from './DropDown'
+import Modal from './Modal'
 
 const getNameFromRelayer = (relayer: any) =>
   `${relayer?.['name']} - ${relayer?.['fee']}%`
@@ -65,35 +64,27 @@ const WithdrawScreen = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      {console.log(selfRelay)}
-      <div className="flex w-full mt-[5%]">
-        <div className="w-[40%]">
-          <div className="flex">
-            <span className="font-medium text-[1.7vw] lg:text-lg ">
-              Relayer Mode
-            </span>
-            <InformationCircleIcon className="w-2 h-2 mb-2" />
-          </div>
-          <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
-        </div>
-
-        <div className="ml-2 grow">
-          <div className="flex">
-            <span className="font-medium text-[1.7vw] lg:text-lg">
-              Relayer Fee
-            </span>
-            <InformationCircleIcon className="w-2 h-2 mb-2" />
-          </div>
-          <Select
-            possibleOptions={sherpaRelayerOptions
-              .filter((o) => o !== selectedOption)
-              .map(getNameFromRelayer)}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
-        </div>
+      {success && <Modal />}
+      <div className="flex mt-2">
+        <span className="font-medium text-[1.9vw] lg:text-lg ">
+          Relayer Mode
+        </span>
+        <InformationCircleIcon className="w-2 h-2 mb-2" />
       </div>
+      <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
 
+      <div className="flex">
+        <span className="font-medium text-[1.9vw] lg:text-lg">Relayer Fee</span>
+        <InformationCircleIcon className="w-2 h-2 mb-2" />
+      </div>
+      <DropDown
+        disabled={selfRelay}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        possibleOptions={sherpaRelayerOptions
+          .filter((o) => o !== selectedOption)
+          .map(getNameFromRelayer)}
+      />
       <div>
         <div className="flex">
           <span className="font-medium text-[1.9vw]  lg:text-lg">
@@ -123,20 +114,9 @@ const WithdrawScreen = () => {
           value={destinationAddress}
         />
       </div>
-      {error && !success && (
-        <div className="mt-[4%]">
-          <Error message={error} />
-        </div>
-      )}
-      {success && (
-        <div className="mt-[4%]">
-          <Success message="Withdrawal success." />
-        </div>
-      )}
-
       <button
         onClick={withdraw}
-        className="grid place-items-center mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl mb-[10%] bg-white min-h-[2.4vw]"
+        className=" mt-10 sm:mt-auto grid place-items-center  rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl mb-[5%] bg-white min-h-[2.4vw]"
       >
         {isWithdrawing ? <LoadingSpinner /> : 'Withdraw'}
       </button>

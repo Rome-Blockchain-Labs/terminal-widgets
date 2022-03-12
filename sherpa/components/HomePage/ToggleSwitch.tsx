@@ -19,7 +19,7 @@ export default function ToggleSwitch(props: any) {
         aria-hidden="true"
         className={classNames(
           enabled
-            ? 'translate-x-[4vw] lg:translate-x-11 bg-secondary'
+            ? 'translate-x-[4.5vw] lg:translate-x-11 bg-secondary'
             : 'translate-x-0 bg-gray-500',
           'z-50 pointer-events-none inline-block h-[3.9vw] w-[3.9vw] lg:w-[39px] lg:h-[39px]  mt-[1.5%] rounded-full  shadow transform ring-0 transition ease-in-out duration-200'
         )}

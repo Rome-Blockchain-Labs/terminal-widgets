@@ -40,7 +40,7 @@ const Home = () => {
 
   return (
     <div className="grid w-screen h-screen place-items-center">
-      <div className="bg-cover bg-sherpa-bg w-full flex flex-col sm:flex-row  items-center justify-center md:items-stretch px-[6.5%] py-[4.4%] gap-[15px]  max-w-5xl">
+      <div className="bg-cover bg-sherpa-bg w-full flex flex-col sm:flex-row  items-center justify-center sm:items-stretch px-[6.5%] py-[4.4%] gap-[15px]  max-w-5xl">
         {loading && <LoadingScreen />}
         <div className="flex flex-col rounded-md w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  p-[2%] ">
           <div className="flex bg-white rounded-full">

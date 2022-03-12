@@ -71,7 +71,7 @@ const DepositScreen = ({
 
       <button
         onClick={createCommitment}
-        className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl bg-white sm:mb-[10%]"
+        className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl bg-white sm:mb-[5%]"
       >
         Deposit
       </button>
