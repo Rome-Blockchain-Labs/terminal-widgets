@@ -58,8 +58,10 @@ const UniqueKey = () => {
   return (
     <div className="grid w-screen h-screen place-items-center">
       <div className="bg-cover bg-sherpa-bg w-full max-w-5xl flex justify-center px-[6.5%] py-[4.4%]">
-        <div className="text-primary text-[2.4vw] flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
-          <div className="text-[2.4vw] font-bold">Make a Deposit</div>
+        <div className="text-primary text-[2.4vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
+          <div className="text-[2.4vw] lg:text-xl font-bold">
+            Make a Deposit
+          </div>
           <div className="mt-[2%]">
             We are giving you a unique key to increase the security of your
             money transaction. Save this unique key to your computer because you
@@ -68,7 +70,9 @@ const UniqueKey = () => {
 
           <div className="flex w-full items-center  mt-[14px]">
             <div className="w-[25%]">
-              <div className="text-[2.4vw] font-bold">Unique Key</div>
+              <div className="text-[2.4vw] lg:text-xl font-bold">
+                Unique Key
+              </div>
               <button
                 onClick={downloadUniqueKey}
                 className="rounded mt-[2%] flex w-full bg-secondary text-white justify-around items-center p-[2%] "
@@ -132,7 +136,7 @@ const DepositButton = ({ disabled, children, onClick }: DepositButtonProps) => {
       onClick={onClick}
       className={classNames(
         disabled ? 'bg-opacity-40 opacity-40' : '',
-        'grid place-items-center mt-[3%]  mb-3 rounded-full w-full p-[2%] text-primary text-[2.4vw] bg-white'
+        'grid place-items-center mt-[3%]  mb-3 rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-xl bg-white'
       )}
     >
       {children}
