@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import 'rc-tooltip/assets/bootstrap_white.css'
 import type { AppProps } from 'next/app'
 import Web3 from 'web3'
 import { Web3ReactProvider } from '@web3-react/core'

@@ -7,6 +7,7 @@ import DepositScreen from './DepositScreen'
 import LoadingScreen from '../shared/LoadingScreen'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import { useResponsive } from '../../hooks/useResponsive'
+import Tooltip from 'rc-tooltip'
 const Home = () => {
   const { md } = useResponsive()
   const { AVAXContracts, sherpaClient } = useSherpaContext()
@@ -82,7 +83,18 @@ const Home = () => {
             <span className="text-[2.3vw] lg:text-2xl text-white">
               Anonymity Set
             </span>
-            <InformationCircleIcon className="w-2 h-2 mb-2 text-white" />
+            <Tooltip
+              placement="bottom"
+              trigger={['hover']}
+              overlay={
+                <div className="w-[200px] text-[1.3vw] lg:text-sm">
+                  Anonymity set represents the number of similar deposits for
+                  the amount you selected. A large number will increase privacy.
+                </div>
+              }
+            >
+              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+            </Tooltip>
             <div className="text-[1.7vw] lg:text-xl text-white ml-auto mr-[0.5]">
               AVAX
             </div>

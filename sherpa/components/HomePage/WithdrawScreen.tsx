@@ -6,6 +6,7 @@ import { LoadingSpinner } from '../shared/LoadingSpinner'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import DropDown from './DropDown'
 import Modal from './Modal'
+import Tooltip from 'rc-tooltip'
 
 const getNameFromRelayer = (relayer: any) =>
   `${relayer?.['name']} - ${relayer?.['fee']}%`
@@ -94,13 +95,34 @@ const WithdrawScreen = () => {
         <span className="font-medium text-[1.9vw] lg:text-lg ">
           Relayer Mode
         </span>
-        <InformationCircleIcon className="w-2 h-2 mb-2" />
+        <Tooltip
+          placement="bottom"
+          trigger={['hover']}
+          overlay={
+            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+              Using a relayer will allow you to withdraw to a fresh wallet.
+              NOTE: relayer mode is currently disable for ERC20 withdrawals.
+            </div>
+          }
+        >
+          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+        </Tooltip>
       </div>
       <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
 
       <div className="flex">
         <span className="font-medium text-[1.9vw] lg:text-lg">Relayer Fee</span>
-        <InformationCircleIcon className="w-2 h-2 mb-2" />
+        <Tooltip
+          placement="bottom"
+          trigger={['hover']}
+          overlay={
+            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+              Using a relayer incurs free paid to the operator.
+            </div>
+          }
+        >
+          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+        </Tooltip>
       </div>
       <div>
         <DropDown
@@ -122,7 +144,17 @@ const WithdrawScreen = () => {
           <span className="font-medium text-[1.9vw]  lg:text-lg">
             Unique Key
           </span>
-          <InformationCircleIcon className="w-2 h-2 mb-2" />
+          <Tooltip
+            placement="bottom"
+            trigger={['hover']}
+            overlay={
+              <div className="w-[200px] text-[1.3vw] lg:text-sm">
+                Unique key extracted at deposit to enable withdrawal.
+              </div>
+            }
+          >
+            <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+          </Tooltip>
         </div>
         <div>
           <input
@@ -144,7 +176,18 @@ const WithdrawScreen = () => {
           <span className="font-medium text-[1.9vw] lg:text-xl">
             Recipient Wallet Address
           </span>
-          <InformationCircleIcon className="w-2 h-2 mb-2" />
+          <Tooltip
+            placement="bottom"
+            trigger={['hover']}
+            overlay={
+              <div className="w-[200px] text-[1.3vw] lg:text-sm">
+                The wallet you want the amount withdrawn to. Can be an address
+                you are not connected to when using a relayer.
+              </div>
+            }
+          >
+            <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+          </Tooltip>
         </div>
         <div>
           <input

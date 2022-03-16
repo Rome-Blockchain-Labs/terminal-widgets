@@ -1,7 +1,8 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import useSherpaContext from '../../hooks/useSherpaContext'
+import Tooltip from 'rc-tooltip'
 
 interface DepositScreenProps {
   selectedContract: any
@@ -46,13 +47,24 @@ const DepositScreen = ({
     <div className="flex flex-col flex-grow mt-2">
       <div className="text-primary text-[1.9vw] font-medium lg:text-lg ">
         Token
-      </div>
+      </div>{' '}
       <div className="lg:text-lg mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold text-[1.9vw] pl-2 ">
         AVAX
       </div>
       <div className="flex mt-2">
         <span className="font-medium text-[1.9vw] lg:text-xl">Amount</span>
-        <InformationCircleIcon className="w-2 h-2 mb-2" />
+        <Tooltip
+          placement="bottom"
+          trigger={['hover']}
+          overlay={
+            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+              You can only deposit an amount provided in the list as this
+              ensures ultimate privacy.
+            </div>
+          }
+        >
+          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+        </Tooltip>
       </div>
       <div className="flex justify-between mt-2">
         {AVAXContracts.map((contract: any, index: number) => {
@@ -68,7 +80,6 @@ const DepositScreen = ({
           )
         })}
       </div>
-
       <button
         onClick={createCommitment}
         className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl bg-white sm:mb-[5%]"
