@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { InformationCircleIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import Button from './Button'
@@ -44,18 +43,6 @@ const Compliance = () => {
             <span className="font-medium text-[1.9vw] lg:text-lg">
               Unique Key
             </span>
-            <Tooltip
-              placement="bottom"
-              trigger={['hover']}
-              overlay={
-                <div className="w-[200px] text-[1.3vw] lg:text-sm">
-                  You can only deposit an amount provided in the list as this
-                  ensures ultimate privacy.
-                </div>
-              }
-            >
-              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
-            </Tooltip>
           </div>
           <input
             onChange={(e) => setUniqueKey(e.target.value)}
