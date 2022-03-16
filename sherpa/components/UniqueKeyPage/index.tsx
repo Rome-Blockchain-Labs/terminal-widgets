@@ -115,7 +115,7 @@ const UniqueKey = () => {
             ) : transaction ? (
               'Deposit Success'
             ) : (
-              'Deposit'
+              'Complete Deposit'
             )}
           </DepositButton>
         </div>
