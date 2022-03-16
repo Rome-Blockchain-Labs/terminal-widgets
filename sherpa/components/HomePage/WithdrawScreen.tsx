@@ -18,23 +18,39 @@ const WithdrawScreen = () => {
   const [selfRelay, setSelfRelay] = useState(false)
   const [isWithdrawing, setIsWithdrawing] = useState(false)
   const [selectedOption, setSelectedOption] = useState('')
-  const [error, setError] = useState<string>()
+  const initialErrorState = {
+    relayerFee: null,
+    destinationAddress: null,
+    uniqueKey: null,
+    transaction: null,
+  }
+  const [error, setError] = useState(initialErrorState)
   const [success, setSuccess] = useState<boolean>()
 
   const withdraw = async () => {
     if (!client) return
     if (!selfRelay && selectedOption === '') {
-      setError('Select a relayer fee.')
+      setError((err: any) => {
+        return { ...err, relayerFee: 'Select a relayer fee.' }
+      })
       return
     }
+    setError(initialErrorState)
+
     if (!destinationAddress) {
-      setError('Set receipient address')
+      setError((err: any) => {
+        return { ...err, destinationAddress: 'Set receipient address' }
+      })
       return
     }
+    setError(initialErrorState)
     if (!uniqueKey) {
-      setError('Set a unique key')
+      setError((err: any) => {
+        return { ...err, uniqueKey: 'Set a unique key' }
+      })
       return
     }
+    setError(initialErrorState)
     setIsWithdrawing(true)
     const [, selectedToken, valueWei] = uniqueKey.split('-')
     await client.fetchEvents(valueWei, selectedToken)
@@ -50,8 +66,10 @@ const WithdrawScreen = () => {
         setSuccess(true)
         setIsWithdrawing(false)
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      setError((err: any) => {
+        return { ...err, transaction: error.message }
+      })
     }
   }
   useEffect(() => {
@@ -70,6 +88,7 @@ const WithdrawScreen = () => {
           message="Withdraw successful. Please wait 5 - 10 minutes to receive your withdrawal."
         />
       )}
+      {error.transaction && <Modal type="error" message={error.transaction} />}
       <div className="flex mt-2">
         <span className="font-medium text-[1.9vw] lg:text-lg ">
           Relayer Mode
@@ -82,14 +101,21 @@ const WithdrawScreen = () => {
         <span className="font-medium text-[1.9vw] lg:text-lg">Relayer Fee</span>
         <InformationCircleIcon className="w-2 h-2 mb-2" />
       </div>
-      <DropDown
-        disabled={selfRelay}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        possibleOptions={sherpaRelayerOptions
-          .filter((o) => o !== selectedOption)
-          .map(getNameFromRelayer)}
-      />
+      <div>
+        <DropDown
+          disabled={selfRelay}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          possibleOptions={sherpaRelayerOptions
+            .filter((o) => o !== selectedOption)
+            .map(getNameFromRelayer)}
+        />
+        {error.relayerFee && (
+          <p className="mt-2 text-[1.4vw] lg:text-xs text-red-600">
+            {error.relayerFee}
+          </p>
+        )}
+      </div>
       <div>
         <div className="flex">
           <span className="font-medium text-[1.9vw]  lg:text-lg">
@@ -97,12 +123,19 @@ const WithdrawScreen = () => {
           </span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
-        <input
-          onChange={(e) => setUniqueKey(e.target.value)}
-          className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
-          placeholder="Insert Unique Key Here"
-          value={uniqueKey}
-        />
+        <div>
+          <input
+            onChange={(e) => setUniqueKey(e.target.value)}
+            className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+            placeholder="Insert Unique Key Here"
+            value={uniqueKey}
+          />
+          {error.uniqueKey && (
+            <p className="mt-2 text-[1.4vw] lg:text-xs text-red-600">
+              {error.uniqueKey}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="mt-[6px]">
@@ -112,13 +145,21 @@ const WithdrawScreen = () => {
           </span>
           <InformationCircleIcon className="w-2 h-2 mb-2" />
         </div>
-        <input
-          onChange={(e) => setDestinationAddress(e.target.value)}
-          className="px-2 rounded-sm text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
-          placeholder="Insert Address Here"
-          value={destinationAddress}
-        />
+        <div>
+          <input
+            onChange={(e) => setDestinationAddress(e.target.value)}
+            className="px-2 rounded-sm text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+            placeholder="Insert Address Here"
+            value={destinationAddress}
+          />
+          {error.destinationAddress && (
+            <p className="mt-2 text-[1.4vw] lg:text-xs text-red-600">
+              {error.destinationAddress}
+            </p>
+          )}
+        </div>
       </div>
+
       <button
         onClick={withdraw}
         className=" mt-10 sm:mt-auto grid place-items-center  rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl mb-[5%] bg-white min-h-[2.4vw]"
