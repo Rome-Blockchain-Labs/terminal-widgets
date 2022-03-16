@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../shared/LoadingSpinner'
 import { useRouter } from 'next/router'
 import { classNames } from '../../utils/twUtils'
 import Success from '../shared/SuccessAlert'
+import Modal from '../HomePage/Modal'
 const weiToEther = (x: any) => x * 1e18
 const UniqueKey = () => {
   const { account } = useWeb3React()
@@ -19,6 +20,7 @@ const UniqueKey = () => {
   const [loading, setLoading] = useState(false)
   const [transaction, setTransaction] = useState('')
   const { sherpaClient } = useSherpaContext()
+  const [error, setError] = useState<any>()
   const client = sherpaClient as any
 
   function isChecked(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -30,23 +32,30 @@ const UniqueKey = () => {
     if (!sherpaClient) return
     client.downloadNote(noteString, saveAs)
   }, [client, sherpaClient, noteString])
+
   const deposit = async () => {
     if (!sherpaClient || !contract) return
 
     setLoading(true)
 
-    const res = await client.sendDeposit(
-      weiToEther(selectedContract.val),
-      commitment,
-      'avax',
-      account
-    )
-    if (res) {
-      setTransaction(res)
+    try {
+      const res = await client.sendDeposit(
+        weiToEther(selectedContract.val),
+        commitment,
+        'avax',
+        account
+      )
+
+      if (res) {
+        setTransaction(res)
+        setLoading(false)
+        setTimeout(() => {
+          router.push('/')
+        }, 2000)
+      }
+    } catch (error: any) {
+      setError(error.message)
       setLoading(false)
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
     }
   }
 
@@ -57,6 +66,7 @@ const UniqueKey = () => {
 
   return (
     <div className="grid w-screen h-screen place-items-center">
+      {error && <Modal type="error" message={error} />}
       <div className="bg-cover bg-sherpa-bg w-full max-w-5xl flex justify-center px-[6.5%] py-[4.4%]">
         <div className="text-primary text-[2.4vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[15px] py-[9px] ">
           <div className="text-[2.4vw] lg:text-xl font-bold">

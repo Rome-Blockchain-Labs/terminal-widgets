@@ -64,7 +64,12 @@ const WithdrawScreen = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      {success && <Modal />}
+      {success && (
+        <Modal
+          type="success"
+          message="Withdraw successful. Please wait 5 - 10 minutes to receive your withdrawal."
+        />
+      )}
       <div className="flex mt-2">
         <span className="font-medium text-[1.9vw] lg:text-lg ">
           Relayer Mode
