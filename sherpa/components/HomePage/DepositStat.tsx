@@ -18,7 +18,6 @@ const DepositStat = ({
         {leafIndex}
       </div>
       <div className="ml-[6px] text-primary text-[1.5vw] lg:text-lg">
-        {' '}
         {diffInDays ? diffInDays + ' days ago' : diff + ' hours ago'}
       </div>
     </div>

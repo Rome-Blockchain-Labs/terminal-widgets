@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { classNames } from '../../utils/twUtils'
 import Success from '../shared/SuccessAlert'
 import Modal from '../HomePage/Modal'
+
 const weiToEther = (x: any) => x * 1e18
 const UniqueKey = () => {
   const { account } = useWeb3React()
@@ -59,10 +60,10 @@ const UniqueKey = () => {
     }
   }
 
-  useEffect(() => {
-    if (!commitment) return
-    downloadUniqueKey()
-  }, [commitment, downloadUniqueKey])
+  // useEffect(() => {
+  //   if (!commitment) return
+  //   downloadUniqueKey()
+  // }, [commitment, downloadUniqueKey])
 
   return (
     <div className="grid w-screen h-screen place-items-center">
@@ -115,11 +116,8 @@ const UniqueKey = () => {
               <Success message="Deposit success! Redirecting you back to the homepage ... " />
             </div>
           )}
-
-          <DepositButton
-            onClick={deposit}
-            disabled={!checked || !selectedContract}
-          >
+          {console.log(checked)}
+          <DepositButton onClick={deposit} disabled={!checked}>
             {loading ? (
               <LoadingSpinner />
             ) : transaction ? (
@@ -143,6 +141,7 @@ interface DepositButtonProps {
 const DepositButton = ({ disabled, children, onClick }: DepositButtonProps) => {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={classNames(
         disabled ? 'bg-opacity-40 opacity-40' : '',

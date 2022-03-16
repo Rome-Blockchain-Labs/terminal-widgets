@@ -64,7 +64,7 @@ const Home = () => {
               setSelectedContract={setSelectedContract}
             />
           ) : (
-            <WithdrawScreen />
+            <WithdrawScreen setTransaction={setTransaction} />
           )}
         </div>
 
@@ -93,7 +93,7 @@ const Home = () => {
                 </div>
               }
             >
-              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2 text-white" />
             </Tooltip>
             <div className="text-[1.7vw] lg:text-xl text-white ml-auto mr-[0.5]">
               AVAX
