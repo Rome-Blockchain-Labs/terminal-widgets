@@ -64,13 +64,14 @@ const WithdrawScreen = () => {
 
       if (res) {
         setSuccess(true)
-        setIsWithdrawing(false)
       }
     } catch (error: any) {
       setError((err: any) => {
         return { ...err, transaction: error.message }
       })
     }
+
+    setIsWithdrawing(false)
   }
   useEffect(() => {
     const refreshSherpaClient = async () => {
