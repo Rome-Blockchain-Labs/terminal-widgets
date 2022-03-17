@@ -2,8 +2,7 @@ import React, { createContext, ReactNode, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { injected } from '../connectors'
-import * as sherpa from 'ian-sherpasdk-beta'
-// import * as sherpa from 'sherpa'
+import * as sherpa from 'sherpa'
 import { useTestnet } from '../config'
 
 const netId = useTestnet ? 43113 : 43114

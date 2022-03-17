@@ -92,36 +92,38 @@ const WithdrawScreen = ({ setTransaction }: any) => {
       {error && <Modal type="error" message={error} />}
 
       <div className="flex mt-2">
-        <span className="font-medium text-[1.9vw] lg:text-lg ">
+        <span className="font-medium sm:text-[1.9vw] lg:text-lg ">
           Relayer Mode
         </span>
         <Tooltip
           placement="bottom"
           trigger={['hover']}
           overlay={
-            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+            <div className="w-[200px] text-xs sm:text-[1.3vw] lg:text-sm">
               Using a relayer will allow you to withdraw to a fresh wallet.
               NOTE: relayer mode is currently disable for ERC20 withdrawals.
             </div>
           }
         >
-          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+          <InformationCircleIcon className="h-3 w-3 sm:h-[1.4vw] sm:w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
         </Tooltip>
       </div>
       <Toggle enabled={!selfRelay} toggle={() => setSelfRelay((b) => !b)} />
 
       <div className="flex mt-2">
-        <span className="font-medium text-[1.9vw] lg:text-lg">Relayer Fee</span>
+        <span className="font-medium sm:text-[1.9vw] lg:text-lg">
+          Relayer Fee
+        </span>
         <Tooltip
           placement="bottom"
           trigger={['hover']}
           overlay={
-            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+            <div className="w-[200px] text-xs sm:text-[1.3vw] lg:text-sm">
               Using a relayer incurs free paid to the operator.
             </div>
           }
         >
-          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+          <InformationCircleIcon className="h-3 w-3 sm:h-[1.4vw] sm:w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
         </Tooltip>
       </div>
 
@@ -135,7 +137,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
             .map(getNameFromRelayer)}
         />
         {relayError && (
-          <p className="mt-2 text-[1.4vw] lg:text-sm text-red-600">
+          <p className="mt-2 text-xs sm:text-[1.4vw] lg:text-sm text-red-600">
             Select a relayer fee.
           </p>
         )}
@@ -144,31 +146,31 @@ const WithdrawScreen = ({ setTransaction }: any) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-2">
           <div className="flex">
-            <span className="font-medium text-[1.9vw]  lg:text-lg">
+            <span className="font-medium sm:text-[1.9vw]  lg:text-lg">
               Unique Key
             </span>
             <Tooltip
               placement="bottom"
               trigger={['hover']}
               overlay={
-                <div className="w-[200px] text-[1.3vw] lg:text-sm">
+                <div className="w-[200px] text-xs sm:text-[1.3vw] lg:text-sm">
                   Unique key extracted at deposit to enable withdrawal.
                 </div>
               }
             >
-              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+              <InformationCircleIcon className="h-3 w-3 sm:h-[1.4vw] sm:w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
             </Tooltip>
           </div>
           <div>
             <input
               type="text"
-              className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+              className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
               placeholder="Insert Unique Key Here"
               {...register('uniqueKey', { required: 'Uniquey key required' })}
             />
 
             {errors.uniqueKey && (
-              <p className="mt-2 text-[1.4vw] lg:text-sm text-red-600">
+              <p className="mt-2 text-xs sm:text-[1.4vw] lg:text-sm text-red-600">
                 {errors.uniqueKey.message}
               </p>
             )}
@@ -177,40 +179,40 @@ const WithdrawScreen = ({ setTransaction }: any) => {
 
         <div className="mt-2 mb-10">
           <div className="flex">
-            <span className="font-medium text-[1.9vw] lg:text-lg">
+            <span className="font-medium sm:text-[1.9vw] lg:text-lg">
               Recipient Wallet Address
             </span>
             <Tooltip
               placement="bottom"
               trigger={['hover']}
               overlay={
-                <div className="w-[200px] text-[1.3vw] lg:text-sm">
+                <div className="w-[200px] text-xs sm:text-[1.3vw] lg:text-sm">
                   The wallet you want the amount withdrawn to. Can be an address
                   you are not connected to when using a relayer.
                 </div>
               }
             >
-              <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+              <InformationCircleIcon className="h-3 w-3 sm:h-[1.4vw] sm:w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
             </Tooltip>
           </div>
           <div>
             <input
               type="text"
-              className="px-2 rounded-sm text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+              className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
               placeholder="Insert Address Here"
               {...register('destinationAddress', {
                 required: 'Destination address required',
               })}
             />
             {errors.destinationAddress && (
-              <p className="mt-2 text-[1.4vw] lg:text-sm text-red-600">
+              <p className="mt-2 text-xs sm:text-[1.4vw] lg:text-sm text-red-600">
                 {errors.destinationAddress.message}
               </p>
             )}
           </div>
         </div>
 
-        <button className="mt-10 sm:mt-auto grid place-items-center  rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl mb-[5%] bg-white min-h-[2.4vw]">
+        <button className="mt-10 sm:mt-auto grid place-items-center  rounded-full w-full p-[2%] text-primary text-lg sm:text-[2.4vw] lg:text-2xl mb-[5%] bg-white min-h-[2.4vw]">
           {isSubmitting ? <LoadingSpinner /> : 'Withdraw'}
         </button>
       </form>
