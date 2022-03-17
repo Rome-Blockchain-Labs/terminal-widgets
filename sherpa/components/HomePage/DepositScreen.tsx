@@ -45,25 +45,25 @@ const DepositScreen = ({
 
   return (
     <div className="flex flex-col flex-grow mt-2">
-      <div className="text-primary text-[1.9vw] font-medium lg:text-lg ">
+      <div className="text-primary  sm:text-[1.9vw] font-medium lg:text-lg ">
         Token
-      </div>{' '}
-      <div className="lg:text-lg mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold text-[1.9vw] pl-2 ">
+      </div>
+      <div className="lg:text-lg mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold sm:text-[1.9vw] pl-2 ">
         AVAX
       </div>
       <div className="flex mt-2">
-        <span className="font-medium text-[1.9vw] lg:text-xl">Amount</span>
+        <span className="font-medium sm:text-[1.9vw] lg:text-xl">Amount</span>
         <Tooltip
           placement="bottom"
           trigger={['hover']}
           overlay={
-            <div className="w-[200px] text-[1.3vw] lg:text-sm">
+            <div className="w-[200px] text-xs sm:text-[1.3vw] lg:text-sm">
               You can only deposit an amount provided in the list as this
               ensures ultimate privacy.
             </div>
           }
         >
-          <InformationCircleIcon className="h-[1.4vw] w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
+          <InformationCircleIcon className="h-3 w-3 sm:h-[1.4vw] sm:w-[1.4vw] lg:w-4 lg:h-4 mb-2" />
         </Tooltip>
       </div>
       <div className="flex justify-between mt-2">
@@ -74,7 +74,9 @@ const DepositScreen = ({
               active={contract.val === selectedContract.val}
               onClick={() => setSelectedContract(AVAXContracts[index])}
             >
-              <span>{contract.val}</span>
+              <span className=" sm:text-[1.9vw] lg:text-xl">
+                {contract.val}
+              </span>
               <AVAX active={contract.val === selectedContract.val}>AVAX</AVAX>
             </Amount>
           )
@@ -82,7 +84,7 @@ const DepositScreen = ({
       </div>
       <button
         onClick={createCommitment}
-        className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary text-[2.4vw] lg:text-2xl bg-white sm:mb-[5%]"
+        className="mt-10 sm:mt-auto rounded-full w-full p-[2%] text-primary sm:text-[2.4vw] lg:text-2xl bg-white sm:mb-[5%]"
       >
         Deposit
       </button>
@@ -121,7 +123,7 @@ const AVAX = ({
     <span
       className={`${
         !active ? 'text-white' : 'text-primary'
-      } text-[1.9vw] lg:text-xl  -mt-1`}
+      } sm:text-[1.9vw] lg:text-xl  -mt-1`}
     >
       {children}
     </span>

@@ -26,8 +26,8 @@ const Compliance = () => {
   return (
     <div className="grid w-screen h-screen place-items-center">
       <div className="bg-cover bg-sherpa-bg w-full flex justify-center px-[6.5%] py-[4.4%] max-w-5xl">
-        <div className="text-primary text-[1.9vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[3vw] py-[1.8vw] ">
-          <div className="text-[2.4vw] lg:text-2xl font-bold">
+        <div className="text-primary sm:text-[1.9vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[3vw] py-[1.8vw] ">
+          <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
             Compliance tool
           </div>
           <div className="mt-1">
@@ -40,7 +40,7 @@ const Compliance = () => {
             relevant authorities
           </div>
           <div className="flex mt-2">
-            <span className="font-medium text-[1.9vw] lg:text-lg">
+            <span className="font-medium sm:text-[1.9vw] lg:text-lg">
               Unique Key
             </span>
           </div>
@@ -53,7 +53,7 @@ const Compliance = () => {
                 setReport(compliance)
               }
             }}
-            className="px-2 rounded-sm text-[1.7vw] lg:text-lg p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
+            className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-lg p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
             placeholder="Insert Unique Key Here"
             value={uniqueKey}
           />
@@ -76,7 +76,7 @@ const Compliance = () => {
           {report && (
             <div className="flex flex-col mt-3 gap-y-1">
               <div className="flex">
-                <div className="text-[2.4vw] lg:text-2xl font-bold">
+                <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
                   Deposit
                 </div>
                 {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
@@ -86,7 +86,7 @@ const Compliance = () => {
               <Label>From Address</Label>
               <Value>{report.deposit.address}</Value>
               <div className="flex mt-3">
-                <div className="text-[2.4vw] lg:text-2xl font-bold">
+                <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
                   Withdrawal
                 </div>
                 {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
@@ -116,7 +116,7 @@ const Value = ({
     <div
       className={classNames(
         className ? className : '',
-        'px-2 rounded-sm text-[1.7vw] lg:text-lg p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
+        'px-2 rounded-sm  text-xs sm:text-[1.7vw] lg:text-lg p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
       )}
     >
       {children}
@@ -124,5 +124,7 @@ const Value = ({
   )
 }
 const Label = ({ children }: { children: ReactNode }) => {
-  return <div className="font-medium text-[1.9vw] lg:text-xl">{children}</div>
+  return (
+    <div className="font-medium sm:text-[1.9vw] lg:text-xl">{children}</div>
+  )
 }

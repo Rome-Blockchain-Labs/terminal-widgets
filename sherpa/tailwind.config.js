@@ -15,9 +15,6 @@ module.exports = {
         lightPage: 'linear-gradient(236deg, #FFE1E1 0%, #DCF5FF 100%)',
         'sherpa-bg': `url(/images/sherpa-bg.jpg)`,
       },
-      fontSize: {
-        xs: 'clamp(1rem, 10vmin, 20rem)',
-      },
       fontFamily: {
         sans: 'Roboto',
       },

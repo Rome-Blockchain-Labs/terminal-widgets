@@ -23,7 +23,6 @@
     "file-saver": "^2.0.5",
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
-    "ian-sherpasdk-beta": "0.0.10",
     "next": "12.1.0",
     "next-transpile-modules": "^9.0.0",
     "os-browserify": "^0.3.0",
@@ -33,6 +32,7 @@
     "react-hook-form": "^7.28.0",
     "react-responsive": "^9.0.0-beta.6",
     "stream-browserify": "^3.0.0",
+    "sherpa": "github:Sherpa-Cash/sherpa-sdk.git#18f18658c5f0ebdd52bff24493d178cce4e0c78d",
     "url": "^0.11.0",
     "web3": "^1.7.0"
   },

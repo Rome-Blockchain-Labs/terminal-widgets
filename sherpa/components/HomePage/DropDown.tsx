@@ -19,7 +19,7 @@ export default function DropDown({
           disabled={disabled}
           className={classNames(
             disabled && 'bg-opacity-70 ',
-            'inline-flex w-full min-h-[5vw] lg:min-h-[50px] px-[2%] text-[1.9vw] lg:text-lg font-medium bg-primary text-secondary  rounded-md shadow-sm items-center'
+            'inline-flex w-full min-h-[43px] sm:min-h-[5vw] lg:min-h-[50px] px-[2%] sm:text-[1.9vw] lg:text-lg font-medium bg-primary text-secondary  rounded-md shadow-sm items-center'
           )}
         >
           {selectedOption}
@@ -40,7 +40,7 @@ export default function DropDown({
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
+          <div className="py-1 cursor-pointer">
             {possibleOptions
               .filter((option: any) => option !== selectedOption)
               .map((option: string, index: number) => (
@@ -48,7 +48,7 @@ export default function DropDown({
                   key={index}
                   onClick={() => setSelectedOption(option)}
                 >
-                  <p className="bg-primary text-secondary block px-4 py-2 text-[1.9vw] lg:text-lg  ">
+                  <p className="cursor-pointer bg-primary text-secondary block px-4 py-2 sm:text-[1.9vw] lg:text-lg  ">
                     {option}
                   </p>
                 </Menu.Item>
