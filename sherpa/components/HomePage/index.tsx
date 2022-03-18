@@ -40,7 +40,7 @@ const Home = () => {
   const eventList = md ? events.slice(0, 16) : events.slice(0, 12)
 
   return (
-    <div className="grid w-screen h-screen place-items-center min-w-[375px]">
+    <div className="grid w-screen h-screen place-items-center min-w-[375px] bg-[#12181F]">
       <div className="bg-cover bg-sherpa-bg w-full flex flex-col sm:flex-row  items-center justify-center sm:items-stretch px-[6.5%] py-[4.4%] gap-[15px]  max-w-5xl">
         {loading && <LoadingScreen />}
         <div className="flex flex-col rounded-md w-4/5 sm:w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  p-[2%] ">

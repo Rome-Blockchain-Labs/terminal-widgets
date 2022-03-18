@@ -24,7 +24,7 @@ const Compliance = () => {
   const { sherpaClient } = useSherpaContext()
   const client = sherpaClient as any
   return (
-    <div className="grid w-screen h-screen place-items-center">
+    <div className="grid w-screen h-screen place-items-center bg-[#12181F]">
       <div className="bg-cover bg-sherpa-bg w-full flex justify-center px-[6.5%] py-[4.4%] max-w-5xl">
         <div className="text-primary sm:text-[1.9vw] lg:text-xl flex flex-col rounded-md w-full backdrop-filter backdrop-blur-md bg-white bg-opacity-50  px-[3vw] py-[1.8vw] ">
           <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
