@@ -38,7 +38,7 @@ export default function ToggleSwitch(props: any) {
         className={classNames(
           enabled
             ? 'hidden'
-            : 'absolute left-[60%] text-xs smtext-[1.7vw] lg:text-lg lg:top-[20%] font-bold'
+            : 'absolute left-[60%] text-xs sm:text-[1.7vw] lg:text-lg lg:top-[20%] font-bold'
         )}
       >
         OFF
