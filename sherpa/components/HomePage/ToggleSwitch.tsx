@@ -11,7 +11,7 @@ export default function ToggleSwitch(props: any) {
       onChange={toggle}
       className={classNames(
         enabled ? 'bg-primary' : 'bg-gray-200',
-        'relative inline-flex flex-shrink-0 h-[30px] w-[60px] sm:h-[4.7vw] sm:w-[9.2vw] lg:h-[46px] lg:w-[91px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary'
+        'items-center relative inline-flex flex-shrink-0 h-[30px] w-[60px] sm:h-[4.7vw] sm:w-[9.2vw] lg:h-[46px] lg:w-[91px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary'
       )}
     >
       <span className="sr-only">Use setting</span>
@@ -28,7 +28,7 @@ export default function ToggleSwitch(props: any) {
         className={classNames(
           !enabled
             ? 'hidden'
-            : 'absolute  text-xs sm:text-[1.7vw] lg:text-lg  top-[20%] text-secondary left-[10%] font-bold'
+            : 'absolute  text-xs sm:text-[1.7vw] lg:text-lg  lg:top-[20%]  text-secondary left-[10%] font-bold'
         )}
       >
         ON
@@ -38,7 +38,7 @@ export default function ToggleSwitch(props: any) {
         className={classNames(
           enabled
             ? 'hidden'
-            : 'absolute left-[60%] text-xs smtext-[1.7vw] lg:text-lg top-[20%] font-bold'
+            : 'absolute left-[60%] text-xs smtext-[1.7vw] lg:text-lg lg:top-[20%] font-bold'
         )}
       >
         OFF
