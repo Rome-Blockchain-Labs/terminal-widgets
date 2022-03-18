@@ -74,14 +74,14 @@ const Home = () => {
               STATISTICS
             </div>
             <div className="ml-auto">
-              <div className="rounded-[4px]  bg-primary text-secondary p-[6px] sm:text-[2.4vw] lg:text-2xl font-bold">
+              <div className="rounded-md  bg-primary text-secondary p-[6px] sm:text-[2.4vw] lg:text-2xl font-bold">
                 {selectedContract.val}
               </div>
             </div>
           </div>
           <div className="flex mt-2">
             <span className="sm:text-[2.3vw] lg:text-2xl text-white">
-              Anonymity Set
+              Anonymity set
             </span>
             <Tooltip
               placement="bottom"
@@ -101,7 +101,7 @@ const Home = () => {
           </div>
 
           <div className="flex items-center mt-1">
-            <div className="rounded-[4px]  bg-primary text-secondary py-[4px] px-[11px] sm:text-[2.2vw] lg:text-2xl font-bold">
+            <div className="rounded-md  bg-primary text-secondary py-[4px] px-[11px] sm:text-[2.2vw] lg:text-2xl font-bold">
               {totalDeps}
             </div>
             <span className="text-xs sm:text-[1.9vw] lg:text-xl ml-[5px] text-white">
@@ -110,7 +110,7 @@ const Home = () => {
           </div>
 
           <div className="text-sm sm:text-[2vw] lg:text-xl text-white mt-[12px]">
-            Anonymity Set
+            Latest deposits
           </div>
           <div className="grid grid-cols-2 grid-rows-6 grid-flow-col gap-y-[1.3vw] lg:gap-y-3  mt-1 md:grid-rows-8 ">
             {events &&

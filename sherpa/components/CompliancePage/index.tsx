@@ -41,7 +41,7 @@ const Compliance = () => {
           </div>
           <div className="flex mt-2">
             <span className="font-medium sm:text-[1.9vw] lg:text-lg">
-              Unique Key
+              Unique key
             </span>
           </div>
           <input
@@ -53,8 +53,8 @@ const Compliance = () => {
                 setReport(compliance)
               }
             }}
-            className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-lg p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
-            placeholder="Insert Unique Key Here"
+            className="px-2 rounded-md text-xs sm:text-[1.7vw] lg:text-lg p-[2%]  mb-3 w-full bg-primary text-white placeholder:text-[#707070]"
+            placeholder="Insert unique key here"
             value={uniqueKey}
           />
 
@@ -70,7 +70,7 @@ const Compliance = () => {
               setReport(compliance)
             }}
           >
-            Get Report
+            Get report
           </Button>
 
           {report && (
@@ -116,7 +116,7 @@ const Value = ({
     <div
       className={classNames(
         className ? className : '',
-        'px-2 rounded-sm  text-xs sm:text-[1.7vw] lg:text-lg p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
+        'px-2 rounded-md  text-xs sm:text-[1.7vw] lg:text-lg p-[2%] w-full flex items-center bg-primary text-white placeholder:text-[#707070]'
       )}
     >
       {children}

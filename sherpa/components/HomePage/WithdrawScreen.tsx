@@ -9,7 +9,7 @@ import Modal from './Modal'
 import Tooltip from 'rc-tooltip'
 import { useForm } from 'react-hook-form'
 import { setTimeout } from 'timers'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 const getNameFromRelayer = (relayer: any) =>
   `${relayer?.['name']} - ${relayer?.['fee']}%`
@@ -20,7 +20,6 @@ const WithdrawScreen = ({ setTransaction }: any) => {
   const [selfRelay, setSelfRelay] = useState(true)
   const [selectedOption, setSelectedOption] = useState('')
   const [relayError, setRelayError] = useState<boolean>()
-  const router = useRouter()
 
   const {
     register,
@@ -93,7 +92,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
 
       <div className="flex mt-2">
         <span className="font-medium sm:text-[1.9vw] lg:text-lg ">
-          Relayer Mode
+          Relayer mode
         </span>
         <Tooltip
           placement="bottom"
@@ -112,7 +111,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
 
       <div className="flex mt-2">
         <span className="font-medium sm:text-[1.9vw] lg:text-lg">
-          Relayer Fee
+          Relayer fee
         </span>
         <Tooltip
           placement="bottom"
@@ -147,7 +146,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
         <div className="mt-2">
           <div className="flex">
             <span className="font-medium sm:text-[1.9vw]  lg:text-lg">
-              Unique Key
+              Unique key
             </span>
             <Tooltip
               placement="bottom"
@@ -164,8 +163,8 @@ const WithdrawScreen = ({ setTransaction }: any) => {
           <div>
             <input
               type="text"
-              className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
-              placeholder="Insert Unique Key Here"
+              className=" rounded-md px-2  text-xs sm:text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+              placeholder="Insert unique key here"
               {...register('uniqueKey', { required: 'Uniquey key required' })}
             />
 
@@ -180,7 +179,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
         <div className="mt-2 mb-10">
           <div className="flex">
             <span className="font-medium sm:text-[1.9vw] lg:text-lg">
-              Recipient Wallet Address
+              Recipient wallet address
             </span>
             <Tooltip
               placement="bottom"
@@ -198,8 +197,8 @@ const WithdrawScreen = ({ setTransaction }: any) => {
           <div>
             <input
               type="text"
-              className="px-2 rounded-sm text-xs sm:text-[1.7vw] lg:text-xl p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
-              placeholder="Insert Address Here"
+              className="px-2 rounded-md text-xs sm:text-[1.7vw] lg:text-lg p-[3%]  w-full bg-primary text-white placeholder:text-[#707070]"
+              placeholder="Insert address here"
               {...register('destinationAddress', {
                 required: 'Destination address required',
               })}

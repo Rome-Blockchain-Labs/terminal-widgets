@@ -48,7 +48,7 @@ const DepositScreen = ({
       <div className="text-primary  sm:text-[1.9vw] font-medium lg:text-lg ">
         Token
       </div>
-      <div className="lg:text-lg mt-1 flex items-center rounded-sm w-full p-[2.5%] bg-primary text-secondary font-bold sm:text-[1.9vw] pl-2 ">
+      <div className="lg:text-lg mt-1 flex items-center rounded-md w-full p-[2.5%] bg-primary text-secondary font-bold sm:text-[1.9vw] pl-2 ">
         AVAX
       </div>
       <div className="flex mt-2">

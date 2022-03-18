@@ -18,7 +18,7 @@ export default function DropDown({
         <Menu.Button
           disabled={disabled}
           className={classNames(
-            disabled && 'bg-opacity-70 ',
+            disabled && 'bg-opacity-40 ',
             'inline-flex w-full min-h-[43px] sm:min-h-[5vw] lg:min-h-[50px] px-[2%] sm:text-[1.9vw] lg:text-lg font-medium bg-primary text-secondary  rounded-md shadow-sm items-center'
           )}
         >
