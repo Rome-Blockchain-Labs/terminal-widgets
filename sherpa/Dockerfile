@@ -1,16 +1,15 @@
 FROM node:16-alpine AS deps
 RUN apk add git
 RUN apk add --no-cache libc6-compat
+RUN apk add --update openssh
 
 ENV PORT 3000
 WORKDIR /app
 COPY . .
-ARG DOPPLER_TOKEN
-RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub
-RUN echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories
-RUN apk add doppler
-RUN doppler secrets download --no-file --format env > build.env
-RUN export $(cat build.env | xargs) && yarn install && yarn build
+ARG NEXT_PUBLIC_USE_TESTNET=
+ENV NEXT_PUBLIC_USE_TESTNET=$NEXT_PUBLIC_USE_TESTNET
+RUN printenv >> build.env
+RUN yarn install && yarn build
 
 FROM node:16-alpine AS runner
 WORKDIR /app
