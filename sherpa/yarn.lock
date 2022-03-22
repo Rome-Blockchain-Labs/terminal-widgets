@@ -4895,22 +4895,6 @@ roarr@^2.15.3:
     semver-compare "^1.0.0"
     sprintf-js "^1.1.2"
 
-"rome-sherpa-sdk@git+https://github.com/iandjx/sherpa-sdk.git#4b8ffd1c49b430577869b7a27363e6f1d2d6a92a":
-  version "0.0.13"
-  resolved "git+https://github.com/iandjx/sherpa-sdk.git#4b8ffd1c49b430577869b7a27363e6f1d2d6a92a"
-  dependencies:
-    "@urql/core" "^2.4.1"
-    axios "^0.26.0"
-    circomlib "git+https://github.com/tornadocash/circomlib.git#3b492f9801573eebcfe1b6c584afe8a3beecf2b4"
-    dotenv "^16.0.0"
-    electron "^17.1.1"
-    graphql "^16.3.0"
-    graphql-request "^4.0.0"
-    isomorphic-fetch "^3.0.0"
-    snarkjs "git+https://github.com/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5"
-    web3 "^1.7.0"
-    websnark "github:Sherpa-Cash/websnark.git#8533e8e8d8c30fd0cc12f8ad08dee26613bf567f"
-
 run-async@^2.2.0:
   version "2.4.1"
   resolved "https://registry.npmjs.org/run-async/-/run-async-2.4.1.tgz"
@@ -5092,6 +5076,22 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
+
+"sherpa-sdk@git+https://github.com/Sherpa-Cash/sherpa-sdk.git#aa1d181d2d88696b3a6965697c6a29f3c000c4d4":
+  version "1.0.0"
+  resolved "git+https://github.com/Sherpa-Cash/sherpa-sdk.git#aa1d181d2d88696b3a6965697c6a29f3c000c4d4"
+  dependencies:
+    "@urql/core" "^2.4.1"
+    axios "^0.26.0"
+    circomlib "git+https://github.com/tornadocash/circomlib.git#3b492f9801573eebcfe1b6c584afe8a3beecf2b4"
+    dotenv "^16.0.0"
+    electron "^17.1.1"
+    graphql "^16.3.0"
+    graphql-request "^4.0.0"
+    isomorphic-fetch "^3.0.0"
+    snarkjs "git+https://github.com/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5"
+    web3 "^1.7.0"
+    websnark "github:Sherpa-Cash/websnark.git#8533e8e8d8c30fd0cc12f8ad08dee26613bf567f"
 
 side-channel@^1.0.4:
   version "1.0.4"
