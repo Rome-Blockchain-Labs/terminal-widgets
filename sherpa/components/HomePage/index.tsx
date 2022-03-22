@@ -22,9 +22,8 @@ const Home = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       if (!client) return
-      const weiToEther = (x: any) => x * 1e18
       const res = await client.fetchEvents(
-        weiToEther(selectedContract.val),
+        selectedContract.val,
         'avax'
       )
       setTotalDeps(res.events.length)

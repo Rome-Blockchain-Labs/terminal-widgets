@@ -20,10 +20,9 @@ const DepositScreen = ({
 
   const createCommitment = async () => {
     if (!sherpaClient) return
-    const weiToEther = (x: any) => x * 1e18
     const client = sherpaClient as any
     const deposit = client.createDeposit(
-      weiToEther(selectedContract.val),
+      selectedContract.val,
       'avax'
     )
     setCommitment(deposit.commitment)
