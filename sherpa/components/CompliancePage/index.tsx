@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import Button from './Button'
 import { classNames } from '../../utils/twUtils'
+import {useWeb3React} from "@web3-react/core";
 
 interface Report {
   deposit: {
@@ -17,12 +18,36 @@ interface Report {
   }
 }
 
+const getTxDate = async (txHash:string, web3:any) =>{
+  try{
+    const { blockNumber } = await web3.eth.getTransaction(txHash)
+    const {timestamp } = await web3.eth.getBlock(blockNumber||1)
+    return new Date(timestamp*1000)
+  }catch{}
+}
+
 const Compliance = () => {
   const [uniqueKey, setUniqueKey] = useState<string>()
+  const { library } = useWeb3React()
+  const [ depositDate, setDepositDate ] = useState<Date>()
+  const [ withdrawlDate, setWithdrawlDate ] = useState<Date>()
   const [report, setReport] = useState<Report>()
   const [loading, setLoading] = useState(false)
   const { sherpaClient } = useSherpaContext()
   const client = sherpaClient as any
+
+  useEffect(() => {
+    (async () => {
+      if (library){
+        if (report?.deposit?.transaction){
+          getTxDate(report.deposit.transaction, library).then(setDepositDate)
+        }
+        if (report?.withdrawl?.transaction){
+          getTxDate(report.withdrawl.transaction, library).then(setWithdrawlDate)
+        }
+      }
+    })();
+  }, [report, library]);
   return (
     <div className="grid w-screen h-screen place-items-center bg-[#12181F]">
       <div className="bg-cover bg-sherpa-bg w-full flex justify-center px-[6.5%] py-[4.4%] max-w-5xl">
@@ -79,22 +104,26 @@ const Compliance = () => {
                 <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
                   Deposit
                 </div>
-                {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
+                 <div className="text-lg bg-slate-300 ml-3 p-1 text-white font-bold rounded -mt-1">{depositDate?.toString()}</div>
               </div>
               <Label>Transaction</Label>
               <Value>{report.deposit.transaction}</Value>
               <Label>From Address</Label>
               <Value>{report.deposit.address}</Value>
+              <Label>Commitment</Label>
+              <Value>{report.deposit.id}</Value>
               <div className="flex mt-3">
                 <div className="text-lg sm:text-[2.4vw] lg:text-2xl font-bold">
                   Withdrawal
                 </div>
-                {/* <div>{format(new Date(), 'EEE MMM dd yyyy HH:mm OOOO')}</div> */}
+                <div className="text-lg bg-slate-300 ml-3 p-1 text-white font-bold rounded -mt-1">{withdrawlDate?.toString()}</div>
               </div>
               <Label>Transaction</Label>
               <Value>{report.withdrawl.transaction}</Value>
               <Label>To Address</Label>
-              <Value className="mb-3">{report.withdrawl.address}</Value>
+              <Value>{report.withdrawl.address}</Value>
+              <Label>Nullifier Hash</Label>
+              <Value className="mb-3">{report.withdrawl.id}</Value>
             </div>
           )}
         </div>
