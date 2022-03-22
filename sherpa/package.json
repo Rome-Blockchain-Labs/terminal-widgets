@@ -31,7 +31,7 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^7.28.0",
     "react-responsive": "^9.0.0-beta.6",
-    "sherpa-sdk": "git+https://github.com/Sherpa-Cash/sherpa-sdk.git#86d0b7385a5de7e0da2ac8134fb245c702906684",
+    "sherpa-sdk": "git+https://github.com/Sherpa-Cash/sherpa-sdk.git#2e95cd4e15c9921e86348a5c1960931516b633a7",
     "stream-browserify": "^3.0.0",
     "url": "^0.11.0",
     "web3": "^1.7.0"
