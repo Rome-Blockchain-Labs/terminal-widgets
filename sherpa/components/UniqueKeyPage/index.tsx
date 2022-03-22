@@ -60,10 +60,10 @@ const UniqueKey = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (!commitment) return
-  //   downloadUniqueKey()
-  // }, [commitment, downloadUniqueKey])
+  useEffect(() => {
+    if (!commitment) return
+    downloadUniqueKey()
+  }, [commitment, downloadUniqueKey])
 
   return (
     <div className="grid w-screen h-screen place-items-center">

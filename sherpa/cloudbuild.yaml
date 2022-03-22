@@ -5,7 +5,7 @@ steps:
       - '-t'
       - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
       - '--build-arg'
-      - 'DOPPLER_TOKEN=${_DOPPLER_TOKEN}'
+      - 'NEXT_PUBLIC_USE_TESTNET=${_NEXT_PUBLIC_USE_TESTNET}'
       # folder name for context
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
