@@ -9,7 +9,6 @@ import { classNames } from '../../utils/twUtils'
 import Success from '../shared/SuccessAlert'
 import Modal from '../HomePage/Modal'
 
-const weiToEther = (x: any) => x * 1e18
 const UniqueKey = () => {
   const { account } = useWeb3React()
   const router = useRouter()
@@ -41,7 +40,7 @@ const UniqueKey = () => {
 
     try {
       const res = await client.sendDeposit(
-        weiToEther(selectedContract.val),
+        selectedContract.val,
         commitment,
         'avax',
         account
