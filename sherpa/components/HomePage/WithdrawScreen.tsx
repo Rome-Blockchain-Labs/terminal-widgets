@@ -10,8 +10,6 @@ import Tooltip from 'rc-tooltip'
 import { useForm } from 'react-hook-form'
 import { setTimeout } from 'timers'
 
-const etherToWei = (x: any) => x * 1e18
-
 const getNameFromRelayer = (relayer: any) =>
   `${relayer?.['name']} - ${relayer?.['fee']}%`
 
@@ -42,7 +40,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
     }
 
     const [, selectedToken, amountEther] = uniqueKey.split('-')
-    await client.fetchEvents(etherToWei(amountEther), selectedToken)
+    await client.fetchEvents(amountEther, selectedToken)
     try {
       const res = await client.withdraw(
         uniqueKey,
