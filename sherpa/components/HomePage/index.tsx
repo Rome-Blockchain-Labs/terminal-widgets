@@ -4,7 +4,6 @@ import { InformationCircleIcon } from '@heroicons/react/outline'
 import DepositStat from './DepositStat'
 import WithdrawScreen from './WithdrawScreen'
 import DepositScreen from './DepositScreen'
-import LoadingScreen from '../shared/LoadingScreen'
 import useSherpaContext from '../../hooks/useSherpaContext'
 import { useResponsive } from '../../hooks/useResponsive'
 import Tooltip from 'rc-tooltip'
@@ -18,13 +17,11 @@ const Home = () => {
 
   const [selectedContract, setSelectedContract] = useState(AVAXContracts[0])
   const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(false)
   const [totalDeps, setTotalDeps] = useState()
 
   useEffect(() => {
     const fetchEvents = async () => {
       if (!client) return
-      setLoading(true)
       const weiToEther = (x: any) => x * 1e18
       const res = await client.fetchEvents(
         weiToEther(selectedContract.val),
@@ -32,7 +29,6 @@ const Home = () => {
       )
       setTotalDeps(res.events.length)
       setEvents(res.events)
-      setLoading(false)
     }
     fetchEvents()
   }, [AVAXContracts, client, selectedContract])
@@ -42,8 +38,7 @@ const Home = () => {
   return (
     <div className="grid w-screen h-screen place-items-center min-w-[375px] bg-[#12181F]">
       <div className="bg-cover bg-sherpa-bg w-full flex flex-col sm:flex-row  items-center justify-center sm:items-stretch px-[6.5%] py-[4.4%] gap-[15px]  max-w-5xl">
-        {loading && <LoadingScreen />}
-        <div className="flex flex-col rounded-md w-4/5 sm:w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  p-[2%] ">
+        <div className="flex flex-col rounded-md w-4/5 sm:w-1/2 backdrop-filter backdrop-blur-md bg-white bg-opacity-50  p-[2%] min-h-[420px] ">
           <div className="flex bg-white rounded-full">
             <ToggleButton
               onClick={() => setTransaction('deposit')}

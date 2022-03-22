@@ -4895,10 +4895,9 @@ roarr@^2.15.3:
     semver-compare "^1.0.0"
     sprintf-js "^1.1.2"
 
-rome-sherpa-sdk@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/rome-sherpa-sdk/-/rome-sherpa-sdk-0.0.1.tgz#14a8e81e8e2241d785721a6658b9562d9c856a57"
-  integrity sha512-lflQE/1twAXwZ8WRoUgAMygPON0THwaJ/UsXedhR3Uyf5v35pnzXODh/Z6nmhP/C0raTOfINmIzGsSckDV84MQ==
+"rome-sherpa-sdk@git+https://github.com/iandjx/sherpa-sdk.git#4b8ffd1c49b430577869b7a27363e6f1d2d6a92a":
+  version "0.0.13"
+  resolved "git+https://github.com/iandjx/sherpa-sdk.git#4b8ffd1c49b430577869b7a27363e6f1d2d6a92a"
   dependencies:
     "@urql/core" "^2.4.1"
     axios "^0.26.0"
