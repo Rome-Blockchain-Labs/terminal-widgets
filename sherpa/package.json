@@ -34,7 +34,8 @@
     "sherpa-sdk": "git+https://github.com/Sherpa-Cash/sherpa-sdk.git#2e95cd4e15c9921e86348a5c1960931516b633a7",
     "stream-browserify": "^3.0.0",
     "url": "^0.11.0",
-    "web3": "^1.7.0"
+    "web3": "^1.7.0",
+    "@rbl/terminal-library": "github:Rome-Blockchain-Labs/terminal-library#master"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.1.0",

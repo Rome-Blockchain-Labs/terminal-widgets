@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, ReactNode } from 'react'
+import React, { useEffect, ReactNode, useRef, useState } from 'react'
+import { RomeBridge } from '@rbl/terminal-library/RomeBridge'
 
 enum MessageType {
   EVENT_ROME_WIDGET_CLOSE = 'EVENT_ROME_WIDGET_CLOSE',
@@ -15,8 +16,17 @@ interface Message {
 
 const IframeContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
-
+  const [bridge, setBridge] = useState<any>()
   useEffect(() => {
+    const loadBridge = async () => {
+      const { romeBridge } = await import(
+        '@rbl/terminal-library/RomeBridge/widget'
+      )
+      setBridge(romeBridge)
+    }
+
+    loadBridge()
+
     window.addEventListener('message', (ev) => {
       const homeRedirect = () => {
         router.push('/')
@@ -37,6 +47,14 @@ const IframeContext = ({ children }: { children: ReactNode }) => {
       }
     })
   }, [router])
+
+  useEffect(() => {
+    if (bridge) {
+      bridge.subscribe('rome.terminal.click_button', function (payload: any) {
+        console.log(payload)
+      })
+    }
+  }, [bridge])
 
   return <>{children}</>
 }
