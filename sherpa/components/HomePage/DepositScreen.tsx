@@ -19,12 +19,9 @@ const DepositScreen = ({
   const [noteString, setNoteString] = useState()
 
   const createCommitment = async () => {
-    if (!sherpaClient) return
+    // if (!sherpaClient) return
     const client = sherpaClient as any
-    const deposit = client.createDeposit(
-      selectedContract.val,
-      'avax'
-    )
+    const deposit = client.createDeposit(selectedContract.val, 'avax')
     setCommitment(deposit.commitment)
     setNoteString(deposit.noteString)
   }

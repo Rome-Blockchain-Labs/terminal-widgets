@@ -25,6 +25,7 @@ const SherpaContextProvider = ({ children }: SherpaContextProps) => {
   const [sherpaRelayerOptions, setSherpaRelayerOptions] = useState<any>([])
 
   useEffect(() => {
+    activate(injected)
     injected.isAuthorized().then((isAuthorized) => {
       if (isAuthorized || window.ethereum) {
         activate(injected)

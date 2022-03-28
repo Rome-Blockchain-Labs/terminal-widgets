@@ -6,8 +6,13 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { useEffect } from 'react'
 import SherpaContextProvider from '../context/SherpaContext'
 import IframeContext from '../context/IframeContext'
-function getLibrary(provider: any) {
-  const library = new Web3(provider)
+import ganache from 'ganache'
+
+function getLibrary(p: any) {
+  const provider = 'http://localhost:8545/'
+  const web3Provider = new Web3.providers.HttpProvider(provider)
+
+  const library = new Web3(web3Provider)
   // library.pollingInterval = 15000
   return library
 }
