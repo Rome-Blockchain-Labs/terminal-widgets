@@ -557,6 +557,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@rome/terminal-library@git+https://github.com/Rome-Blockchain-Labs/terminal-library.git#46633a104710b61ac2022bbd17231d664d7eaea9":
+  version "0.0.0"
+  resolved "git+https://github.com/Rome-Blockchain-Labs/terminal-library.git#46633a104710b61ac2022bbd17231d664d7eaea9"
+
 "@rushstack/eslint-patch@^1.0.8":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.1.tgz#782fa5da44c4f38ae9fd38e9184b54e451936118"

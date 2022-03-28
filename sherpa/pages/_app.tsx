@@ -6,7 +6,6 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { useEffect } from 'react'
 import SherpaContextProvider from '../context/SherpaContext'
 import IframeContext from '../context/IframeContext'
-
 function getLibrary(provider: any) {
   const library = new Web3(provider)
   // library.pollingInterval = 15000
