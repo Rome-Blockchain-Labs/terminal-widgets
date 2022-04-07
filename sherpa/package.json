@@ -13,7 +13,7 @@
     "@ethersproject/providers": "^5.5.3",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
-    "@rome/terminal-library": "git+https://github.com/Rome-Blockchain-Labs/terminal-library.git#46633a104710b61ac2022bbd17231d664d7eaea9",
+    "@romeblockchain/terminal-library": "git+https://github.com/Rome-Blockchain-Labs/terminal-library.git#d7199fce7a27c50f37cf3da6f488807a7b62b565",
     "@tailwindcss/forms": "^0.5.0",
     "@types/file-saver": "^2.0.5",
     "@web3-react/abstract-connector": "^6.0.7",
