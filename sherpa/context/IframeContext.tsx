@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, ReactNode } from 'react'
-import { widgetBridge, RomeEventType } from '@rome/terminal-library/romeBridge'
+import { widgetBridge, RomeEventType } from '@romeblockchain/terminal-library/romeBridge'
 
 const IframeContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
