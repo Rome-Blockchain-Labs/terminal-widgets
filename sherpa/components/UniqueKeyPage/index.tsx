@@ -115,7 +115,6 @@ const UniqueKey = () => {
               <Success message="Deposit success! Redirecting you back to the homepage ... " />
             </div>
           )}
-          {console.log(checked)}
           <DepositButton onClick={deposit} disabled={!checked}>
             {loading ? (
               <LoadingSpinner />

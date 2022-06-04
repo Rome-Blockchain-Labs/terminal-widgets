@@ -72,9 +72,7 @@ const WithdrawScreen = ({ setTransaction }: any) => {
   }, [selectedOption, selfRelay])
 
   useEffect(() => {
-    console.log(success)
     if (success) {
-      console.log('wait')
       setTimeout(() => setTransaction('deposit'), 1000)
     }
   }, [setTransaction, success])
