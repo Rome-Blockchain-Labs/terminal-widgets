@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { injected } from '../connectors'
 import * as sherpa from 'sherpa-sdk'
 import { useTestnet } from '../config'
+import { walletlink } from '../connectors/index'
 
 const netId = useTestnet ? 43113 : 43114
 const AVAXContracts = [{ val: 10 }, { val: 100 }, { val: 500 }]
@@ -25,13 +26,16 @@ const SherpaContextProvider = ({ children }: SherpaContextProps) => {
   const [sherpaRelayerOptions, setSherpaRelayerOptions] = useState<any>([])
 
   useEffect(() => {
-    injected.isAuthorized().then((isAuthorized) => {
-      if (isAuthorized || window.ethereum) {
-        activate(injected)
-        // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
-        window?.ethereum?.removeAllListeners(['networkChanged'])
-      }
-    })
+    if (window.ethereum.isCoinbaseWallet) {
+      activate(walletlink)
+    } else
+      injected.isAuthorized().then((isAuthorized) => {
+        if (isAuthorized || window.ethereum) {
+          activate(injected)
+          // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
+          window?.ethereum?.removeAllListeners(['networkChanged'])
+        }
+      })
   }, [activate])
 
   useEffect(() => {
