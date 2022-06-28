@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { InjectedConnector } from '@web3-react/injected-connector'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 
 import { NetworkConnector } from './NetworkConnector'
 
@@ -38,3 +39,9 @@ export function getNetworkLibrary(network: NetworkConnector): Web3Provider {
 }
 
 export const injected = new InjectedConnector({})
+
+export const walletlink = new WalletLinkConnector({
+  url: 'https://sherpa.rometerminal.io/',
+  appName: 'sherpa',
+  supportedChainIds: [ChainId.AVALANCHE_MAINNET],
+})
