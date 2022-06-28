@@ -19,7 +19,6 @@ import { ReactComponent as Logo } from '../../assets/svg/logo.svg'
 import { ExternalLink, ThemedText } from '../../theme'
 import ClaimModal from '../claim/ClaimModal'
 import { CardNoise } from '../earn/styled'
-import Menu from '../Menu'
 import Row from '../Row'
 import { Dots } from '../swap/styleds'
 import Web3Status from '../Web3Status'
@@ -338,9 +337,6 @@ export default function Header() {
             ) : null}
             <Web3Status />
           </AccountElement>
-        </HeaderElement>
-        <HeaderElement>
-          <Menu />
         </HeaderElement>
       </HeaderControls>
     </HeaderFrame>
