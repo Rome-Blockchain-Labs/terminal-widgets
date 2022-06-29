@@ -1,11 +1,11 @@
-import { Trans } from '@lingui/macro'
+// import { Trans } from '@lingui/macro'
 import { useLocationLinkProps } from 'hooks/useLocationLinkProps'
 import { useMemo } from 'react'
 import styled from 'styled-components/macro'
 
-import { DEFAULT_LOCALE, LOCALE_LABEL, SupportedLocale } from '../../constants/locales'
+import { DEFAULT_LOCALE, SupportedLocale } from '../../constants/locales'
 import { navigatorLocale, useActiveLocale } from '../../hooks/useActiveLocale'
-import { StyledInternalLink, ThemedText } from '../../theme'
+import { ThemedText } from '../../theme'
 
 const Container = styled(ThemedText.Small)`
   opacity: 0.6;
@@ -38,12 +38,12 @@ export function SwitchLocaleLink() {
 
   return (
     <Container>
-      <Trans>
+      {/* <Trans>
         Uniswap available in:{' '}
         <StyledInternalLink onClick={onClick} to={to}>
           {LOCALE_LABEL[targetLocale]}
         </StyledInternalLink>
-      </Trans>
+      </Trans> */}
     </Container>
   )
 }
