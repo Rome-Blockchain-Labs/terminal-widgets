@@ -10,7 +10,8 @@ steps:
       - 'REACT_APP_FORTMATIC_KEY=${_REACT_APP_FORTMATIC_KEY}'
       - '--build-arg'
       - 'REACT_APP_GOOGLE_ANALYTICS_ID=${_REACT_APP_GOOGLE_ANALYTICS_ID}'
-      - .
+      # folder name for context
+      - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
     args:
       - push
