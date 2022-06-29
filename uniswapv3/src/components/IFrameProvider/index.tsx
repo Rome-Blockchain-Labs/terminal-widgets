@@ -16,7 +16,7 @@ const IFrameProvider = ({ children }: { children: ReactNode }) => {
     widgetBridge.init()
     widgetBridge.subscribe(RomeEventType.TERMINAL_CLICK_BUTTON, function (action: any) {
       switch (action.payload.id) {
-        case 'home':
+        case 'swap':
           history.push('/swap')
           break
         case 'pool':
