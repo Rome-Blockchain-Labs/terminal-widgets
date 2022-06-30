@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/macro'
 import { CHAIN_INFO } from 'constants/chainInfo'
 import { SupportedChainId } from 'constants/chains'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -157,12 +156,8 @@ export function NetworkAlert() {
           <BodyText color={textColor}>
             <L2Icon src={logoUrl} />
             <AutoRow>
-              <Header>
-                <Trans>{label} token bridge</Trans>
-              </Header>
-              <HideSmall>
-                <Trans>Deposit tokens to the {label} network.</Trans>
-              </HideSmall>
+              <Header>{label} token bridge</Header>
+              <HideSmall>Deposit tokens to the {label} network.</HideSmall>
             </AutoRow>
           </BodyText>
           <StyledArrowUpRight color={textColor} />
