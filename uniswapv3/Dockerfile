@@ -7,11 +7,9 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 RUN apk add --no-cache git
 
-# Install depends on chart-setup.sh and charting library directory
-COPY package*.json *yarn.lock ./
+COPY . ./
 RUN yarn install
 
-COPY . ./
 
 #RUN npm install react-scripts@4.0.3 -g --silent
 ARG REACT_APP_INFURA_KEY=

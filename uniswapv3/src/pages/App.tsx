@@ -12,19 +12,11 @@ import Popups from '../components/Popups'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import AddLiquidity from './AddLiquidity'
 import { RedirectDuplicateTokenIds } from './AddLiquidity/redirects'
-import { RedirectDuplicateTokenIdsV2 } from './AddLiquidityV2/redirects'
-import Earn from './Earn'
-import Manage from './Earn/Manage'
-import MigrateV2 from './MigrateV2'
-import MigrateV2Pair from './MigrateV2/MigrateV2Pair'
 import Pool from './Pool'
 import { PositionPage } from './Pool/PositionPage'
-import PoolV2 from './Pool/v2'
-import PoolFinder from './PoolFinder'
-import RemoveLiquidity from './RemoveLiquidity'
 import RemoveLiquidityV3 from './RemoveLiquidity/V3'
 import Swap from './Swap'
-import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -85,20 +77,12 @@ export default function App() {
           <Polling />
           <TopLevelModals />
           <Switch>
-            <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
-            <Route exact strict path="/uni" component={Earn} />
-            <Route exact strict path="/uni/:currencyIdA/:currencyIdB" component={Manage} />
-
-            <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
             <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
             <Route exact strict path="/swap" component={Swap} />
 
-            <Route exact strict path="/pool/v2/find" component={PoolFinder} />
-            <Route exact strict path="/pool/v2" component={PoolV2} />
             <Route exact strict path="/pool" component={Pool} />
             <Route exact strict path="/pool/:tokenId" component={PositionPage} />
 
-            <Route exact strict path="/add/v2/:currencyIdA?/:currencyIdB?" component={RedirectDuplicateTokenIdsV2} />
             <Route
               exact
               strict
@@ -113,11 +97,7 @@ export default function App() {
               component={AddLiquidity}
             />
 
-            <Route exact strict path="/remove/v2/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
             <Route exact strict path="/remove/:tokenId" component={RemoveLiquidityV3} />
-
-            <Route exact strict path="/migrate/v2" component={MigrateV2} />
-            <Route exact strict path="/migrate/v2/:address" component={MigrateV2Pair} />
 
             <Route component={RedirectPathToSwapOnly} />
           </Switch>

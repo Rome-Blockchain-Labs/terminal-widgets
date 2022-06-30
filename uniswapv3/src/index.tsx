@@ -3,6 +3,7 @@ import 'inter-ui'
 import 'polyfills'
 import 'components/analytics'
 
+import IFrameProvider from 'components/IFrameProvider'
 import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { StrictMode } from 'react'
@@ -50,11 +51,13 @@ ReactDOM.render(
           <Web3Provider>
             <Blocklist>
               <BlockNumberProvider>
-                <Updaters />
-                <ThemeProvider>
-                  <ThemedGlobalStyle />
-                  <App />
-                </ThemeProvider>
+                <IFrameProvider>
+                  <Updaters />
+                  <ThemeProvider>
+                    <ThemedGlobalStyle />
+                    <App />
+                  </ThemeProvider>
+                </IFrameProvider>
               </BlockNumberProvider>
             </Blocklist>
           </Web3Provider>
