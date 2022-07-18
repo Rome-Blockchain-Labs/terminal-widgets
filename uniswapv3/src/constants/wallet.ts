@@ -1,11 +1,10 @@
 import { Connector } from '@web3-react/types'
 
 import INJECTED_ICON_URL from '../assets/images/arrow-right.svg'
-import COINBASE_ICON_URL from '../assets/images/coinbaseWalletIcon.svg'
 import FORTMATIC_ICON_URL from '../assets/images/fortmaticIcon.png'
 import METAMASK_ICON_URL from '../assets/images/metamask.png'
 import WALLETCONNECT_ICON_URL from '../assets/images/walletConnectIcon.svg'
-import { coinbaseWallet, fortmatic, injected, Wallet, walletConnect } from '../connectors'
+import { fortmatic, injected, Wallet, walletConnect } from '../connectors'
 
 interface WalletInfo {
   connector?: Connector
@@ -49,24 +48,6 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#4196FC',
     mobile: true,
-  },
-  COINBASE_WALLET: {
-    connector: coinbaseWallet,
-    wallet: Wallet.COINBASE_WALLET,
-    name: 'Coinbase Wallet',
-    iconURL: COINBASE_ICON_URL,
-    description: 'Use Coinbase Wallet app on mobile device',
-    href: null,
-    color: '#315CF5',
-  },
-  COINBASE_LINK: {
-    name: 'Open in Coinbase Wallet',
-    iconURL: COINBASE_ICON_URL,
-    description: 'Open in Coinbase Wallet app.',
-    href: 'https://go.cb-w.com/mtUDhEZPy1',
-    color: '#315CF5',
-    mobile: true,
-    mobileOnly: true,
   },
   FORTMATIC: {
     connector: fortmatic,
