@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    axios.get("/api/banxa/crypto-buy").then((response) => {
+    axios.get("/api/banxa/fiat-buy").then((response) => {
       setData(response.data);
     });
   }, []);

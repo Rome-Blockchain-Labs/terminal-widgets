@@ -6,9 +6,9 @@ const Home: NextPage = () => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    axios.get("/api/banxa/crypto-buy").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .post("/api/banxa/payment-methods", { params: { source: "AUD" } })
+      .then((response) => setData(response.data));
   }, []);
 
   return <div>{JSON.stringify(data)}</div>;
