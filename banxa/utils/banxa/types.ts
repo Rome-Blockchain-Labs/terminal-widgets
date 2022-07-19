@@ -7,4 +7,5 @@ export enum PATH {
   GET_PRICES = "/api/prices",
   CREATE_ORDER = "/api/orders",
   GET_ORDERS = "/api/orders",
+  GET_ORDER = "/api/order",
 }
