@@ -2,26 +2,25 @@
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-
-// const navigation = [
-//   { name: "Buy Crypto", href: "/", current: true },
-//   { name: "Buy Fiat", href: "/fiat-buy", current: false },
-//   // { name: "Projects", href: "#", current: false },
-//   // { name: "Calendar", href: "#", current: false },
-// ];
+import React, { useEffect, useState, ReactNode } from "react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ children }: any) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function Example({ children }: Props) {
   const router = useRouter();
   const [navigation, setNavigation] = useState([
     { name: "Buy Crypto", href: "/", current: true },
     { name: "Buy Fiat", href: "/fiat-buy", current: false },
     { name: "Payment Methods", href: "/payment-methods", current: false },
-    { name: "Prices", href: "/prices", current: false },
+    { name: "Create Order", href: "/create-order", current: false },
+    { name: "Get Order", href: "/get-order", current: false },
+    { name: "Get Customer Orders", href: "/get-orders", current: false },
   ]);
 
   useEffect(() => {
@@ -40,14 +39,6 @@ export default function Example({ children }: any) {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-white border-b border-gray-200">
           {({ open }) => (

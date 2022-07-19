@@ -5,4 +5,6 @@ export enum PATH {
   GET_CRYPTO_SELL = "/api/coins/sell",
   GET_PAYMENT_METHODS = "/api/payment-methods",
   GET_PRICES = "/api/prices",
+  CREATE_ORDER = "/api/orders",
+  GET_ORDERS = "/api/orders",
 }
