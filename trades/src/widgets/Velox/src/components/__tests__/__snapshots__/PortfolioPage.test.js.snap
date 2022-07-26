@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PortfolioPage component render PortfolioPage snapshot added 1`] = `
+<Fragment>
+  <div
+    className="auth__swap flex --just-center --align-center"
+  >
+    Here should be PortfolioPage content
+  </div>
+</Fragment>
+`;
