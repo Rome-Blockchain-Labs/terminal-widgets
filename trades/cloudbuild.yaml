@@ -55,8 +55,6 @@ steps:
       - 'REACT_APP_SHARE_PROXY_URL=${_REACT_APP_SHARE_PROXY_URL}'
       - '--build-arg'
       - 'GENERATE_SOURCEMAP=${_GENERATE_SOURCEMAP}'
-      - '-f'
-      - Dockerfile
       # folder name for context
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
