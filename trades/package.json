@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "yarn generate && craco build",
+    "build": "craco build",
     "gcloud-login": "cp npmrc-template .npmrc && npx google-artifactregistry-auth .npmrc",
     "generate": "graphql-codegen --config codegen.js",
     "lint": "eslint src --ext .tsx,.ts,.jsx --fix",
