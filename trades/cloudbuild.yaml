@@ -2,7 +2,7 @@ steps:
   - name: bash
     args:
       - '-c'
-      - cp trades/npmrc-template .npmrc
+      - cp trades/npmrc-template trades/.npmrc
     id: cptemplate
   - name: gcr.io/cloud-builders/npm
     args:

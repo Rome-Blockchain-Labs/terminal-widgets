@@ -7,7 +7,6 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 RUN apk add --no-cache git
 
-# Install depends on chart-setup.sh and charting library directory
 COPY package*.json *yarn.lock ./
 COPY .npmrc .npmrc
 RUN yarn install
