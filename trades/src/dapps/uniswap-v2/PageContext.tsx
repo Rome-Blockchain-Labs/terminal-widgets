@@ -4,20 +4,27 @@ import { UniswapPage } from './App';
 type PageContextState = {
   page: any;
   setPage: any;
+  walletVisibility: boolean;
+  setWalletVisibility: (visibility: boolean) => void;
 };
 
 const defaultContextState: PageContextState = {
   page: 0,
   setPage: () => {},
+  setWalletVisibility: () => {},
+  walletVisibility: false,
 };
 
 export const PageContext = createContext<PageContextState>(defaultContextState);
 
 export const PageContextProvider: FC = ({ children }) => {
   const [page, setPage] = useState(UniswapPage.SWAP);
+  const [walletVisibility, setWalletVisibility] = useState(false);
 
   return (
-    <PageContext.Provider value={{ page, setPage }}>
+    <PageContext.Provider
+      value={{ page, setPage, setWalletVisibility, walletVisibility }}
+    >
       {children}
     </PageContext.Provider>
   );

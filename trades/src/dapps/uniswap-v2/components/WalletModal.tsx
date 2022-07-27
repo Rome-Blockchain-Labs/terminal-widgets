@@ -1,14 +1,14 @@
 import 'twin.macro';
 
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
-import { CloseIcon } from '../../components/icons';
-import MetamaskLogo from '../../components/icons/MetamaskLogo';
-import WalletConnectLogo from '../../components/icons/WalletConnectLogo';
-import { PageContext } from '../../dapps/uniswap-v2/PageContext';
-import { EventGroups, sendStatelessEvent } from '../GtagContext';
-import { WalletBox } from './WalletSelectionModal';
+import { CloseIcon } from '../../../components/icons';
+import MetamaskLogo from '../../../components/icons/MetamaskLogo';
+import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
+import { EventGroups, sendStatelessEvent } from '../../../contexts';
+import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
+import { PageContext } from '../PageContext';
 
 const WalletModal = () => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);

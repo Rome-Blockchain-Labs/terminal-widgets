@@ -4815,10 +4815,10 @@
     reactstrap "^9.0.1"
     styled-components "^5.3.5"
 
-"@romeblockchain/wallet@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.4.tgz#85f6b52dc570eca63e4c6df2e4a243e81af218a9"
-  integrity sha512-dFvIrJ4VwjEFm1Tq3U0nDSR8BO+jLZ6etFQIO6W/MF9ApMo8030jv9pnX9pLC9B3qv1MpTx6s/JGWOigrCc01A==
+"@romeblockchain/wallet@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.5.tgz#0ef9ae3daf9e02d8a4ced81a78466d41e90df07b"
+  integrity sha512-EkDkmlR2Qsk+iCyiEfmz4UXmCVJBsV1IBWQURjzrZo3Sv0wzXVqUGmhDUgnbV5QYgxdm2WdJVrZYmB8z/8KUUw==
   dependencies:
     "@types/ua-parser-js" "^0.7.36"
     "@walletconnect/ethereum-provider" "^1.7.8"
