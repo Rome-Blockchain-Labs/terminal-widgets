@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "typeRoots": ["./src", "./src/types","./src/theme", "./node_modules/@types"],
     "lib": ["DOM", "DOM.Iterable", "ES2021"],
     "allowJs": true,
     "skipLibCheck": true,

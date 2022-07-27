@@ -11,8 +11,6 @@ export const mapThisNetworkNameToMultiChainNetwork = (network: NetworkName) => {
       return 'BSC';
     case NetworkName.MOONBEAM:
       return 'MOONBEAM';
-    case NetworkName.POLYGON:
-      return 'POLYGON';
     default:
       return 'MOONRIVER';
   }
