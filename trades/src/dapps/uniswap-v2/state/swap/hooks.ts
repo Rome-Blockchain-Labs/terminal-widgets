@@ -15,8 +15,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { NetworkName } from '../../../../constants/networkExchange';
 import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
-import { Token as PairToken } from '../../../../types/pair'
+import { Token as PairToken } from '../../../../types/pair';
 import { getDefaultCurrencySymbol, isAddress } from '../../../../utils';
+import { useCurrency } from '../../hooks/Tokens';
 import { useTradeExactIn, useTradeExactOut } from '../../hooks/Trades';
 import useENS from '../../hooks/useENS';
 import { computeSlippageAdjustedAmounts } from '../../utils/prices';
@@ -145,11 +146,23 @@ export function useDerivedSwapInfo(network: NetworkName): {
     recipient,
     typedValue,
     // @ts-ignore//todo
-    [Field.INPUT]: { currency: inputCurrency},
-    // @ts-ignore//todo
-    [Field.OUTPUT]: { currency: outputCurrency },
+    [Field.INPUT]: { currency: inputCurrencyParam, currencyId: currencyInID },
+    [Field.OUTPUT]: {
+      // @ts-ignore//todo
+      currency: outputCurrencyParam,
+      currencyId: currencyOutID,
+    },
   } = useSwapState();
+  const derivedCurrencyIn = useCurrency(currencyInID, network);
 
+  const derivedCurrencyOut = useCurrency(currencyOutID, network);
+
+  const inputCurrency = derivedCurrencyIn
+    ? derivedCurrencyIn
+    : inputCurrencyParam;
+  const outputCurrency = derivedCurrencyOut
+    ? derivedCurrencyOut
+    : outputCurrencyParam;
   const recipientLookup = useENS(recipient ?? undefined);
   const to: string | null =
     (recipient === null ? account : recipientLookup.address) ?? null;
