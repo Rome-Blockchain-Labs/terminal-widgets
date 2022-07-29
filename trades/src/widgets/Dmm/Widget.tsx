@@ -3,11 +3,13 @@ import React, {FC, memo, useContext, useEffect} from 'react';
 
 import {Kyber} from '../../components/icons';
 import DmmApp from '../../dapps/dmm';
+import {useToggleSettingsMenu} from '../../dapps/dmm/state/application/hooks';
 import {WidgetCommonState} from '../../types';
 import {DmmContext, DmmPage} from './DmmContext';
 
 
 enum Tabs {
+  SETTINGS='settings',
   SWAP='swap',
   POOL='pool',
   POOLFINDER='poolfinder',
@@ -22,6 +24,7 @@ export const widgetNameKyber = 'KYBERSWAP';
 const Widget: FC<WidgetCommonState> = memo(() => {
 
   const { setPage } = useContext(DmmContext);
+  const toggle = useToggleSettingsMenu();
   useEffect(()=>{
 
     // setTimeout(()=>{setPage(DmmPage.POOLS)},5000)
@@ -30,13 +33,15 @@ const Widget: FC<WidgetCommonState> = memo(() => {
       widgetBridge.init()
       widgetBridge.subscribe(RomeEventType.TERMINAL_CLICK_BUTTON,(action:any)=>{
         switch (action.payload.id) {
-          //todo settings
+
+          case Tabs.SETTINGS:
+            toggle()
+            break;
           case Tabs.SWAP:
             setPage(DmmPage.SWAP)
             break;
           case Tabs.POOLS:
-            setPage(DmmPage.POOLS)//todo this is broken
-            console.log('setting pools')
+            setPage(DmmPage.POOLS)
             break;
           case Tabs.POOL:
             setPage(DmmPage.POOL)
@@ -46,7 +51,7 @@ const Widget: FC<WidgetCommonState> = memo(() => {
         }
       })
 
-  },[setPage])
+  },[setPage,toggle])
   // const widget = useSelector((state) => widgetByIdSelector(state)(uid));
 
   // const widget = {
