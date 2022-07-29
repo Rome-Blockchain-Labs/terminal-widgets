@@ -25,6 +25,7 @@ const Widget: FC<WidgetCommonState> = memo(() => {
   useEffect(()=>{
 
     // setTimeout(()=>{setPage(DmmPage.POOLS)},5000)
+    // setPage(DmmPage.POOLS)
 
       widgetBridge.init()
       widgetBridge.subscribe(RomeEventType.TERMINAL_CLICK_BUTTON,(action:any)=>{
