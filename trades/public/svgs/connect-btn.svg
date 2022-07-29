@@ -1,0 +1,61 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="153"
+  height="40"
+  viewBox="0 0 153 40"
+>
+  <defs>
+    <style>
+      .a {
+        stroke: #91e4ff;
+        fill: url(#a);
+      }
+      .c {
+        stroke: none;
+      }
+
+      .d {
+        fill: none;
+      }
+    </style>
+    <linearGradient
+      id="a"
+      x1="0.448"
+      y1="-1.08"
+      x2="0.5"
+      y2="0.888"
+      gradientUnits="objectBoundingBox"
+    >
+      <stop
+        offset="0"
+        stop-color="#5ed8ff"
+      />
+      <stop
+        offset="1"
+        stop-color="#00b3ed"
+      />
+    </linearGradient>
+  </defs>
+  <g transform="translate(-824 -548)">
+    <g
+      class="a"
+      transform="translate(824 548)"
+    >
+      <rect
+        class="c"
+        width="153"
+        height="40"
+        rx="6"
+      />
+      <rect
+        class="d"
+        x="0.5"
+        y="0.5"
+        width="152"
+        height="39"
+        rx="5.5"
+      />
+    </g>
+  </g>
+</svg>

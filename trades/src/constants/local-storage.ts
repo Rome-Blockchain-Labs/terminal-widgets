@@ -1,0 +1,2 @@
+export const RT_LOCAL_STORAGE_KEY = 'RT_CONFIG';
+export const RT_LOCAL_DISCLAIMER_KEY = 'RT_WELCOME';
