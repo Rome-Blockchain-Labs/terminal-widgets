@@ -2,6 +2,7 @@ import 'twin.macro';
 
 import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
 import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
+import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -31,12 +32,13 @@ interface QueryParams {
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   const { chainId, connector } = useWeb3React();
+  const [chainParams, setChainParams] = useState<
+    number | AddEthereumChainParameter
+  >();
+  const [targetChainID, setTargetChainID] = useState<number>();
 
   const { search } = useLocation();
   const widget = queryString.parse(search) as unknown as QueryParams;
-
-  const targetChainID = getChainIdByNetworkName(widget.network);
-  const chainParams = getAddChainParameters(targetChainID);
 
   const [pageOverride] = useState<UniswapPage>(UniswapPage.SWAP);
   const [settingOpen] = useState<boolean>(false);
@@ -68,12 +70,20 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   })?.icon;
 
   useEffect(() => {
+    if (widget.network) {
+      const targetChain = getChainIdByNetworkName(widget.network);
+      const targetChainParams = getAddChainParameters(targetChain);
+      setTargetChainID(targetChain);
+      setChainParams(targetChainParams);
+    }
+  }, [widget.network]);
+
+  useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName
     );
     setDefaultTokenList(defaultListOfLists[0]);
-    console.log(defaultListOfLists);
     fetch(defaultListOfLists[0]).then((response) => {
       console.log(response);
       response.json().then((responseData) => {
@@ -101,12 +111,16 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
   useEffect(() => {
-    if (chainId !== targetChainID) {
-      connector.activate(chainParams);
+    if (chainId !== targetChainID && chainParams) {
+      try {
+        connector.activate(targetChainID);
+      } catch (error) {
+        connector.activate(chainParams);
+      }
     }
   }, [chainId, chainParams, connector, targetChainID]);
 
-  if (chainId !== targetChainID) {
+  if (chainId !== targetChainID || !chainParams) {
     return null;
   }
 
