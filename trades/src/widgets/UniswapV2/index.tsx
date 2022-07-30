@@ -85,7 +85,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     );
     setDefaultTokenList(defaultListOfLists[0]);
     fetch(defaultListOfLists[0]).then((response) => {
-      console.log(response);
       response.json().then((responseData) => {
         const tokenData = responseData.tokens
           ? responseData.tokens
