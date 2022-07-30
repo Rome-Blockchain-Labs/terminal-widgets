@@ -9,6 +9,7 @@ import Web3ReactManager from '../../components/Web3ReactManager';
 import { NetworkName } from '../../constants/networkExchange';
 import { DappContextProvider } from '../../contexts';
 import { WidgetState } from '../../types';
+import { SwapPoolTabs } from './components/NavigationTab/index';
 import SettingsModal from './components/SettingsModal';
 import { usePageContext } from './PageContext';
 import AddLiquidity from './pages/AddLiquidity';
@@ -66,6 +67,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
     const [addLiquidityCurrencies, setAddLiquidityCurrencies] = useState<
       string[]
     >([]);
+    console.log(addLiquidityCurrencies);
     useEffect(() => {
       if (defaultTokenList) {
         dispatch(selectList(defaultTokenList));
@@ -108,6 +110,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
         <Updaters />
         <ThemeProvider>
           <div tw="w-full h-full relative bg-dark-500">
+            <SwapPoolTabs />
             <div tw="opacity-50 h-full w-full absolute flex">
               {backgroundImage}
             </div>
