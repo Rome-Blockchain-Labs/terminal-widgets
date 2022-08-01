@@ -4,6 +4,7 @@ import {
   Token,
   Trade,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   FC,
   useCallback,
@@ -29,7 +30,6 @@ import ProgressSteps from '../../../../components/progressSteps';
 import { AutoRow, RowBetween } from '../../../../components/row';
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../../../constants';
 import { DappContext, useGtagContext } from '../../../../contexts';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { Pair } from '../../../../types';
 import { maxAmountSpend } from '../../../../utils';
 import AddressInputPanel from '../../components/AddressInputPanel';
@@ -92,7 +92,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
     setDismissTokenWarning(true);
   }, []);
 
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   // toggle wallet when disconnected
   const toggleWalletModal = () => {

@@ -1,10 +1,10 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useCallback, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import { AutoColumn } from '../../../../components/column';
 import { ExternalLink } from '../../../../components/links';
 import { RowBetween } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getExplorerLink } from '../../../../utils';
 import useENS from '../../hooks/useENS';
 import { TYPE } from '../../theme';
@@ -79,7 +79,7 @@ export default function AddressInputPanel({
   // triggers whenever the typed value changes
   onChange: (value: string) => void;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const theme = useContext(ThemeContext);
 
   const { address, loading, name } = useENS(value);
