@@ -17,12 +17,14 @@ const Address = () => {
   }
 
   return (
-    <button
-      tw="z-10  absolute top-8 right-8 h-11 rounded-full bg-yellow-200 text-black grid place-items-center p-2 border "
-      onClick={() => setWalletVisibility(true)}
-    >
-      {shortenedAddress}
-    </button>
+    <div tw="w-full flex mb-3 max-w-sm md:max-w-full">
+      <button
+        tw="h-11 rounded-full bg-yellow-200 text-black grid place-items-center p-2 border  ml-auto"
+        onClick={() => setWalletVisibility(true)}
+      >
+        {shortenedAddress}
+      </button>
+    </div>
   );
 };
 
