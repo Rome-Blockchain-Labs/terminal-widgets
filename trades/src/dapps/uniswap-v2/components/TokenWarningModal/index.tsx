@@ -1,4 +1,5 @@
 import { Token } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { transparentize } from 'polished';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
@@ -8,7 +9,6 @@ import { AutoColumn } from '../../../../components/column';
 import { ExternalLink } from '../../../../components/links';
 import { ModalWrapper } from '../../../../components/modals';
 import { AutoRow, RowBetween } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   getDefaultCurrencySymbol,
   getExplorerLink,
@@ -40,7 +40,7 @@ interface TokenWarningCardProps {
 }
 
 function TokenWarningCard({ token }: TokenWarningCardProps) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const tokenSymbol = getDefaultCurrencySymbol(token)?.toLowerCase() ?? '';
   const tokenName = token?.name?.toLowerCase() ?? '';

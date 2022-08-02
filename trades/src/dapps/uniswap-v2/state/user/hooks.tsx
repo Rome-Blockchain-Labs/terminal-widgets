@@ -6,12 +6,12 @@ import {
   Pair,
   Token,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { flatMap } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BASES_TO_TRACK_LIQUIDITY_FOR } from '../../../../constants';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useAllTokens } from '../../hooks/Tokens';
 import { AppDispatch, AppState } from '..';
 import {
@@ -126,7 +126,7 @@ export function useRemoveUserAddedToken(): (
 }
 
 export function useUserAddedTokens(): Token[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const serializedTokensMap = useSelector<AppState, AppState['user']['tokens']>(
     ({ user: { tokens } }) => tokens
   );
@@ -185,7 +185,7 @@ export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
  * Returns all the pairs of tokens that are tracked by the user for the current chain ID.
  */
 export function useTrackedTokenPairs(): [Token, Token][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const tokens = useAllTokens();
 
   // pairs for every token against every base

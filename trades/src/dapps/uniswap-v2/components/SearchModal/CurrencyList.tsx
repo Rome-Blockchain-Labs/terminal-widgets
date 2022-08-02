@@ -5,6 +5,7 @@ import {
   ETHER,
   Token,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   CSSProperties,
   MutableRefObject,
@@ -24,7 +25,6 @@ import TokenSymbol from '../../../../components/TokenSymbol';
 import { MouseoverTooltip } from '../../../../components/tooltip';
 import { getNativeTokenFromNetworkName } from '../../../../constants/networkExchange';
 import { DappContext } from '../../../../contexts';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { WrappedTokenInfo } from '../../../../types';
 import { getDefaultCurrencySymbol, isTokenOnList } from '../../../../utils';
 import { useIsUserAddedToken } from '../../hooks/Tokens';
@@ -122,7 +122,7 @@ function CurrencyCell({
   otherSelected: boolean;
   style: CSSProperties;
 }) {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const key = currencyKey(currency);
   const selectedTokenList = useSelectedTokenList();
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency);

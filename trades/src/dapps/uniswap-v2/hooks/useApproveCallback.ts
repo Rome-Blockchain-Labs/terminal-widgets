@@ -6,10 +6,10 @@ import {
   TokenAmount,
   Trade,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useContext, useMemo } from 'react';
 
 import { DappContext } from '../../../contexts';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { useTokenContract } from '../../../hooks';
 import { calculateGasMargin, getDefaultCurrencySymbol } from '../../../utils';
 import { useTokenAllowance } from '../data/Allowances';
@@ -32,7 +32,7 @@ export function useApproveCallback(
   amountToApprove?: CurrencyAmount,
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const token =
     amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
   const currentAllowance = useTokenAllowance(

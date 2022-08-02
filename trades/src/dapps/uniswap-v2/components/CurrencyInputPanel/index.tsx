@@ -1,10 +1,10 @@
 import { Currency, Pair } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useState } from 'react';
 import tw, { styled, theme } from 'twin.macro';
 
 import { NumericalInput } from '../../../../components/inputs';
 import { RowBetween } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getDefaultCurrencySymbol } from '../../../../utils';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 import { useCurrencyBalance } from '../../state/wallet/hooks';
@@ -69,7 +69,7 @@ export default function CurrencyInputPanel({
   showMaxButton,
   value,
 }: CurrencyInputPanelProps) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const selectedCurrencyBalance = useCurrencyBalance(
     account ?? undefined,
     currency ?? undefined
