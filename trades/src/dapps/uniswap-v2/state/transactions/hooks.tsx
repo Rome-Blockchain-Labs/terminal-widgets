@@ -1,8 +1,8 @@
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '..';
 import { addTransaction } from './actions';
 import { TransactionDetails } from './reducer';
@@ -15,7 +15,7 @@ export function useTransactionAdder(): (
     approval?: { tokenAddress: string; spender: string };
   }
 ) => void {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -47,7 +47,7 @@ export function useTransactionAdder(): (
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const state = useSelector<AppState, AppState['transactions']>(
     (state) => state.transactions

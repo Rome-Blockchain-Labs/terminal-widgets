@@ -8,10 +8,10 @@ import {
   Price,
   TokenAmount,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { wrappedCurrency, wrappedCurrencyAmount } from '../../../../utils';
 import { PairState, usePair } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -42,7 +42,7 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent;
   error?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, otherTypedValue, typedValue } = useMintState();
 

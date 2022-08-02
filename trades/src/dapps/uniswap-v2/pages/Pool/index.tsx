@@ -1,4 +1,5 @@
 import { Pair } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { FC, useMemo } from 'react';
 import tw, { styled } from 'twin.macro';
 
@@ -7,7 +8,6 @@ import Card from '../../../../components/card';
 import { AutoColumn } from '../../../../components/column';
 import { ExternalLink } from '../../../../components/links';
 import { RowBetween, RowFixed } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { CardSection, DataCard } from '../../components/Earn/styled';
 import FullPositionCard from '../../components/PositionCard';
 import { Dots } from '../../components/swap/styleds';
@@ -75,7 +75,7 @@ const Pool: FC<{
   onPoolFinder,
   onRemoveLiquidity,
 }) => {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs();

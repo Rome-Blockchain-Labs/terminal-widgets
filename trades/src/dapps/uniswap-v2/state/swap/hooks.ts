@@ -10,11 +10,11 @@ import {
   TokenAmount,
   Trade,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { NetworkName } from '../../../../constants/networkExchange';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { Token as PairToken } from '../../../../types/pair';
 import { getDefaultCurrencySymbol, isAddress } from '../../../../utils';
 import { useCurrency } from '../../hooks/Tokens';
@@ -139,7 +139,7 @@ export function useDerivedSwapInfo(network: NetworkName): {
   v2Trade: Trade | undefined;
   inputError?: string;
 } {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const {
     independentField,
@@ -259,7 +259,7 @@ export function useDefaultsFromURLSearch(
   inputCurrency: PairToken | undefined,
   outputCurrency: PairToken | undefined
 ) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

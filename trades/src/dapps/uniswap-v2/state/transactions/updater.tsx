@@ -1,7 +1,7 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '..';
 import { useAddPopup, useBlockNumber } from '../application/hooks';
 import { checkedTransaction, finalizeTransaction } from './actions';
@@ -32,7 +32,7 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId, provider: library } = useWallets();
+  const { chainId, provider: library } = useWeb3React();
 
   const lastBlockNumber = useBlockNumber();
 
