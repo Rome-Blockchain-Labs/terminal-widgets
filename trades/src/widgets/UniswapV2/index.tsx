@@ -1,7 +1,8 @@
 import 'twin.macro';
 
 import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
-import { useWeb3React } from '@romeblockchain/wallet';
+import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
+import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -14,14 +15,13 @@ import {
   getBasePairByNetworkExchange,
   NetworkName,
 } from '../../constants/networkExchange/index';
+import { getChainIdByNetworkName } from '../../constants/networkExchange/index';
 import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
 import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
 import { getStore } from '../../dapps/uniswap-v2/state';
 import { getTokenListUrlsByExchangeName } from '../../dapps/uniswap-v2/token-list';
-import { useDispatch } from '../../hooks/useDispatch';
-import { toggleWalletModal } from '../../store/slices/app';
 import { Token, WidgetCommonState } from '../../types';
 
 interface QueryParams {
@@ -32,13 +32,15 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  // const [tokenIn, setTokenIn] = useState<Token>();
-  // const [tokenOut, setTokenOut] = useState<Token>();
-  const [showWalletModal, setShowWalletModal] = useState(false);
   const { chainId, connector } = useWeb3React();
+  const [chainParams, setChainParams] = useState<
+    number | AddEthereumChainParameter
+  >();
+  const [targetChainID, setTargetChainID] = useState<number>();
 
   const { search } = useLocation();
   const widget = queryString.parse(search) as unknown as QueryParams;
+
   const [pageOverride] = useState<UniswapPage>(UniswapPage.SWAP);
   const [settingOpen] = useState<boolean>(false);
   const [defaultTokenList, setDefaultTokenList] = useState<string>();
@@ -60,7 +62,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     exchangeName as any,
     widget.network.toUpperCase() as VeloxNetworkName
   );
-  const dispatch = useDispatch();
 
   const Icon = EXCHANGES.find((exchange) => {
     if (exchange.title === exchangeName) {
@@ -70,26 +71,38 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   })?.icon;
 
   useEffect(() => {
+    if (widget.network) {
+      const targetChain = getChainIdByNetworkName(widget.network);
+      const targetChainParams = getAddChainParameters(targetChain);
+      setTargetChainID(targetChain);
+      setChainParams(targetChainParams);
+    }
+  }, [widget.network]);
+
+  useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
-      widget.network.toUpperCase() as VeloxNetworkName | undefined
+      widget.network.toUpperCase() as VeloxNetworkName
     );
     setDefaultTokenList(defaultListOfLists[0]);
-    fetch(defaultListOfLists[0]).then((response) =>
+    fetch(defaultListOfLists[0]).then((response) => {
       response.json().then((responseData) => {
-        const tokenIn = responseData.tokens.find(
+        const tokenData = responseData.tokens
+          ? responseData.tokens
+          : responseData;
+        const tokenIn = tokenData.find(
           (token: Token) =>
             token.address.toLowerCase() === widget.token_in?.toLowerCase()
         );
-        const tokenOut = responseData.tokens.find(
+        const tokenOut = tokenData.find(
           (token: Token) =>
             token.address.toLowerCase() === widget.token_out?.toLowerCase()
         );
         if (tokenIn && tokenOut) {
           setTokens({ tokenIn, tokenOut });
         }
-      })
-    );
+      });
+    });
   }, [
     exchangeName,
     widget.exchange,
@@ -98,12 +111,16 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
   useEffect(() => {
-    if (chainId !== 43114) {
-      console.log(connector);
-      connector.activate(43114);
+    if (chainId !== targetChainID && chainParams) {
+      try {
+        connector.activate(targetChainID);
+      } catch (error) {
+        connector.activate(chainParams);
+      }
     }
-  }, [chainId, connector]);
-  if (chainId !== 43114) {
+  }, [chainId, chainParams, connector, targetChainID]);
+
+  if (chainId !== targetChainID || !chainParams) {
     return null;
   }
 

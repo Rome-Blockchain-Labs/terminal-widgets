@@ -68,7 +68,7 @@ export default function CurrencyLogo({
 
   // @ts-ignore
   // todo use possiblyNativeCurrency
-  if (currency.isNative) {
+  if (currency && currency.isNative) {
     const nativeCurrencyIcon = getNetworkIcon(network) as any;
     return (
       <StyledEthereumLogo style={style}>
@@ -78,14 +78,15 @@ export default function CurrencyLogo({
         })}
       </StyledEthereumLogo>
     );
+  } else if (currency) {
+    return (
+      <StyledLogo
+        alt={`${getDefaultCurrencySymbol(currency) ?? 'token'} logo`}
+        size={size}
+        srcs={srcs}
+        style={style}
+      />
+    );
   }
-
-  return (
-    <StyledLogo
-      alt={`${getDefaultCurrencySymbol(currency) ?? 'token'} logo`}
-      size={size}
-      srcs={srcs}
-      style={style}
-    />
-  );
+  return <div />;
 }

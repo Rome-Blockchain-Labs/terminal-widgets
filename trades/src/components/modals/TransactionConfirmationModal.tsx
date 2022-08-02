@@ -14,8 +14,7 @@ import { ExternalLink } from '../links';
 import { RowBetween } from '../row';
 
 const Wrapper = styled.div`
-  width: 100%;
-  ${tw`bg-green-700 px-4`}
+  ${tw`bg-green-700 px-4 max-w-lg w-11/12 md:w-4/5`};
 `;
 const Section = styled(AutoColumn)`
   padding: 24px;
@@ -243,9 +242,9 @@ export function TransactionConfirmationModal({
   // confirmation screen
 
   const Container = styled.div<{ isOpen: boolean }>`
-    ${tw`fixed top-0 left-0 w-screen h-screen z-50 bg-black bg-opacity-75 overflow-auto hidden`}
+    ${tw`fixed top-0 left-0 w-screen h-screen z-50 bg-black bg-opacity-75 overflow-auto hidden place-items-center`}
 
-    ${({ isOpen }) => isOpen && tw`block`}
+    ${({ isOpen }) => isOpen && tw`grid`}
   `;
 
   return (
