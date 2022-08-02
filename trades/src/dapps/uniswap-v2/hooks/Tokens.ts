@@ -4,6 +4,7 @@ import {
   currencyEquals,
   Token,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 
 import { ChainId } from '../../../constants/multichain';
@@ -11,7 +12,6 @@ import {
   getNativeTokenFromNetworkName,
   NetworkName,
 } from '../../../constants/networkExchange';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { useBytes32TokenContract, useTokenContract } from '../../../hooks';
 import { isAddress } from '../../../utils';
 import { useSelectedTokenList } from '../state/lists/hooks';
@@ -19,7 +19,7 @@ import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks';
 import { useUserAddedTokens } from '../state/user/hooks';
 
 export function useAllTokens(): { [address: string]: Token } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const userAddedTokens = useUserAddedTokens();
   const allTokens = useSelectedTokenList() as any;
 
@@ -66,7 +66,7 @@ function parseStringOrBytes32(
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const tokens = useAllTokens();
   const address = isAddress(tokenAddress);
   const tokenContract = useTokenContract(address ? address : undefined, false);

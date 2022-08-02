@@ -3,11 +3,11 @@ import {
   currencyEquals,
   WETH,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useContext, useMemo } from 'react';
 
 import { getNativeTokenFromNetworkName } from '../../../constants/networkExchange';
 import { DappContext } from '../../../contexts';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { useWETHContract } from '../../../hooks';
 import { tryParseAmount } from '../state/swap/hooks';
 import { useTransactionAdder } from '../state/transactions/hooks';
@@ -35,7 +35,7 @@ export default function useWrapCallback(
   execute?: undefined | (() => Promise<void>);
   inputError?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const wethContract = useWETHContract();
   const { network } = useContext(DappContext);
   const nativeCurrencySymbol = getNativeTokenFromNetworkName(network)?.symbol;

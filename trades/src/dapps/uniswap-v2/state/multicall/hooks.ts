@@ -1,10 +1,10 @@
 import { FunctionFragment, Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '..';
 import { useBlockNumber } from '../application/hooks';
 import {
@@ -63,7 +63,7 @@ function useCallsData(
   calls: (Call | undefined)[],
   options?: ListenerOptions
 ): CallResult[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const callResults = useSelector<
     AppState,
     AppState['multicall']['callResults']

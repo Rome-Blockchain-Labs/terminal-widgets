@@ -1,12 +1,12 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useDebounce, useIsWindowVisible } from '../../../../hooks';
 import { updateBlockNumber } from './actions';
 
 export default function Updater(): null {
-  const { chainId, provider: library } = useWallets();
+  const { chainId, provider: library } = useWeb3React();
   const dispatch = useDispatch();
 
   const windowVisible = useIsWindowVisible();

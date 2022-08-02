@@ -1,3 +1,4 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import {
   getVersionUpgrade,
   minVersionBump,
@@ -6,7 +7,6 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useInterval, useIsWindowVisible } from '../../../../hooks';
 import { useFetchListCallback } from '../../hooks/useFetchListCallback';
 import { AppDispatch, AppState } from '..';
@@ -14,7 +14,7 @@ import { addPopup } from '../application/actions';
 import { acceptListUpdate } from './actions';
 
 export default function Updater(): null {
-  const { provider: library } = useWallets();
+  const { provider: library } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(
     (state) => state.lists.byUrl

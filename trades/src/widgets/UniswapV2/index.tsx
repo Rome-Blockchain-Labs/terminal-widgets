@@ -125,7 +125,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   }
 
   return (
-    <div id={uid} tw="grid place-items-center h-screen bg-dark-500">
+    <div id={uid} tw="flex justify-center h-screen bg-dark-500">
       <PageContextProvider>
         <IFrameProvider>
           <Provider store={store}>

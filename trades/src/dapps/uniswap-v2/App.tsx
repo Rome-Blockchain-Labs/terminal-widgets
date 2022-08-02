@@ -109,14 +109,14 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
       >
         <Updaters />
         <ThemeProvider>
-          <div tw="w-full h-full relative bg-dark-500">
+          <div tw="w-full h-full relative bg-dark-500  mt-13">
             <SwapPoolTabs />
-            <Address />
             <div tw="opacity-50 h-full w-full absolute flex">
               {backgroundImage}
             </div>
             <div tw="h-full overflow-auto relative">
-              <div tw="flex flex-col justify-center items-center p-4 min-h-full">
+              <div tw="flex flex-col items-center p-4 min-h-full">
+                <Address />
                 <Web3ReactManager>
                   {page === UniswapPage.SWAP && (
                     <Swap defaultPair={widget.pair} />

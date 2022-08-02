@@ -4,6 +4,7 @@ import {
   JSBI,
   TokenAmount,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Plus } from 'react-feather';
 import { Text } from 'rebass';
@@ -14,7 +15,6 @@ import { LightCard } from '../../../../components/card';
 import { AutoColumn, ColumnCenter } from '../../../../components/column';
 import { FindPoolTabs } from '../../../../components/navigationTabs';
 import Row from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { currencyId, getDefaultCurrencySymbol } from '../../../../utils';
 import CurrencyLogo from '../../components/CurrencyLogo';
 import { MinimalPositionCard } from '../../components/PositionCard';
@@ -34,7 +34,7 @@ const PoolFinder: FC<{
   onBack: () => void;
   onAddLiquidity: (currencyA?: string, currencyB?: string) => void;
 }> = ({ onAddLiquidity, onBack }) => {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);
