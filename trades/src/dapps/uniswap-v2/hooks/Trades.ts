@@ -5,16 +5,16 @@ import {
   Token,
   Trade,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { flatMap } from 'lodash';
 import { useMemo } from 'react';
 
 import { BASES_TO_CHECK_TRADES_AGAINST } from '../../../constants';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { wrappedCurrency } from '../../../utils';
 import { PairState, usePairs } from '../data/Reserves';
 
 function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const bases: Token[] = useMemo(
     () =>

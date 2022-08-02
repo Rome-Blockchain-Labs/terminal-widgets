@@ -9,6 +9,7 @@ import {
 import NetswapRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/netswap';
 import PangolinRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/pangolin';
 import UniswapRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/uniswap';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useContext, useMemo } from 'react';
 
@@ -19,7 +20,6 @@ import {
 } from '../../../constants';
 import { NetworkChainId } from '../../../constants/networkExchange';
 import { DappContext } from '../../../contexts';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import {
   calculateGasMargin,
   getDefaultCurrencySymbol,
@@ -67,7 +67,7 @@ function useSwapCallArguments(
   deadline: number = DEFAULT_DEADLINE_FROM_NOW, // in seconds from now
   recipientAddressOrName: string | null // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
 ): SwapCall[] {
-  const { account, chainId, provider: library } = useWallets();
+  const { account, chainId, provider: library } = useWeb3React();
   const { address: recipientAddress } = useENS(recipientAddressOrName);
   const {
     router: { ABI: routerABI, address: routerAddress },
@@ -156,7 +156,7 @@ export function useSwapCallback(
   callback: null | (() => Promise<string>);
   error: string | null;
 } {
-  const { account, chainId, provider: library } = useWallets();
+  const { account, chainId, provider: library } = useWeb3React();
 
   const swapCalls = useSwapCallArguments(
     trade,

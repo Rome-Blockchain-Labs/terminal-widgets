@@ -7,6 +7,7 @@ import {
   TokenAmount,
   WETH,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   FC,
   useCallback,
@@ -33,7 +34,6 @@ import {
 import { AddRemoveTabs } from '../../../../components/navigationTabs';
 import Row, { RowBetween, RowFlat } from '../../../../components/row';
 import { DappContext } from '../../../../contexts';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   calculateGasMargin,
   calculateSlippageAmount,
@@ -80,7 +80,7 @@ const AddLiquidity: FC<{
   newLiquidity,
   onBack,
 }) => {
-  const { account, chainId, provider: library } = useWallets();
+  const { account, chainId, provider: library } = useWeb3React();
 
   const [currencyIdA, setCurrencyIdA] = useState<string | undefined>(
     defaultCurrencyIdA

@@ -1,3 +1,4 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext } from 'react';
 import { AlertCircle, CheckCircle } from 'react-feather';
 import styled, { ThemeContext } from 'styled-components';
@@ -5,7 +6,6 @@ import styled, { ThemeContext } from 'styled-components';
 import { AutoColumn } from '../../../../components/column';
 import { ExternalLink } from '../../../../components/links';
 import { AutoRow } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getExplorerLink } from '../../../../utils';
 
 const RowNoFlex = styled(AutoRow)`
@@ -21,7 +21,7 @@ export default function TransactionPopup({
   success?: boolean;
   summary?: string;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const theme = useContext(ThemeContext);
 
