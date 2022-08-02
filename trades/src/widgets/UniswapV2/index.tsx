@@ -15,6 +15,7 @@ import {
   NetworkName,
 } from '../../constants/networkExchange/index';
 import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
+import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
 import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
 import { getStore } from '../../dapps/uniswap-v2/state';
@@ -109,31 +110,33 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   return (
     <div id={uid} tw="grid place-items-center h-screen bg-dark-500">
       <PageContextProvider>
-        <Provider store={store}>
-          <WalletModal />
-          <UniswapV2Component
-            backgroundImage={
-              Icon && <Icon isBackground height="100%" width="100%" />
-            }
-            defaultTokenList={defaultTokenList}
-            exchange={widget.exchange.toUpperCase() as any}
-            network={widget.network}
-            pageOverride={pageOverride}
-            settingsOpenOverride={settingOpen}
-            widget={{
-              blockchain: widget.network,
-              pair: {
-                address: '0x1',
+        <IFrameProvider>
+          <Provider store={store}>
+            <WalletModal />
+            <UniswapV2Component
+              backgroundImage={
+                Icon && <Icon isBackground height="100%" width="100%" />
+              }
+              defaultTokenList={defaultTokenList}
+              exchange={widget.exchange.toUpperCase() as any}
+              network={widget.network}
+              pageOverride={pageOverride}
+              settingsOpenOverride={settingOpen}
+              widget={{
                 blockchain: widget.network,
-                exchange: widget.exchange,
-                token0: tokens.tokenIn,
-                token1: tokens.tokenOut,
-              },
-              targetPosition: 1,
-              uid: uid,
-            }}
-          />
-        </Provider>
+                pair: {
+                  address: '0x1',
+                  blockchain: widget.network,
+                  exchange: widget.exchange,
+                  token0: tokens.tokenIn,
+                  token1: tokens.tokenOut,
+                },
+                targetPosition: 1,
+                uid: uid,
+              }}
+            />
+          </Provider>
+        </IFrameProvider>
       </PageContextProvider>
     </div>
   );
