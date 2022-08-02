@@ -5,11 +5,11 @@ import {
   Token,
   TokenAmount,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ERC20_INTERFACE from '../../../../constants/abis/erc20';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { isAddress } from '../../../../utils';
 import { useAllTokens } from '../../hooks/Tokens';
 import { AppState } from '../index';
@@ -20,7 +20,7 @@ export function useETHBalance(
   address: string | undefined,
   forceZeroReturn = false
 ): CurrencyAmount | undefined {
-  const { connector } = useWallets();
+  const { connector } = useWeb3React();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export function useCurrencyBalance(
 export function useAllTokenBalances(): {
   [tokenAddress: string]: TokenAmount | undefined;
 } {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const allTokens = useAllTokens();
   const allTokensArray = useMemo(
     () => Object.values(allTokens ?? {}),

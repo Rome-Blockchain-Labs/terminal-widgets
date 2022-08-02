@@ -1,6 +1,5 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useState } from 'react';
-
-import { useWallets } from '../contexts/WalletsContext/WalletContext';
 
 type Params = {
   decimals: number;
@@ -12,7 +11,7 @@ type Params = {
 export const useAddTokenToMetamask = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>();
-  const { connector } = useWallets();
+  const { connector } = useWeb3React();
 
   const addTokenToMetamask = useCallback(
     (params: Params) => {

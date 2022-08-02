@@ -85,7 +85,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     );
     setDefaultTokenList(defaultListOfLists[0]);
     fetch(defaultListOfLists[0]).then((response) => {
-      console.log(response);
       response.json().then((responseData) => {
         const tokenData = responseData.tokens
           ? responseData.tokens
@@ -125,7 +124,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   }
 
   return (
-    <div id={uid} tw="grid place-items-center h-screen bg-dark-500">
+    <div id={uid} tw="flex justify-center h-screen bg-dark-500">
       <PageContextProvider>
         <Provider store={store}>
           <WalletModal />

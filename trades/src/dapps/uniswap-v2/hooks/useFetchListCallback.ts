@@ -1,9 +1,9 @@
 import { nanoid } from '@reduxjs/toolkit';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { TokenList } from '@uniswap/token-lists';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch } from '../../../store';
 import { resolveENSContentHash } from '../../../utils';
 import { fetchTokenList } from '../state/lists/actions';
@@ -12,7 +12,7 @@ import getTokenList from '../utils/getTokenList';
 export function useFetchListCallback(): (
   listUrl: string
 ) => Promise<TokenList> {
-  const { provider } = useWallets();
+  const { provider } = useWeb3React();
 
   const dispatch = useDispatch<AppDispatch>();
 

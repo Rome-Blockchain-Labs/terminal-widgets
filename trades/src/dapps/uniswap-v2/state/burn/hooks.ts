@@ -6,10 +6,10 @@ import {
   Percent,
   TokenAmount,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { wrappedCurrency } from '../../../../utils';
 import { usePair } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -35,7 +35,7 @@ export function useDerivedBurnInfo(
   };
   error?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, typedValue } = useBurnState();
 

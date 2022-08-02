@@ -4,6 +4,7 @@ import {
   Token,
   Trade,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   FC,
   useCallback,
@@ -29,9 +30,6 @@ import ProgressSteps from '../../../../components/progressSteps';
 import { AutoRow, RowBetween } from '../../../../components/row';
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../../../constants';
 import { DappContext, useGtagContext } from '../../../../contexts';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
-import { useDispatch } from '../../../../hooks';
-import { toggleWalletModal } from '../../../../store/slices/app';
 import { Pair } from '../../../../types';
 import { maxAmountSpend } from '../../../../utils';
 import AddressInputPanel from '../../components/AddressInputPanel';
@@ -94,7 +92,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
     setDismissTokenWarning(true);
   }, []);
 
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   // toggle wallet when disconnected
   const toggleWalletModal = () => {
@@ -131,17 +129,17 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
 
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]:
-        independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]:
-        independentField === Field.OUTPUT
-          ? parsedAmount
-          : trade?.outputAmount,
-    };
+        [Field.INPUT]:
+          independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]:
+          independentField === Field.OUTPUT
+            ? parsedAmount
+            : trade?.outputAmount,
+      };
 
   const {
     onChangeRecipient,
@@ -194,8 +192,8 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
   const route = trade?.route;
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] &&
-    currencies[Field.OUTPUT] &&
-    parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+      currencies[Field.OUTPUT] &&
+      parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   );
   const noRoute = !route;
 
@@ -489,9 +487,9 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                   onClick={onWrap}
                 >
                   {wrapInputError ??
-                  (wrapType === WrapType.WRAP
-                    ? 'WRAP'
-                    : wrapType === WrapType.UNWRAP
+                    (wrapType === WrapType.WRAP
+                      ? 'WRAP'
+                      : wrapType === WrapType.UNWRAP
                       ? 'UNWRAP'
                       : null)}
                 </ButtonPrimary>
@@ -523,7 +521,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                           />
                         </RowBetween>
                       ) : approvalSubmitted &&
-                      approval === ApprovalState.APPROVED ? (
+                        approval === ApprovalState.APPROVED ? (
                         'Approved'
                       ) : (
                         'Approve ' + currencies[Field.INPUT]?.symbol
@@ -551,9 +549,6 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                           txHash: undefined,
                         });
                       }
-                      if (swapInputError) {
-                        console.log(swapInputError);
-                      }
                     }}
                   >
                     <span tw="text-xl">
@@ -571,7 +566,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                       (priceImpactSeverity > 3 && !isExpertMode) ||
                       !!swapCallbackError
                     ) &&
-                    tw`hover:bg-dark-900 hover:text-yellow-400 hover:border-yellow-400`,
+                      tw`hover:bg-dark-900 hover:text-yellow-400 hover:border-yellow-400`,
                   ]}
                   disabled={
                     !isValid ||
@@ -594,17 +589,14 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                         txHash: undefined,
                       });
                     }
-                    if (swapInputError) {
-                      console.log(swapInputError);
-                    }
                   }}
                 >
                   <span tw="text-xl">
                     {swapInputError
                       ? swapInputError
                       : priceImpactSeverity > 3 && !isExpertMode
-                        ? 'Price Impact Too High'
-                        : `SWAP${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                      ? 'Price Impact Too High'
+                      : `SWAP${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
                   </span>
                 </ButtonError>
               )}
