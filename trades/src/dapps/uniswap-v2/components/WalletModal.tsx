@@ -8,7 +8,6 @@ import { useContext } from 'react';
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
-import { getAddChainParameters } from '../../../connectors/chains';
 import { EventGroups, sendStatelessEvent } from '../../../contexts';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
@@ -20,7 +19,6 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { selectedWallet, setSelectedWallet } = useWallets();
-  // const chainParams = chainId && getAddChainParameters(chainId);
 
   const closeModal = () => {
     setWalletVisibility(false);
@@ -48,7 +46,6 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  setSelectedWallet(wallet.wallet);
                   sendStatelessEvent(
                     'Wallet_Successful_Connection',
                     EventGroups.WalletConnection
@@ -58,12 +55,18 @@ const WalletModal = ({
                     EventGroups.WalletConnection
                   );
                   if (wallet.connector instanceof MetaMask) {
-                    wallet.connector.activate(chainParams);
+                    wallet.connector
+                      .activate(chainParams)
+                      .then(() => setSelectedWallet(wallet.wallet));
                   } else {
                     if (typeof chainParams === 'number') {
-                      wallet.connector.activate(chainParams);
+                      wallet.connector
+                        .activate(chainParams)
+                        .then(() => setSelectedWallet(wallet.wallet));
                     } else {
-                      wallet.connector.activate(chainParams.chainId);
+                      wallet.connector
+                        .activate(chainParams.chainId)
+                        .then(() => setSelectedWallet(wallet.wallet));
                     }
                   }
 

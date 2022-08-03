@@ -38,7 +38,7 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector, isActivating } = useWeb3React();
+  const { chainId, connector, isActivating, isActive } = useWeb3React();
   const { selectedWallet, setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
@@ -118,32 +118,19 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  // if widget is previously connected to the right network but
-  // because of another widget it losses it connection
-  // change widget wallet to network
-
-  // if widget
   useEffect(() => {
-    if (chainId !== targetChainID && chainParams) {
-      // setSelectedWallet(undefined);
+    const walletOnWrongNetwork = chainId !== targetChainID;
+    const shouldFallbackToNetwork = walletOnWrongNetwork && !isActivating;
+    if (shouldFallbackToNetwork) {
+      setSelectedWallet(undefined);
 
-      try {
+      if (connector instanceof Network) {
         connector.activate(targetChainID);
-      } catch (error) {
-        connector.activate(chainParams);
       }
     }
-  }, [chainId, chainParams, connector, setSelectedWallet, targetChainID]);
+  }, [chainId, connector, isActivating, setSelectedWallet, targetChainID]);
 
-  // useEffect(() => {
-  //   if (selectedWallet && chainId !== targetChainID) {
-  //     if (!(connector instanceof Network)) {
-  //       connector.activate(targetChainID);
-  //     }
-  //   }
-  // }, [chainId, connector, selectedWallet, targetChainID]);
-
-  if (chainId !== targetChainID || !chainParams) {
+  if (chainId !== targetChainID || !chainParams || isActivating) {
     return null;
   }
   return (
