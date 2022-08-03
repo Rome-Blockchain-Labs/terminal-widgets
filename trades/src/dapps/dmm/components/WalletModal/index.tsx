@@ -35,63 +35,43 @@ export default function SettingsModal() {
             />
           </HeaderRow>
         </div>
+          <div tw="top-0 w-full h-full z-30 flex justify-center">
+              {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
+                const wallet = SUPPORTED_WALLETS[key];
+                const isActive = selectedWallet === wallet.wallet;
 
-            <div
-              tw="top-0 w-full h-full z-30 flex justify-center"
-            >
-              <div tw="mx-3 p-6 w-full h-1/2 min-h-[215px] md:mx-0 md:w-1/2 flex flex-wrap justify-center items-center rounded-10 max-h-72 max-w-lg">
-                {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
-                  const wallet = SUPPORTED_WALLETS[key];
-                  const isActive = selectedWallet === wallet.wallet;
-
-                  return (
-                    <WalletBox
-                      key={index}
-                      connectHandler={async () => {
-                        if (wallet.connector instanceof MetaMask) {
-                          wallet.connector
-                            .activate()
-                            .then(() => {
-                              setSelectedWallet(wallet.wallet)
-                              toggle()
-                            });
-                        } else {
-                          wallet.connector
-                            .activate()
-                            .then(() => {
-                              setSelectedWallet(wallet.wallet)
-                              toggle()
-                            });
-                        }
-                      }}
-                      isActive={isActive}
-                      walletName={wallet.wallet}
-                    >
-                      {wallet.wallet === 'METAMASK' ? (
-                        <MetamaskLogo size={30} />
-                      ) : (
-                        <WalletConnectLogo size={30} />
-                      )}
-                    </WalletBox>
-                  );
-                })}
-              </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {/*</div>*/}
+                return (
+                  <WalletBox
+                    key={index}
+                    connectHandler={async () => {
+                      if (wallet.connector instanceof MetaMask) {
+                        wallet.connector
+                          .activate()
+                          .then(() => {
+                            setSelectedWallet(wallet.wallet)
+                            toggle()
+                          });
+                      } else {
+                        wallet.connector
+                          .activate()
+                          .then(() => {
+                            setSelectedWallet(wallet.wallet)
+                            toggle()
+                          });
+                      }
+                    }}
+                    isActive={isActive}
+                    walletName={wallet.wallet}
+                  >
+                    {wallet.wallet === 'METAMASK' ? (
+                      <MetamaskLogo size={30} />
+                    ) : (
+                      <WalletConnectLogo size={30} />
+                    )}
+                  </WalletBox>
+                );
+              })}
+          </div>
       </div>
     </ModalWrapper>
   );
