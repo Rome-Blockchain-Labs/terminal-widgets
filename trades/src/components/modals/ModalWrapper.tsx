@@ -51,7 +51,7 @@ export const ModalWrapper: FC<ModalProps> = ({
   return parentElement && isOpen
     ? ReactDOM.createPortal(
         <div
-          // className="modal-wrapper-awesome"
+          className="modal-wrapper-awesome"
           tw="absolute top-0 left-0 w-full h-full z-50 bg-black bg-opacity-75 scrollbar-none"
           onClick={onDismiss}
         >
