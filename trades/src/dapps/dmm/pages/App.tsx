@@ -13,6 +13,7 @@ import { DmmContext, DmmPage } from '../../../widgets/Dmm/DmmContext';
 import { defaultExchangeClient } from '../apollo/client';
 import Popups from '../components/Popups';
 import SettingsModal from '../components/SettingsModal';
+import WalletModal from '../components/WalletModal';
 import Web3ReactManager from '../components/Web3ReactManager';
 import { BLACKLIST_WALLETS } from '../constants';
 import { setGasPrice } from '../state/application/actions';
@@ -105,6 +106,7 @@ export default function App() {
                 {page === DmmPage.ADDLIQUIDITY && <AddLiquidity />}
                 {page === DmmPage.REMOVELIQUIDITY && <RemoveLiquidity />}
                 <SettingsModal />
+                <WalletModal />
               </BodyWrapper>
             </Web3ReactManager>
           </AppWrapper>
