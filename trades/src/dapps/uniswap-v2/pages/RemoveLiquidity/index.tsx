@@ -51,7 +51,6 @@ import {
   useApproveCallback,
 } from '../../hooks/useApproveCallback';
 import { PageContext } from '../../PageContext';
-import { useWalletModalToggle } from '../../state/application/hooks';
 import { Field } from '../../state/burn/actions';
 import { useBurnActionHandlers } from '../../state/burn/hooks';
 import { useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks';

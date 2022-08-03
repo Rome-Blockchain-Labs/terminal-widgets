@@ -33,9 +33,9 @@ const ConfirmDeploymentSuccessModal = () => {
       toggle={onCloseModal}
     >
       <div style={{ padding: '10px 10px 0 10px', textAlign: 'right' }}>
-        <a href="/#" onClick={onCloseModal}>
+        <button onClick={onCloseModal}>
           <img alt={'deploy'} src={IconCloseXGreen} width={15} />
-        </a>
+        </button>
       </div>
 
       <div style={{ textAlign: 'center' }}>

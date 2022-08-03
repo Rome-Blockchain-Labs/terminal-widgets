@@ -1,3 +1,4 @@
+import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -63,6 +64,14 @@ const StepBody = styled.div`
   width: 100%;
 `;
 
+enum Tabs {
+  OPEN_LIST = 'openList',
+  STEP1 = 'step1',
+  STEP2 = 'step2',
+  STEP3 = 'step3',
+  STEP4 = 'step4',
+}
+
 const HomePage = () => {
   const stepCompletions = useSelector(
     (state: any) => state?.velox?.strategyConfig
@@ -94,6 +103,40 @@ const HomePage = () => {
       dispatch(setCurrentStep(currentStep || STEP1));
     }
   }, [isListOpened, currentStep, dispatch]);
+
+  useEffect(() => {
+    widgetBridge.init();
+    const onOpenedHandler = (name: any) => {
+      dispatch(setCurrentStep(name));
+      dispatch(closeList());
+    };
+    widgetBridge.subscribe(
+      RomeEventType.TERMINAL_CLICK_BUTTON,
+      (action: any) => {
+        console.log(action)
+        switch (action.payload.id){
+          case Tabs.STEP1:
+            onOpenedHandler('step1')
+            break;
+          case Tabs.STEP2:
+            // stepCompletions.readyStep2 &&
+            onOpenedHandler('step2')
+            break;
+          case Tabs.STEP3:
+            // stepCompletions.readyStep3 &&
+            onOpenedHandler('step3')
+            break;
+          case Tabs.STEP4:
+            // stepCompletions.readyStep4 &&
+            onOpenedHandler('step4')
+            break;
+          case Tabs.OPEN_LIST:
+            dispatch(openList())
+            break;
+        }
+      }
+    );
+  }, [dispatch]);
 
   if (reviewModalOpen) return <ExchangeReviewModal />;
   if (confirmDeploymentErrorModalOpen) return <ConfirmDeploymentErrorModal />;

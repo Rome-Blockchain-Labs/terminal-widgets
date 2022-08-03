@@ -5,7 +5,6 @@ import {
   getAddChainParameters,
   useWallets,
   useWeb3React,
-  Wallet,
 } from '@romeblockchain/wallet';
 import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
@@ -38,8 +37,8 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector, isActivating, isActive } = useWeb3React();
-  const { selectedWallet, setSelectedWallet } = useWallets();
+  const { chainId, connector, isActivating } = useWeb3React();
+  const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
   >();
