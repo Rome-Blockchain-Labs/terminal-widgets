@@ -1,7 +1,7 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useDebounce } from '../../../../hooks';
 import { CancelledError, chunkArray, retry } from '../../../../utils';
 import { AppDispatch, AppState } from '..';
@@ -90,14 +90,14 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>();
-  const { connector } = useWallets();
+  const { connector } = useWeb3React();
   const state = useSelector<AppState, AppState['multicall']>(
     (state) => state.multicall
   );
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100);
   const latestBlockNumber = useBlockNumber();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const cancellations = useRef<{
     blockNumber: number;
     cancellations: (() => void)[];

@@ -1,6 +1,8 @@
 import 'twin.macro';
 
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
+import { MetaMask } from '@web3-react/metamask';
+import { AddEthereumChainParameter } from '@web3-react/types';
 import { useContext } from 'react';
 
 import { CloseIcon } from '../../../components/icons';
@@ -10,7 +12,11 @@ import { EventGroups, sendStatelessEvent } from '../../../contexts';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 
-const WalletModal = () => {
+const WalletModal = ({
+  chainParams,
+}: {
+  chainParams: number | AddEthereumChainParameter;
+}) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { selectedWallet, setSelectedWallet } = useWallets();
 
@@ -24,9 +30,9 @@ const WalletModal = () => {
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div tw="mx-3 p-6 w-full h-1/2 md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10">
+        <div tw="mx-3 p-6 w-full h-1/2 min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 max-h-72 max-w-lg">
           <div tw="w-full text-yellow-400 flex">
-            <span>CONNECT/SWITCH TO A WALLET</span>
+            <span>CONNECT / SWITCH TO A WALLET</span>
             <button tw="ml-auto mr-3 " onClick={closeModal}>
               <CloseIcon color="#C1FF00" height={17} width={17} />
             </button>
@@ -40,7 +46,6 @@ const WalletModal = () => {
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  setSelectedWallet(wallet.wallet);
                   sendStatelessEvent(
                     'Wallet_Successful_Connection',
                     EventGroups.WalletConnection
@@ -49,7 +54,22 @@ const WalletModal = () => {
                     `${wallet.wallet.replace(' ', '_')}_Successful_Connection`,
                     EventGroups.WalletConnection
                   );
-                  await wallet.connector.activate();
+                  if (wallet.connector instanceof MetaMask) {
+                    wallet.connector
+                      .activate(chainParams)
+                      .then(() => setSelectedWallet(wallet.wallet));
+                  } else {
+                    if (typeof chainParams === 'number') {
+                      wallet.connector
+                        .activate(chainParams)
+                        .then(() => setSelectedWallet(wallet.wallet));
+                    } else {
+                      wallet.connector
+                        .activate(chainParams.chainId)
+                        .then(() => setSelectedWallet(wallet.wallet));
+                    }
+                  }
+
                   closeModal();
                 }}
                 isActive={isActive}

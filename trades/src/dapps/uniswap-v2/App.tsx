@@ -9,6 +9,8 @@ import Web3ReactManager from '../../components/Web3ReactManager';
 import { NetworkName } from '../../constants/networkExchange';
 import { DappContextProvider } from '../../contexts';
 import { WidgetState } from '../../types';
+import Address from './components/Address';
+import { SwapPoolTabs } from './components/NavigationTab/index';
 import SettingsModal from './components/SettingsModal';
 import { usePageContext } from './PageContext';
 import AddLiquidity from './pages/AddLiquidity';
@@ -107,12 +109,13 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
       >
         <Updaters />
         <ThemeProvider>
-          <div tw="w-full h-full relative bg-dark-500">
+          <div tw="w-full h-full relative bg-dark-500  mt-13 scrollbar-none">
             <div tw="opacity-50 h-full w-full absolute flex">
               {backgroundImage}
             </div>
-            <div tw="h-full overflow-auto relative">
+            <div tw="h-full relative">
               <div tw="flex flex-col justify-center items-center p-4 min-h-full">
+                <Address />
                 <Web3ReactManager>
                   {page === UniswapPage.SWAP && (
                     <Swap defaultPair={widget.pair} />
@@ -166,6 +169,8 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
                     />
                   )}
                 </Web3ReactManager>
+
+                <SwapPoolTabs />
               </div>
             </div>
           </div>

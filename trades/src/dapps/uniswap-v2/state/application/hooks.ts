@@ -1,7 +1,7 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '..';
 import {
   addPopup,
@@ -12,7 +12,7 @@ import {
 } from './actions';
 
 export function useBlockNumber(): number | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useSelector(
     (state: AppState) => state.application.blockNumber[chainId ?? -1]

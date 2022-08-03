@@ -8,6 +8,7 @@ import {
   Percent,
   WETH,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { ArrowDown, Plus } from 'react-feather';
@@ -30,7 +31,6 @@ import Row, { RowBetween, RowFixed } from '../../../../components/row';
 import Slider from '../../../../components/slider';
 import { getNativeTokenFromNetworkName } from '../../../../constants/networkExchange';
 import { DappContext } from '../../../../contexts';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useDebouncedChangeHandler, usePairContract } from '../../../../hooks';
 import {
   calculateGasMargin,
@@ -50,6 +50,7 @@ import {
   ApprovalState,
   useApproveCallback,
 } from '../../hooks/useApproveCallback';
+import { PageContext } from '../../PageContext';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { Field } from '../../state/burn/actions';
 import { useBurnActionHandlers } from '../../state/burn/hooks';
@@ -87,7 +88,7 @@ export default function RemoveLiquidity({
     useCurrency(currencyIdA, network) ?? undefined,
     useCurrency(currencyIdB, network) ?? undefined,
   ];
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
   const [tokenA, tokenB] = useMemo(
     () => [
       wrappedCurrency(currencyA, chainId),
@@ -96,9 +97,11 @@ export default function RemoveLiquidity({
     [currencyA, currencyB, chainId]
   );
 
+  const { setWalletVisibility } = useContext(PageContext);
   // toggle wallet when disconnected
-  const toggleWalletModal = useWalletModalToggle();
-
+  const toggleWalletModal = () => {
+    setWalletVisibility(true);
+  };
   // burn state
   const { independentField, typedValue } = useBurnState();
   const { error, pair, parsedAmounts } = useDerivedBurnInfo(

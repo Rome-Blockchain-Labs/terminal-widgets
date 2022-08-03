@@ -92,9 +92,9 @@ export const NETWORK_EXCHANGE_TOKEN_LIST_URLS_MAP: NetworkExchangeTokenListUrlsM
 
 export const getTokenListUrlsByExchangeName = (
   exchange: ExchangeName,
-  network?: NetworkName
+  network: NetworkName
 ): string[] => {
-  const networkName = network || 'AVALANCHE';
+  const networkName = network;
   const exchangeTokenListMap: any =
     NETWORK_EXCHANGE_TOKEN_LIST_URLS_MAP[networkName] || {};
 

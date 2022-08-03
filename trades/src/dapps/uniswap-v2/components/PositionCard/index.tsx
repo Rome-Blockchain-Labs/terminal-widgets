@@ -1,4 +1,5 @@
 import { JSBI, Pair, Percent } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { darken } from 'polished';
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -10,7 +11,6 @@ import { ButtonSecondary } from '../../../../components/buttons';
 import Card, { GreyCard } from '../../../../components/card';
 import { AutoColumn } from '../../../../components/column';
 import { RowBetween, RowFixed } from '../../../../components/row';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   currencyId,
   getDefaultCurrencySymbol,
@@ -51,7 +51,7 @@ export function MinimalPositionCard({
   pair,
   showUnwrapped = false,
 }: PositionCardProps) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0);
   const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1);
@@ -168,7 +168,7 @@ export default function FullPositionCard({
   onRemoveLiquidity,
   pair,
 }: PositionCardProps) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const currency0 = unwrappedToken(pair.token0);
   const currency1 = unwrappedToken(pair.token1);
