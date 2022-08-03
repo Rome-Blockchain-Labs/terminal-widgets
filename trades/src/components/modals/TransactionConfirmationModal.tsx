@@ -1,3 +1,4 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React from 'react';
 import { AlertTriangle, ArrowUpCircle } from 'react-feather';
 import { ClipLoader } from 'react-spinners';
@@ -6,7 +7,6 @@ import styled from 'styled-components';
 import tw, { css, theme } from 'twin.macro';
 
 import { NetworkChainId } from '../../constants/networkExchange';
-import { useWallets } from '../../contexts/WalletsContext/WalletContext';
 import { getExplorerLink } from '../../utils';
 import { ButtonPrimary, CloseButton } from '../buttons';
 import { AutoColumn, ColumnCenter } from '../column';
@@ -235,7 +235,7 @@ export function TransactionConfirmationModal({
   pendingText,
   titleColor = theme`colors.yellow.400`,
 }: ConfirmationModalProps) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   if (!chainId) return null;
 

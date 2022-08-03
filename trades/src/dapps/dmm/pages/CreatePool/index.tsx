@@ -9,6 +9,7 @@ import {
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
@@ -20,7 +21,6 @@ import {
   ConfirmationModalContent,
   TransactionConfirmationModal,
 } from '../../../../components/modals';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useSelector } from '../../../../hooks';
 import { widgetByIdSelector } from '../../../../store/selectors/app';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
@@ -97,7 +97,7 @@ import {
 } from './styled';
 
 export default function CreatePool() {
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const {
     currencyIdA,

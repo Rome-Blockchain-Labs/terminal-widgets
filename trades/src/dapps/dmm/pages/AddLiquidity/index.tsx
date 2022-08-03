@@ -1,7 +1,7 @@
 import { currencyEquals, WETH } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useState } from 'react';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useSelector } from '../../../../hooks';
 import { widgetByIdSelector } from '../../../../store/selectors/app';
 import { DmmContext } from '../../../../widgets/Dmm/DmmContext';
@@ -23,7 +23,7 @@ import TokenPair from './TokenPair';
 import ZapIn from './ZapIn';
 
 export default function AddLiquidity() {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const { currencyIdA, currencyIdB, pairAddress } = useContext(DmmContext);
 

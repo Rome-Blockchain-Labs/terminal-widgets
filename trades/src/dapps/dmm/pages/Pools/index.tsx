@@ -1,10 +1,10 @@
 import 'twin.macro';
 
 import { Currency } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { FC, useCallback, useContext, useMemo, useState } from 'react';
 
 import { WidgetLoader } from '../../../../components/loaders';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useWindowDimensions } from '../../../../hooks';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import { ButtonPrimary } from '../../components/Button';
@@ -41,7 +41,7 @@ import {
 } from './styleds';
 
 const Pools: FC = () => {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const [searchValue] = useState('');
 
   const { currencyIdA, currencyIdB, setCurrencyIdA, setCurrencyIdB, setPage } =

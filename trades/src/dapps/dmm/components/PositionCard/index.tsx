@@ -1,10 +1,10 @@
 import { Fraction, JSBI, Pair, Percent, TokenAmount } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useState } from 'react';
 import { Flex, Text } from 'rebass';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import { ONE_BIPS } from '../../constants';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -116,7 +116,7 @@ export function NarrowPositionCard({
   pair,
   showUnwrapped = false,
 }: PositionCardProps) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0);
   const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1);
@@ -221,7 +221,7 @@ export function MinimalPositionCard({
   pair,
   showUnwrapped = false,
 }: PositionCardProps) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0);
   const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1);
@@ -383,7 +383,7 @@ export default function FullPositionCard({
   pair,
   stakedBalance,
 }: PositionCardProps) {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { setCurrencyIdA, setCurrencyIdB, setPage, setPairAddress } =
     useContext(DmmContext);

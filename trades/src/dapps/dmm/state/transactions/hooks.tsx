@@ -1,8 +1,8 @@
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { addTransaction } from './actions';
 import { TransactionDetails } from './reducer';
@@ -17,7 +17,7 @@ export function useTransactionAdder(): (
     arbitrary?: any;
   }
 ) => void {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
 
   return useCallback(
@@ -60,7 +60,7 @@ export function useTransactionAdder(): (
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const state = useSelector<AppState, AppState['dapps']['dmm']['transactions']>(
     (state) => state.dapps.dmm.transactions

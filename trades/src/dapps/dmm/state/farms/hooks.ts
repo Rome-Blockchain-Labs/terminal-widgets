@@ -1,11 +1,11 @@
 import { ChainId, Token, WETH } from '@dynamic-amm/sdk';
 import { Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import { FARM_HISTORIES } from '../../apollo/queries';
 import {
@@ -35,7 +35,7 @@ import { getBulkPoolData } from '../pools/hooks';
 import { setFarmsData, setLoading, setYieldPoolsError } from './actions';
 
 export const useRewardTokens = () => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const rewardTokensMulticallResult = useMultipleContractSingleData(
     FAIRLAUNCH_ADDRESSES[chainId as ChainId],
     new Interface(FAIRLAUNCH_ABI),
@@ -70,7 +70,7 @@ export const useRewardTokenPrices = (tokens: (Token | undefined)[]) => {
 
 export const useFarmsData = () => {
   const dispatch = useAppDispatch();
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const fairLaunchContracts = useFairLaunchContracts();
   const ethPrice = useETHPrice();
   const allTokens = useAllTokens();
@@ -210,7 +210,7 @@ export const useFarmsData = () => {
 };
 
 export const useYieldHistories = (isModalOpen: boolean) => {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const [histories, setHistories] = useState<FarmHistory[]>([]);
   const [loading, setLoading] = useState(false);
   const apolloClient = useExchangeClient();

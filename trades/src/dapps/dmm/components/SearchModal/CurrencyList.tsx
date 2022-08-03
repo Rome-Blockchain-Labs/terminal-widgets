@@ -7,6 +7,7 @@ import {
   ETHER,
   Token,
 } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   CSSProperties,
   MutableRefObject,
@@ -17,7 +18,6 @@ import { FixedSizeList } from 'react-window';
 import { Text } from 'rebass';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import TokenListLogo from '../../assets/svg/tokenlist.svg';
 import { LightGreyCard } from '../../components/Card';
 import QuestionHelper from '../../components/QuestionHelper';
@@ -131,7 +131,7 @@ function CurrencyRow({
   otherSelected: boolean;
   style: CSSProperties;
 }) {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const key = currencyKey(currency);
   const selectedTokenList = useCombinedActiveList();
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency);
@@ -198,7 +198,7 @@ export default function CurrencyList({
   setImportToken: (token: Token) => void;
   breakIndex: number | undefined;
 }) {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const itemCurrencies: (Currency | undefined)[] = useMemo(() => {
     let formatted: (Currency | undefined)[] = showETH
       ? [Currency.ETHER, ...currencies]

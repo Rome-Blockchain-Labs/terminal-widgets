@@ -7,9 +7,9 @@ import {
   TokenAmount,
 } from '@dynamic-amm/sdk';
 import { Interface } from '@ethersproject/abi';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { useFactoryContract } from '../hooks/useContract';
 import {
   useMultipleContractSingleData,
@@ -27,7 +27,7 @@ export enum PairState {
 export function usePairs(
   currencies: [Currency | undefined, Currency | undefined][]
 ): [PairState, Pair | null][][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const tokens = useMemo(
     () =>
@@ -133,7 +133,7 @@ export function usePairsByAddress(
     currencies: [Currency | undefined, Currency | undefined];
   }[]
 ): [PairState, Pair | null][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const results = useMultipleContractSingleData(
     pairInfo.map((info) => info.address),
     new Interface(DMMPool.abi),
@@ -198,7 +198,7 @@ export function usePairByAddress(
 export function useUnAmplifiedPairs(
   currencies: [Currency | undefined, Currency | undefined][]
 ): string[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const tokens = useMemo(
     () =>

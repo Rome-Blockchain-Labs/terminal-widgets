@@ -1,9 +1,9 @@
 import { Currency, CurrencyAmount, Pair, Token, Trade } from '@dynamic-amm/sdk';
+import {useWeb3React} from '@romeblockchain/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { KYBER_MAINNET_ENV } from '../../../config';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../store';
 import { routerUri } from '../apollo/client';
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from '../constants';
@@ -18,7 +18,7 @@ function useAllCommonPairs(
   currencyA?: Currency,
   currencyB?: Currency
 ): Pair[][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bases: Token[] = chainId
@@ -265,7 +265,7 @@ export function useTradeExactInV2(
   comparer: AggregationComparer | null;
   onUpdateCallback: () => void;
 } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const parsedQs: { dexes?: string } = useParsedQueryString();
 
   const [trade, setTrade] = useState<Aggregator | null>(null);

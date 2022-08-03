@@ -1,10 +1,10 @@
 import 'twin.macro';
 
 import { Currency, TradeType } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useMemo, useState } from 'react';
 import { Repeat } from 'react-feather';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import InfoHelper from '../../components/InfoHelper';
 import { Field } from '../../state/swap/actions';
 import { formattedNum } from '../../utils';
@@ -32,7 +32,7 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined;
   disabledConfirm: boolean;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const [showInverted, setShowInverted] = useState<boolean>(false);
 
   const slippageAdjustedAmounts = useMemo(

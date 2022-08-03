@@ -1,4 +1,5 @@
 import { ChainId, Pair, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Pair as PairSUSHI, Token as TokenSUSHI } from '@sushiswap/sdk';
 import {
   ChainId as ChainIdUNI,
@@ -9,7 +10,6 @@ import { flatMap } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants';
 import { SupportedLocale } from '../../constants/locales';
@@ -186,7 +186,7 @@ export function useRemoveUserAddedToken(): (
 }
 
 export function useUserAddedTokens(): Token[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const serializedTokensMap = useSelector<
     AppState,
     AppState['dapps']['dmm']['user']['tokens']
@@ -361,7 +361,7 @@ export function useToV2LiquidityTokens(
  * Returns all the pairs of tokens that are tracked by the user for the current chain ID.
  */
 export function useTrackedTokenPairs(): [Token, Token][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   // pinned pairs
   const pinnedPairs = useMemo(
@@ -454,7 +454,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
 }
 
 export function useLiquidityPositionTokenPairs(): [Token, Token][] {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const allTokens = useAllTokens();
 
   // pinned pairs

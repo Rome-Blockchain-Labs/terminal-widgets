@@ -1,10 +1,10 @@
 import { ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
 import { ChainId, Currency } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeepCompareEffect } from 'react-use';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import {
   POOL_DATA,
@@ -257,7 +257,7 @@ export function useBulkPoolData(
   data: AppState['dapps']['dmm']['pools']['pools'];
 } {
   const dispatch = useDispatch();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const apolloClient = useExchangeClient();
 
   const poolsData = useSelector(

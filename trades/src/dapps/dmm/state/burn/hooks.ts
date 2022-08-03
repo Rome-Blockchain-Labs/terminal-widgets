@@ -8,10 +8,10 @@ import {
   TokenAmount,
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import { usePairByAddress } from '../../data/Reserves';
 import { useTotalSupply } from '../../data/TotalSupply';
@@ -52,7 +52,7 @@ export function useDerivedBurnInfo(
   price?: Price;
   error?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, typedValue } = useBurnState();
   const dependentField =
@@ -307,7 +307,7 @@ export function useDerivedZapOutInfo(
   price?: Price;
   error?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, independentTokenField, typedValue } =
     useBurnState();

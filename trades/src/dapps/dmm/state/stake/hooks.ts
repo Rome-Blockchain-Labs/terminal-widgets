@@ -7,9 +7,9 @@ import {
   TokenAmount,
   WETH,
 } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DAI, UNI, USDC, USDT, WBTC } from '../../constants';
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards';
 import {
@@ -77,7 +77,7 @@ export interface StakingInfo {
 
 // gets the staking info from the network for the networkLogos chain id
 export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const info = useMemo(
     () =>
@@ -233,7 +233,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 }
 
 export function useTotalUniEarned(): TokenAmount | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const uni = chainId ? UNI[chainId as keyof typeof UNI] : undefined;
   const stakingInfos = useStakingInfo();
 
@@ -257,7 +257,7 @@ export function useDerivedStakeInfo(
   parsedAmount?: CurrencyAmount;
   error?: string;
 } {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const parsedInput: CurrencyAmount | undefined = tryParseAmount(
     typedValue,
@@ -293,7 +293,7 @@ export function useDerivedUnstakeInfo(
   parsedAmount?: CurrencyAmount;
   error?: string;
 } {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const parsedInput: CurrencyAmount | undefined = tryParseAmount(
     typedValue,

@@ -1,8 +1,8 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { useMulticallContract } from '../../hooks/useContract';
 import useDebounce from '../../hooks/useDebounce';
@@ -130,7 +130,7 @@ export default function Updater(): null {
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100);
   const latestBlockNumber = useBlockNumber();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const multicallContract = useMulticallContract();
   const cancellations =
     useRef<{ blockNumber: number; cancellations: (() => void)[] }>();

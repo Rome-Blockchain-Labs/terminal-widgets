@@ -1,7 +1,7 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import useENS from '../../hooks/useENS';
 import { TYPE } from '../../theme';
 import { getEtherscanLink, getEtherscanLinkText } from '../../utils';
@@ -71,7 +71,7 @@ export default function AddressInputPanel({
   // triggers whenever the typed value changes
   onChange: (value: string) => void;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const { address, loading, name } = useENS(value);
 

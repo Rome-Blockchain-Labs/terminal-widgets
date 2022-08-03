@@ -6,9 +6,9 @@ import {
   Token,
   TokenAmount,
 } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import ERC20_INTERFACE from '../../constants/abis/erc20';
 import { useAllTokens } from '../../hooks/Tokens';
 import { useMulticallContract } from '../../hooks/useContract';
@@ -170,7 +170,7 @@ export function useCurrencyBalance(
 export function useAllTokenBalances(): {
   [tokenAddress: string]: TokenAmount | undefined;
 } {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const allTokens = useAllTokens();
   const allTokensArray = useMemo(
     () => Object.values(allTokens ?? {}),

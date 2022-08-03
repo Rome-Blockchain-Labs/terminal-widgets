@@ -1,8 +1,8 @@
 import { JSBI, Pair, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useMemo, useState } from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import Card from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
@@ -71,7 +71,7 @@ const PositionCardGrid = styled.div`
 `;
 
 export default function Pool() {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const liquidityPositionTokenPairs = useLiquidityPositionTokenPairs();
 

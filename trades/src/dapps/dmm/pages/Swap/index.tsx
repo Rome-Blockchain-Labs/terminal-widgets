@@ -1,6 +1,7 @@
 import 'twin.macro';
 
 import { CurrencyAmount, JSBI, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   useCallback,
   useContext,
@@ -13,7 +14,6 @@ import { Box, Flex, Text } from 'rebass';
 import { styled } from 'twin.macro';
 
 import { ModalWrapper } from '../../../../components/modals';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useIsMobile } from '../../../../hooks';
 import { DmmContext } from '../../../../widgets/Dmm/DmmContext';
 import AddressInputPanel from '../../components/AddressInputPanel';
@@ -120,7 +120,7 @@ export default function Swap() {
       return !Boolean(token.address in defaultTokens);
     });
 
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle();

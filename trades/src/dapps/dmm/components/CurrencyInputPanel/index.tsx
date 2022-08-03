@@ -1,11 +1,11 @@
 // @ts-ignore
 import { Currency, CurrencyAmount, Pair } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Flex, Text } from 'rebass';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg';
 import { ReactComponent as SwitchIcon } from '../../assets/svg/switch.svg';
 import { useCurrencyBalance } from '../../state/wallet/hooks';
@@ -156,7 +156,7 @@ export default function CurrencyInputPanel({
   value,
 }: CurrencyInputPanelProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const [selectedCurrencyBalanceHasValue, setSelectedCurrencyBalanceHasValue] =
     useState<CurrencyAmount | undefined>(undefined);

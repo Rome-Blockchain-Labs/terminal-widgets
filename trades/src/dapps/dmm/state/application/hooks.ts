@@ -1,11 +1,11 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { ChainId, Token, WETH } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeepCompareEffect } from 'react-use';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { defaultExchangeClient } from '../../apollo/client';
 import { ETH_PRICE, TOKEN_DERIVED_ETH } from '../../apollo/queries';
@@ -22,7 +22,7 @@ import {
 } from './actions';
 
 export function useExchangeClient() {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const exchangeSubgraphClients = useSelector(
     (state: AppState) => state.dapps.dmm.application.exchangeSubgraphClients
   );
@@ -33,7 +33,7 @@ export function useExchangeClient() {
 }
 
 export function useBlockNumber(): number | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useSelector(
     (state: AppState) => state.dapps.dmm.application.blockNumber[chainId ?? -1]
@@ -183,7 +183,7 @@ const getEthPrice = async (
 
 export function useETHPrice(): AppState['dapps']['dmm']['application']['ethPrice'] {
   const dispatch = useDispatch();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const blockNumber = useBlockNumber();
   const apolloClient = useExchangeClient();
 
@@ -239,7 +239,7 @@ const getKNCPriceByETH = async (
 export function useKNCPrice(): AppState['dapps']['dmm']['application']['kncPrice'] {
   const dispatch = useDispatch();
   const ethPrice = useETHPrice();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const blockNumber = useBlockNumber();
   const apolloClient = useExchangeClient();
 
@@ -298,7 +298,7 @@ const getTokenPriceByETH = async (
 
 export function useTokensPrice(tokens: (Token | undefined)[]): number[] {
   const ethPrice = useETHPrice();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const [prices, setPrices] = useState<number[]>([]);
   const apolloClient = useExchangeClient();
 

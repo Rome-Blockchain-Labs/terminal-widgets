@@ -1,10 +1,10 @@
 import { ChainId } from '@dynamic-amm/sdk';
 import { nanoid } from '@reduxjs/toolkit';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { TokenList } from '@uniswap/token-lists';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch } from '../../../store';
 import { fetchTokenList } from '../state/lists/actions';
 import getTokenList from '../utils/getTokenList';
@@ -14,7 +14,7 @@ export function useFetchListCallback(): (
   listUrl: string,
   sendDispatch?: boolean
 ) => Promise<TokenList> {
-  const { chainId, provider } = useWallets();
+  const { chainId, provider } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
 
   const ensResolver = useCallback(

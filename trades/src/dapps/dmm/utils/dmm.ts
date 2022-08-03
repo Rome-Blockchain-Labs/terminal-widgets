@@ -16,6 +16,7 @@ import {
   TokenAmount as TokenAmountDMM,
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import {
   ChainId as ChainIdSUSHI,
   Token as TokenSUSHI,
@@ -28,7 +29,6 @@ import {
 } from '@uniswap/sdk';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { BLOCKS_PER_YEAR, FARMING_POOLS, ZERO_ADDRESS } from '../constants';
 import { useAllTokens } from '../hooks/Tokens';
 import { useRewardTokenPrices, useRewardTokens } from '../state/farms/hooks';
@@ -336,7 +336,7 @@ export function useFarmApr(
   poolLiquidityUsd: string,
   isLiquidityMiningActive?: boolean
 ): number {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const tokenPrices = useRewardTokenPrices(
     (rewardPerBlocks || []).map((item) => item.token)
   );
@@ -397,7 +397,7 @@ export function convertToNativeTokenFromETH(
 export function useCurrencyConvertedToNative(
   currency?: Currency
 ): Currency | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   if (!!currency && !!chainId) {
     return convertToNativeTokenFromETH(currency, chainId);
   }
@@ -462,7 +462,7 @@ export function useFarmRewards(
 }
 
 export function useFarmRewardsUSD(rewards?: Reward[]): number {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const tokenPrices = useRewardTokenPrices(
     (rewards || []).map((item) => item.token)
   );
@@ -517,7 +517,7 @@ export function useFarmRewardPerBlocks(farms?: Farm[]): RewardPerBlock[] {
 }
 
 export function useRewardTokensFullInfo(): Token[] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const rewardTokens = useRewardTokens();
   const allTokens = useAllTokens();
   const nativeName =
