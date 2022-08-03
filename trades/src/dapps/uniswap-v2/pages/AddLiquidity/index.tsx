@@ -51,6 +51,7 @@ import {
   ApprovalState,
   useApproveCallback,
 } from '../../hooks/useApproveCallback';
+import { PageContext } from '../../PageContext';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { Field } from '../../state/mint/actions';
 import {
@@ -103,8 +104,11 @@ const AddLiquidity: FC<{
         (currencyB && currencyEquals(currencyB, (WETH as any)[chainId])))
   );
 
-  const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
-
+  const { setWalletVisibility } = useContext(PageContext);
+  // toggle wallet when disconnected
+  const toggleWalletModal = () => {
+    setWalletVisibility(true);
+  };
   const expertMode = useIsExpertMode();
 
   // mint state

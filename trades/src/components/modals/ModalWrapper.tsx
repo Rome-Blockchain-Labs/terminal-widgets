@@ -52,7 +52,7 @@ export const ModalWrapper: FC<ModalProps> = ({
     ? ReactDOM.createPortal(
         <div
           className="modal-wrapper-awesome"
-          tw="absolute top-0 left-0 w-full h-full z-50 bg-black bg-opacity-75 overflow-auto"
+          tw="absolute top-0 left-0 w-full h-full z-50 bg-black bg-opacity-75 scrollbar-none"
           onClick={onDismiss}
         >
           <div tw="min-w-full min-h-full flex justify-center items-center">

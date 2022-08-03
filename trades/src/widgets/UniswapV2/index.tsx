@@ -134,10 +134,10 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     return null;
   }
   return (
-    <div id={uid} tw="flex justify-center h-screen bg-dark-500">
+    <div id={uid} tw="flex justify-center h-full  bg-dark-500 relative">
       <PageContextProvider>
-        <IFrameProvider>
-          <Provider store={store}>
+        <Provider store={store}>
+          <IFrameProvider>
             <WalletModal chainParams={chainParams} />
             <UniswapV2Component
               backgroundImage={
@@ -161,8 +161,8 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
                 uid: uid,
               }}
             />
-          </Provider>
-        </IFrameProvider>
+          </IFrameProvider>
+        </Provider>
       </PageContextProvider>
     </div>
   );

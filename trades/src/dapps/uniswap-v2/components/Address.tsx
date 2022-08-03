@@ -17,7 +17,7 @@ const Address = () => {
   }
 
   return (
-    <div tw="w-full flex mb-3 max-w-sm md:max-w-full">
+    <div tw="w-full flex mb-3 max-w-sm ">
       <button
         tw="h-11 rounded-full bg-yellow-200 text-black grid place-items-center p-2 border  ml-auto"
         onClick={() => setWalletVisibility(true)}

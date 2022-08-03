@@ -50,6 +50,7 @@ import {
   ApprovalState,
   useApproveCallback,
 } from '../../hooks/useApproveCallback';
+import { PageContext } from '../../PageContext';
 import { useWalletModalToggle } from '../../state/application/hooks';
 import { Field } from '../../state/burn/actions';
 import { useBurnActionHandlers } from '../../state/burn/hooks';
@@ -96,9 +97,11 @@ export default function RemoveLiquidity({
     [currencyA, currencyB, chainId]
   );
 
+  const { setWalletVisibility } = useContext(PageContext);
   // toggle wallet when disconnected
-  const toggleWalletModal = useWalletModalToggle();
-
+  const toggleWalletModal = () => {
+    setWalletVisibility(true);
+  };
   // burn state
   const { independentField, typedValue } = useBurnState();
   const { error, pair, parsedAmounts } = useDerivedBurnInfo(
