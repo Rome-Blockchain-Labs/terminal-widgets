@@ -131,7 +131,6 @@ export const getWalletBalance = createAsyncThunk(
         async () => {
           const { account, chainHex } =
             thunkAPI.getState().velox.wallet.connection;
-
           // get ETH balance
           const balance = await provider.getBalance(account);
           const ethBalance = parseFloat(formatEther(balance)).toPrecision(4);

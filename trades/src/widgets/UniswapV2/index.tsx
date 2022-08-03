@@ -1,7 +1,12 @@
 import 'twin.macro';
 
 import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
-import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
+import {
+  getAddChainParameters,
+  useWallets,
+  useWeb3React,
+} from '@romeblockchain/wallet';
+import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useEffect, useState } from 'react';
@@ -32,7 +37,8 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector } = useWeb3React();
+  const { chainId, connector, isActivating } = useWeb3React();
+  const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
   >();
@@ -110,26 +116,28 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_in,
     widget.token_out,
   ]);
+
   useEffect(() => {
-    if (chainId !== targetChainID && chainParams) {
-      try {
+    const walletOnWrongNetwork = chainId !== targetChainID;
+    const shouldFallbackToNetwork = walletOnWrongNetwork && !isActivating;
+    if (shouldFallbackToNetwork) {
+      setSelectedWallet(undefined);
+
+      if (connector instanceof Network) {
         connector.activate(targetChainID);
-      } catch (error) {
-        connector.activate(chainParams);
       }
     }
-  }, [chainId, chainParams, connector, targetChainID]);
+  }, [chainId, connector, isActivating, setSelectedWallet, targetChainID]);
 
-  if (chainId !== targetChainID || !chainParams) {
+  if (chainId !== targetChainID || !chainParams || isActivating) {
     return null;
   }
-
   return (
-    <div id={uid} tw="flex justify-center h-screen bg-dark-500">
+    <div id={uid} tw="flex justify-center h-full  bg-dark-500 relative">
       <PageContextProvider>
-        <IFrameProvider>
-          <Provider store={store}>
-            <WalletModal />
+        <Provider store={store}>
+          <IFrameProvider>
+            <WalletModal chainParams={chainParams} />
             <UniswapV2Component
               backgroundImage={
                 Icon && <Icon isBackground height="100%" width="100%" />
@@ -152,8 +160,8 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
                 uid: uid,
               }}
             />
-          </Provider>
-        </IFrameProvider>
+          </IFrameProvider>
+        </Provider>
       </PageContextProvider>
     </div>
   );
