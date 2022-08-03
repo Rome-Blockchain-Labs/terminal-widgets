@@ -64,15 +64,13 @@ const StepBody = styled.div`
   width: 100%;
 `;
 
-// enum Tabs {
-//   OPEN_LIST = 'openList',
-//   CLOSE_LIST = 'closeList',
-//   TOGGLE_LIST = 'toggleList',
-//   STEP1 = 'step1',
-//   STEP2 = 'step2',
-//   STEP3 = 'step3',
-//   STEP4 = 'step4',
-// }
+enum Tabs {
+  OPEN_LIST = 'openList',
+  STEP1 = 'step1',
+  STEP2 = 'step2',
+  STEP3 = 'step3',
+  STEP4 = 'step4',
+}
 
 const HomePage = () => {
   const stepCompletions = useSelector(
@@ -108,11 +106,37 @@ const HomePage = () => {
 
   useEffect(() => {
     widgetBridge.init();
+    const onOpenedHandler = (name: any) => {
+      dispatch(setCurrentStep(name));
+      dispatch(closeList());
+    };
     widgetBridge.subscribe(
       RomeEventType.TERMINAL_CLICK_BUTTON,
-      (action: any) => {}
+      (action: any) => {
+        console.log(action)
+        switch (action.payload.id){
+          case Tabs.STEP1:
+            onOpenedHandler('step1')
+            break;
+          case Tabs.STEP2:
+            // stepCompletions.readyStep2 &&
+            onOpenedHandler('step2')
+            break;
+          case Tabs.STEP3:
+            // stepCompletions.readyStep3 &&
+            onOpenedHandler('step3')
+            break;
+          case Tabs.STEP4:
+            // stepCompletions.readyStep4 &&
+            onOpenedHandler('step4')
+            break;
+          case Tabs.OPEN_LIST:
+            dispatch(openList())
+            break;
+        }
+      }
     );
-  }, []);
+  }, [dispatch]);
 
   if (reviewModalOpen) return <ExchangeReviewModal />;
   if (confirmDeploymentErrorModalOpen) return <ConfirmDeploymentErrorModal />;
