@@ -1,7 +1,6 @@
 import axios from "axios";
 import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
-import { PATH } from "utils/banxa/types";
 import useLocalStorage from "utils/useLocalStorage";
 export default function Example() {
   const [data, setData] = useState();
@@ -26,7 +25,7 @@ export default function Example() {
           event.target.elements;
 
         axios
-          .post(PATH.CREATE_ORDER, {
+          .post("/api/banxa/create-order", {
             params: {
               email: email.value,
               account_reference,
