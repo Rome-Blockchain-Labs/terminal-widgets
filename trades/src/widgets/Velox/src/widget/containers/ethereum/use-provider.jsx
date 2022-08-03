@@ -1,4 +1,4 @@
-import { useWallets,useWeb3React } from '@romeblockchain/wallet';
+import { useWallets, useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,10 +10,17 @@ function useProvider() {
   const { chainHex, connected } = useSelector(
     (state) => state?.velox?.wallet.connection
   );
-  const { account, active, chainId, connector, disconnectFromWallet, provider } = useWallets();
-
+  const { account, active, chainId, connector, provider } = useWeb3React();
+  const disconnectFromWallet = () => {
+    if (connector.deactivate) {
+      connector.deactivate();
+    } else {
+      connector.resetState();
+    }
+  };
   useEffect(() => {
     if (chainHex === chainId) return;
+    console.log('hello');
 
     dispatch(updateConnection({ chainHex: chainId }));
   }, [chainId, chainHex, dispatch]);
@@ -25,14 +32,21 @@ function useProvider() {
       // next line is a for for: https://giters.com/NoahZinsmeister/web3-react/issues/257
       //@ts-ignore
       window?.ethereum?.removeAllListeners(['networkChanged']);
-      dispatch(updateConnection({ account, chainHex: chainId, connected: true }));
+      dispatch(
+        updateConnection({ account, chainHex: chainId, connected: true })
+      );
     } else {
       disconnectFromWallet();
       dispatch({ type: PROVIDER_DISCONNECT });
     }
   };
 
-  return { active, deactivate: disconnectFromWallet, provider, toggleConnected };
+  return {
+    active,
+    deactivate: disconnectFromWallet,
+    provider,
+    toggleConnected,
+  };
 }
 
 export default useProvider;

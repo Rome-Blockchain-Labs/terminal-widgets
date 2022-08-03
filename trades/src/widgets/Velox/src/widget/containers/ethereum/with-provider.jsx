@@ -1,47 +1,29 @@
-import { useWallets,useWeb3React } from '@romeblockchain/wallet';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {WalletConnector} from '../../../components/WalletConnector';
-import { getWalletBalance } from '../../../redux/wallet/walletSlice';
-import {useWalletsSelection} from '../../../utils/web3/walletSelectionContext';
-import MustConnect from '../../components/MustConnect';
+import WalletModal from '../../../components/WalletModal';
+import {
+  getWalletBalance,
+  updateConnection,
+} from '../../../redux/wallet/walletSlice';
 
 const withHeaderAndSigner = (WrappedComponent) => {
   return (props) => {
     const dispatch = useDispatch();
-    const { account, active, provider, setSelectedWallet } = useWallets();
-    console.log(account, setSelectedWallet)
-    const { selectingNetwork } = useWalletsSelection()
+    const { account, isActive: active, provider } = useWeb3React();
 
     useEffect(() => {
-      if (active && provider) {
+      if (account && active && provider) {
+        dispatch(updateConnection({ account, connected: active }));
         dispatch(getWalletBalance({ provider }));
       }
-    }, [active, dispatch, provider]);
+    }, [account, active, dispatch, provider]);
 
-    if (selectingNetwork){
-      //todo
-      return <>Put modal here to select specific wallet</>
-    }
-
-    if (!active) {
-      return <>
-        <MustConnect text={'You must connect your wallet'} />
-        <WalletConnector/>
-        </>;
-    }
     if (!account) {
-      return (
-        <>
-          <MustConnect
-            text={'In order to trade, you must have an account in your wallet'}
-          />
-          <WalletConnector/>
-        </>
-
-      );
+      return <WalletModal />;
     }
+
     return <WrappedComponent {...props} />;
   };
 };

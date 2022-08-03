@@ -22,7 +22,6 @@ export const WidgetFrame = styled.div`
 
 export const Widget = styled.div`
   font-size: 0.625rem;
-  display: flex;
   align-items: stretch;
   color: #00d3cf;
   font-family: 'Montserrat', sans-serif;
@@ -32,7 +31,9 @@ export const Widget = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 1;
-  padding: 1.25rem;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
 `;
 
 export const Block = styled.div`

@@ -126,12 +126,13 @@ export const getWalletBalance = createAsyncThunk(
   'wallet/balance',
   async (payload: any, thunkAPI: any) => {
     const { provider } = payload;
+    console.log('getting wallet balance');
     try {
       return await retry(
         async () => {
           const { account, chainHex } =
             thunkAPI.getState().velox.wallet.connection;
-
+          console.log('ACCOUNT', account, 'chain', chainHex);
           // get ETH balance
           const balance = await provider.getBalance(account);
           const ethBalance = parseFloat(formatEther(balance)).toPrecision(4);
@@ -147,11 +148,13 @@ export const getWalletBalance = createAsyncThunk(
             rawWethBalance.toString(),
             WETH_DECIMALS
           );
+          console.log('weth', wethBalance, ethBalance);
           return { ethBalance, wethBalance };
         },
         { retries: 4 }
       );
     } catch (e) {
+      console.log(e);
       loggerWithCloud.sendToCloud(
         `Failed to get wallet balance, err:${stringify(
           e,
