@@ -1,31 +1,29 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getWalletBalance } from '../../../redux/wallet/walletSlice';
-import { useWeb3Provider } from '../../../utils/web3';
-import MustConnect from '../../components/MustConnect';
+import WalletModal from '../../../components/WalletModal';
+import {
+  getWalletBalance,
+  updateConnection,
+} from '../../../redux/wallet/walletSlice';
 
 const withHeaderAndSigner = (WrappedComponent) => {
   return (props) => {
     const dispatch = useDispatch();
-    const { account, active, provider } = useWeb3Provider();
+    const { account, isActive: active, provider } = useWeb3React();
 
     useEffect(() => {
-      if (active && provider) {
+      if (account && active && provider) {
+        dispatch(updateConnection({ account, connected: active }));
         dispatch(getWalletBalance({ provider }));
       }
-    }, [active, dispatch, provider]);
+    }, [account, active, dispatch, provider]);
 
-    if (!active) {
-      return <MustConnect text={'You must connect your wallet'} />;
-    }
     if (!account) {
-      return (
-        <MustConnect
-          text={'In order to trade, you must have an account in your wallet'}
-        />
-      );
+      return <WalletModal />;
     }
+
     return <WrappedComponent {...props} />;
   };
 };

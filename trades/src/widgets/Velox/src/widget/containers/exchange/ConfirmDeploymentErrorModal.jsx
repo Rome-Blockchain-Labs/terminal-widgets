@@ -20,9 +20,9 @@ const ConfirmDeploymentErrorModal = () => {
       toggle={onCloseModal}
     >
       <div style={{ textAlign: 'right' }}>
-        <a href="/#" onClick={onCloseModal}>
+        <button onClick={onCloseModal}>
           <img alt={'deploy'} src={IconCloseXGreen} width={15} />
-        </a>
+        </button>
       </div>
 
       <div style={{ textAlign: 'center' }}>

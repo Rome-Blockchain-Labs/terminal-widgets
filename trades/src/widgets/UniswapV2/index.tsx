@@ -5,7 +5,6 @@ import {
   getAddChainParameters,
   useWallets,
   useWeb3React,
-  Wallet,
 } from '@romeblockchain/wallet';
 import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
@@ -38,8 +37,8 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector, isActivating, isActive } = useWeb3React();
-  const { selectedWallet, setSelectedWallet } = useWallets();
+  const { chainId, connector, isActivating } = useWeb3React();
+  const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
   >();
@@ -134,10 +133,10 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     return null;
   }
   return (
-    <div id={uid} tw="flex justify-center h-screen bg-dark-500">
+    <div id={uid} tw="flex justify-center h-full  bg-dark-500 relative">
       <PageContextProvider>
-        <IFrameProvider>
-          <Provider store={store}>
+        <Provider store={store}>
+          <IFrameProvider>
             <WalletModal chainParams={chainParams} />
             <UniswapV2Component
               backgroundImage={
@@ -161,8 +160,8 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
                 uid: uid,
               }}
             />
-          </Provider>
-        </IFrameProvider>
+          </IFrameProvider>
+        </Provider>
       </PageContextProvider>
     </div>
   );

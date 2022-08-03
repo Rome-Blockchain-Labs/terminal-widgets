@@ -1,4 +1,5 @@
-import { useWallets } from '../../../../../contexts/WalletsContext/WalletContext';
+import { getAddChainParametersfromNetworkName, useWeb3React } from '@romeblockchain/wallet';
+
 import { ChainID } from './types';
 
 export type NetworkParams = {
@@ -14,7 +15,11 @@ export type NetworkParams = {
 };
 
 export const useSwitchNetwork = () => {
-  const { connector, error, switchNetwork } = useWallets();
+  const { connector  } = useWeb3React();
+  const switchNetwork = (networkName:any /**todo NetworkName from wallertContext**/)=>{
+    const chainParams = getAddChainParametersfromNetworkName(networkName)
+    connector.activate(chainParams)
+  }
 
-  return { connector, error, switchNetwork };
+  return { connector, switchNetwork };
 };

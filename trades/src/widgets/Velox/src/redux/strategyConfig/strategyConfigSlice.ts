@@ -37,7 +37,23 @@ export const strategyConfigSlice = createSlice({
       state.completedStep4 = action.payload;
     },
     setCurrentStep: (state, action: any) => {
-      state.currentStep = action.payload;
+      switch (action.payload){
+        case 'step1':
+          state.currentStep = action.payload;
+          break;
+       case 'step2':
+        if(state.readyStep2)
+          state.currentStep = action.payload;
+         break;
+       case 'step3':
+        if(state.readyStep3)
+          state.currentStep = action.payload;
+         break;
+       case 'step4':
+        if(state.readyStep4)
+          state.currentStep = action.payload;
+        break;
+      }
     },
   },
 });
