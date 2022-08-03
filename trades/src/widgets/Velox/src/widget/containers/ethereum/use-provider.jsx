@@ -1,4 +1,4 @@
-import { useWallets, useWeb3React } from '@romeblockchain/wallet';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,7 +20,6 @@ function useProvider() {
   };
   useEffect(() => {
     if (chainHex === chainId) return;
-    console.log('hello');
 
     dispatch(updateConnection({ chainHex: chainId }));
   }, [chainId, chainHex, dispatch]);

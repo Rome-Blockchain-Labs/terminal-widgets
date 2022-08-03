@@ -1,4 +1,4 @@
-import {RomeEventType, widgetBridge} from '@romeblockchain/bridge';
+import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -64,15 +64,15 @@ const StepBody = styled.div`
   width: 100%;
 `;
 
-enum Tabs {
-  OPEN_LIST = 'openList',
-  CLOSE_LIST = 'closeList',
-  TOGGLE_LIST = 'toggleList',
-  STEP1 = 'step1',
-  STEP2 = 'step2',
-  STEP3 = 'step3',
-  STEP4 = 'step4',
-}
+// enum Tabs {
+//   OPEN_LIST = 'openList',
+//   CLOSE_LIST = 'closeList',
+//   TOGGLE_LIST = 'toggleList',
+//   STEP1 = 'step1',
+//   STEP2 = 'step2',
+//   STEP3 = 'step3',
+//   STEP4 = 'step4',
+// }
 
 const HomePage = () => {
   const stepCompletions = useSelector(
@@ -106,14 +106,13 @@ const HomePage = () => {
     }
   }, [isListOpened, currentStep, dispatch]);
 
-  useEffect(()=>{
-
-    widgetBridge.init()
-    widgetBridge.subscribe(RomeEventType.TERMINAL_CLICK_BUTTON,(action:any)=>{
-      //console.log(action)
-      //todo switch and setCurrentStep(name)
-    })
-  },[])
+  useEffect(() => {
+    widgetBridge.init();
+    widgetBridge.subscribe(
+      RomeEventType.TERMINAL_CLICK_BUTTON,
+      (action: any) => {}
+    );
+  }, []);
 
   if (reviewModalOpen) return <ExchangeReviewModal />;
   if (confirmDeploymentErrorModalOpen) return <ConfirmDeploymentErrorModal />;

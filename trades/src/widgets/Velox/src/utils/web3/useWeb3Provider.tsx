@@ -41,9 +41,7 @@ export const useWeb3Provider = (): any => {
   }, [chainId, switchNetwork]);
 
   useEffect(() => {
-    console.log('return');
     if (!account) return;
-    console.log(account);
 
     dispatch(updateConnection({ account, chainHex: chainId, connected: true }));
   }, [account, chainId, dispatch]);

@@ -1,4 +1,4 @@
-import { useWallets, useWeb3React } from '@romeblockchain/wallet';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PROVIDER_DISCONNECT } from '../../redux/sharedActions';
@@ -15,7 +15,6 @@ function useProvider() {
     isActive: active,
     provider,
   } = useWeb3React();
-  console.log('useprovider');
   const disconnectFromWallet = () => {
     if (connector.deactivate) {
       connector.deactivate();

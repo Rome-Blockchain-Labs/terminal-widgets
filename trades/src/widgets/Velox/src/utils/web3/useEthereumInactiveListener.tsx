@@ -1,4 +1,4 @@
-import { useWallets, useWeb3React } from '@romeblockchain/wallet';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 

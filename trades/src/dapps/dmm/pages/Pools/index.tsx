@@ -5,8 +5,7 @@ import { FC, useCallback, useContext, useMemo, useState } from 'react';
 
 import { WidgetLoader } from '../../../../components/loaders';
 import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
-import {useSelector, useWindowDimensions} from '../../../../hooks';
-import { widgetByIdSelector } from '../../../../store/selectors/app';
+import { useWindowDimensions } from '../../../../hooks';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import { ButtonPrimary } from '../../components/Button';
 import Loader from '../../components/Loader';
@@ -45,16 +44,10 @@ const Pools: FC = () => {
   const { account, chainId } = useWallets();
   const [searchValue] = useState('');
 
-  const {
-    currencyIdA,
-    currencyIdB,
-    setCurrencyIdA,
-    setCurrencyIdB,
-    setPage,
-    widgetId,
-  } = useContext(DmmContext);
+  const { currencyIdA, currencyIdB, setCurrencyIdA, setCurrencyIdB, setPage } =
+    useContext(DmmContext);
 
-  const width =useWindowDimensions()?.width || 0
+  const width = useWindowDimensions()?.width || 0;
 
   const above768 = width > 768;
 
