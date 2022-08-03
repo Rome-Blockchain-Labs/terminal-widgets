@@ -1,14 +1,14 @@
+import { useWallets,useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../../../contexts/WalletsContext/WalletContext';
 import { updateConnection } from '../../redux/wallet/walletSlice';
 
 export const useEthereumInactiveListener = (
   chainChangedCallback: Function | null,
   accountsChangedCallback: Function | null
 ) => {
-  const { active, chainId, connector } = useWallets();
+  const { chainId, connector, isActive:active } = useWeb3React();
 
   const { ethereum } = window as any;
 

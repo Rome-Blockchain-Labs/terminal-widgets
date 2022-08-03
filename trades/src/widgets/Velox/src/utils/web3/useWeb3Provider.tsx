@@ -1,24 +1,34 @@
+import { useWallets, useWeb3React} from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { NetworkName } from '../../../../../constants/networkExchange';
-import { useWallets } from '../../../../../contexts/WalletsContext/WalletContext';
 import { enableVeloxWidgetMode } from '../../config';
 import { SUPPORTED_CHAIN_IDS } from '../../constants';
 import { updateConnection } from '../../redux/wallet/walletSlice';
 import { useSwitchNetwork } from './useSwitchNetwork';
 import { getDefaultNetworkName } from './util';
+import {useWalletsSelection} from './walletSelectionContext';
 
 export const useWeb3Provider = (): any => {
   const dispatch = useDispatch();
   const {
+    setSelectedWallet,
+    ...restParams
+  } = useWallets();
+  const {toggleSelectingNetwork} = useWalletsSelection()
+  const {
     account,
     chainId,
     connector,
-    disconnectFromWallet,
-    promptWalletChange,
-    ...restParams
-  } = useWallets();
+    isActive
+  } = useWeb3React();
+
+  const disconnectFromWallet = (networkName:any /**todo NetworkName from wallertContext**/)=>{
+    // connector.deactivate() todo investigate
+    setSelectedWallet(undefined)
+  }
+
   const { switchNetwork } = useSwitchNetwork();
 
   useEffect(() => {
@@ -43,7 +53,8 @@ export const useWeb3Provider = (): any => {
   return {
     ...restParams,
     account,
-    activate: promptWalletChange,
+    activate: toggleSelectingNetwork,
+    active:isActive && account,
     connector,
     deactivate: disconnectFromWallet,
     isUnsupportedChainId,

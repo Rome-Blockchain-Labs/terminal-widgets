@@ -1,7 +1,7 @@
+import { useWallets,useWeb3React } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../../../contexts/WalletsContext/WalletContext';
 import { PROVIDER_DISCONNECT } from '../../../redux/sharedActions';
 import { updateConnection } from '../../../redux/wallet/walletSlice';
 

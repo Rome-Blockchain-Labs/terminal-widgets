@@ -1,5 +1,6 @@
 import { useResizeDetector } from 'react-resize-detector';
 
+import {WalletSelectionContextProvider} from '../utils/web3/walletSelectionContext';
 import { Widget, WidgetFrame } from './assets/styled';
 import StrategyConfig from './components/StrategyConfig';
 import WidgetSizeStateContext, {
@@ -25,7 +26,10 @@ function App(props: WidgetSizeState) {
 
   return (
     <WidgetSizeStateContext.Provider value={widgetSizeState}>
-      {component}
+      <WalletSelectionContextProvider>
+        {component}
+      </WalletSelectionContextProvider>
+
     </WidgetSizeStateContext.Provider>
   );
 }
