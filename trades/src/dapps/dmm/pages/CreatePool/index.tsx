@@ -9,10 +9,12 @@ import {
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
 import { Link } from 'react-router-dom';
+import {useWindowSize} from 'react-use';
 import { Flex, Text } from 'rebass';
 import { theme } from 'twin.macro';
 
@@ -20,9 +22,6 @@ import {
   ConfirmationModalContent,
   TransactionConfirmationModal,
 } from '../../../../components/modals';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
-import { useSelector } from '../../../../hooks';
-import { widgetByIdSelector } from '../../../../store/selectors/app';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import {
   ButtonError,
@@ -97,7 +96,7 @@ import {
 } from './styled';
 
 export default function CreatePool() {
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const {
     currencyIdA,
@@ -494,8 +493,7 @@ export default function CreatePool() {
 
   const { widgetId } = useContext(DmmContext);
 
-  const width =
-    useSelector((state) => widgetByIdSelector(state)(widgetId).width) || 0;
+  const width = useWindowSize().width || 0;
 
   const above768 = width > 768;
 

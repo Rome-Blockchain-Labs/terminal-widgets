@@ -1,8 +1,8 @@
 import { JSBI, Pair, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useMemo, useState } from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import Card from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
@@ -16,6 +16,7 @@ import { SwitchLocaleLink } from '../../components/SwitchLocaleLink';
 import { BIG_INT_ZERO } from '../../constants';
 import { usePairs, usePairsByAddress } from '../../data/Reserves';
 import useDebounce from '../../hooks/useDebounce';
+import { useWalletModalToggle } from '../../state/application/hooks';
 import {
   UserLiquidityPosition,
   useUserLiquidityPositions,
@@ -71,7 +72,7 @@ const PositionCardGrid = styled.div`
 `;
 
 export default function Pool() {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
 
   const liquidityPositionTokenPairs = useLiquidityPositionTokenPairs();
 
@@ -178,6 +179,7 @@ export default function Pool() {
     }
   );
 
+  const toggleWalletModal = useWalletModalToggle();
   return (
     <>
       <PageWrapper>
@@ -210,7 +212,9 @@ export default function Pool() {
 
             {!account ? (
               <Card padding="40px">
-                <span>Connect to a wallet to view your liquidity.</span>
+                <button onClick={toggleWalletModal}>
+                  Connect to a wallet to view your liquidity.
+                </button>
               </Card>
             ) : v2IsLoading || loadingUserLiquidityPositions ? (
               <EmptyProposals>

@@ -1,10 +1,10 @@
 import { Currency, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { TokenList } from '@uniswap/token-lists';
 import React from 'react';
 import { AlertCircle, ArrowLeft } from 'react-feather';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { ButtonPrimary } from '../../components/Button';
 import Card from '../../components/Card';
 import { AutoColumn } from '../../components/Column';
@@ -46,7 +46,7 @@ export function ImportToken({
   onDismiss,
   tokens,
 }: ImportProps) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const addToken = useAddUserToken();
 

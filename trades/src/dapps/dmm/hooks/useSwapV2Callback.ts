@@ -12,12 +12,12 @@ import {
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import getSwapParameters, { SwapV2Parameters } from '@kyberswap/aggregator-sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useMemo } from 'react';
 import { useEffect, useState } from 'react';
 import invariant from 'tiny-invariant';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import {
   BIPS_BASE,
   ETHER_ADDRESS,
@@ -132,7 +132,7 @@ function useSwapV2CallArguments(
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips
   recipientAddressOrName: string | null // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
 ): SwapCall[] | undefined {
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const { address: recipientAddress } = useENS(recipientAddressOrName);
   const recipient =
@@ -204,7 +204,7 @@ export function useSwapV2Callback(
   callback: null | (() => Promise<string>);
   error: string | null;
 } {
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const swapCalls = useSwapV2CallArguments(
     trade,

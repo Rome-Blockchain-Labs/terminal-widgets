@@ -2,10 +2,10 @@
 import { ChainId, Token } from '@dynamic-amm/sdk';
 import { Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import FAIRLAUNCH_ABI from '../../constants/abis/fairlaunch.json';
 import { FAIRLAUNCH_ADDRESSES } from '../../constants/index';
@@ -16,7 +16,7 @@ import { useMultipleContractSingleData } from '../multicall/hooks';
 import { setLoading, setSchedulesByRewardLocker } from './actions';
 
 export const useRewardLockerAddresses = () => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const rewardLockerAddressesMulticallResult = useMultipleContractSingleData(
     FAIRLAUNCH_ADDRESSES[chainId as ChainId],
     new Interface(FAIRLAUNCH_ABI),
@@ -40,7 +40,7 @@ export const useRewardLockerAddresses = () => {
 };
 
 export const useRewardTokensByRewardLocker = () => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const rewardTokensMulticallResult = useMultipleContractSingleData(
     FAIRLAUNCH_ADDRESSES[chainId as ChainId],
@@ -100,7 +100,7 @@ export const useRewardTokensByRewardLocker = () => {
 
 export const useSchedules = () => {
   const dispatch = useAppDispatch();
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const rewardLockerAddresses = useRewardLockerAddresses();
   const rewardTokensByRewardLocker = useRewardTokensByRewardLocker();
   const rewardLockerContracts = useRewardLockerContracts();

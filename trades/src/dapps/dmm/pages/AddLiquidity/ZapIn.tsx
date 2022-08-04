@@ -8,6 +8,7 @@ import {
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
@@ -20,7 +21,6 @@ import {
   TransactionConfirmationModal,
   TransactionErrorContent,
 } from '../../../../components/modals';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   ButtonError,
   ButtonLight,
@@ -100,7 +100,7 @@ const ZapIn = ({
   currencyIdB: string;
   pairAddress: string;
 }) => {
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const currencyA = useCurrency(currencyIdA);
   const currencyB = useCurrency(currencyIdB);

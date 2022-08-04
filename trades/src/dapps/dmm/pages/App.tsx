@@ -2,17 +2,18 @@ import 'twin.macro';
 
 import { ApolloProvider } from '@apollo/client';
 import { ChainId } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { KYBER_KRYSTAL_API } from '../../../config';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch } from '../../../store';
 import { DmmContext, DmmPage } from '../../../widgets/Dmm/DmmContext';
 import { defaultExchangeClient } from '../apollo/client';
 import Popups from '../components/Popups';
 import SettingsModal from '../components/SettingsModal';
+import WalletModal from '../components/WalletModal';
 import Web3ReactManager from '../components/Web3ReactManager';
 import { BLACKLIST_WALLETS } from '../constants';
 import { setGasPrice } from '../state/application/actions';
@@ -38,7 +39,7 @@ const BodyWrapper = styled.div`
   flex-direction: column;
   width: calc(100% - 20px);
   align-items: center;
-  margin:10px;
+  margin: 10px;
 
   flex: 1;
   overflow-y: auto;
@@ -47,7 +48,7 @@ const BodyWrapper = styled.div`
 `;
 
 export default function App() {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const apolloClient = useExchangeClient();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -105,6 +106,7 @@ export default function App() {
                 {page === DmmPage.ADDLIQUIDITY && <AddLiquidity />}
                 {page === DmmPage.REMOVELIQUIDITY && <RemoveLiquidity />}
                 <SettingsModal />
+                <WalletModal />
               </BodyWrapper>
             </Web3ReactManager>
           </AppWrapper>

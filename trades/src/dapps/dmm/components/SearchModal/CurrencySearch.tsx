@@ -1,4 +1,5 @@
 import { Currency, ETHER, Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   KeyboardEvent,
   RefObject,
@@ -15,7 +16,6 @@ import styled from 'styled-components';
 import tw, { theme } from 'twin.macro';
 
 import { CloseButton } from '../../../../components/buttons';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   useAllTokens,
   useIsTokenActive,
@@ -76,7 +76,7 @@ export function CurrencySearch({
   showImportView,
   showManageView,
 }: CurrencySearchProps) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const fixedList = useRef<FixedSizeList>();
   const [searchQuery, setSearchQuery] = useState<string>('');

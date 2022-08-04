@@ -11,6 +11,7 @@ import {
 import { BigNumber } from '@ethersproject/bignumber';
 import { splitSignature } from '@ethersproject/bytes';
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Text } from 'rebass';
@@ -21,7 +22,6 @@ import {
   TransactionConfirmationModal,
   TransactionErrorContent,
 } from '../../../../components/modals';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import {
   ButtonConfirmed,
   ButtonError,
@@ -97,7 +97,7 @@ export default function ZapOut({
     useCurrency(currencyIdA) ?? undefined,
     useCurrency(currencyIdB) ?? undefined,
   ];
-  const { account, chainId, provider } = useWallets();
+  const { account, chainId, provider } = useWeb3React();
 
   const nativeA = useCurrencyConvertedToNative(currencyA as Currency);
   const nativeB = useCurrencyConvertedToNative(currencyB as Currency);

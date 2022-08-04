@@ -4,12 +4,12 @@ import {
   CurrencyAmount,
   TokenAmount,
 } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useEffect, useMemo, useRef } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Flex, Text } from 'rebass';
 import styled, { css } from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useAllTokens } from '../../hooks/Tokens';
 import useThrottle from '../../hooks/useThrottle';
 import { Field } from '../../state/swap/actions';
@@ -387,7 +387,7 @@ interface RoutingProps {
 }
 
 const Routing = ({ currencies, parsedAmounts, trade }: RoutingProps) => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const nativeInputCurrency = useCurrencyConvertedToNative(
     currencies[Field.INPUT] || undefined

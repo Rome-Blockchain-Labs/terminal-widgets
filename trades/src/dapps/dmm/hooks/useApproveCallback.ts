@@ -7,9 +7,9 @@ import {
 } from '@dynamic-amm/sdk';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TransactionResponse } from '@ethersproject/providers';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { ROUTER_ADDRESSES, ROUTER_ADDRESSES_V2 } from '../constants';
 import { useTokenAllowance } from '../data/Allowances';
 import { Field } from '../state/swap/actions';
@@ -35,7 +35,7 @@ export function useApproveCallback(
   amountToApprove?: CurrencyAmount,
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
   const token =
     amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
   const currentAllowance = useTokenAllowance(
@@ -139,7 +139,7 @@ export function useApproveCallbackFromTrade(
   trade?: Trade,
   allowedSlippage = 0
 ) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const amountToApprove = useMemo(
     () =>
       trade
@@ -160,7 +160,7 @@ export function useApproveCallbackFromTradeV2(
   trade?: Aggregator,
   allowedSlippage = 0
 ) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const amountToApprove = useMemo(
     () =>
       trade

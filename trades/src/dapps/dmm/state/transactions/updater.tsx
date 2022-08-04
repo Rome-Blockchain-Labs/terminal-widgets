@@ -1,10 +1,10 @@
 import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { AGGREGATOR_ROUTER_SWAPPED_EVENT_TOPIC } from '../../constants/index';
 import { getFullDisplayBalance } from '../../utils/formatBalance';
@@ -33,7 +33,7 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId, provider } = useWallets();
+  const { chainId, provider } = useWeb3React();
 
   const lastBlockNumber = useBlockNumber();
 

@@ -1,10 +1,10 @@
 import { ChainId } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
 import { Tags, TokenList } from '@uniswap/token-lists';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import {
   AVAX_TOKEN_LISTS,
@@ -121,7 +121,7 @@ export const getTokenAddressMap = (chainId?: ChainId) => {
 const TRANSFORMED_DEFAULT_TOKEN_LIST = listToTokenMap(DEFAULT_TOKEN_LIST);
 
 export function useDMMTokenList(): TokenAddressMap {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useMemo(() => {
     return getTokenAddressMap(chainId);
@@ -150,7 +150,7 @@ export function useAllListsByChainId(): {
     readonly error: string | null;
   };
 } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const allLists = useAllLists();
 

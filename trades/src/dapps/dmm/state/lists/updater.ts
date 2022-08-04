@@ -1,8 +1,8 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch } from '../../../../store';
 import { UNSUPPORTED_LIST_URLS } from '../../constants/lists';
 import { useFetchListCallback } from '../../hooks/useFetchListCallback';
@@ -13,7 +13,7 @@ import { acceptListUpdate } from './actions';
 import { useActiveListUrls } from './hooks';
 
 export default function Updater(): null {
-  const { provider } = useWallets();
+  const { provider } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
   const isWindowVisible = useIsWindowVisible();
 

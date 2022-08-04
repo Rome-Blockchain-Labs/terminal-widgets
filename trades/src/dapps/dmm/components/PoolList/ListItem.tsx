@@ -1,4 +1,5 @@
 import { Fraction, JSBI, Pair } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext } from 'react';
 import { MoreHorizontal } from 'react-feather';
 import { useDispatch } from 'react-redux';
@@ -6,7 +7,6 @@ import { Flex } from 'rebass';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import { AMP_HINT, MAX_ALLOW_APY } from '../../constants/index';
 import { usePoolDetailModalToggle } from '../../state/application/hooks';
@@ -119,7 +119,7 @@ export const ItemCard = ({
   pool,
   subgraphPoolData,
 }: ListItemProps) => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const amp = new Fraction(pool.amp).divide(JSBI.BigInt(10000));
   const { setCurrencyIdA, setCurrencyIdB, setPage, setPairAddress } =
     useContext(DmmContext);
@@ -367,7 +367,7 @@ const ListItem = ({
   pool,
   subgraphPoolData,
 }: ListItemProps) => {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const dispatch = useDispatch();
   const togglePoolDetailModal = usePoolDetailModalToggle();
   const { setCurrencyIdA, setCurrencyIdB, setPage, setPairAddress } =

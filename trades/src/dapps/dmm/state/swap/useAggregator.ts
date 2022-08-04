@@ -1,7 +1,7 @@
 import { Currency, CurrencyAmount, ZERO } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { BAD_RECIPIENT_ADDRESSES } from '../../constants';
 import { useCurrency } from '../../hooks/Tokens';
 import { useTradeExactInV2 } from '../../hooks/Trades';
@@ -26,7 +26,7 @@ export function useDerivedSwapInfoV2(): {
   inputError?: string;
   onRefresh: () => void;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const {
     independentField,

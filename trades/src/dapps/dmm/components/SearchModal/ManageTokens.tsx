@@ -1,6 +1,7 @@
 import 'twin.macro';
 
 import { Token } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, {
   RefObject,
   useCallback,
@@ -10,7 +11,6 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { useToken } from '../../hooks/Tokens';
 import {
   useRemoveUserAddedToken,
@@ -51,7 +51,7 @@ export default function ManageTokens({
   setModalView: (view: CurrencyModalView) => void;
   setImportToken: (token: Token) => void;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
 

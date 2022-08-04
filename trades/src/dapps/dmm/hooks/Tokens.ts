@@ -1,9 +1,9 @@
 import { Currency, currencyEquals, ETHER, Token } from '@dynamic-amm/sdk';
 import { parseBytes32String } from '@ethersproject/strings';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { arrayify } from 'ethers/lib/utils';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { createTokenFilterFunction } from '../components/SearchModal/filtering';
 import {
   TokenAddressMap,
@@ -23,7 +23,7 @@ function useTokensFromMap(
   tokenMap: TokenAddressMap,
   includeUserAdded: boolean
 ): { [address: string]: Token } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const userAddedTokens = useUserAddedTokens();
 
   return useMemo(() => {
@@ -104,7 +104,7 @@ function parseStringOrBytes32(
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const tokens = useAllTokens();
 
   const address = isAddress(tokenAddress);
@@ -187,7 +187,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 export function useCurrency(
   currencyId: string | undefined
 ): Currency | null | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const isETH =
     chainId &&
     currencyId?.toUpperCase() ===
@@ -202,7 +202,7 @@ export function useSearchInactiveTokenLists(
 ): WrappedTokenInfo[] {
   const lists = useAllLists();
   const inactiveUrls = useInactiveListUrls();
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const activeTokens = useAllTokens();
 
   return useMemo(() => {

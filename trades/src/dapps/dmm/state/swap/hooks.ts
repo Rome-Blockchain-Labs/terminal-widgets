@@ -9,11 +9,11 @@ import {
   Trade,
 } from '@dynamic-amm/sdk';
 import { parseUnits } from '@ethersproject/units';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { ParsedQs } from 'qs';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppDispatch, AppState } from '../../../../store';
 import { BAD_RECIPIENT_ADDRESSES, KNC, USDC } from '../../constants';
 import { useCurrency } from '../../hooks/Tokens';
@@ -51,7 +51,7 @@ export function useSwapActionHandlers(): {
   onChangeRecipient: (recipient: string | null) => void;
   onChooseToSaveGas: (saveGas: boolean) => void;
 } {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
@@ -157,7 +157,7 @@ export function useDerivedSwapInfo(): {
   v2Trade: Trade | undefined;
   inputError?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const {
     independentField,
@@ -344,7 +344,7 @@ export function useDefaultsFromURLSearch():
       outputCurrencyId: string | undefined;
     }
   | undefined {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const dispatch = useDispatch<AppDispatch>();
   const parsedQs = useParsedQueryString();
   const [result, setResult] = useState<

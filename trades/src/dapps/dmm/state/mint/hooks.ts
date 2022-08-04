@@ -11,10 +11,10 @@ import {
   WETH,
 } from '@dynamic-amm/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { AppState } from '../../../../store';
 import {
   PairState,
@@ -59,7 +59,7 @@ export function useDerivedMintInfo(
   error?: string;
   unAmplifiedPairAddress?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, otherTypedValue, typedValue } = useMintState();
   const dependentField =
@@ -341,7 +341,7 @@ export function useDerivedZapInInfo(
   error?: string;
   unAmplifiedPairAddress?: string;
 } {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const { independentField, typedValue } = useMintState();
   const dependentField =

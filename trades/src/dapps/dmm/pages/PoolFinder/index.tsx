@@ -1,11 +1,11 @@
 import 'twin.macro';
 
 import { Currency, ETHER, JSBI, Pair, TokenAmount } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Plus } from 'react-feather';
 import { Text } from 'rebass';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import { ButtonDropdownLight } from '../../components/Button';
 import { LightCard } from '../../components/Card';
@@ -31,7 +31,7 @@ enum Fields {
 }
 
 export default function PoolFinder() {
-  const { account, chainId } = useWallets();
+  const { account, chainId } = useWeb3React();
 
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);

@@ -1,15 +1,15 @@
 import { ChainId, ETHER, Token, WETH } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
 import { ROME_ENV } from '../../../config';
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { COINGECKO_NETWORK_ID } from '../constants/index';
 
 export default function useTokensMarketPrice(
   tokens: (Token | null | undefined)[]
 ) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
 

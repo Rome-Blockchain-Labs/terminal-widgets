@@ -1,9 +1,9 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React from 'react';
 import { AlertCircle, CheckCircle } from 'react-feather';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getEtherscanLink, getEtherscanLinkText } from '../../utils';
 import { AutoColumn } from '../Column';
 import { AutoRow } from '../Row';
@@ -22,7 +22,7 @@ export default function TransactionPopup({
   success?: boolean;
   summary?: string;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return (
     <RowNoFlex>

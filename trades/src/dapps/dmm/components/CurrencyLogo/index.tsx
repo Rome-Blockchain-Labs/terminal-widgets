@@ -1,8 +1,8 @@
 import { ChainId, Currency, ETHER } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import BnbLogo from '../../assets/images/bnb-logo.png';
 import EthereumLogo from '../../assets/images/ethereum-logo.png';
 import AvaxLogo from '../../assets/networks/avax-network.png';
@@ -52,7 +52,7 @@ export default function CurrencyLogo({
   size?: string;
   style?: React.CSSProperties;
 }) {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const uriLocations = useHttpLocations(
     currency instanceof WrappedTokenInfo ? currency.logoURI : undefined
   );

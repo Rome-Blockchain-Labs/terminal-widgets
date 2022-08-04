@@ -1,7 +1,7 @@
 import { currencyEquals, WETH } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useContext, useState } from 'react';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { DmmContext } from '../../../../widgets/Dmm/DmmContext';
 import LiquidityProviderMode from '../../components/LiquidityProviderMode';
 import { AddRemoveTabs } from '../../components/NavigationTabs';
@@ -25,7 +25,7 @@ export default function RemoveLiquidity() {
     useCurrency(currencyIdA) ?? undefined,
     useCurrency(currencyIdB) ?? undefined,
   ];
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   const nativeA = useCurrencyConvertedToNative(currencyA);
   const nativeB = useCurrencyConvertedToNative(currencyB);

@@ -1,9 +1,10 @@
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
+import { useWeb3React } from '@romeblockchain/wallet';
+
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks';
 import { useArgentWalletDetectorContract } from './useContract';
 
 export default function useIsArgentWallet(): boolean {
-  const { account } = useWallets();
+  const { account } = useWeb3React();
   const argentWalletDetector = useArgentWalletDetectorContract();
   const call = useSingleCallResult(
     argentWalletDetector,

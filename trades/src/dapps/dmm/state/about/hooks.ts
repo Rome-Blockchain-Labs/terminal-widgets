@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ChainId } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useEffect, useState } from 'react';
 
 import { KYBER_MAINNET_ENV } from '../../../../config';
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getExchangeSubgraphUrls } from '../../apollo/manager';
 import { GLOBAL_DATA } from '../../apollo/queries';
 import useAggregatorVolume from '../../hooks/useAggregatorVolume';
@@ -32,7 +32,7 @@ interface GlobalData {
 }
 
 export function useGlobalData() {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const blockNumber = useBlockNumber();
   const apolloClient = useExchangeClient();
   const [globalData, setGlobalData] = useState<GlobalData>();

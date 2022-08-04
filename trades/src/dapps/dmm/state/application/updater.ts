@@ -1,14 +1,14 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import { getExchangeSubgraphClients } from '../../apollo/manager';
 import useDebounce from '../../hooks/useDebounce';
 import useIsWindowVisible from '../../hooks/useIsWindowVisible';
 import { setExchangeSubgraphClient, updateBlockNumber } from './actions';
 
 export default function Updater(): null {
-  const { chainId, provider } = useWallets();
+  const { chainId, provider } = useWeb3React();
   const dispatch = useDispatch();
 
   const windowVisible = useIsWindowVisible();

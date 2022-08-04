@@ -1,9 +1,9 @@
 import { ChainId, WETH } from '@dynamic-amm/sdk';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json';
 import { Contract } from 'ethers';
 import { useMemo } from 'react';
 
-import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import {
   FACTORY_ADDRESSES,
   FAIRLAUNCH_ADDRESSES,
@@ -34,7 +34,7 @@ export function useContract(
   ABI: any,
   withSignerIfPossible = true
 ): Contract | null {
-  const { account, provider } = useWallets();
+  const { account, provider } = useWeb3React();
   return useMemo(() => {
     if (!address || !ABI || !provider) return null;
     try {
@@ -56,7 +56,7 @@ export function useContractForReading(
   ABI: any,
   withSignerIfPossible = true
 ): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useMemo(() => {
     if (!address || !chainId) return null;
@@ -78,7 +78,7 @@ export function useMultipleContracts(
 ): {
   [key: string]: Contract;
 } | null {
-  const { account, provider } = useWallets();
+  const { account, provider } = useWeb3React();
 
   return useMemo(() => {
     if (
@@ -136,7 +136,7 @@ export function useTokenContractForReading(
 export function useWETHContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   return useContract(
     chainId ? WETH[chainId as keyof typeof WETH].address : undefined,
     WETH_ABI,
@@ -145,7 +145,7 @@ export function useWETHContract(
 }
 
 export function useArgentWalletDetectorContract(): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   return useContract(
     chainId === ChainId.MAINNET
       ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS
@@ -158,7 +158,7 @@ export function useArgentWalletDetectorContract(): Contract | null {
 export function useENSRegistrarContract(
   withSignerIfPossible?: boolean
 ): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   let address: string | undefined;
   if (chainId) {
     switch (chainId) {
@@ -195,7 +195,7 @@ export function usePairContract(
 }
 
 export function useMulticallContract(): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   return useContractForReading(
     chainId && MULTICALL_NETWORKS[chainId as keyof typeof MULTICALL_NETWORKS],
     MULTICALL_ABI,
@@ -204,7 +204,7 @@ export function useMulticallContract(): Contract | null {
 }
 
 export function useSocksController(): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   return useContract(
     chainId === ChainId.MAINNET
       ? '0x65770b5283117639760beA3F867b69b3697a91dd'
@@ -215,7 +215,7 @@ export function useSocksController(): Contract | null {
 }
 
 export function useFactoryContract(): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useContract(
     chainId && FACTORY_ADDRESSES[chainId as keyof typeof FACTORY_ADDRESSES],
@@ -224,7 +224,7 @@ export function useFactoryContract(): Contract | null {
 }
 
 export function useZapContract(): Contract | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useContract(
     chainId && ZAP_ADDRESSES[chainId as keyof typeof ZAP_ADDRESSES],
@@ -235,7 +235,7 @@ export function useZapContract(): Contract | null {
 export function useFairLaunchContracts(withSignerIfPossible?: boolean): {
   [key: string]: Contract;
 } | null {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
 
   return useMultipleContracts(
     chainId &&
