@@ -3,6 +3,7 @@ import tw from 'twin.macro';
 
 import { IIconProps } from '.';
 export const HermesProtocolIcon: FC<IIconProps> = ({
+  className,
   color,
   grayscale,
   height,
@@ -11,6 +12,7 @@ export const HermesProtocolIcon: FC<IIconProps> = ({
 }) => {
   return (
     <svg
+      className={className}
       css={isBackground ? [tw`absolute -left-1/2`] : ['']}
       height={isBackground ? '100%' : height ?? 28}
       version="1.1"
