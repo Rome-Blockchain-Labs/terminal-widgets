@@ -10,7 +10,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/providers';
 import { useWeb3React } from '@romeblockchain/wallet';
 import { parseUnits } from 'ethers/lib/utils';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
 import { Link } from 'react-router-dom';
 import { Flex, Text } from 'rebass';
@@ -21,9 +21,6 @@ import {
   TransactionConfirmationModal,
   TransactionErrorContent,
 } from '../../../../components/modals';
-import { useSelector } from '../../../../hooks';
-import { widgetByIdSelector } from '../../../../store/selectors/app';
-import { DmmContext } from '../../../../widgets/Dmm/DmmContext';
 import {
   ButtonError,
   ButtonLight,
@@ -437,10 +434,7 @@ const TokenPair = ({
   const usdPrices = useTokensPrice(tokens);
   const marketPrices = useTokensMarketPrice(tokens);
 
-  const { widgetId } = useContext(DmmContext);
-
-  const width =
-    useSelector((state) => widgetByIdSelector(state)(widgetId).width) || 0;
+  const width = 0;
 
   const above768 = width > 768;
 

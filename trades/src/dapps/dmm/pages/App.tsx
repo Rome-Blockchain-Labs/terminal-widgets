@@ -39,7 +39,7 @@ const BodyWrapper = styled.div`
   flex-direction: column;
   width: calc(100% - 20px);
   align-items: center;
-  margin:10px;
+  margin: 10px;
 
   flex: 1;
   overflow-y: auto;

@@ -494,8 +494,7 @@ export default function CreatePool() {
 
   const { widgetId } = useContext(DmmContext);
 
-  const width =
-    useSelector((state) => widgetByIdSelector(state)(widgetId).width) || 0;
+  const width = 0;
 
   const above768 = width > 768;
 
