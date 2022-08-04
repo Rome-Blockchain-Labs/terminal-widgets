@@ -14,6 +14,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
 import { Link } from 'react-router-dom';
+import {useWindowSize} from 'react-use';
 import { Flex, Text } from 'rebass';
 import { theme } from 'twin.macro';
 
@@ -21,8 +22,6 @@ import {
   ConfirmationModalContent,
   TransactionConfirmationModal,
 } from '../../../../components/modals';
-import { useSelector } from '../../../../hooks';
-import { widgetByIdSelector } from '../../../../store/selectors/app';
 import { DmmContext, DmmPage } from '../../../../widgets/Dmm/DmmContext';
 import {
   ButtonError,
@@ -494,7 +493,7 @@ export default function CreatePool() {
 
   const { widgetId } = useContext(DmmContext);
 
-  const width = 0;
+  const width = useWindowSize().width || 0;
 
   const above768 = width > 768;
 

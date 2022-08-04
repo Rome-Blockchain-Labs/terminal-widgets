@@ -1,6 +1,7 @@
 import { currencyEquals, WETH } from '@dynamic-amm/sdk';
 import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useContext, useState } from 'react';
+import {useWindowSize} from 'react-use';
 
 import { DmmContext } from '../../../../widgets/Dmm/DmmContext';
 import LiquidityProviderMode from '../../components/LiquidityProviderMode';
@@ -52,7 +53,7 @@ export default function AddLiquidity() {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const width = 0;
+  const width = useWindowSize().width || 0;
 
   const above768 = width > 768;
 

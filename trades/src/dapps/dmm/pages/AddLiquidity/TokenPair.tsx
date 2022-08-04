@@ -13,6 +13,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
 import { Link } from 'react-router-dom';
+import {useWindowSize} from 'react-use';
 import { Flex, Text } from 'rebass';
 import { theme } from 'twin.macro';
 
@@ -434,7 +435,7 @@ const TokenPair = ({
   const usdPrices = useTokensPrice(tokens);
   const marketPrices = useTokensMarketPrice(tokens);
 
-  const width = 0;
+  const width = useWindowSize().width || 0;
 
   const above768 = width > 768;
 
