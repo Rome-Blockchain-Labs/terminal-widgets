@@ -1,8 +1,9 @@
-import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
+import { RomeEventType } from '@romeblockchain/bridge';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { useIFrameContext } from '../../components/IFrameProvider/index';
 import { STEP1, STEP2, STEP3, STEP4 } from '../../constants';
 import { closeList, openList } from '../../redux/strategy/strategySlice';
 import { setCurrentStep } from '../../redux/strategyConfig/strategyConfigSlice';
@@ -73,6 +74,7 @@ enum Tabs {
 }
 
 const HomePage = () => {
+  const { widgetBridge } = useIFrameContext();
   const stepCompletions = useSelector(
     (state: any) => state?.velox?.strategyConfig
   );
@@ -105,38 +107,38 @@ const HomePage = () => {
   }, [isListOpened, currentStep, dispatch]);
 
   useEffect(() => {
-    widgetBridge.init();
     const onOpenedHandler = (name: any) => {
       dispatch(setCurrentStep(name));
       dispatch(closeList());
     };
-    widgetBridge.subscribe(
-      RomeEventType.TERMINAL_CLICK_BUTTON,
-      (action: any) => {
-        console.log(action)
-        switch (action.payload.id){
-          case Tabs.STEP1:
-            onOpenedHandler('step1')
-            break;
-          case Tabs.STEP2:
-            // stepCompletions.readyStep2 &&
-            onOpenedHandler('step2')
-            break;
-          case Tabs.STEP3:
-            // stepCompletions.readyStep3 &&
-            onOpenedHandler('step3')
-            break;
-          case Tabs.STEP4:
-            // stepCompletions.readyStep4 &&
-            onOpenedHandler('step4')
-            break;
-          case Tabs.OPEN_LIST:
-            dispatch(openList())
-            break;
+    if (widgetBridge) {
+      widgetBridge.subscribe(
+        RomeEventType.TERMINAL_CLICK_BUTTON,
+        (action: any) => {
+          switch (action.payload.id) {
+            case Tabs.STEP1:
+              onOpenedHandler('step1');
+              break;
+            case Tabs.STEP2:
+              // stepCompletions.readyStep2 &&
+              onOpenedHandler('step2');
+              break;
+            case Tabs.STEP3:
+              // stepCompletions.readyStep3 &&
+              onOpenedHandler('step3');
+              break;
+            case Tabs.STEP4:
+              // stepCompletions.readyStep4 &&
+              onOpenedHandler('step4');
+              break;
+            case Tabs.OPEN_LIST:
+              dispatch(openList());
+              break;
+          }
         }
-      }
-    );
-  }, [dispatch]);
+      );
+    }
+  }, [dispatch, widgetBridge]);
 
   if (reviewModalOpen) return <ExchangeReviewModal />;
   if (confirmDeploymentErrorModalOpen) return <ConfirmDeploymentErrorModal />;

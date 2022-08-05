@@ -1,5 +1,5 @@
 import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 
 import { UniswapPage } from '../../App';
 import { usePageContext } from '../../PageContext';
@@ -18,6 +18,7 @@ const IFrameProvider = ({ children }: { children: ReactNode }) => {
   const toggle = useSettingsModalToggle();
   useEffect(() => {
     widgetBridge.init();
+
     widgetBridge.subscribe(
       RomeEventType.TERMINAL_CLICK_BUTTON,
       function (action: any) {
@@ -46,3 +47,13 @@ const IFrameProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default IFrameProvider;
+
+export const useIFrameContext = () => {
+  const context = useContext(IFrameContext);
+  if (context === undefined) {
+    throw new Error(
+      'useIFrameContext must be used within a IFrameContextProvider'
+    );
+  }
+  return context;
+};

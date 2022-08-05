@@ -7,6 +7,7 @@ import Banner from './src/components/Banner.jsx';
 import { Footer } from './src/components/Footer';
 import Header from './src/components/Header';
 import HomePage from './src/components/HomePage';
+import IFrameProvider from './src/components/IFrameProvider';
 import { enableVeloxWidgetMode, enableVeloxWidgetTest } from './src/config';
 import Toasts from './src/containers/userFeedback/Toasts';
 import VeloxWidget from './src/widget';
@@ -40,10 +41,11 @@ function App(props: WidgetSizeState) {
         </BrowserRouter>
       );
     }
-
     return (
       <BrowserRouter>
-        <VeloxWidget {...props} />
+        <IFrameProvider>
+          <VeloxWidget {...props} />
+        </IFrameProvider>
       </BrowserRouter>
     );
   }

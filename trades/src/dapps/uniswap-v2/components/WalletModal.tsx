@@ -1,5 +1,6 @@
 import 'twin.macro';
 
+import { RomeEventType } from '@romeblockchain/bridge';
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
 import { AddEthereumChainParameter } from '@web3-react/types';
@@ -8,9 +9,10 @@ import { useContext } from 'react';
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
-import { EventGroups, sendStatelessEvent } from '../../../contexts';
+import { EventGroups } from '../../../contexts/GtagContext';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
+import { useIFrameContext } from './IFrameProvider/index';
 
 const WalletModal = ({
   chainParams,
@@ -19,6 +21,7 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { selectedWallet, setSelectedWallet } = useWallets();
+  const { widgetBridge } = useIFrameContext();
 
   const closeModal = () => {
     setWalletVisibility(false);
@@ -46,29 +49,33 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  sendStatelessEvent(
-                    'Wallet_Successful_Connection',
-                    EventGroups.WalletConnection
-                  );
-                  sendStatelessEvent(
-                    `${wallet.wallet.replace(' ', '_')}_Successful_Connection`,
-                    EventGroups.WalletConnection
-                  );
-                  if (wallet.connector instanceof MetaMask) {
-                    wallet.connector
-                      .activate(chainParams)
-                      .then(() => setSelectedWallet(wallet.wallet));
-                  } else {
-                    if (typeof chainParams === 'number') {
+                  try {
+                    if (wallet.connector instanceof MetaMask) {
                       wallet.connector
                         .activate(chainParams)
                         .then(() => setSelectedWallet(wallet.wallet));
                     } else {
-                      wallet.connector
-                        .activate(chainParams.chainId)
-                        .then(() => setSelectedWallet(wallet.wallet));
+                      if (typeof chainParams === 'number') {
+                        wallet.connector
+                          .activate(chainParams)
+                          .then(() => setSelectedWallet(wallet.wallet));
+                      } else {
+                        wallet.connector
+                          .activate(chainParams.chainId)
+                          .then(() => setSelectedWallet(wallet.wallet));
+                      }
                     }
-                  }
+                    widgetBridge?.emit(
+                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
+                      {
+                        event: `${wallet.wallet.replace(
+                          ' ',
+                          '_'
+                        )}_Successful_Connection`,
+                        eventGroup: EventGroups.WalletConnection,
+                      }
+                    );
+                  } catch (error) {}
 
                   closeModal();
                 }}

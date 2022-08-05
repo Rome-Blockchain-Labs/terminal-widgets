@@ -24,7 +24,7 @@ const WalletModal = () => {
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div tw="mx-3 p-6 w-full  min-h-[50%] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10">
+        <div tw="mx-3 p-6 w-full h-1/2 md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10">
           <div tw="w-full text-yellow-400 flex">
             <span>CONNECT/SWITCH TO A WALLET</span>
             <button tw="ml-auto mr-3 " onClick={closeModal}>

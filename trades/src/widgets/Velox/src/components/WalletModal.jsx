@@ -1,15 +1,18 @@
 import 'twin.macro';
 
+import { RomeEventType } from '@romeblockchain/bridge';
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
 
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
-import { EventGroups, sendStatelessEvent } from '../../../../contexts';
+import { EventGroups } from '../../../../contexts';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
+import { useIFrameContext } from './IFrameProvider';
 
 const WalletModal = () => {
   const { selectedWallet, setSelectedWallet } = useWallets();
+  const { widgetBridge } = useIFrameContext();
 
   return (
     <>
@@ -28,29 +31,33 @@ const WalletModal = () => {
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  sendStatelessEvent(
-                    'Wallet_Successful_Connection',
-                    EventGroups.WalletConnection
-                  );
-                  sendStatelessEvent(
-                    `${wallet.wallet.replace(' ', '_')}_Successful_Connection`,
-                    EventGroups.WalletConnection
-                  );
-                  if (wallet.connector instanceof MetaMask) {
-                    wallet.connector
-                      .activate()
-                      .then(() => setSelectedWallet(wallet.wallet));
-                  } else {
-                    if (typeof chainParams === 'number') {
+                  try {
+                    if (wallet.connector instanceof MetaMask) {
                       wallet.connector
                         .activate()
                         .then(() => setSelectedWallet(wallet.wallet));
                     } else {
-                      wallet.connector
-                        .activate()
-                        .then(() => setSelectedWallet(wallet.wallet));
+                      if (typeof chainParams === 'number') {
+                        wallet.connector
+                          .activate()
+                          .then(() => setSelectedWallet(wallet.wallet));
+                      } else {
+                        wallet.connector
+                          .activate()
+                          .then(() => setSelectedWallet(wallet.wallet));
+                      }
                     }
-                  }
+                    widgetBridge?.emit(
+                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
+                      {
+                        event: `${wallet.wallet.replace(
+                          ' ',
+                          '_'
+                        )}_Successful_Connection`,
+                        eventGroup: EventGroups.WalletConnection,
+                      }
+                    );
+                  } catch (error) {}
                 }}
                 isActive={isActive}
                 walletName={wallet.wallet}

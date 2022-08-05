@@ -4781,10 +4781,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@romeblockchain/bridge@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/@romeblockchain/bridge/-/bridge-0.0.1.tgz"
-  integrity sha512-Qta9lSifGXVeMjOMhFC6/BazeBshNXSswPIw6BHWTZstOfGZrY11PPftcphKkqxw7jGCOoveII10KJOnEbPXXQ==
+"@romeblockchain/bridge@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/bridge/-/bridge-0.0.3.tgz#6ac938d1051c0806c26a5282d722c46a777f43eb"
+  integrity sha512-VH5kQgHcQb6N831qLWOGtOu5FFssHtgzkxUz5fxRodi+fwiYyDE5A/8o5AWV6+kx140OQuLvWX17etdYaZJbow==
   dependencies:
     "@types/node" "^17.0.23"
     tsup "^5.11.13"
