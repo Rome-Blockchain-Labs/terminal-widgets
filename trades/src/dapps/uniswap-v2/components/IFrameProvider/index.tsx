@@ -13,6 +13,7 @@ export const IFrameContext = React.createContext<IFrameContextState>({
   widgetBridge: null,
 });
 
+// Do not extend provider with other variables to prevent rerenders
 const IFrameProvider = ({ children }: { children: ReactNode }) => {
   const { setPage } = usePageContext();
   const toggle = useSettingsModalToggle();
