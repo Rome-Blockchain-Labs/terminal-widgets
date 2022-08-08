@@ -2,14 +2,16 @@ import 'twin.macro';
 
 import { SUPPORTED_WALLETS, useWallets, Wallet } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
-import { AddEthereumChainParameter } from '@web3-react/types';
+import {
+  AddEthereumChainParameter,
+  ProviderConnectInfo,
+} from '@web3-react/types';
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
-import { EventGroups, sendStatelessEvent } from '../../../contexts';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 const WalletModal = ({
@@ -56,9 +58,20 @@ const WalletModal = ({
                         .activate(chainParams)
                         .then(() => setSelectedWallet(wallet.wallet));
                     } else {
+                      console.log('wallet connect activate');
                       wallet.connector
                         .activate(chainParams.chainId)
                         .then(() => {
+                          wallet.connector.provider
+                            ?.request<string | number>({
+                              method: 'eth_chainId',
+                            })
+                            .then(
+                              (chainId) =>
+                                chainId === chainParams.chainId &&
+                                setSelectedWallet(wallet.wallet)
+                            );
+
                           wallet.connector.provider?.request({
                             method: 'wallet_addEthereumChain',
                             params: [
