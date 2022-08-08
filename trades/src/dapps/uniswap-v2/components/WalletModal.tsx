@@ -1,19 +1,20 @@
 import 'twin.macro';
 
-import { SUPPORTED_WALLETS, useWallets, Wallet } from '@romeblockchain/wallet';
+import { RomeEventType } from '@romeblockchain/bridge';
+import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
-import {
-  AddEthereumChainParameter,
-  ProviderConnectInfo,
-} from '@web3-react/types';
+import { AddEthereumChainParameter } from '@web3-react/types';
 import { ethers } from 'ethers';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
+import { EventGroups } from '../../../contexts/GtagContext';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
+import { useIFrameContext } from './IFrameProvider/index';
+
 const WalletModal = ({
   chainParams,
 }: {
@@ -21,6 +22,7 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { selectedWallet, setSelectedWallet } = useWallets();
+  const { widgetBridge } = useIFrameContext();
 
   const closeModal = () => {
     setWalletVisibility(false);
@@ -32,7 +34,7 @@ const WalletModal = ({
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div tw="mx-3 p-6 w-full h-1/2 min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 max-h-72 max-w-lg">
+        <div tw="mx-3 p-6 w-full h-1/2 min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 h-fit-content max-w-lg">
           <div tw="w-full text-yellow-400 flex">
             <span>CONNECT / SWITCH TO A WALLET</span>
             <button tw="ml-auto mr-3 " onClick={closeModal}>
@@ -58,7 +60,6 @@ const WalletModal = ({
                         .activate(chainParams)
                         .then(() => setSelectedWallet(wallet.wallet));
                     } else {
-                      console.log('wallet connect activate');
                       wallet.connector
                         .activate(chainParams.chainId)
                         .then(() => {
@@ -89,8 +90,17 @@ const WalletModal = ({
                           });
                         });
                     }
+                    widgetBridge?.emit(
+                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
+                      {
+                        event: `${wallet.wallet.replace(
+                          ' ',
+                          '_'
+                        )}_Successful_Connection`,
+                        eventGroup: EventGroups.WalletConnection,
+                      }
+                    );
                   }
-
                   closeModal();
                 }}
                 isActive={isActive}

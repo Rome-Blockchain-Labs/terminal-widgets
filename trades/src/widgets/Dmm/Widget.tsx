@@ -1,57 +1,55 @@
-import {RomeEventType, widgetBridge} from '@romeblockchain/bridge';
-import React, {FC, memo, useContext, useEffect} from 'react';
+import { RomeEventType } from '@romeblockchain/bridge';
+import React, { FC, memo, useContext, useEffect } from 'react';
 
-import {Kyber} from '../../components/icons';
+import { Kyber } from '../../components/icons';
 import DmmApp from '../../dapps/dmm';
-import {useToggleSettingsMenu} from '../../dapps/dmm/state/application/hooks';
-import {WidgetCommonState} from '../../types';
-import {DmmContext, DmmPage} from './DmmContext';
-
+import { useToggleSettingsMenu } from '../../dapps/dmm/state/application/hooks';
+import { WidgetCommonState } from '../../types';
+import { DmmContext, DmmPage } from './DmmContext';
+import { useIFrameContext } from './IFrameProvider';
 
 enum Tabs {
-  SETTINGS='settings',
-  SWAP='swap',
-  POOL='pool',
-  POOLFINDER='poolfinder',
-  POOLS='pools',
-  CREATEPOOL='createpool',
-  ADDLIQUIDITY='addliquidity',
-  REMOVELIQUIDITY='removeliquidity',
+  SETTINGS = 'settings',
+  SWAP = 'swap',
+  POOL = 'pool',
+  POOLFINDER = 'poolfinder',
+  POOLS = 'pools',
+  CREATEPOOL = 'createpool',
+  ADDLIQUIDITY = 'addliquidity',
+  REMOVELIQUIDITY = 'removeliquidity',
 }
 
 export const widgetNameKyber = 'KYBERSWAP';
 
 const Widget: FC<WidgetCommonState> = memo(() => {
-
   const { setPage } = useContext(DmmContext);
   const toggle = useToggleSettingsMenu();
-  useEffect(()=>{
-
-    // setTimeout(()=>{setPage(DmmPage.POOLS)},5000)
-    // setPage(DmmPage.POOLS)
-
-      widgetBridge.init()
-      widgetBridge.subscribe(RomeEventType.TERMINAL_CLICK_BUTTON,(action:any)=>{
-        switch (action.payload.id) {
-
-          case Tabs.SETTINGS:
-            toggle()
-            break;
-          case Tabs.SWAP:
-            setPage(DmmPage.SWAP)
-            break;
-          case Tabs.POOLS:
-            setPage(DmmPage.POOLS)
-            break;
-          case Tabs.POOL:
-            setPage(DmmPage.POOL)
-            break;
-          default:
-            break;
+  const { widgetBridge } = useIFrameContext();
+  useEffect(() => {
+    if (widgetBridge) {
+      widgetBridge.subscribe(
+        RomeEventType.TERMINAL_CLICK_BUTTON,
+        (action: any) => {
+          switch (action.payload.id) {
+            case Tabs.SETTINGS:
+              toggle();
+              break;
+            case Tabs.SWAP:
+              setPage(DmmPage.SWAP);
+              break;
+            case Tabs.POOLS:
+              setPage(DmmPage.POOLS);
+              break;
+            case Tabs.POOL:
+              setPage(DmmPage.POOL);
+              break;
+            default:
+              break;
+          }
         }
-      })
-
-  },[setPage,toggle])
+      );
+    }
+  }, [setPage, toggle, widgetBridge]);
   // const widget = useSelector((state) => widgetByIdSelector(state)(uid));
 
   // const widget = {

@@ -1,11 +1,8 @@
 import 'twin.macro';
 
-import {
-  getAddChainParameters,
-  getAddChainParametersfromNetworkName,
-  SUPPORTED_WALLETS,
-  useWallets,
-} from '@romeblockchain/wallet';
+import { RomeEventType } from '@romeblockchain/bridge';
+import { getAddChainParameters } from '@romeblockchain/wallet';
+import { SUPPORTED_WALLETS, useWallets, Wallet } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
 import { ethers } from 'ethers';
 import tw, { theme } from 'twin.macro';
@@ -14,11 +11,9 @@ import { CloseButton } from '../../../../components/buttons';
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { ModalWrapper } from '../../../../components/modals';
-import {
-  getNetworkParamByChainId,
-  NetworkName,
-} from '../../../../constants/networkExchange/index';
+import { EventGroups } from '../../../../contexts';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
+import { useIFrameContext } from '../../../../widgets/Dmm/IFrameProvider';
 import { ApplicationModal } from '../../state/application/actions';
 import {
   useModalOpen,
@@ -31,6 +26,7 @@ export default function SettingsModal() {
   const open = useModalOpen(ApplicationModal.WALLET);
   const toggle = useWalletModalToggle();
   const { selectedWallet, setSelectedWallet } = useWallets();
+  const { widgetBridge } = useIFrameContext();
 
   return (
     <ModalWrapper noPadding isOpen={open} onDismiss={toggle}>
@@ -56,15 +52,30 @@ export default function SettingsModal() {
                 key={index}
                 connectHandler={async () => {
                   const chainParams = getAddChainParameters(43114);
+                  const sendWalletConnectEvent = (wallet: Wallet) => {
+                    widgetBridge?.emit(
+                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
+                      {
+                        event: `${wallet.replace(
+                          ' ',
+                          '_'
+                        )}_Successful_Connection`,
+                        eventGroup: EventGroups.WalletConnection,
+                      }
+                    );
+                  };
                   if (wallet.connector instanceof MetaMask) {
                     wallet.connector.activate(chainParams).then(() => {
                       setSelectedWallet(wallet.wallet);
+                      sendWalletConnectEvent(wallet.wallet);
+
                       toggle();
                     });
                   } else {
                     if (typeof chainParams === 'number') {
                       wallet.connector.activate(chainParams).then(() => {
                         setSelectedWallet(wallet.wallet);
+                        sendWalletConnectEvent(wallet.wallet);
                         toggle();
                       });
                     } else {
@@ -75,11 +86,13 @@ export default function SettingsModal() {
                             ?.request<string | number>({
                               method: 'eth_chainId',
                             })
-                            .then(
-                              (chainId) =>
-                                chainId === chainParams.chainId &&
-                                setSelectedWallet(wallet.wallet)
-                            );
+                            .then((chainId) => {
+                              if (chainId === chainParams.chainId) {
+                                setSelectedWallet(wallet.wallet);
+                                sendWalletConnectEvent(wallet.wallet);
+                                toggle();
+                              }
+                            });
                           wallet.connector.provider?.request({
                             method: 'wallet_addEthereumChain',
                             params: [
@@ -93,8 +106,9 @@ export default function SettingsModal() {
                           });
                           wallet.connector.provider?.on('chainChanged', () => {
                             setSelectedWallet(wallet.wallet);
-
+                            sendWalletConnectEvent(wallet.wallet);
                             wallet.connector.provider?.removeAllListeners();
+
                             toggle();
                           });
                         });

@@ -57,7 +57,7 @@
     "@reactour/tour": "^2.10.3",
     "@rebass/forms": "^4.0.6",
     "@reduxjs/toolkit": "^1.6.1",
-    "@romeblockchain/bridge": "^0.0.1",
+    "@romeblockchain/bridge": "^0.0.3",
     "@romeblockchain/react-components": "^0.3.21",
     "@romeblockchain/wallet": "0.1.8",
     "@sushiswap/core": "^1.4.2",

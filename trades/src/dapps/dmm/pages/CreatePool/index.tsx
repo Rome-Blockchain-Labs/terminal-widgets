@@ -14,7 +14,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { AlertTriangle, Plus } from 'react-feather';
 import { Link } from 'react-router-dom';
-import {useWindowSize} from 'react-use';
+import { useWindowSize } from 'react-use';
 import { Flex, Text } from 'rebass';
 import { theme } from 'twin.macro';
 
@@ -490,8 +490,6 @@ export default function CreatePool() {
       unAmplifiedPairAddress,
     ]
   );
-
-  const { widgetId } = useContext(DmmContext);
 
   const width = useWindowSize().width || 0;
 
