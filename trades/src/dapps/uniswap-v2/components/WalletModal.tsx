@@ -1,9 +1,10 @@
 import 'twin.macro';
 
-import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
+import { SUPPORTED_WALLETS, useWallets, Wallet } from '@romeblockchain/wallet';
 import { MetaMask } from '@web3-react/metamask';
 import { AddEthereumChainParameter } from '@web3-react/types';
-import { useContext } from 'react';
+import { ethers } from 'ethers';
+import { useContext, useState } from 'react';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
@@ -11,7 +12,6 @@ import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { EventGroups, sendStatelessEvent } from '../../../contexts';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
-
 const WalletModal = ({
   chainParams,
 }: {
@@ -46,14 +46,6 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  sendStatelessEvent(
-                    'Wallet_Successful_Connection',
-                    EventGroups.WalletConnection
-                  );
-                  sendStatelessEvent(
-                    `${wallet.wallet.replace(' ', '_')}_Successful_Connection`,
-                    EventGroups.WalletConnection
-                  );
                   if (wallet.connector instanceof MetaMask) {
                     wallet.connector
                       .activate(chainParams)
@@ -66,7 +58,23 @@ const WalletModal = ({
                     } else {
                       wallet.connector
                         .activate(chainParams.chainId)
-                        .then(() => setSelectedWallet(wallet.wallet));
+                        .then(() => {
+                          wallet.connector.provider?.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                              {
+                                ...chainParams,
+                                chainId: ethers.utils.hexValue(
+                                  chainParams.chainId
+                                ),
+                              },
+                            ],
+                          });
+                          wallet.connector.provider?.on('chainChanged', () => {
+                            setSelectedWallet(wallet.wallet);
+                            wallet.connector.provider?.removeAllListeners();
+                          });
+                        });
                     }
                   }
 
