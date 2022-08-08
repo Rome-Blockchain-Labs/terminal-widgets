@@ -12,7 +12,7 @@ const StyledContent = styled.div<{
   noBackground?: boolean;
   noPadding?: boolean;
 }>`
-  ${tw`rounded-lg flex max-w-md`}
+  ${tw`rounded-lg flex max-w-md w-full`}
 
   ${({ noBackground }) => !noBackground && tw`bg-dark-500`}
   ${({ maxHeight }) => maxHeight && `max-height: ${maxHeight}px;`}
