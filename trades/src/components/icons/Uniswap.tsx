@@ -1,11 +1,22 @@
 import React, { FC, memo } from 'react';
+import tw from 'twin.macro';
 
 import { IIconProps, TransitionPath } from '.';
 
 export const UniswapIcon: FC<IIconProps> = memo(
-  ({ active, activeColor, className, color, grayscale, height, width }) => (
+  ({
+    active,
+    activeColor,
+    className,
+    color,
+    grayscale,
+    height,
+    isBackground,
+    width,
+  }) => (
     <svg
       className={className}
+      css={[isBackground ? tw`absolute -left-1/2` : '']}
       height={height ?? 15.139}
       viewBox="0 0 390.9 393.2"
       width={width ?? 14.602}

@@ -1,13 +1,22 @@
 import React, { FC, useRef } from 'react';
+import tw from 'twin.macro';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IIconProps, TransitionCircle, TransitionPath } from '.';
 
-export const Solarbeam: FC<IIconProps> = ({ grayscale, height, width }) => {
+export const Solarbeam: FC<IIconProps> = ({
+  className,
+  grayscale,
+  height,
+  isBackground,
+  width,
+}) => {
   const uuid = useRef(uuidv4());
 
   return (
     <svg
+      className={className}
+      css={[isBackground ? tw`absolute -left-1/2` : '']}
       height={height ?? 28}
       viewBox="0 0 400 400"
       width={width ?? 28}

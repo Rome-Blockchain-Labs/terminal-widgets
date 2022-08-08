@@ -1,13 +1,22 @@
 import React, { FC, useRef } from 'react';
+import tw from 'twin.macro';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IIconProps, TransitionPath } from '.';
 
-export const BeamSwap: FC<IIconProps> = ({ grayscale, height, width }) => {
+export const BeamSwap: FC<IIconProps> = ({
+  className,
+  grayscale,
+  height,
+  isBackground,
+  width,
+}) => {
   const uuid = useRef(uuidv4());
 
   return (
     <svg
+      className={className}
+      css={[isBackground ? tw`absolute -left-1/2` : '']}
       height={height ?? 14.837}
       viewBox="0 0 400 400"
       width={width ?? 14.832}
