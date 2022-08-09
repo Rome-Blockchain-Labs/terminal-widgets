@@ -12,7 +12,10 @@ import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { ModalWrapper } from '../../../../components/modals';
 import { EventGroups } from '../../../../contexts';
-import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
+import {
+  handleConnect,
+  WalletBox,
+} from '../../../../contexts/WalletsContext/WalletSelectionModal';
 import { useIFrameContext } from '../../../../widgets/Dmm/IFrameProvider';
 import { ApplicationModal } from '../../state/application/actions';
 import {
@@ -52,68 +55,15 @@ export default function SettingsModal() {
                 key={index}
                 connectHandler={async () => {
                   const chainParams = getAddChainParameters(43114);
-                  const sendWalletConnectEvent = (wallet: Wallet) => {
-                    widgetBridge?.emit(
-                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
-                      {
-                        event: `${wallet.replace(
-                          ' ',
-                          '_'
-                        )}_Successful_Connection`,
-                        eventGroup: EventGroups.WalletConnection,
-                      }
-                    );
-                  };
-                  if (wallet.connector instanceof MetaMask) {
-                    wallet.connector.activate(chainParams).then(() => {
-                      setSelectedWallet(wallet.wallet);
-                      sendWalletConnectEvent(wallet.wallet);
 
-                      toggle();
-                    });
-                  } else {
-                    if (typeof chainParams === 'number') {
-                      wallet.connector.activate(chainParams).then(() => {
-                        setSelectedWallet(wallet.wallet);
-                        sendWalletConnectEvent(wallet.wallet);
-                        toggle();
-                      });
-                    } else {
-                      wallet.connector
-                        .activate(chainParams.chainId)
-                        .then(() => {
-                          wallet.connector.provider
-                            ?.request<string | number>({
-                              method: 'eth_chainId',
-                            })
-                            .then((chainId) => {
-                              if (chainId === chainParams.chainId) {
-                                setSelectedWallet(wallet.wallet);
-                                sendWalletConnectEvent(wallet.wallet);
-                                toggle();
-                              }
-                            });
-                          wallet.connector.provider?.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [
-                              {
-                                ...chainParams,
-                                chainId: ethers.utils.hexValue(
-                                  chainParams.chainId
-                                ),
-                              },
-                            ],
-                          });
-                          wallet.connector.provider?.on('chainChanged', () => {
-                            setSelectedWallet(wallet.wallet);
-                            sendWalletConnectEvent(wallet.wallet);
-                            wallet.connector.provider?.removeAllListeners();
-
-                            toggle();
-                          });
-                        });
-                    }
-                  }
+                  await handleConnect(
+                    wallet.connector,
+                    setSelectedWallet,
+                    wallet.wallet,
+                    widgetBridge,
+                    chainParams
+                  );
+                  toggle();
                 }}
                 isActive={isActive}
                 walletName={wallet.wallet}

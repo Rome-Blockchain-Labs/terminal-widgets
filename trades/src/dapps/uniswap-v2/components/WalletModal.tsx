@@ -11,7 +11,10 @@ import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { EventGroups } from '../../../contexts/GtagContext';
-import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
+import {
+  handleConnect,
+  WalletBox,
+} from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 import { useIFrameContext } from './IFrameProvider/index';
 
@@ -50,57 +53,13 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  if (wallet.connector instanceof MetaMask) {
-                    wallet.connector
-                      .activate(chainParams)
-                      .then(() => setSelectedWallet(wallet.wallet));
-                  } else {
-                    if (typeof chainParams === 'number') {
-                      wallet.connector
-                        .activate(chainParams)
-                        .then(() => setSelectedWallet(wallet.wallet));
-                    } else {
-                      wallet.connector
-                        .activate(chainParams.chainId)
-                        .then(() => {
-                          wallet.connector.provider
-                            ?.request<string | number>({
-                              method: 'eth_chainId',
-                            })
-                            .then(
-                              (chainId) =>
-                                chainId === chainParams.chainId &&
-                                setSelectedWallet(wallet.wallet)
-                            );
-
-                          wallet.connector.provider?.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [
-                              {
-                                ...chainParams,
-                                chainId: ethers.utils.hexValue(
-                                  chainParams.chainId
-                                ),
-                              },
-                            ],
-                          });
-                          wallet.connector.provider?.on('chainChanged', () => {
-                            setSelectedWallet(wallet.wallet);
-                            wallet.connector.provider?.removeAllListeners();
-                          });
-                        });
-                    }
-                    widgetBridge?.emit(
-                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
-                      {
-                        event: `${wallet.wallet.replace(
-                          ' ',
-                          '_'
-                        )}_Successful_Connection`,
-                        eventGroup: EventGroups.WalletConnection,
-                      }
-                    );
-                  }
+                  handleConnect(
+                    wallet.connector,
+                    setSelectedWallet,
+                    wallet.wallet,
+                    widgetBridge,
+                    chainParams
+                  );
                   closeModal();
                 }}
                 isActive={isActive}

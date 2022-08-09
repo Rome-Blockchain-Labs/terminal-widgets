@@ -1,7 +1,15 @@
+import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
+import { Wallet } from '@romeblockchain/wallet';
+import { MetaMask } from '@web3-react/metamask';
+import { Network } from '@web3-react/network';
+import { AddEthereumChainParameter } from '@web3-react/types';
+import { WalletConnect } from '@web3-react/walletconnect';
+import { ethers } from 'ethers';
 import React, { FC } from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { NetworkName } from '../../constants/networkExchange';
+import { EventGroups } from '../GtagContext';
 
 const HoverContainer = styled.div<{ active: boolean }>`
   ${tw`flex items-center w-28 h-28 rounded border border-solid  p-3 cursor-pointer justify-center text-center text-lg hover:bg-gray-400 hover:font-bold  grayscale-0 transition m-5`}
@@ -52,4 +60,63 @@ export const WalletBox: FC<{
       {props.children}
     </HoverBox>
   );
+};
+type WidgetBridge = typeof widgetBridge;
+
+export const handleConnect = async (
+  connector: MetaMask | WalletConnect | Network,
+  setSelectedWallet: (wallet: Wallet) => void,
+  wallet: Wallet,
+  widgetBridge: WidgetBridge | null,
+  chainParams?: number | AddEthereumChainParameter
+) => {
+  if (connector instanceof MetaMask) {
+    let error;
+    await connector.activate(chainParams).catch(() => (error = true));
+    if (!error) setSelectedWallet(wallet);
+  } else {
+    if (typeof chainParams === 'number') {
+      let error;
+
+      await connector.activate(chainParams).catch(() => (error = true));
+
+      if (!error) setSelectedWallet(wallet);
+    } else {
+      let error;
+      await connector
+        .activate(chainParams && chainParams.chainId)
+        .catch(() => (error = true));
+
+      if (error) return;
+
+      const chainId = await connector.provider?.request<string | number>({
+        method: 'eth_chainId',
+      });
+      if (!chainId) return;
+
+      if (chainParams && chainId === chainParams.chainId) {
+        setSelectedWallet(wallet);
+      }
+
+      chainParams &&
+        (await connector.provider?.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              ...chainParams,
+              chainId: ethers.utils.hexValue(chainParams.chainId),
+            },
+          ],
+        }));
+
+      connector.provider?.on('chainChanged', () => {
+        setSelectedWallet(wallet);
+        connector.provider?.removeAllListeners();
+      });
+    }
+  }
+  widgetBridge?.emit(RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT, {
+    event: `${wallet.replace(' ', '_')}_Successful_Connection`,
+    eventGroup: EventGroups.WalletConnection,
+  });
 };
