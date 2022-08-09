@@ -1,16 +1,12 @@
 import 'twin.macro';
 
-import { RomeEventType } from '@romeblockchain/bridge';
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
-import { MetaMask } from '@web3-react/metamask';
 import { AddEthereumChainParameter } from '@web3-react/types';
-import { ethers } from 'ethers';
 import { useContext } from 'react';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
-import { EventGroups } from '../../../contexts/GtagContext';
 import {
   handleConnect,
   WalletBox,
