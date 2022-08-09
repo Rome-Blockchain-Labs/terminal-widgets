@@ -49,7 +49,7 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  handleConnect(
+                  await handleConnect(
                     wallet.connector,
                     setSelectedWallet,
                     wallet.wallet,
