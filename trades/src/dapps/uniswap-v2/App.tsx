@@ -109,7 +109,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
       >
         <Updaters />
         <ThemeProvider>
-          <div tw="w-full h-full relative bg-dark-500  mt-13 scrollbar-none">
+          <div tw="w-full h-full relative bg-dark-500  scrollbar-none">
             <div tw="opacity-50 h-full w-full absolute flex">
               {backgroundImage}
             </div>
