@@ -89,6 +89,7 @@ export const handleConnect = async (
 
       if (error) return;
 
+      // If wallet is already connected to the correct network then set wallet as priority wallet
       const chainId = await connector.provider?.request<string | number>({
         method: 'eth_chainId',
       });
@@ -96,6 +97,7 @@ export const handleConnect = async (
 
       if (chainParams && chainId === chainParams.chainId) {
         setSelectedWallet(wallet);
+        return;
       }
 
       chainParams &&
