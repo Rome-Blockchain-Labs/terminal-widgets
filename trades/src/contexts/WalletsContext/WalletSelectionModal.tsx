@@ -73,14 +73,13 @@ export const handleConnect = async (
   if (connector instanceof MetaMask) {
     let error;
     await connector.activate(chainParams).catch(() => (error = true));
-    if (!error) setSelectedWallet(wallet);
+    if (error) return;
   } else {
     if (typeof chainParams === 'number') {
       let error;
 
       await connector.activate(chainParams).catch(() => (error = true));
-
-      if (!error) setSelectedWallet(wallet);
+      if (error) return;
     } else {
       let error;
       await connector
@@ -88,17 +87,6 @@ export const handleConnect = async (
         .catch(() => (error = true));
 
       if (error) return;
-
-      // If wallet is already connected to the correct network then set wallet as priority wallet
-      const chainId = await connector.provider?.request<string | number>({
-        method: 'eth_chainId',
-      });
-      if (!chainId) return;
-
-      if (chainParams && chainId === chainParams.chainId) {
-        setSelectedWallet(wallet);
-        return;
-      }
 
       chainParams &&
         (await connector.provider?.request({
@@ -113,9 +101,21 @@ export const handleConnect = async (
 
       connector.provider?.on('chainChanged', () => {
         setSelectedWallet(wallet);
-        connector.provider?.removeAllListeners();
       });
     }
+  }
+
+  // If wallet is already connected to the correct network then set wallet as priority wallet
+  const chainId = await connector.provider?.request<string | number>({
+    method: 'eth_chainId',
+  });
+  if (!chainId || typeof chainParams === 'number') return;
+
+  if (chainParams && chainId === ethers.utils.hexValue(chainParams.chainId)) {
+    setSelectedWallet(wallet);
+  }
+  if (chainParams && chainId === chainParams.chainId) {
+    setSelectedWallet(wallet);
   }
   widgetBridge?.emit(RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT, {
     event: `${wallet.replace(' ', '_')}_Successful_Connection`,

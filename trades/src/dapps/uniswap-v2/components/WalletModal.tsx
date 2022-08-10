@@ -2,7 +2,9 @@ import 'twin.macro';
 
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { PulseLoader } from 'react-spinners';
+import Loader from 'react-spinners/CircleLoader';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
@@ -22,6 +24,7 @@ const WalletModal = ({
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { selectedWallet, setSelectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
+  const [loading, setLoading] = useState(false);
 
   const closeModal = () => {
     setWalletVisibility(false);
@@ -29,6 +32,17 @@ const WalletModal = ({
   if (!walletVisibility) {
     return null;
   }
+  if (loading) {
+    return (
+      <>
+        <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
+        <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
+          <PulseLoader color="#FFCC00" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
@@ -49,6 +63,7 @@ const WalletModal = ({
               <WalletBox
                 key={index}
                 connectHandler={async () => {
+                  setLoading(true);
                   await handleConnect(
                     wallet.connector,
                     setSelectedWallet,
@@ -56,6 +71,7 @@ const WalletModal = ({
                     widgetBridge,
                     chainParams
                   );
+                  setLoading(false);
                   closeModal();
                 }}
                 isActive={isActive}
