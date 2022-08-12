@@ -34,12 +34,18 @@ export enum ApplicationModal {
   PRICE_RANGE,
   POOL_DETAIL,
   FARM_HISTORY,
+  ADDRESS,
 }
 
 export const updateBlockNumber = createAction<{
   chainId: number;
   blockNumber: number;
 }>('dmm/application/updateBlockNumber');
+
+export const setAddressOpenModal = createAction<boolean | null>(
+  'dmm/application/addressOpenModal'
+);
+
 export const setOpenModal = createAction<ApplicationModal | null>(
   'dmm/application/setOpenModal'
 );

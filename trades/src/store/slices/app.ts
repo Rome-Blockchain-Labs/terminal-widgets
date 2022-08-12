@@ -146,16 +146,16 @@ const slice = createSlice({
       } else {
         const widgetId = uuidv4();
 
-        const storageKey = getChartStateStorageKey(widgetId);
+        // const storageKey = getChartStateStorageKey(widgetId);
 
-        localStorage.setItem(
-          storageKey,
-          JSON.stringify({
-            interval: action.payload.interval,
-            pair: action.payload.widget.pair,
-            state: action.payload.chartData,
-          })
-        );
+        // localStorage.setItem(
+        //   storageKey,
+        //   JSON.stringify({
+        //     interval: action.payload.interval,
+        //     pair: action.payload.widget.pair,
+        //     state: action.payload.chartData,
+        //   })
+        // );
 
         state.widgets.push({
           ...action.payload.widget,

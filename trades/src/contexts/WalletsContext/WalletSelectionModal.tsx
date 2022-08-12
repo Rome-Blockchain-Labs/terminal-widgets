@@ -72,6 +72,7 @@ export const handleConnect = async (
 ) => {
   if (connector instanceof MetaMask) {
     let error;
+    //Metamask will automatically add the network if doesnt no
     await connector.activate(chainParams).catch(() => (error = true));
     if (error) return;
   } else {
@@ -80,8 +81,15 @@ export const handleConnect = async (
 
       await connector.activate(chainParams).catch(() => (error = true));
       if (error) return;
+      connector.provider?.on('chainChanged', () => {
+        setSelectedWallet(wallet);
+
+        connector.provider?.removeListener('chainChanged', () => {});
+      });
     } else {
       let error;
+      // error would return true if user rejects the wallet connection request
+      // if network doesnt exist yet connector.activate would not throw an error and still successsfully activate
       await connector
         .activate(chainParams && chainParams.chainId)
         .catch(() => (error = true));
@@ -101,6 +109,8 @@ export const handleConnect = async (
 
       connector.provider?.on('chainChanged', () => {
         setSelectedWallet(wallet);
+
+        connector.provider?.removeListener('chainChanged', () => {});
       });
     }
   }
@@ -109,12 +119,19 @@ export const handleConnect = async (
   const chainId = await connector.provider?.request<string | number>({
     method: 'eth_chainId',
   });
-  if (!chainId || typeof chainParams === 'number') return;
 
-  if (chainParams && chainId === ethers.utils.hexValue(chainParams.chainId)) {
+  if (!chainId) return;
+  let targetChainId;
+  if (typeof chainParams === 'number') {
+    targetChainId = chainParams;
+  } else {
+    targetChainId = chainParams?.chainId;
+  }
+
+  if (targetChainId && chainId === ethers.utils.hexValue(targetChainId)) {
     setSelectedWallet(wallet);
   }
-  if (chainParams && chainId === chainParams.chainId) {
+  if (targetChainId && chainId === targetChainId) {
     setSelectedWallet(wallet);
   }
   widgetBridge?.emit(RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT, {

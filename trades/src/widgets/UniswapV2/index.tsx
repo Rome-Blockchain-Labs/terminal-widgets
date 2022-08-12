@@ -22,6 +22,7 @@ import {
 } from '../../constants/networkExchange/index';
 import { getChainIdByNetworkName } from '../../constants/networkExchange/index';
 import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
+import AddressModal from '../../dapps/uniswap-v2/components/AddressModal';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
 import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
@@ -37,7 +38,7 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector, isActivating } = useWeb3React();
+  const { account, chainId, connector, isActivating } = useWeb3React();
   const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
@@ -141,6 +142,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
         <Provider store={store}>
           <IFrameProvider>
             <WalletModal chainParams={chainParams} />
+            <AddressModal />
             <UniswapV2Component
               backgroundImage={
                 Icon && <Icon isBackground height="100%" width="100%" />

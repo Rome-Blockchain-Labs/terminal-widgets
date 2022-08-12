@@ -1,7 +1,11 @@
 // import { multiChains } from '@rbl/velox-common';
+import { getAddress } from '@ethersproject/address';
+import { useWeb3React } from '@romeblockchain/wallet';
+import { useWallets } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import tw from 'twin.macro';
 
 import { INVALID, validateStrategy } from '../../redux/derivedState';
 import { completeStep1 } from '../../redux/strategyConfig/strategyConfigSlice';
@@ -27,7 +31,13 @@ const SelectExchangeWrapper = withEnlargedProps(
   EnlargedSelectExchangeWrapper
 );
 
+const WalletButton = styled.button`
+  ${tw`bg-[#08333C] text-[#00D3CF] border-[#0D8486] border-[3px] rounded-full py-2 px-3 font-semibold`}
+`;
+
 const StepSelectExchange = (props) => {
+  const { account, connector } = useWeb3React();
+  const { selectedWallet, setSelectedWallet } = useWallets();
   const dispatch = useDispatch();
   const invalidReasons = useSelector(validateStrategy);
   const { gwei } = useSelector((state) => state?.velox?.strategy);
@@ -74,6 +84,37 @@ const StepSelectExchange = (props) => {
     >
       <SelectExchangeWrapper>
         <StepSection>
+          <StepHeading>Account</StepHeading>
+          <div tw="text-[0.7rem] md:text-[1rem] ">
+            <div>Connected with {selectedWallet}</div>
+            <div>{shortenAddress(account)}</div>
+
+            <div tw="flex gap-x-2 mt-2">
+              <WalletButton
+                onClick={async () => {
+                  try {
+                    if (connector && connector.deactivate) {
+                      await connector.deactivate();
+                      window.localStorage.clear();
+                    } else {
+                      await connector.resetState();
+                    }
+                  } catch (error) {}
+                  setSelectedWallet(undefined);
+                  // setWalletVisibility(true);
+                  // closeModal();
+                }}
+              >
+                DISCONNECT WALLET
+              </WalletButton>
+              <WalletButton onClick={() => setSelectedWallet(undefined)}>
+                CHANGE WALLET
+              </WalletButton>
+            </div>
+          </div>
+        </StepSection>
+
+        <StepSection>
           <StepHeading>Select Exchange</StepHeading>
           <ExchangeSelector />
         </StepSection>
@@ -106,3 +147,18 @@ const StepSelectExchange = (props) => {
 };
 
 export default StepSelectExchange;
+
+function shortenAddress(address, chars = 4) {
+  const parsed = isAddress(address);
+  if (!parsed) {
+    throw Error(`Invalid 'address' parameter '${address}'.`);
+  }
+  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
+}
+function isAddress(value) {
+  try {
+    return getAddress(value);
+  } catch {
+    return false;
+  }
+}

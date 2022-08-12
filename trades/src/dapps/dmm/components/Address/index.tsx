@@ -4,23 +4,23 @@ import { getAddress } from '@ethersproject/address';
 import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 
-import { usePageContext } from '../PageContext';
+import { useAddressModalToggle } from '../../state/application/hooks';
 
 const Address = () => {
   const { account } = useWeb3React();
   const shortenedAddress = account && shortenAddress(account);
 
-  const { setAddressVisibility } = usePageContext();
+  const toggleAddress = useAddressModalToggle();
 
   if (!account) {
     return null;
   }
 
   return (
-    <div tw="w-full flex mb-3 max-w-sm ">
+    <div tw="w-full flex mb-3 max-w-2xl ">
       <button
         tw="h-11 rounded-full bg-yellow-200 text-black grid place-items-center p-2 border  ml-auto"
-        onClick={() => setAddressVisibility(true)}
+        onClick={toggleAddress}
       >
         {shortenedAddress}
       </button>

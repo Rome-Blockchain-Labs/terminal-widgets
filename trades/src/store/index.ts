@@ -2,8 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { save } from 'redux-localstorage-simple';
 
 //TODO: uncomment for dmm, benqi
-import tokens from '../dapps/benqi/store/services/api/tokens';
-import blockchain from '../dapps/benqi/store/services/benqi/benqi';
+// import tokens from '../dapps/benqi/store/services/api/tokens';
+// import blockchain from '../dapps/benqi/store/services/benqi/benqi';
 // import { migrateLocalStorage } from '../migrations';
 import { veloxReducers } from '../widgets/Velox/src/store/store';
 import DappsReducer from './reducers/dapps';
@@ -18,8 +18,8 @@ const store = configureStore({
       serializableCheck: false,
       thunk: true,
     }),
-    save({ states: PERSISTED_KEYS }),
-    blockchain.middleware,
+    // save({ states: PERSISTED_KEYS }),
+    // blockchain.middleware,
   ],
   // preloadedState: migrateLocalStorage(load({ states: PERSISTED_KEYS })),
   reducer: {
@@ -27,8 +27,8 @@ const store = configureStore({
     dapps: DappsReducer,
     // dapps: DappsReducer,
     velox: veloxReducers,
-    [blockchain.reducerPath]: blockchain.reducer,
-    [tokens.reducerPath]: tokens.reducer,
+    // [blockchain.reducerPath]: blockchain.reducer,
+    // [tokens.reducerPath]: tokens.reducer,
   },
 });
 
