@@ -121,6 +121,13 @@ const CustomStyles = createGlobalStyle`
 .introjs-disableInteraction {
  ${tw`border-[#3C4032]! opacity-5!`} 
 }
+
+.walletconnect-qrcode__image{
+  ${tw`w-[40%]! lg:w-[60%]!`}
+}
+.walletconnect-modal__base{
+  ${tw`mt-[5%]! lg:mt-0!`}
+}
 `;
 
 const GlobalStyles: FC = () => (
