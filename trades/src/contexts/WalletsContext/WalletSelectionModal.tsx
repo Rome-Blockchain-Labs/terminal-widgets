@@ -81,9 +81,9 @@ export const handleConnect = async (
 
       await connector.activate(chainParams).catch(() => (error = true));
       if (error) return;
+
       connector.provider?.on('chainChanged', () => {
         setSelectedWallet(wallet);
-
         connector.provider?.removeListener('chainChanged', () => {});
       });
     } else {
@@ -96,6 +96,10 @@ export const handleConnect = async (
 
       if (error) return;
 
+      // activate needs to occur before wallet_addEthereumChain because we can only make requests with an active
+      // connector.
+      // calling wallet_addEthereumChain will check if the chainId is already present in the wallet
+      // if the chainId alreaady exists then it wont add the duplicate network to the wallet
       chainParams &&
         (await connector.provider?.request({
           method: 'wallet_addEthereumChain',
@@ -107,6 +111,8 @@ export const handleConnect = async (
           ],
         }));
 
+      // we need to subscribe to chainChanged because we would only want to switch selectedWallet when
+      // the user has switched networks especially when the netork is newly added
       connector.provider?.on('chainChanged', () => {
         setSelectedWallet(wallet);
 
