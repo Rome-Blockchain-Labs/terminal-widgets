@@ -81,8 +81,7 @@ export const handleConnect = async (
 
       await connector.activate(chainParams).catch(() => (error = true));
       if (error) return;
-
-      connector.provider?.on('chainChanged', () => {
+      connector.provider?.once('chainChanged', () => {
         setSelectedWallet(wallet);
         connector.provider?.removeListener('chainChanged', () => {});
       });
@@ -113,9 +112,8 @@ export const handleConnect = async (
 
       // we need to subscribe to chainChanged because we would only want to switch selectedWallet when
       // the user has switched networks especially when the netork is newly added
-      connector.provider?.on('chainChanged', () => {
+      connector.provider?.once('chainChanged', () => {
         setSelectedWallet(wallet);
-
         connector.provider?.removeListener('chainChanged', () => {});
       });
     }

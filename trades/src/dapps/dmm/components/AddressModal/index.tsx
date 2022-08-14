@@ -1,16 +1,12 @@
 import 'twin.macro';
 
 import { useWallets, useWeb3React } from '@romeblockchain/wallet';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { CloseIcon } from '../../../../components/icons';
 import { AppState } from '../../../../store';
-import { ApplicationModal } from '../../state/application/actions';
-import {
-  useModalOpen,
-  useWalletModalToggle,
-} from '../../state/application/hooks';
+import { useWalletModalToggle } from '../../state/application/hooks';
 import { useAddressModalToggle } from '../../state/application/hooks';
 import { shortenAddress } from '../../utils';
 
@@ -18,13 +14,11 @@ const AddressModal = () => {
   const { account, connector } = useWeb3React();
   const { selectedWallet, setSelectedWallet } = useWallets();
 
-  // const open = useModalOpen(ApplicationModal.ADDRESS)
   const openModal = useSelector(
     (state: AppState) => state.dapps.dmm.application.addressOpenModal
   );
   const toggle = useWalletModalToggle();
   const toggleAddress = useAddressModalToggle();
-  // const { widgetBridge } = useIFrameContext();
   if (!openModal) {
     return null;
   }

@@ -100,7 +100,6 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
         setAddLiquidityCurrencies([]);
       }
     }, [page, removeLiquidityCurrencies.length]);
-
     return (
       <DappContextProvider
         exchange={exchange}

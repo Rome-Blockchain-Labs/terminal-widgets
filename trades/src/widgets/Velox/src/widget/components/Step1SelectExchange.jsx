@@ -16,7 +16,6 @@ import TokenSearch from '../containers/tokenSearch';
 import { withEnlargedProps } from '../WidgetSizeStateContext';
 import { StepHeading, StepSection, StepText } from './common/css';
 import StepperItem from './common/v2/StepperItem';
-// const { NETWORKS } = multiChains;
 
 const NormalSelectExchangeWrapper = styled.div`
   min-height: 15rem;
@@ -47,20 +46,6 @@ const StepSelectExchange = (props) => {
     (state) => state?.velox?.strategy?.selectedExchange?.identifiers
   );
   const isWrongNetwork = parseInt(chainHex) !== parseInt(chainId);
-  // if (
-  //   selectedExchange?.key?.toLowerCase() ===
-  //     NETWORKS.AVALANCHE.MAINNET.PANGOLIN.NAME.toLowerCase() ||
-  //   selectedExchange?.key?.toLowerCase() ===
-  //     NETWORKS.AVALANCHE.MAINNET.TRADERJOE.NAME.toLowerCase()
-  // ) {
-  //   fixedGasPrice = 225;
-  // }
-  // if (
-  //   selectedExchange?.key?.toLowerCase() ===
-  //   NETWORKS.BSC.MAINNET.PANCAKESWAP.NAME.toLowerCase()
-  // ) {
-  //   fixedGasPrice = 5;
-  // }
 
   useEffect(() => {
     if (!invalidReasons.includes(INVALID.STEP1_NULL_PAIR) && gwei > 0) {
@@ -99,10 +84,8 @@ const StepSelectExchange = (props) => {
                     } else {
                       await connector.resetState();
                     }
+                    setSelectedWallet(undefined);
                   } catch (error) {}
-                  setSelectedWallet(undefined);
-                  // setWalletVisibility(true);
-                  // closeModal();
                 }}
               >
                 DISCONNECT WALLET

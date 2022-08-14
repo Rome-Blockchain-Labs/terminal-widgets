@@ -52,10 +52,11 @@ const AddressModal = () => {
                   } else {
                     await connector.resetState();
                   }
+
+                  setSelectedWallet(undefined);
+                  setWalletVisibility(true);
+                  closeModal();
                 } catch (error) {}
-                setSelectedWallet(undefined);
-                setWalletVisibility(true);
-                closeModal();
               }}
             >
               Disconnect

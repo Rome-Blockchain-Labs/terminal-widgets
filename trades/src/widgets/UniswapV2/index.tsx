@@ -38,7 +38,7 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { account, chainId, connector, isActivating } = useWeb3React();
+  const { chainId, connector, isActivating } = useWeb3React();
   const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter

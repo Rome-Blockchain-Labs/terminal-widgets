@@ -4,7 +4,6 @@ import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import { useContext, useState } from 'react';
 import { PulseLoader } from 'react-spinners';
-import Loader from 'react-spinners/CircleLoader';
 
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
