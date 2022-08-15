@@ -132,16 +132,16 @@ const StepSelectExchange = (props) => {
 export default StepSelectExchange;
 
 function shortenAddress(address, chars = 4) {
-  const parsed = isAddress(address);
+  const parsed = parseAddress(address);
   if (!parsed) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
   return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
 }
-function isAddress(value) {
+function parseAddress(value) {
   try {
     return getAddress(value);
   } catch {
-    return false;
+    return;
   }
 }
