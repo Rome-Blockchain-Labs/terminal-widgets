@@ -8,10 +8,7 @@ import { CloseButton } from '../../../../components/buttons';
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { ModalWrapper } from '../../../../components/modals';
-import {
-  handleConnect,
-  WalletBox,
-} from '../../../../contexts/WalletsContext/WalletSelectionModal';
+import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
 import { useIFrameContext } from '../../../../widgets/Dmm/IFrameProvider';
 import { ApplicationModal } from '../../state/application/actions';
 import {
@@ -24,7 +21,7 @@ const HeaderRow = tw.div`flex justify-between items-center py-4 text-yellow-400 
 export default function SettingsModal() {
   const open = useModalOpen(ApplicationModal.WALLET);
   const toggle = useWalletModalToggle();
-  const { selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
 
   return (

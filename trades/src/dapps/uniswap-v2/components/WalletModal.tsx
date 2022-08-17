@@ -8,10 +8,7 @@ import { PulseLoader } from 'react-spinners';
 import { CloseIcon } from '../../../components/icons';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
-import {
-  handleConnect,
-  WalletBox,
-} from '../../../contexts/WalletsContext/WalletSelectionModal';
+import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 import { useIFrameContext } from './IFrameProvider/index';
 
@@ -21,7 +18,7 @@ const WalletModal = ({
   chainParams: number | AddEthereumChainParameter;
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
-  const { selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
   const [loading, setLoading] = useState(false);
 

@@ -50,7 +50,6 @@ const AddressModal = () => {
                 try {
                   if (connector && connector.deactivate) {
                     await connector.deactivate();
-                    window.localStorage.clear();
                   } else {
                     await connector.resetState();
                   }

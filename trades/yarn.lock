@@ -4815,11 +4815,12 @@
     reactstrap "^9.0.1"
     styled-components "^5.3.5"
 
-"@romeblockchain/wallet@0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.8.tgz#b84271358cd98d80fd22d779eef6a5fc6de9ef74"
-  integrity sha512-w4jeYE1+x/5AuIehrAKpy9oHD4gKsw8h2jGQqPDiPP4EDmHTpicSvJHrE5fbYcG52Q/x775A5seD0rpluQXdnQ==
+"@romeblockchain/wallet@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.10.tgz#97dce90facee6f045293be91a2b3f307ee488554"
+  integrity sha512-+NeYyjbL17pQyMxo0g8zYB9K++vbYDzlU+XOLkqiz8SHlbe8tKmcbtKI3NS4+NtRbt09niCODXqlrS0EVN2ARQ==
   dependencies:
+    "@romeblockchain/bridge" "^0.0.3"
     "@types/ua-parser-js" "^0.7.36"
     "@walletconnect/ethereum-provider" "^1.7.8"
     "@walletconnect/jsonrpc-http-connection" "^1.0.2"
@@ -4829,6 +4830,7 @@
     "@web3-react/network" "8.0.26-beta.0"
     "@web3-react/types" "8.0.19-beta.0"
     "@web3-react/walletconnect" "8.0.34-beta.0"
+    ethers "^5.6.9"
     tsup "^6.1.3"
     ua-parser-js "^1.0.2"
 

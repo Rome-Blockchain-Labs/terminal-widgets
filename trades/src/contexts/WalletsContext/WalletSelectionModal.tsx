@@ -1,15 +1,7 @@
-import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
-import { Wallet } from '@romeblockchain/wallet';
-import { MetaMask } from '@web3-react/metamask';
-import { Network } from '@web3-react/network';
-import { AddEthereumChainParameter } from '@web3-react/types';
-import { WalletConnect } from '@web3-react/walletconnect';
-import { ethers } from 'ethers';
 import React, { FC } from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { NetworkName } from '../../constants/networkExchange';
-import { EventGroups } from '../GtagContext';
 
 const HoverContainer = styled.div<{ active: boolean }>`
   ${tw`flex items-center w-28 h-28 rounded border border-solid  p-3 cursor-pointer justify-center text-center text-lg hover:bg-gray-400 hover:font-bold  grayscale-0 transition m-5`}
@@ -60,86 +52,4 @@ export const WalletBox: FC<{
       {props.children}
     </HoverBox>
   );
-};
-type WidgetBridge = typeof widgetBridge;
-
-export const handleConnect = async (
-  connector: MetaMask | WalletConnect | Network,
-  setSelectedWallet: (wallet: Wallet) => void,
-  wallet: Wallet,
-  widgetBridge: WidgetBridge | null,
-  chainParams?: number | AddEthereumChainParameter
-) => {
-  if (connector instanceof MetaMask) {
-    let error;
-    //Metamask will automatically add the network if doesnt no
-    await connector.activate(chainParams).catch(() => (error = true));
-    if (error) return;
-  } else {
-    if (typeof chainParams === 'number') {
-      let error;
-
-      await connector.activate(chainParams).catch(() => (error = true));
-      if (error) return;
-      connector.provider?.once('chainChanged', () => {
-        setSelectedWallet(wallet);
-        connector.provider?.removeListener('chainChanged', () => {});
-      });
-    } else {
-      let error;
-      // error would return true if user rejects the wallet connection request
-      // if network doesnt exist yet connector.activate would not throw an error and still successsfully activate
-      await connector
-        .activate(chainParams && chainParams.chainId)
-        .catch(() => (error = true));
-
-      if (error) return;
-
-      // activate needs to occur before wallet_addEthereumChain because we can only make requests with an active
-      // connector.
-      // calling wallet_addEthereumChain will check if the chainId is already present in the wallet
-      // if the chainId alreaady exists then it wont add the duplicate network to the wallet
-      chainParams &&
-        (await connector.provider?.request({
-          method: 'wallet_addEthereumChain',
-          params: [
-            {
-              ...chainParams,
-              chainId: ethers.utils.hexValue(chainParams.chainId),
-            },
-          ],
-        }));
-
-      // we need to subscribe to chainChanged because we would only want to switch selectedWallet when
-      // the user has switched networks especially when the netork is newly added
-      connector.provider?.once('chainChanged', () => {
-        setSelectedWallet(wallet);
-        connector.provider?.removeListener('chainChanged', () => {});
-      });
-    }
-  }
-
-  // If wallet is already connected to the correct network then set wallet as priority wallet
-  const chainId = await connector.provider?.request<string | number>({
-    method: 'eth_chainId',
-  });
-
-  if (!chainId) return;
-  let targetChainId;
-  if (typeof chainParams === 'number') {
-    targetChainId = chainParams;
-  } else {
-    targetChainId = chainParams?.chainId;
-  }
-
-  if (targetChainId && chainId === ethers.utils.hexValue(targetChainId)) {
-    setSelectedWallet(wallet);
-  }
-  if (targetChainId && chainId === targetChainId) {
-    setSelectedWallet(wallet);
-  }
-  widgetBridge?.emit(RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT, {
-    event: `${wallet.replace(' ', '_')}_Successful_Connection`,
-    eventGroup: EventGroups.WalletConnection,
-  });
 };
