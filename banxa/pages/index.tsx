@@ -18,13 +18,13 @@ const Home: NextPage = () => {
     },
   })
   const router = useRouter()
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await axios.post('/api/banxa/login', {
+  const onSubmit = handleSubmit(async (formData) => {
+    const { data } = await axios.post('/api/banxa/login', {
       params: {
-        email: data.email,
+        email: formData.email,
       },
     })
-    setAccountReference(res.data.account_reference)
+    setAccountReference(data.account_reference)
     router.push('/create-order')
   })
 
