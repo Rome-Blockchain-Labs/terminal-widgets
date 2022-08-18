@@ -1,9 +1,5 @@
 import React, { ReactNode } from 'react'
 
-// function classNames(...classes: string[]) {
-//   return classes.filter(Boolean).join(' ')
-// }
-
 interface Props {
   children: ReactNode
 }
@@ -33,5 +29,9 @@ export default function Example({ children }: Props) {
   //   }
   // }, [router])
 
-  return <div className="w-screen h-screen ">{children}</div>
+  return (
+    <div className="min-w-screen h-screen  bg-gradient-to-br from-[#12162e] via-[#3d5d6e] to-[#12162e] font-sans">
+      {children}
+    </div>
+  )
 }
