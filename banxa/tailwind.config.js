@@ -10,5 +10,8 @@ module.exports = {
       sans: ['Montserrat', 'ui-sans-serif', 'system-ui', '-apple-system'],
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  variants: {
+    scrollbar: ['rounded'],
+  },
+  plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')],
 }

@@ -1,24 +1,38 @@
-import { QuestionMarkCircleIcon, SearchIcon } from '@heroicons/react/solid'
+import { SearchIcon } from '@heroicons/react/solid'
 import Fuse from 'fuse.js'
 import React, { useState, useEffect, useMemo } from 'react'
 import useDebounce from '../hooks/debounce'
-import { Currency } from '@uniswap/sdk-core'
+import { classNames } from '../utils/style'
+
+interface Currency {
+  code: string
+  name: string
+}
 
 interface Props {
   type: 'FIAT' | 'CRYPTO'
-  CurrencyList: string[]
+  CurrencyList: Currency[]
 }
 
-const list = ['ETH', 'BTC', 'AVAX', 'USDC']
+const list = [
+  { code: 'ETH', name: 'Ethereum' },
+  { code: 'BTC', name: 'Bitcoin' },
+  { code: 'AVAX', name: 'Avalanche' },
+  { code: 'USDC', name: 'USDC' },
+  { code: 'ETHA', name: 'EthereumA' },
+  { code: 'BTCA', name: 'BitcoinA' },
+  { code: 'AVAXA', name: 'AvalancheA' },
+  { code: 'USDCA', name: 'USDCA' },
+]
 const type = 'CRYPTO'
 
 const CurrencySelect = () => {
   const [searchText, setSearchText] = useState<string>('')
-  const [displayList, setDisplayList] = useState<string[]>(list)
+  const [displayList, setDisplayList] = useState<Currency[]>(list)
   const debouncedValue = useDebounce<string>(searchText, 500)
   const [selectedCurrency, setSelectedCurrency] = useState<string>()
 
-  const fuse = useMemo(() => new Fuse(list), [])
+  const fuse = useMemo(() => new Fuse(list, { keys: ['code', 'name'] }), [])
 
   // const fuse =
   console.log(searchText)
@@ -36,14 +50,14 @@ const CurrencySelect = () => {
 
   return (
     <>
-      {console.log(selectedCurrency)}
+      {console.log(displayList)}
       <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div className="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div className="rounded-lg w-4/5 bg-white h-4/5 overflow-y-auto py-2 px-4">
+        <div className="rounded-lg w-4/5 bg-white h-4/5  py-2 px-4 relative flex flex-col">
           <div className="text-xl text-[#3171CA]">
             Select a {type === 'CRYPTO' ? 'Cryptocurrency' : 'Fiat Currency'}{' '}
           </div>
-          <div className="mt-2 m-2 relative rounded-md shadow-sm">
+          <div className="my-2  relative rounded-md shadow-sm">
             <input
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md pl-10"
               type="text"
@@ -58,27 +72,38 @@ const CurrencySelect = () => {
             </div>
           </div>
 
-          <fieldset>
-            <div className="space-y-5">
+          <fieldset className="pb-10 pl-1 flex-grow overflow-scroll scrollbar-thin scrollbar-thumb-gray-700 ">
+            <div className="space-y-2">
               {displayList.map((currency, index) => (
-                <div key={index} className="relative flex items-start">
-                  <div className="flex items-center h-5">
+                <div
+                  key={index}
+                  className={classNames(
+                    selectedCurrency === currency.code ? 'bg-gray-100' : '',
+                    'relative flex items-start'
+                  )}
+                >
+                  <div className="flex items-center h-5 ">
                     <input
-                      checked={selectedCurrency === currency}
-                      onChange={() => setSelectedCurrency(currency)}
+                      checked={selectedCurrency === currency.code}
+                      onChange={() => setSelectedCurrency(currency.code)}
                       name="currency"
                       type="radio"
-                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                      className="focus:ring-[#0472c0] h-4 w-4 text-[#0472c0] border-gray-300"
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label className="font-medium text-gray-700">{currency}</label>
-                    <span className="text-gray-500"></span>
+                    <label className="font-medium text-gray-700">{currency.code}</label>
+                    <span className="text-gray-500 ml-2">{currency.name}</span>
                   </div>
                 </div>
               ))}
             </div>
           </fieldset>
+
+          <div className="bg-white  absolute h-14 left-0 bottom-0 w-full grid place-items-center">
+            <div className="w-full border-t border-gray-200 " />
+            <button className="btn-primary text-white px-2 py-3 w-1/5 rounded-full">Confirm</button>
+          </div>
         </div>
       </div>
     </>
