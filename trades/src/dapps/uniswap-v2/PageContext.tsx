@@ -6,10 +6,14 @@ type PageContextState = {
   setPage: any;
   walletVisibility: boolean;
   setWalletVisibility: (visibility: boolean) => void;
+  addressVisibility: boolean;
+  setAddressVisibility: (visibility: boolean) => void;
 };
 
 const defaultContextState: PageContextState = {
+  addressVisibility: false,
   page: 0,
+  setAddressVisibility: () => {},
   setPage: () => {},
   setWalletVisibility: () => {},
   walletVisibility: false,
@@ -20,10 +24,18 @@ export const PageContext = createContext<PageContextState>(defaultContextState);
 export const PageContextProvider: FC = ({ children }) => {
   const [page, setPage] = useState(UniswapPage.SWAP);
   const [walletVisibility, setWalletVisibility] = useState(false);
+  const [addressVisibility, setAddressVisibility] = useState(false);
 
   return (
     <PageContext.Provider
-      value={{ page, setPage, setWalletVisibility, walletVisibility }}
+      value={{
+        addressVisibility,
+        page,
+        setAddressVisibility,
+        setPage,
+        setWalletVisibility,
+        walletVisibility,
+      }}
     >
       {children}
     </PageContext.Provider>

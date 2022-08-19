@@ -19,11 +19,7 @@ import {
   WidgetToolbar,
   WidgetType,
 } from '../../types';
-import {
-  getChartStateStorageKey,
-  getKeyFromWidget,
-  isPairEqual,
-} from '../../utils';
+import { getKeyFromWidget, isPairEqual } from '../../utils';
 import { MakeOptional } from '../../utils/customTypes';
 
 const WIDGET_LIMIT_COUNT = 9;
@@ -145,17 +141,6 @@ const slice = createSlice({
         );
       } else {
         const widgetId = uuidv4();
-
-        const storageKey = getChartStateStorageKey(widgetId);
-
-        localStorage.setItem(
-          storageKey,
-          JSON.stringify({
-            interval: action.payload.interval,
-            pair: action.payload.widget.pair,
-            state: action.payload.chartData,
-          })
-        );
 
         state.widgets.push({
           ...action.payload.widget,

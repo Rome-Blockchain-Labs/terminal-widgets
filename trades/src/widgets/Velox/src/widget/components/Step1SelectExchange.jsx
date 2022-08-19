@@ -1,7 +1,11 @@
 // import { multiChains } from '@rbl/velox-common';
+import { getAddress } from '@ethersproject/address';
+import { useWeb3React } from '@romeblockchain/wallet';
+import { useWallets } from '@romeblockchain/wallet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import tw from 'twin.macro';
 
 import { INVALID, validateStrategy } from '../../redux/derivedState';
 import { completeStep1 } from '../../redux/strategyConfig/strategyConfigSlice';
@@ -12,7 +16,6 @@ import TokenSearch from '../containers/tokenSearch';
 import { withEnlargedProps } from '../WidgetSizeStateContext';
 import { StepHeading, StepSection, StepText } from './common/css';
 import StepperItem from './common/v2/StepperItem';
-// const { NETWORKS } = multiChains;
 
 const NormalSelectExchangeWrapper = styled.div`
   min-height: 15rem;
@@ -27,7 +30,13 @@ const SelectExchangeWrapper = withEnlargedProps(
   EnlargedSelectExchangeWrapper
 );
 
+const WalletButton = styled.button`
+  ${tw`bg-[#08333C] text-[#00D3CF] border-[#0D8486] border-[3px] rounded-full py-2 px-3 font-semibold`}
+`;
+
 const StepSelectExchange = (props) => {
+  const { account, connector } = useWeb3React();
+  const { selectedWallet, setSelectedWallet } = useWallets();
   const dispatch = useDispatch();
   const invalidReasons = useSelector(validateStrategy);
   const { gwei } = useSelector((state) => state?.velox?.strategy);
@@ -37,20 +46,6 @@ const StepSelectExchange = (props) => {
     (state) => state?.velox?.strategy?.selectedExchange?.identifiers
   );
   const isWrongNetwork = parseInt(chainHex) !== parseInt(chainId);
-  // if (
-  //   selectedExchange?.key?.toLowerCase() ===
-  //     NETWORKS.AVALANCHE.MAINNET.PANGOLIN.NAME.toLowerCase() ||
-  //   selectedExchange?.key?.toLowerCase() ===
-  //     NETWORKS.AVALANCHE.MAINNET.TRADERJOE.NAME.toLowerCase()
-  // ) {
-  //   fixedGasPrice = 225;
-  // }
-  // if (
-  //   selectedExchange?.key?.toLowerCase() ===
-  //   NETWORKS.BSC.MAINNET.PANCAKESWAP.NAME.toLowerCase()
-  // ) {
-  //   fixedGasPrice = 5;
-  // }
 
   useEffect(() => {
     if (!invalidReasons.includes(INVALID.STEP1_NULL_PAIR) && gwei > 0) {
@@ -73,6 +68,34 @@ const StepSelectExchange = (props) => {
       onOpen={props.onOpen}
     >
       <SelectExchangeWrapper>
+        <StepSection>
+          <StepHeading>Account</StepHeading>
+          <div tw="text-[0.7rem] md:text-[1rem] ">
+            <div>Connected with {selectedWallet}</div>
+            <div>{shortenAddress(account)}</div>
+
+            <div tw="flex gap-x-2 mt-2">
+              <WalletButton
+                onClick={async () => {
+                  try {
+                    if (connector && connector.deactivate) {
+                      await connector.deactivate();
+                    } else {
+                      await connector.resetState();
+                    }
+                    setSelectedWallet(undefined);
+                  } catch (error) {}
+                }}
+              >
+                DISCONNECT WALLET
+              </WalletButton>
+              <WalletButton onClick={() => setSelectedWallet(undefined)}>
+                CHANGE WALLET
+              </WalletButton>
+            </div>
+          </div>
+        </StepSection>
+
         <StepSection>
           <StepHeading>Select Exchange</StepHeading>
           <ExchangeSelector />
@@ -106,3 +129,18 @@ const StepSelectExchange = (props) => {
 };
 
 export default StepSelectExchange;
+
+function shortenAddress(address, chars = 4) {
+  const parsed = parseAddress(address);
+  if (!parsed) {
+    throw Error(`Invalid 'address' parameter '${address}'.`);
+  }
+  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
+}
+function parseAddress(value) {
+  try {
+    return getAddress(value);
+  } catch {
+    return;
+  }
+}

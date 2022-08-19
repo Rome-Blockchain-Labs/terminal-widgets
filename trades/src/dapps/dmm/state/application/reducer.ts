@@ -3,6 +3,7 @@ import { ChainId } from '@dynamic-amm/sdk';
 import { createReducer, nanoid } from '@reduxjs/toolkit';
 
 import { exchangeClients } from '../../apollo/client';
+import { setAddressOpenModal } from './actions';
 import {
   addPopup,
   ApplicationModal,
@@ -47,9 +48,12 @@ export interface ApplicationState {
     [key: string]: ApolloClient<NormalizedCacheObject>;
   };
   readonly gasPrice?: GasPrice;
+
+  readonly addressOpenModal: boolean | null;
 }
 
 const initialState: ApplicationState = {
+  addressOpenModal: false,
   blockNumber: {},
   chainIdWhenNotConnected: ChainId.AVAXMAINNET,
   ethPrice: {},
@@ -74,6 +78,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(setOpenModal, (state, action) => {
       state.openModal = action.payload;
+    })
+    .addCase(setAddressOpenModal, (state, action) => {
+      state.addressOpenModal = action.payload;
     })
     .addCase(
       addPopup,

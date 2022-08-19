@@ -1,15 +1,13 @@
 import 'twin.macro';
 
-import { RomeEventType } from '@romeblockchain/bridge';
+import { getAddChainParameters } from '@romeblockchain/wallet';
 import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
-import { MetaMask } from '@web3-react/metamask';
 import tw, { theme } from 'twin.macro';
 
 import { CloseButton } from '../../../../components/buttons';
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { ModalWrapper } from '../../../../components/modals';
-import { EventGroups } from '../../../../contexts';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
 import { useIFrameContext } from '../../../../widgets/Dmm/IFrameProvider';
 import { ApplicationModal } from '../../state/application/actions';
@@ -23,7 +21,7 @@ const HeaderRow = tw.div`flex justify-between items-center py-4 text-yellow-400 
 export default function SettingsModal() {
   const open = useModalOpen(ApplicationModal.WALLET);
   const toggle = useWalletModalToggle();
-  const { selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
 
   return (
@@ -49,29 +47,16 @@ export default function SettingsModal() {
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  try {
-                    if (wallet.connector instanceof MetaMask) {
-                      wallet.connector.activate().then(() => {
-                        setSelectedWallet(wallet.wallet);
-                        toggle();
-                      });
-                    } else {
-                      wallet.connector.activate().then(() => {
-                        setSelectedWallet(wallet.wallet);
-                        toggle();
-                      });
-                    }
-                    widgetBridge?.emit(
-                      RomeEventType.WIDGET_GOOGLE_ANALYTICS_EVENT,
-                      {
-                        event: `${wallet.wallet.replace(
-                          ' ',
-                          '_'
-                        )}_Successful_Connection`,
-                        eventGroup: EventGroups.WalletConnection,
-                      }
-                    );
-                  } catch (error) {}
+                  const chainParams = getAddChainParameters(43114);
+
+                  await handleConnect(
+                    wallet.connector,
+                    setSelectedWallet,
+                    wallet.wallet,
+                    widgetBridge,
+                    chainParams
+                  );
+                  toggle();
                 }}
                 isActive={isActive}
                 walletName={wallet.wallet}

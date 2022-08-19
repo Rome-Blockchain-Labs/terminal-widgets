@@ -1,4 +1,9 @@
-import { getAddChainParametersfromNetworkName, useWeb3React } from '@romeblockchain/wallet';
+import {
+  getAddChainParametersfromNetworkName,
+  useWeb3React,
+} from '@romeblockchain/wallet';
+import { MetaMask } from '@web3-react/metamask';
+import { ethers } from 'ethers';
 
 import { ChainID } from './types';
 
@@ -15,11 +20,31 @@ export type NetworkParams = {
 };
 
 export const useSwitchNetwork = () => {
-  const { connector  } = useWeb3React();
-  const switchNetwork = (networkName:any /**todo NetworkName from wallertContext**/)=>{
-    const chainParams = getAddChainParametersfromNetworkName(networkName)
-    connector.activate(chainParams)
-  }
+  const { connector } = useWeb3React();
+  const switchNetwork = (
+    networkName: any /**todo NetworkName from wallertContext**/
+  ) => {
+    const chainParams = getAddChainParametersfromNetworkName(networkName);
+    connector.activate(chainParams);
+    if (connector instanceof MetaMask) {
+      connector.activate(chainParams);
+    } else {
+      if (typeof chainParams === 'number') {
+        connector.activate(chainParams);
+      } else {
+        connector.provider?.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              ...chainParams,
+              chainId: ethers.utils.hexValue(chainParams.chainId),
+            },
+          ],
+        });
+        connector.activate(chainParams.chainId);
+      }
+    }
+  };
 
   return { connector, switchNetwork };
 };
