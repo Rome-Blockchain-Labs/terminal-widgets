@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -7,6 +7,7 @@ import CurrencySelect, { list } from './CurrencySelect'
 
 import { configResponsive, useResponsive } from 'ahooks'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import axios from 'axios'
 interface FormValues {
   sourceAmount: number
   targetAmount: number
@@ -27,18 +28,43 @@ export default function Example() {
     register,
     handleSubmit,
     // formState: { errors },
-    // setValue,
-    // watch,
+    setValue,
+    watch,
   } = useForm<FormValues>()
   const onSubmit = (data: any) => console.log(data)
   // const target = watch('target')
-  // const setTarget = (value: string) => {
-  //   setValue('target', value)
-  // }
+  const setTarget = (value: string) => {
+    setValue('target', value)
+  }
+  // const source = watch()
+  const setSource = (value: string) => {
+    setValue('source', value)
+  }
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
+  const currencySelector = selectCurrencyType === 'FIAT' ? setTarget : setSource
+  const [currencyList, setCurrencyList] = useState()
   const closeModal = () => {
     setSelectCurrencyType(undefined)
   }
+
+  useEffect(() => {
+    const fetchCurrency = async (curr: 'FIAT' | 'CRYPTO') => {
+      if (curr === 'FIAT') {
+        const response = await axios.get('/api/banxa/fiat-buy')
+      }
+      if (curr === 'CRYPTO') {
+        const response = await axios.get('api/banxa/crypto-buy')
+      }
+    }
+    switch (selectCurrencyType) {
+      case 'CRYPTO':
+        break
+
+      default:
+        break
+    }
+  }, [selectCurrencyType])
+
   return (
     <>
       {selectCurrencyType && <CurrencySelect currencyList={list} type={selectCurrencyType} closeModal={closeModal} />}
