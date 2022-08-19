@@ -1,11 +1,13 @@
 import React, { FC, memo } from 'react';
+import tw from 'twin.macro';
 
 import { IIconProps, TransitionPath } from '.';
 
 export const PancakeswapIcon: FC<IIconProps> = memo(
-  ({ className, grayscale, height = 18, width = 18 }) => (
+  ({ className, grayscale, height = 18, isBackground, width = 18 }) => (
     <svg
       className={className}
+      css={[isBackground ? tw`absolute -left-1/2` : '']}
       fill="none"
       height={height}
       viewBox="0 0 18 18"

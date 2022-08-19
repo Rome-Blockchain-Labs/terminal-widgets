@@ -125,6 +125,7 @@ const CustomStyles = createGlobalStyle`
 .walletconnect-qrcode__image{
   ${tw`w-[40%]! lg:w-[60%]!`}
 }
+
 .walletconnect-modal__base{
   ${tw`mt-[5%]! lg:mt-0!`}
 }
