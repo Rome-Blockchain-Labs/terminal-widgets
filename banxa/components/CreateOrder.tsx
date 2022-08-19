@@ -22,20 +22,19 @@ configResponsive({
 export default function Example() {
   const responsive = useResponsive()
 
-  const [order, setOrder] = useState('BUY')
+  const [order] = useState('BUY')
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
+    // formState: { errors },
+    // setValue,
+    // watch,
   } = useForm<FormValues>()
-  const onSubmit = (data) => console.log(data)
-  console.log(errors)
-  const target = watch('target')
-  const setTarget = (value: string) => {
-    setValue('target', value)
-  }
+  const onSubmit = (data: any) => console.log(data)
+  // const target = watch('target')
+  // const setTarget = (value: string) => {
+  //   setValue('target', value)
+  // }
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
   const closeModal = () => {
     setSelectCurrencyType(undefined)
