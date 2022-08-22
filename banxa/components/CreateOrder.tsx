@@ -8,6 +8,7 @@ import CurrencySelect from './CurrencySelect'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
+import useDebounce from '../hooks/debounce'
 
 interface FormValues {
   sourceAmount: number
@@ -15,6 +16,8 @@ interface FormValues {
   address: string
   source: string
   target: string
+  source_amount: number | undefined
+  target_amount: number | undefined
 }
 
 export default function Example() {
@@ -30,6 +33,8 @@ export default function Example() {
     defaultValues: {
       source: 'USD',
       target: 'ETH',
+      source_amount: undefined,
+      target_amount: undefined,
     },
   })
   const onSubmit = (data: any) => console.log(data)
@@ -38,9 +43,15 @@ export default function Example() {
     setValue('target', value)
   }
   const source = watch('source')
+  const sourceAmount = watch('source_amount')
+  const targetAmount = watch('target_amount')
   const setSource = (value: string) => {
     setValue('source', value)
   }
+  const debouncedSourceAmount = useDebounce(sourceAmount, 500)
+  const debouncedTargetAmount = useDebounce(targetAmount, 500)
+
+  const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
   const [fiatBuyList, setBuyFiatList] = useState()
   const [tokenBuyList, setTokenBuyList] = useState()
@@ -53,6 +64,93 @@ export default function Example() {
     setSelectCurrencyType(undefined)
   }
   const [buttonText, setButtonText] = useState('')
+  const [priceLoading, setPriceLoading] = useState(false)
+  // axios
+  //   .post("/api/banxa/get-orders", {
+  //     params: {
+  //       start_date: oneMonthAgo,
+  //       end_date: today,
+  //       per_page: 50,
+  //       // account_reference: "testcustomer001001",
+  //     },
+  //   })
+  //   .then((response) => setData(response.data));
+
+  useEffect(() => {
+    const setSourceAmount = (value: number) => {
+      setValue('source_amount', value)
+    }
+    const setTargetAmount = (value: number) => {
+      setValue('target_amount', value)
+    }
+    const getPrices = async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+      if (!!source_amount === false && !!target_amount === false) {
+        setValue('source_amount', undefined)
+        setValue('target_amount', undefined)
+        return
+      }
+      if (priceLoading === true) {
+        return
+      }
+      setPriceLoading(true)
+      const params: { source: string; target: string; source_amount?: number; target_amount?: number } = {
+        source,
+        target,
+      }
+      if (source_amount) {
+        params.source_amount = source_amount
+      }
+      if (target_amount) {
+        params.target_amount = target_amount
+      }
+
+      const res = await axios.post('/api/banxa/get-price', {
+        params,
+      })
+      if (source_amount) {
+        setTargetAmount(res.data.data.prices[0].coin_amount)
+      }
+
+      if (target_amount) {
+        setSourceAmount(res.data.data.prices[0].fiat_amount)
+      }
+
+      setPriceLoading(false)
+      setAmountInput(undefined)
+    }
+
+    if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
+      getPrices({ source_amount: debouncedSourceAmount })
+    }
+
+    if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
+      getPrices({ target_amount: debouncedTargetAmount })
+    }
+  }, [
+    amountInput,
+    debouncedSourceAmount,
+    debouncedTargetAmount,
+    priceLoading,
+    setValue,
+    source,
+    sourceAmount,
+    target,
+    targetAmount,
+  ])
+
+  // useEffect(() => {
+  //   if (priceLoading) {
+  //     if (amountInput === 'SOURCE' && targetAmount) {
+  //       setPriceLoading(false)
+  //       setAmountInput(undefined)
+  //     }
+  //     if (amountInput === 'TARGET' && sourceAmount) {
+  //       setPriceLoading(false)
+  //       setAmountInput(undefined)
+  //     }
+  //   }
+  // }, [amountInput, priceLoading, sourceAmount, targetAmount])
+
   useEffect(() => {
     if (wg) {
       setButtonText('Connect Wallet')
@@ -110,17 +208,23 @@ export default function Example() {
               <label htmlFor="source" className="block  font-medium text-black ">
                 You Pay
               </label>
-              <div className="mt-1 flex">
+
+              <div
+                className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
+              >
                 <input
-                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
                   type="number"
                   placeholder="Enter amount"
-                  {...register('source', { required: true, maxLength: 80 })}
+                  {...register('source_amount', {
+                    required: true,
+                    maxLength: 80,
+                    onChange: () => {
+                      setAmountInput('SOURCE')
+                    },
+                  })}
                 />
-                <button
-                  className="flex border-b border-gray-300 items-center"
-                  onClick={() => setSelectCurrencyType('FIAT')}
-                >
+                <button className="flex  items-center" onClick={() => setSelectCurrencyType('FIAT')}>
                   {source}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
@@ -131,18 +235,23 @@ export default function Example() {
               <label htmlFor="source" className="block  font-medium text-black  ">
                 You Receive
               </label>
-              <div className="mt-1 flex">
+              <div
+                className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
+              >
                 <input
-                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
                   type="number"
                   placeholder="Enter amount"
-                  {...register('target', { required: true, maxLength: 100 })}
+                  {...register('target_amount', {
+                    required: true,
+                    maxLength: 100,
+                    onChange: () => {
+                      setAmountInput('TARGET')
+                    },
+                  })}
                 />
 
-                <button
-                  className="flex border-b border-gray-300 items-center"
-                  onClick={() => setSelectCurrencyType('CRYPTO')}
-                >
+                <button className="flex items-center" onClick={() => setSelectCurrencyType('CRYPTO')}>
                   {target}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
@@ -170,7 +279,13 @@ export default function Example() {
 
               <button
                 type="submit"
-                className="text-sm wg:text-base rounded-full border-gray-300 border  h-full px-2 w-1/3 max-w-sm md:text-2xl"
+                disabled={priceLoading}
+                className={classNames(
+                  priceLoading
+                    ? 'border-gray-300 text-gray-600 font-light '
+                    : 'border-[#01C2C1]   text-black font-bold',
+                  'text-sm wg:text-base rounded-full border  h-full px-2 w-1/3 max-w-sm md:text-2xl'
+                )}
               >
                 Create Order
               </button>
