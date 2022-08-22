@@ -1,6 +1,5 @@
 import { ExchangeName, NetworkName } from '@rbl/velox-common/multiChains';
 import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
-import { load, save } from 'redux-localstorage-simple';
 
 import application from './application/reducer';
 import burn from './burn/reducer';
@@ -11,8 +10,6 @@ import multicall from './multicall/reducer';
 import swap from './swap/reducer';
 import transactions from './transactions/reducer';
 import user from './user/reducer';
-
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists'];
 
 /** The enclosed code is only used for below **/
 export const reducer = combineReducers({
@@ -51,15 +48,8 @@ const createExchangeStore = (
   network: NetworkName
 ) => {
   return configureStore({
-    middleware: (defaultMiddleware) => [
-      ...defaultMiddleware({ thunk: false }),
-      save({ namespace: namespace, states: PERSISTED_KEYS }),
-    ],
-    preloadedState: load({
-      disableWarnings: true,
-      namespace: namespace,
-      states: PERSISTED_KEYS,
-    }),
+    middleware: (defaultMiddleware) => [...defaultMiddleware({ thunk: false })],
+
     reducer: getExchangeReducer(exchange, network),
   });
 };

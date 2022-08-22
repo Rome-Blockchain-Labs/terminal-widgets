@@ -20,7 +20,6 @@ function useProvider() {
   };
   useEffect(() => {
     if (chainHex === chainId) return;
-
     dispatch(updateConnection({ chainHex: chainId }));
   }, [chainId, chainHex, dispatch]);
 

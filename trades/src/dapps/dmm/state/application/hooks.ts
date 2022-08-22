@@ -11,6 +11,7 @@ import { defaultExchangeClient } from '../../apollo/client';
 import { ETH_PRICE, TOKEN_DERIVED_ETH } from '../../apollo/queries';
 import { KNC, ZERO_ADDRESS } from '../../constants';
 import { getBlockFromTimestamp, getPercentChange } from '../../utils';
+import { setAddressOpenModal } from './actions';
 import {
   addPopup,
   ApplicationModal,
@@ -68,6 +69,17 @@ export function useCloseModals(): () => void {
 
 export function useNetworkModalToggle(): () => void {
   return useToggleModal(ApplicationModal.NETWORK);
+}
+
+export function useAddressModalToggle() {
+  const dispatch = useDispatch<AppDispatch>();
+  const openModal = useSelector(
+    (state: AppState) => state.dapps.dmm.application.addressOpenModal
+  );
+  const toggleAddressModal = () => {
+    dispatch(setAddressOpenModal(openModal ? false : true));
+  };
+  return toggleAddressModal;
 }
 
 export function useWalletModalToggle(): () => void {
