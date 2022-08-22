@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,7 @@ interface FormValues {
 export default function Example() {
   const { wg } = useResponsive()
   const [order] = useState('BUY')
+  const [currencyChange, setCurrencyChange] = useState(false)
   const {
     register,
     handleSubmit,
@@ -56,7 +57,6 @@ export default function Example() {
   const [fiatBuyList, setBuyFiatList] = useState()
   const [tokenBuyList, setTokenBuyList] = useState()
 
-  // const currencySelector = selectCurrencyType === 'FIAT' ? setTarget : setSource
   const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
   const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
   const selectedCurrency = selectCurrencyType === 'FIAT' ? source : target
@@ -65,25 +65,15 @@ export default function Example() {
   }
   const [buttonText, setButtonText] = useState('')
   const [priceLoading, setPriceLoading] = useState(false)
-  // axios
-  //   .post("/api/banxa/get-orders", {
-  //     params: {
-  //       start_date: oneMonthAgo,
-  //       end_date: today,
-  //       per_page: 50,
-  //       // account_reference: "testcustomer001001",
-  //     },
-  //   })
-  //   .then((response) => setData(response.data));
 
-  useEffect(() => {
-    const setSourceAmount = (value: number) => {
-      setValue('source_amount', value)
-    }
-    const setTargetAmount = (value: number) => {
-      setValue('target_amount', value)
-    }
-    const getPrices = async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+  const getPrices = useCallback(
+    async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+      const setSourceAmount = (value: number) => {
+        setValue('source_amount', value)
+      }
+      const setTargetAmount = (value: number) => {
+        setValue('target_amount', value)
+      }
       if (!!source_amount === false && !!target_amount === false) {
         setValue('source_amount', undefined)
         setValue('target_amount', undefined)
@@ -117,8 +107,11 @@ export default function Example() {
 
       setPriceLoading(false)
       setAmountInput(undefined)
-    }
+    },
+    [priceLoading, setValue, source, target]
+  )
 
+  useEffect(() => {
     if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
       getPrices({ source_amount: debouncedSourceAmount })
     }
@@ -126,30 +119,14 @@ export default function Example() {
     if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
       getPrices({ target_amount: debouncedTargetAmount })
     }
-  }, [
-    amountInput,
-    debouncedSourceAmount,
-    debouncedTargetAmount,
-    priceLoading,
-    setValue,
-    source,
-    sourceAmount,
-    target,
-    targetAmount,
-  ])
+  }, [amountInput, debouncedSourceAmount, debouncedTargetAmount, getPrices, sourceAmount, targetAmount])
 
-  // useEffect(() => {
-  //   if (priceLoading) {
-  //     if (amountInput === 'SOURCE' && targetAmount) {
-  //       setPriceLoading(false)
-  //       setAmountInput(undefined)
-  //     }
-  //     if (amountInput === 'TARGET' && sourceAmount) {
-  //       setPriceLoading(false)
-  //       setAmountInput(undefined)
-  //     }
-  //   }
-  // }, [amountInput, priceLoading, sourceAmount, targetAmount])
+  useEffect(() => {
+    if (currencyChange && debouncedSourceAmount && debouncedTargetAmount && (source || target)) {
+      getPrices({ source_amount: debouncedSourceAmount })
+      setCurrencyChange(false)
+    }
+  }, [currencyChange, debouncedSourceAmount, debouncedTargetAmount, getPrices, source, target])
 
   useEffect(() => {
     if (wg) {
@@ -176,12 +153,13 @@ export default function Example() {
       setTokenBuyList(parsedTokenBuyList)
     }
     fetchCurrencyLists()
-  }, [selectCurrencyType])
+  }, [])
 
   return (
     <>
       {selectCurrencyType && (
         <CurrencySelect
+          setCurrencyChange={setCurrencyChange}
           selectedCurrency={selectedCurrency}
           setCurrency={setCurrency}
           currencyList={currencyList}

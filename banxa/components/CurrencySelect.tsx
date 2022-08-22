@@ -16,11 +16,12 @@ interface Props {
   closeModal: () => void
   setCurrency: (val: string) => void
   selectedCurrency: string
+  setCurrencyChange: (val: boolean) => void
 }
 
 const type = 'CRYPTO'
 
-const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyList }: Props) => {
+const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyList, setCurrencyChange }: Props) => {
   const [searchText, setSearchText] = useState<string>('')
   const [displayList, setDisplayList] = useState<Currency[]>()
   const debouncedValue = useDebounce<string>(searchText, 500)
@@ -107,6 +108,7 @@ const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyLis
                       key={index}
                       onClick={() => {
                         setCurrency(currency.code)
+                        setCurrencyChange(true)
                         closeModal()
                       }}
                       className={classNames(
