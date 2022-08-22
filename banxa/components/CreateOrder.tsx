@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import CurrencySelect, { list } from './CurrencySelect'
+import CurrencySelect from './CurrencySelect'
 
-import { configResponsive, useResponsive } from 'ahooks'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { useResponsive } from '../hooks/useMediaQuery'
+
 interface FormValues {
   sourceAmount: number
   targetAmount: number
@@ -16,13 +17,8 @@ interface FormValues {
   target: string
 }
 
-configResponsive({
-  wg: 430,
-})
-
 export default function Example() {
-  const responsive = useResponsive()
-
+  const { wg } = useResponsive()
   const [order] = useState('BUY')
   const {
     register,
@@ -30,46 +26,73 @@ export default function Example() {
     // formState: { errors },
     setValue,
     watch,
-  } = useForm<FormValues>()
+  } = useForm<FormValues>({
+    defaultValues: {
+      source: 'USD',
+      target: 'ETH',
+    },
+  })
   const onSubmit = (data: any) => console.log(data)
-  // const target = watch('target')
+  const target = watch('target')
   const setTarget = (value: string) => {
     setValue('target', value)
   }
-  // const source = watch()
+  const source = watch('source')
   const setSource = (value: string) => {
     setValue('source', value)
   }
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
-  const currencySelector = selectCurrencyType === 'FIAT' ? setTarget : setSource
-  const [currencyList, setCurrencyList] = useState()
+  const [fiatBuyList, setBuyFiatList] = useState()
+  const [tokenBuyList, setTokenBuyList] = useState()
+
+  // const currencySelector = selectCurrencyType === 'FIAT' ? setTarget : setSource
+  const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
+  const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
+  const selectedCurrency = selectCurrencyType === 'FIAT' ? source : target
   const closeModal = () => {
     setSelectCurrencyType(undefined)
   }
+  const [buttonText, setButtonText] = useState('')
+  useEffect(() => {
+    if (wg) {
+      setButtonText('Connect Wallet')
+    } else {
+      setButtonText('Connect')
+    }
+  }, [wg])
 
   useEffect(() => {
-    const fetchCurrency = async (curr: 'FIAT' | 'CRYPTO') => {
-      if (curr === 'FIAT') {
-        const response = await axios.get('/api/banxa/fiat-buy')
-      }
-      if (curr === 'CRYPTO') {
-        const response = await axios.get('api/banxa/crypto-buy')
-      }
-    }
-    switch (selectCurrencyType) {
-      case 'CRYPTO':
-        break
+    const fetchCurrencyLists = async () => {
+      const fiatBuyRes = await axios.get('/api/banxa/fiat-buy')
+      const parsedFiatBuyList = fiatBuyRes.data.data.fiats.map((fiat: any) => ({
+        code: fiat.fiat_code,
+        name: fiat.fiat_name,
+      }))
+      setBuyFiatList(parsedFiatBuyList)
 
-      default:
-        break
+      const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
+      const parsedTokenBuyList = tokenBuyRes.data.data.coins.map((coin: any) => ({
+        code: coin.coin_code,
+        name: coin.coin_name,
+      }))
+      setTokenBuyList(parsedTokenBuyList)
     }
+    fetchCurrencyLists()
   }, [selectCurrencyType])
 
   return (
     <>
-      {selectCurrencyType && <CurrencySelect currencyList={list} type={selectCurrencyType} closeModal={closeModal} />}
+      {selectCurrencyType && (
+        <CurrencySelect
+          selectedCurrency={selectedCurrency}
+          setCurrency={setCurrency}
+          currencyList={currencyList}
+          type={selectCurrencyType}
+          closeModal={closeModal}
+        />
+      )}
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl">
-        <div className="flex w-full md:h-[5%] items-end">
+        <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
@@ -98,7 +121,7 @@ export default function Example() {
                   className="flex border-b border-gray-300 items-center"
                   onClick={() => setSelectCurrencyType('FIAT')}
                 >
-                  USDC
+                  {source}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
@@ -120,7 +143,7 @@ export default function Example() {
                   className="flex border-b border-gray-300 items-center"
                   onClick={() => setSelectCurrencyType('CRYPTO')}
                 >
-                  USDC
+                  {target}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
@@ -142,7 +165,7 @@ export default function Example() {
 
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl">
-                {responsive.wg ? 'Connect Wallet' : 'Connect'}
+                {buttonText}
               </button>
 
               <button

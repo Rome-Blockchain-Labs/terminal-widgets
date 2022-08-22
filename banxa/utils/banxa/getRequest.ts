@@ -27,16 +27,11 @@ export async function getRequest(query: PATH, res: NextApiResponse, params?: Rec
     },
   }
   try {
-    console.log(options)
     const response = await axios(options)
     return res.status(200).json({ data: response.data.data })
   } catch (error) {
-    console.log(error)
     const err = error as AxiosError
     if (err.response) {
-      console.log(err.response.status)
-      console.log(err.response.data)
-
       return res.status(err.response.status).json({ data: err.response.data })
     }
     return res.status(400)

@@ -12,43 +12,63 @@ interface Currency {
 
 interface Props {
   type: 'FIAT' | 'CRYPTO'
-  currencyList: Currency[]
+  currencyList: Currency[] | undefined
   closeModal: () => void
+  setCurrency: (val: string) => void
+  selectedCurrency: string
 }
 
-export const list = [
-  { code: 'ETH', name: 'Ethereum' },
-  { code: 'BTC', name: 'Bitcoin' },
-  { code: 'AVAX', name: 'Avalanche' },
-  { code: 'USDC', name: 'USDC' },
-  { code: 'ETHA', name: 'EthereumA' },
-  { code: 'BTCA', name: 'BitcoinA' },
-  { code: 'AVAXA', name: 'AvalancheA' },
-  { code: 'USDCA', name: 'USDCA' },
-]
 const type = 'CRYPTO'
 
-const CurrencySelect = ({ closeModal }: Props) => {
+const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyList }: Props) => {
   const [searchText, setSearchText] = useState<string>('')
-  const [displayList, setDisplayList] = useState<Currency[]>(list)
+  const [displayList, setDisplayList] = useState<Currency[]>()
   const debouncedValue = useDebounce<string>(searchText, 500)
-  const [selectedCurrency, setSelectedCurrency] = useState<string>()
   const ref = useRef<HTMLDivElement>(null)
 
-  const fuse = useMemo(() => new Fuse(list, { keys: ['code', 'name'] }), [])
+  const fuse = useMemo(() => {
+    if (currencyList) {
+      return new Fuse(currencyList, { keys: ['code', 'name'] })
+    }
+  }, [currencyList])
   useOnClickOutside(ref, closeModal)
 
   useEffect(() => {
-    if (debouncedValue !== '') {
+    if (debouncedValue !== '' && fuse) {
       const result = fuse.search(debouncedValue)
       if (result.length > 0) {
         const parsedList = result.map((ele) => ele.item)
         setDisplayList(parsedList)
       }
     } else {
-      setDisplayList(list)
+      setDisplayList(currencyList)
     }
-  }, [debouncedValue, fuse])
+  }, [currencyList, debouncedValue, fuse])
+  if (!displayList || displayList?.length === 0) {
+    return (
+      <>
+        <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
+        <div className="fixed top-0 w-full h-full z-30 flex justify-center items-center">
+          <svg
+            aria-hidden="true"
+            className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -79,38 +99,38 @@ const CurrencySelect = ({ closeModal }: Props) => {
 
           <fieldset className="pb-16 pl-1 pr-3 wg:pr-0 flex-grow overflow-scroll scrollbar-thin scrollbar-thumb-gray-700 ">
             <div className="space-y-2">
-              {displayList.map((currency, index) => (
-                <div
-                  key={index}
-                  className={classNames(
-                    selectedCurrency === currency.code ? 'bg-gray-100' : '',
-                    'relative flex  justify-end wg:justify-start items-center'
-                  )}
-                >
-                  <div className="flex items-center h-5 order-2 wg:order-1">
-                    <input
-                      checked={selectedCurrency === currency.code}
-                      onChange={() => setSelectedCurrency(currency.code)}
-                      name="currency"
-                      type="radio"
-                      className="focus:ring-[#0472c0] h-4 w-4 text-[#0472c0] border-gray-300"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm md:text-xl wg:order-2 mr-2 wg:mr-0">
-                    <label className="font-medium text-gray-700">{currency.code}</label>
-                    <span className="text-gray-500 ml-2">{currency.name}</span>
-                  </div>
-                </div>
-              ))}
+              {displayList &&
+                displayList.map((currency, index) => (
+                  <>
+                    <hr />
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setCurrency(currency.code)
+                        closeModal()
+                      }}
+                      className={classNames(
+                        selectedCurrency === currency.code ? 'bg-gray-200' : '',
+                        'relative flex  justify-end wg:justify-start items-center w-full p-2'
+                      )}
+                    >
+                      <div className="flex items-center h-5 order-2 wg:order-1">
+                        <input
+                          checked={selectedCurrency === currency.code}
+                          name="currency"
+                          type="radio"
+                          className="focus:ring-[#0472c0] h-4 w-4 text-[#0472c0] border-gray-300"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm md:text-xl wg:order-2 mr-2 wg:mr-0">
+                        <label className="font-medium text-gray-700">{currency.code}</label>
+                        <span className="text-gray-500 ml-2">{currency.name}</span>
+                      </div>
+                    </button>
+                  </>
+                ))}
             </div>
           </fieldset>
-
-          <div className="bg-white  absolute h-16 md:h-24 left-0 bottom-0 w-full grid place-items-center">
-            <div className="w-full border-t border-gray-200 " />
-            <button className="btn-primary text-white px-2 py-3 w-2/5 wg:w-1/5 md:w-2/5 md:h-20 min-w-[138px] rounded-full md:text-2xl ">
-              Confirm
-            </button>
-          </div>
         </div>
       </div>
     </>
