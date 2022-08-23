@@ -78,17 +78,6 @@ const WalletModal = ({ chainParams }: { chainParams: any }) => {
               </WalletBox>
             )
           })}
-          <div className="w-full relative grid place-items-center ">
-            <div className="absolute w-full border-b border-gray-50 top-1/2" />
-            <div className="z-10 bg-gray-800 text-white px-4">OR</div>
-          </div>
-          <div className="mt-3 w-full text-[#C1FF00]">ENTER ADDRESS MANUALLY</div>
-          <input
-            type="text"
-            name="address"
-            className="text-gray-800 text-smas mt-2 w-2/3 px-2 h-8 focus:ring-gray-500 focus:border-gray-500 shadow-sm rounded-md "
-            placeholder="0x"
-          />
         </div>
       </div>
     </>
