@@ -9,6 +9,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import useDebounce from '../hooks/debounce'
+import WalletModal from './WalletModal'
 
 interface FormValues {
   sourceAmount: number
@@ -157,6 +158,7 @@ export default function Example() {
 
   return (
     <>
+      <WalletModal chainParams={1} />
       {selectCurrencyType && (
         <CurrencySelect
           setCurrencyChange={setCurrencyChange}
