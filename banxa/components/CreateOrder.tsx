@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import useDebounce from '../hooks/debounce'
 import WalletModal from './WalletModal'
+import { useWeb3React } from '@romeblockchain/wallet'
 
 interface FormValues {
   sourceAmount: number
@@ -24,7 +25,9 @@ interface FormValues {
 export default function Example() {
   const { wg } = useResponsive()
   const [order] = useState('BUY')
+  const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
+  const { account } = useWeb3React()
   const {
     register,
     handleSubmit,
@@ -61,7 +64,7 @@ export default function Example() {
   const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
   const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
   const selectedCurrency = selectCurrencyType === 'FIAT' ? source : target
-  const closeModal = () => {
+  const closeCurrencyModal = () => {
     setSelectCurrencyType(undefined)
   }
   const [buttonText, setButtonText] = useState('')
@@ -136,6 +139,11 @@ export default function Example() {
       setButtonText('Connect')
     }
   }, [wg])
+  useEffect(() => {
+    if (account) {
+      setValue('address', account)
+    }
+  }, [account, setValue])
 
   useEffect(() => {
     const fetchCurrencyLists = async () => {
@@ -158,7 +166,7 @@ export default function Example() {
 
   return (
     <>
-      <WalletModal chainParams={1} />
+      {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
           setCurrencyChange={setCurrencyChange}
@@ -166,7 +174,7 @@ export default function Example() {
           setCurrency={setCurrency}
           currencyList={currencyList}
           type={selectCurrencyType}
-          closeModal={closeModal}
+          closeModal={closeCurrencyModal}
         />
       )}
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl">
@@ -253,7 +261,10 @@ export default function Example() {
             </div>
 
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
-              <button className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl">
+              <button
+                onClick={() => setWalletVisibility(true)}
+                className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl"
+              >
                 {buttonText}
               </button>
 

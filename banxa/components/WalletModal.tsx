@@ -6,16 +6,10 @@ import { classNames } from '../utils/style'
 import MetamaskLogo from './icons/MetamaskLogo'
 import WalletConnectLogo from './icons/WalletConnectLogo'
 
-const WalletModal = ({ chainParams }: { chainParams: any }) => {
+const WalletModal = ({ setWalletVisibility }: { setWalletVisibility: (val: boolean) => void }) => {
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets()
   const [loading, setLoading] = useState(false)
 
-  // const closeModal = () => {
-  //   seclassNamealletVisibility(false)
-  // }
-  // if (!walletVisibility) {
-  //   return null
-  // }
   if (loading) {
     return (
       <>
@@ -49,7 +43,12 @@ const WalletModal = ({ chainParams }: { chainParams: any }) => {
         <div className="rounded-lg h-fit mx-3 p-6 w-full  min-h-[215px] md:mx-0 md:w-1/2 bg-gray-800 flex flex-wrap justify-center items-center rounded-10 h-fit-content max-w-lg">
           <div className="w-full text-[#C1FF00] flex">
             <span>SELECT WALLET</span>
-            <button className="ml-auto mr-3 " onClick={() => {}}>
+            <button
+              className="ml-auto mr-3 "
+              onClick={() => {
+                setWalletVisibility(false)
+              }}
+            >
               <XIcon color="#C1FF00" height={17} width={17} />
             </button>
           </div>
@@ -62,10 +61,10 @@ const WalletModal = ({ chainParams }: { chainParams: any }) => {
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  console.log('connect')
                   setLoading(true)
                   try {
-                    await handleConnect(wallet.connector, setSelectedWallet, wallet.wallet, null, chainParams)
+                    await handleConnect(wallet.connector, setSelectedWallet, wallet.wallet, null, 1)
+                    setWalletVisibility(false)
                   } catch (error) {
                     console.log(error)
                   }
