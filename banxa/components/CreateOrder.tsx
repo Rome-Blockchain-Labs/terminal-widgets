@@ -1,4 +1,3 @@
-// import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
@@ -11,11 +10,13 @@ import { useResponsive } from '../hooks/useMediaQuery'
 import useDebounce from '../hooks/debounce'
 import WalletModal from './WalletModal'
 import { useWeb3React } from '@romeblockchain/wallet'
+import { useAppContext } from 'context/AppProvider'
+import Loader from './Loader'
 
 interface FormValues {
   sourceAmount: number
   targetAmount: number
-  address: string
+  wallet_address: string
   source: string
   target: string
   source_amount: number | undefined
@@ -25,6 +26,7 @@ interface FormValues {
 export default function Example() {
   const { wg } = useResponsive()
   const [order] = useState('BUY')
+  const { accountReference } = useAppContext()
   const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
@@ -42,7 +44,18 @@ export default function Example() {
       target_amount: undefined,
     },
   })
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = async (data: any) => {
+    setLoading(true)
+    const res = await axios.post('/api/banxa/create-order', {
+      params: {
+        ...data,
+        account_reference: accountReference?.toString(),
+        return_url_on_success: 'https://app.rometerminal.io',
+      },
+    })
+    setCheckoutURL(res.data.data.order.checkout_url)
+    setLoading(false)
+  }
   const target = watch('target')
   const setTarget = (value: string) => {
     setValue('target', value)
@@ -69,6 +82,8 @@ export default function Example() {
   }
   const [buttonText, setButtonText] = useState('')
   const [priceLoading, setPriceLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [checkoutURL, setCheckoutURL] = useState<string>()
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
@@ -114,6 +129,11 @@ export default function Example() {
     },
     [priceLoading, setValue, source, target]
   )
+  useEffect(() => {
+    if (checkoutURL) {
+      window.open(checkoutURL, '_blank')?.focus()
+    }
+  }, [checkoutURL])
 
   useEffect(() => {
     if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
@@ -141,7 +161,7 @@ export default function Example() {
   }, [wg])
   useEffect(() => {
     if (account) {
-      setValue('address', account)
+      setValue('wallet_address', account)
     }
   }, [account, setValue])
 
@@ -161,11 +181,14 @@ export default function Example() {
       }))
       setTokenBuyList(parsedTokenBuyList)
     }
-    fetchCurrencyLists()
-  }, [])
+    if (!fiatBuyList || !tokenBuyList) {
+      fetchCurrencyLists()
+    }
+  }, [fiatBuyList, tokenBuyList])
 
   return (
     <>
+      {loading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
@@ -182,6 +205,7 @@ export default function Example() {
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
+
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
           <div className="flex text-[#1D3E52] ">
             <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
@@ -190,7 +214,6 @@ export default function Example() {
             </div>
             <button className="bg-gray-200 rounded-lg px-3 md:text-3xl">History</button>
           </div>
-
           <form className="flex flex-col mt-4" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="source" className="block  font-medium text-black ">
@@ -204,8 +227,8 @@ export default function Example() {
                   className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
                   type="number"
                   placeholder="Enter amount"
+                  step="any"
                   {...register('source_amount', {
-                    required: true,
                     maxLength: 80,
                     onChange: () => {
                       setAmountInput('SOURCE')
@@ -230,8 +253,8 @@ export default function Example() {
                   className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
                   type="number"
                   placeholder="Enter amount"
+                  step="any"
                   {...register('target_amount', {
-                    required: true,
                     maxLength: 100,
                     onChange: () => {
                       setAmountInput('TARGET')
@@ -255,7 +278,7 @@ export default function Example() {
                   className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
                   type="text"
                   placeholder="Click the connect wallet button below"
-                  {...register('address', { required: true, maxLength: 100 })}
+                  {...register('wallet_address', { required: true, maxLength: 100 })}
                 />
               </div>
             </div>
