@@ -12,6 +12,7 @@ import WalletModal from './WalletModal'
 import { useWeb3React } from '@romeblockchain/wallet'
 import { useAppContext } from 'context/AppProvider'
 import Loader from './Loader'
+import Transaction, { ORDER_STATUS } from './Transaction'
 
 interface FormValues {
   sourceAmount: number
@@ -207,6 +208,14 @@ export default function Example() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
+          <Transaction
+            orderStatus={ORDER_STATUS.PENDING_PAYMENT}
+            fiatCode="USD"
+            fiatAmount={1230}
+            coinCode="ETH"
+            coinAmount={0.02122}
+            orderType="BUY"
+          />
           <div className="flex text-[#1D3E52] ">
             <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
               <button className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>BUY</button>
