@@ -32,7 +32,7 @@ const OrderStatus = ({ orderStatus }: OrderStatusProps) => {
 
 export default OrderStatus
 
-const StatusMapping = [
+export const StatusMapping = [
   { status: ORDER_STATUS.PENDING_PAYMENT, color: 'warning', text: 'Pending Payment' },
   { status: ORDER_STATUS.WAITING_PAYMENT, color: 'warning', text: 'Waiting Payment' },
   { status: ORDER_STATUS.PAYMENT_RECEIVED, color: 'info', text: 'Payment Received' },
