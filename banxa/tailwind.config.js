@@ -13,6 +13,18 @@ module.exports = {
       wg: '430px',
       ...screens,
     },
+    extend: {
+      colors: {
+        'success-border': '#B7EB8F',
+        'success-bg': '#F6FFED',
+        'warning-border': '#FFE58F',
+        'warning-bg': '#FFFBE6',
+        'info-border': '#91D5FF',
+        'info-bg': '#E6F7FF',
+        'error-border': '#FFCCC7',
+        'error-bg': '#FFF2F0',
+      },
+    },
   },
   variants: {
     scrollbar: ['rounded'],
