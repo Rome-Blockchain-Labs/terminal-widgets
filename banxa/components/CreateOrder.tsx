@@ -13,6 +13,7 @@ import { useWeb3React } from '@romeblockchain/wallet'
 import { useAppContext } from 'context/AppProvider'
 import Loader from './Loader'
 import { useRouter } from 'next/router'
+import ErrorModal from './Error'
 
 interface FormValues {
   sourceAmount: number
@@ -38,6 +39,7 @@ export default function Example() {
     // formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
       source: 'USD',
@@ -46,16 +48,25 @@ export default function Example() {
       target_amount: undefined,
     },
   })
+  const [error, setError] = useState<string>()
+  const resetForm = () => {
+    reset()
+    setError(undefined)
+  }
   const onSubmit = async (data: any) => {
     setLoading(true)
-    const res = await axios.post('/api/banxa/create-order', {
-      params: {
-        ...data,
-        account_reference: accountReference?.toString(),
-        return_url_on_success: 'https://app.rometerminal.io',
-      },
-    })
-    setCheckoutURL(res.data.data.order.checkout_url)
+    const res = await axios
+      .post('/api/banxa/create-order', {
+        params: {
+          ...data,
+          account_reference: accountReference?.toString(),
+          return_url_on_success: 'https://app.rometerminal.io',
+        },
+      })
+      .catch(() => setError('Unable to create an order. Please try again later or visit www.banxa.com'))
+    if (res) {
+      setCheckoutURL(res.data.data.order.checkout_url)
+    }
     setLoading(false)
   }
   const target = watch('target')
@@ -115,15 +126,24 @@ export default function Example() {
         params.target_amount = target_amount
       }
 
-      const res = await axios.post('/api/banxa/get-price', {
-        params,
-      })
-      if (source_amount) {
-        setTargetAmount(res.data.data.prices[0].coin_amount)
-      }
+      const res = await axios
+        .post('/api/banxa/get-price', {
+          // params,
+        })
+        .catch(() => {
+          setError(
+            'Unable to process your order at this time. Please proceed to www.banxa.com to redo your transaction.'
+          )
+        })
 
-      if (target_amount) {
-        setSourceAmount(res.data.data.prices[0].fiat_amount)
+      if (res) {
+        if (source_amount) {
+          setTargetAmount(res.data.data.prices[0].coin_amount)
+        }
+
+        if (target_amount) {
+          setSourceAmount(res.data.data.prices[0].fiat_amount)
+        }
       }
 
       setPriceLoading(false)
@@ -169,19 +189,23 @@ export default function Example() {
 
   useEffect(() => {
     const fetchCurrencyLists = async () => {
-      const fiatBuyRes = await axios.get('/api/banxa/fiat-buy')
-      const parsedFiatBuyList = fiatBuyRes.data.data.fiats.map((fiat: any) => ({
-        code: fiat.fiat_code,
-        name: fiat.fiat_name,
-      }))
-      setBuyFiatList(parsedFiatBuyList)
+      try {
+        const fiatBuyRes = await axios.get('/api/banxa/fiat-buy')
+        const parsedFiatBuyList = fiatBuyRes.data.data.fiats.map((fiat: any) => ({
+          code: fiat.fiat_code,
+          name: fiat.fiat_name,
+        }))
+        setBuyFiatList(parsedFiatBuyList)
 
-      const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-      const parsedTokenBuyList = tokenBuyRes.data.data.coins.map((coin: any) => ({
-        code: coin.coin_code,
-        name: coin.coin_name,
-      }))
-      setTokenBuyList(parsedTokenBuyList)
+        const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
+        const parsedTokenBuyList = tokenBuyRes.data.data.coins.map((coin: any) => ({
+          code: coin.coin_code,
+          name: coin.coin_name,
+        }))
+        setTokenBuyList(parsedTokenBuyList)
+      } catch {
+        setError('Unable to get currency lists. Please try again later')
+      }
     }
     if (!fiatBuyList || !tokenBuyList) {
       fetchCurrencyLists()
@@ -193,6 +217,7 @@ export default function Example() {
 
   return (
     <>
+      {error && <ErrorModal message={error} closeModal={resetForm} />}
       {loading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
