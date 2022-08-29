@@ -29,7 +29,7 @@ steps:
       - us-central1
       - '--platform'
       - 'managed'
-      - '--allow-unauthenticated'--allow-unauthenticated'
+      - '--allow-unauthenticated'
     id: publish
 timeout: 1800s
 options:
