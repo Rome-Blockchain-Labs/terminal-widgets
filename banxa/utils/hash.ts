@@ -1,5 +1,6 @@
 export function stringToHash(string: string) {
   const secret = process.env.SECRET
+  console.log(secret)
   if (!secret) {
     throw new Error('No secret found')
   }

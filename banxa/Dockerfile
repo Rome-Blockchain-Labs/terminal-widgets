@@ -15,12 +15,12 @@ ENV BANXA_DOMAIN=$BANXA_DOMAIN
 ARG SECRET=
 ENV SECRET=$SECRET
 
-RUN printenv >> build.env
+RUN printenv >> .env.production
 RUN yarn install && yarn build
 
 FROM node:16-alpine AS runner
 WORKDIR /app
-COPY --from=deps /app/build.env ./
+COPY --from=deps /app/.env.production ./
 COPY --from=deps /app/public ./public
 COPY --from=deps /app/.next ./.next
 COPY --from=deps /app/node_modules ./node_modules
