@@ -128,7 +128,7 @@ export default function Example() {
 
       const res = await axios
         .post('/api/banxa/get-price', {
-          // params,
+          params,
         })
         .catch(() => {
           setError(
