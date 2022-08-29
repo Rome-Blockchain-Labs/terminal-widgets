@@ -6,9 +6,12 @@ steps:
       - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
       - '--build-arg'
       - 'BANXA_API_KEY=${_BANXA_API_KEY}'
+      - '--build-arg'
       - 'BANXA_API_SECRET'={_BANXA_API_SECRET}'
+      - '--build-arg'
       - 'BANXA_DOMAIN'={_BANXA_DOMAIN}
-      # - 'SECRET=${_SECRET}'
+      - '--build-arg'
+      - 'SECRET=${_SECRET}'
       # folder name for context
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
