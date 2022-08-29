@@ -4,8 +4,8 @@ steps:
       - build
       - '-t'
       - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME:$SHORT_SHA'
-      # - '--build-arg'
-      # - 'BANXA_API_KEY=${_BANXA_API_KEY}'
+      - '--build-arg'
+      - 'BANXA_API_KEY=${_BANXA_API_KEY}'
       # - 'BANXA_API_SECRET'={_BANXA_API_SECRET}'
       # - 'BANXA_DOMAIN'={_BANXA_DOMAIN}
       # - 'SECRET=${_SECRET}'
