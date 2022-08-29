@@ -13,7 +13,7 @@ steps:
       - '--build-arg'
       - 'SECRET=${_SECRET}'
       - '--build-arg'
-      - 'RETURN_URL_ON_SUCCESS=${_RETURN_URL_ON_SUCCESS}'
+      - 'NEXT_PUBLIC_RETURN_URL_ON_SUCCESS=${_NEXT_PUBLIC_RETURN_URL_ON_SUCCESS}'
       # folder name for context
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
