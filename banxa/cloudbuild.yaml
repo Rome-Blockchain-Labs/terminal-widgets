@@ -9,7 +9,7 @@ steps:
       - '--build-arg'
       - 'BANXA_API_SECRET={_BANXA_API_SECRET}'
       - '--build-arg'
-      - 'BANXA_DOMAIN={_BANXA_DOMAIN}
+      - 'BANXA_DOMAIN={_BANXA_DOMAIN}'
       - '--build-arg'
       - 'SECRET=${_SECRET}'
       # folder name for context
