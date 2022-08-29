@@ -211,9 +211,11 @@ export default function Example() {
       fetchCurrencyLists()
     }
   }, [fiatBuyList, tokenBuyList])
-  if (!accountReference) {
-    router.push('/')
-  }
+  useEffect(() => {
+    if (!accountReference) {
+      router.push('/')
+    }
+  }, [accountReference, router])
 
   return (
     <>
