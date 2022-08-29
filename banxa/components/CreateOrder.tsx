@@ -55,12 +55,14 @@ export default function Example() {
   }
   const onSubmit = async (data: any) => {
     setLoading(true)
+    const a = process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS
+    console.log(a)
     const res = await axios
       .post('/api/banxa/create-order', {
         params: {
           ...data,
           account_reference: accountReference?.toString(),
-          return_url_on_success: 'https://app.rometerminal.io',
+          return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
         },
       })
       .catch(() => setError('Unable to create an order. Please try again later or visit www.banxa.com'))
