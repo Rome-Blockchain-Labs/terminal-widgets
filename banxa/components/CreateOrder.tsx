@@ -14,6 +14,7 @@ import { useAppContext } from 'context/AppProvider'
 import Loader from './Loader'
 import { useRouter } from 'next/router'
 import ErrorModal from './Error'
+import RedirectModal from './RedirectModal'
 
 interface FormValues {
   sourceAmount: number
@@ -55,8 +56,6 @@ export default function Example() {
   }
   const onSubmit = async (data: any) => {
     setLoading(true)
-    const a = process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS
-    console.log(a)
     const res = await axios
       .post('/api/banxa/create-order', {
         params: {
@@ -153,11 +152,11 @@ export default function Example() {
     },
     [priceLoading, setValue, source, target]
   )
-  useEffect(() => {
-    if (checkoutURL) {
-      window.open(checkoutURL, '_blank')?.focus()
-    }
-  }, [checkoutURL])
+  // useEffect(() => {
+  //   if (checkoutURL) {
+  //     window.open(checkoutURL, '_blank')?.focus()
+  //   }
+  // }, [checkoutURL])
 
   useEffect(() => {
     if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
@@ -209,7 +208,7 @@ export default function Example() {
         setError('Unable to get currency lists. Please try again later')
       }
     }
-    if (!fiatBuyList || !tokenBuyList) {
+    if (!fiatBuyList && !tokenBuyList) {
       fetchCurrencyLists()
     }
   }, [fiatBuyList, tokenBuyList])
@@ -221,6 +220,7 @@ export default function Example() {
 
   return (
     <>
+      {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
       {loading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
@@ -321,6 +321,7 @@ export default function Example() {
 
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button
+                type="button"
                 onClick={() => setWalletVisibility(true)}
                 className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl"
               >
