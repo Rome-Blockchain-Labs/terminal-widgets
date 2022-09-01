@@ -6,7 +6,7 @@ import { WalletProvider } from '@romeblockchain/wallet'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient())
 
   return (
@@ -22,4 +22,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default App

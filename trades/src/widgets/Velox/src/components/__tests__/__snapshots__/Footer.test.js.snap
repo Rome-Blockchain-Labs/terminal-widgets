@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component render Footer snapshot added 1`] = `
+<footer
+  className="footer"
+>
+  <div
+    className="footer__inner flex --align-center --just-center"
+  >
+    <a
+      className="footer__link --svg__tg"
+      href="1"
+    >
+      Telegram
+    </a>
+    <a
+      className="footer__link --svg__m"
+      href="2"
+    >
+      M...
+    </a>
+    <a
+      className="footer__link --svg__twitter"
+      href="3"
+    >
+      Twitter
+    </a>
+  </div>
+</footer>
+`;
