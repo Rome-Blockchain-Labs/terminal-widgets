@@ -6,14 +6,14 @@ import { stringToHash } from '../../../utils/hash'
 const accountRef = collection(db, 'accounts')
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const docSnap = await getDoc(doc(accountRef, req.body.params.email))
+  const account_reference = stringToHash(req.body.params.email).toString()
+  const docSnap = await getDoc(doc(accountRef, account_reference))
 
   if (docSnap.exists()) {
-    res.status(200).json({ account_reference: docSnap.data().account_reference })
+    res.status(200).json({ account_reference })
   } else {
-    const account_reference = stringToHash(req.body.params.email)
-    await setDoc(doc(accountRef, req.body.params.email), {
-      account_reference,
+    await setDoc(doc(accountRef, account_reference), {
+      email: req.body.params.email,
     })
 
     res.status(200).json({ account_reference })
