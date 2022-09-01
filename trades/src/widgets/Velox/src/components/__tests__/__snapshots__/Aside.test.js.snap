@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Aside component render Aside snapshot added 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="aside"
+  >
+    <h2
+      className="aside__title section-title shadow-box"
+    >
+      Current Bot Operations
+    </h2>
+    <div
+      className="aside__info shadow-box"
+    >
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          Token Pair: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          DEX Used: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          Token Amount: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          ETH Amount: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          BUY IF: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+           SELL IF: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          Gas Cap: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <p
+        className="aside__info-row"
+      >
+        <span
+          className="aside__info-title"
+        >
+          Dynamic Threshold: 
+        </span>
+        <span
+          className="aside__info-value"
+        >
+          XXXX
+        </span>
+      </p>
+      <VeloxButton
+        className="--wide"
+        prefix="aside"
+      >
+        cancel
+      </VeloxButton>
+    </div>
+  </div>
+</div>
+`;
