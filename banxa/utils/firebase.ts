@@ -3,7 +3,7 @@ import { getFirestore } from 'firebase/firestore'
 import 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAVONBlUSyKRG3JnFxkNLfLNXJaNby7f7g',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'test-bf9a8.firebaseapp.com',
   projectId: 'test-bf9a8',
   storageBucket: 'test-bf9a8.appspot.com',

@@ -47,6 +47,7 @@ export default function Example() {
     mutate: createOrder,
     data: createOrderData,
     error: createOrderError,
+    isLoading: createOrderLoading,
   } = useMutation((data: any) => {
     return axios.post('/api/banxa/create-order', {
       params: {
@@ -84,10 +85,7 @@ export default function Example() {
     setError(undefined)
   }
   const onSubmit = async (data: any) => {
-    setLoading(true)
     createOrder(data)
-
-    setLoading(false)
   }
   const target = watch('target')
   const setTarget = (value: string) => {
@@ -113,7 +111,6 @@ export default function Example() {
   }
   const [buttonText, setButtonText] = useState('')
   const [priceLoading, setPriceLoading] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [checkoutURL, setCheckoutURL] = useState<string>()
 
   const getPrices = useCallback(
@@ -224,7 +221,7 @@ export default function Example() {
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {loading && <Loader />}
+      {createOrderLoading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
