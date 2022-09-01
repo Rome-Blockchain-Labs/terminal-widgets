@@ -15,6 +15,7 @@ import Loader from './Loader'
 import { useRouter } from 'next/router'
 import ErrorModal from './Error'
 import RedirectModal from './RedirectModal'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 interface FormValues {
   sourceAmount: number
@@ -27,6 +28,34 @@ interface FormValues {
 }
 
 export default function Example() {
+  const { data: fiatBuyList, error: fiatBuyListError } = useQuery(['fiatBuyData'], async () => {
+    const res = await axios.get('/api/banxa/fiat-buy')
+
+    return res.data.data.fiats.map((fiat: any) => ({
+      code: fiat.fiat_code,
+      name: fiat.fiat_name,
+    }))
+  })
+  const { data: tokenBuyList, error: tokenBuyListError } = useQuery(['tokenBuyData'], async () => {
+    const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
+    return tokenBuyRes.data.data.coins.map((coin: any) => ({
+      code: coin.coin_code,
+      name: coin.coin_name,
+    }))
+  })
+  const {
+    mutate: createOrder,
+    data: createOrderData,
+    error: createOrderError,
+  } = useMutation((data: any) => {
+    return axios.post('/api/banxa/create-order', {
+      params: {
+        ...data,
+        account_reference: accountReference?.toString(),
+        return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
+      },
+    })
+  })
   const { wg } = useResponsive()
   const router = useRouter()
   // const [order] = useState('BUY')
@@ -56,18 +85,8 @@ export default function Example() {
   }
   const onSubmit = async (data: any) => {
     setLoading(true)
-    const res = await axios
-      .post('/api/banxa/create-order', {
-        params: {
-          ...data,
-          account_reference: accountReference?.toString(),
-          return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
-        },
-      })
-      .catch(() => setError('Unable to create an order. Please try again later or visit www.banxa.com'))
-    if (res) {
-      setCheckoutURL(res.data.data.order.checkout_url)
-    }
+    createOrder(data)
+
     setLoading(false)
   }
   const target = watch('target')
@@ -85,8 +104,6 @@ export default function Example() {
 
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
-  const [fiatBuyList, setBuyFiatList] = useState()
-  const [tokenBuyList, setTokenBuyList] = useState()
 
   const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
   const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
@@ -152,11 +169,20 @@ export default function Example() {
     },
     [priceLoading, setValue, source, target]
   )
-  // useEffect(() => {
-  //   if (checkoutURL) {
-  //     window.open(checkoutURL, '_blank')?.focus()
-  //   }
-  // }, [checkoutURL])
+  useEffect(() => {
+    if (createOrderError) {
+      setError('Unable to create an order. Please try again later or visit www.banxa.com')
+    }
+    if (fiatBuyListError || tokenBuyListError) {
+      setError('Unable to get currency lists. Please try again later')
+    }
+  }, [createOrderError, fiatBuyListError, tokenBuyListError])
+
+  useEffect(() => {
+    if (createOrderData) {
+      setCheckoutURL(createOrderData?.data.data.order.checkout_url)
+    }
+  }, [createOrderData])
 
   useEffect(() => {
     if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
@@ -188,30 +214,6 @@ export default function Example() {
     }
   }, [account, setValue])
 
-  useEffect(() => {
-    const fetchCurrencyLists = async () => {
-      try {
-        const fiatBuyRes = await axios.get('/api/banxa/fiat-buy')
-        const parsedFiatBuyList = fiatBuyRes.data.data.fiats.map((fiat: any) => ({
-          code: fiat.fiat_code,
-          name: fiat.fiat_name,
-        }))
-        setBuyFiatList(parsedFiatBuyList)
-
-        const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-        const parsedTokenBuyList = tokenBuyRes.data.data.coins.map((coin: any) => ({
-          code: coin.coin_code,
-          name: coin.coin_name,
-        }))
-        setTokenBuyList(parsedTokenBuyList)
-      } catch {
-        setError('Unable to get currency lists. Please try again later')
-      }
-    }
-    if (!fiatBuyList && !tokenBuyList) {
-      fetchCurrencyLists()
-    }
-  }, [fiatBuyList, tokenBuyList])
   useEffect(() => {
     if (!accountReference) {
       router.push('/')
