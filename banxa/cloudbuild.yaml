@@ -1,0 +1,46 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/${TRIGGER_NAME}:${SHORT_SHA}'
+      - '--build-arg'
+      - 'BANXA_API_KEY=${_BANXA_API_KEY}'
+      - '--build-arg'
+      - 'BANXA_API_SECRET=${_BANXA_API_SECRET}'
+      - '--build-arg'
+      - 'BANXA_DOMAIN=${_BANXA_DOMAIN}'
+      - '--build-arg'
+      - 'SECRET=${_SECRET}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_RETURN_URL_ON_SUCCESS=${_NEXT_PUBLIC_RETURN_URL_ON_SUCCESS}'
+      # folder name for context
+      - '$TRIGGER_NAME/'
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'gcr.io/${PROJECT_ID}/${TRIGGER_NAME}:${SHORT_SHA}'
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - run
+      - deploy
+      - '${TRIGGER_NAME}'
+      - '--image'
+      - 'gcr.io/${PROJECT_ID}/${TRIGGER_NAME}:${SHORT_SHA}'
+      - '--region'
+      - us-central1
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+    id: publish
+timeout: 1800s
+options:
+  machineType: 'E2_HIGHCPU_8'
+  dynamic_substitutions: true
+substitutions:
+  #Combined traffic tag and service name cannot exceed 46 characters.
+  _BRANCH_NAME_SHORT: ${BRANCH_NAME:0:25}
+  _BRANCH_COMMIT_TAG: ${_BRANCH_NAME_SHORT}-${SHORT_SHA}
+  _BRANCH_COMMIT_TAG_LOWERCASE: ${_BRANCH_COMMIT_TAG,,}
+  _BRANCH_COMMIT_TAG_SANITIZED: ${_BRANCH_COMMIT_TAG_LOWERCASE/:/-} #it would be better if we could regex and remove all non alphanumerics
+

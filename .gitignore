@@ -5,4 +5,8 @@ bridge-sdk/dist
 bridge-sdk/node_modules
 /uniswapv3/.env
 /uniswapv3/.env.production
+banxa/pnpm-lock.yaml
+trades/.env
+trades/node_modules
 banxa/.env
+
