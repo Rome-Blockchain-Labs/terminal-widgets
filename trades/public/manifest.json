@@ -1,0 +1,15 @@
+{
+  "short_name": "Rome Blockchain Labs Inc.",
+  "name": "Rome Blockchain Labs is the culmination of decades of experience between experts in areas of financial technologies, enterprise scale architecture, and multinational project management.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
