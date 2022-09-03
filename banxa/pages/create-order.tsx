@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
@@ -10,39 +9,38 @@ import useDebounce from '../hooks/debounce'
 import { useWeb3React } from '@romeblockchain/wallet'
 import { useAppContext } from 'context/AppProvider'
 import { useRouter } from 'next/router'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import CurrencySelect from 'components/CurrencySelect'
 import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
 import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
+import useCurrencyLists from '../hooks/useCurrencyList'
 
 interface FormValues {
   sourceAmount: number
   targetAmount: number
-  wallet_address: string
-  source: string
-  target: string
+  wallet_address?: string
+  refund_address?: string
+  source: string | undefined
+  target: string | undefined
   source_amount: number | undefined
   target_amount: number | undefined
 }
 
 export default function CreateOrder() {
-  const { data: fiatBuyList, error: fiatBuyListError } = useQuery(['fiatBuyData'], async () => {
-    const res = await axios.get('/api/banxa/fiat-buy')
+  const [order, setOrder] = useState('BUY')
+  const {
+    fiatBuyList,
+    fiatBuyListError,
+    fiatSellList,
+    fiatSellListError,
+    tokenBuyList,
+    tokenBuyListError,
+    tokenSellList,
+    tokenSellListError,
+  } = useCurrencyLists()
 
-    return res.data.data.fiats.map((fiat: any) => ({
-      code: fiat.fiat_code,
-      name: fiat.fiat_name,
-    }))
-  })
-  const { data: tokenBuyList, error: tokenBuyListError } = useQuery(['tokenBuyData'], async () => {
-    const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-    return tokenBuyRes.data.data.coins.map((coin: any) => ({
-      code: coin.coin_code,
-      name: coin.coin_name,
-    }))
-  })
   const {
     mutate: createOrder,
     data: createOrderData,
@@ -59,22 +57,14 @@ export default function CreateOrder() {
   })
   const { wg } = useResponsive()
   const router = useRouter()
-  // const [order] = useState('BUY')
   const { accountReference } = useAppContext()
   const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-    setValue,
-    watch,
-    reset,
-  } = useForm<FormValues>({
+  const { register, handleSubmit, setValue, watch, reset } = useForm<FormValues>({
     defaultValues: {
-      source: 'USD',
-      target: 'ETH',
+      source: undefined,
+      target: undefined,
       source_amount: undefined,
       target_amount: undefined,
     },
@@ -84,28 +74,59 @@ export default function CreateOrder() {
     reset()
     setError(undefined)
   }
+
   const onSubmit = async (data: any) => {
+    if (order === 'BUY') delete data.refund_address
+    if (order === 'SELL') delete data.wallet_address
     createOrder(data)
   }
   const target = watch('target')
-  const setTarget = (value: string) => {
-    setValue('target', value)
-  }
+  const setTarget = useCallback(
+    (value: string) => {
+      setValue('target', value)
+    },
+    [setValue]
+  )
   const source = watch('source')
   const sourceAmount = watch('source_amount')
   const targetAmount = watch('target_amount')
-  const setSource = (value: string) => {
-    setValue('source', value)
-  }
+  const setSource = useCallback(
+    (value: string) => {
+      setValue('source', value)
+    },
+    [setValue]
+  )
   const debouncedSourceAmount = useDebounce(sourceAmount, 500)
   const debouncedTargetAmount = useDebounce(targetAmount, 500)
 
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
   const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
 
-  const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
-  const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
-  const selectedCurrency = selectCurrencyType === 'FIAT' ? source : target
+  const currencyList =
+    order === 'BUY' && selectCurrencyType === 'FIAT'
+      ? fiatBuyList
+      : order === 'BUY'
+      ? tokenBuyList
+      : selectCurrencyType === 'FIAT'
+      ? fiatSellList
+      : tokenSellList
+  const setCurrency =
+    order === 'BUY ' && selectCurrencyType === 'FIAT'
+      ? setSource
+      : order === 'BUY'
+      ? setTarget
+      : selectCurrencyType === 'FIAT'
+      ? setTarget
+      : setSource
+  const selectedCurrency =
+    order === 'BUY' && selectCurrencyType === 'FIAT'
+      ? source
+      : order === 'BUY'
+      ? target
+      : selectCurrencyType === 'CRYPTO'
+      ? target
+      : order
+
   const closeCurrencyModal = () => {
     setSelectCurrencyType(undefined)
   }
@@ -130,7 +151,12 @@ export default function CreateOrder() {
         return
       }
       setPriceLoading(true)
-      const params: { source: string; target: string; source_amount?: number; target_amount?: number } = {
+      const params: {
+        source: string | undefined
+        target: string | undefined
+        source_amount?: number
+        target_amount?: number
+      } = {
         source,
         target,
       }
@@ -153,27 +179,35 @@ export default function CreateOrder() {
 
       if (res) {
         if (source_amount) {
-          setTargetAmount(res.data.data.prices[0].coin_amount)
+          if (order === 'BUY') {
+            setTargetAmount(res.data.data.prices[0].coin_amount)
+          } else {
+            setTargetAmount(res.data.data.prices[0].fiat_amount)
+          }
         }
 
         if (target_amount) {
-          setSourceAmount(res.data.data.prices[0].fiat_amount)
+          if (order === 'BUY') {
+            setSourceAmount(res.data.data.prices[0].fiat_amount)
+          } else {
+            setSourceAmount(res.data.data.prices[0].coin_amount)
+          }
         }
       }
 
       setPriceLoading(false)
       setAmountInput(undefined)
     },
-    [priceLoading, setValue, source, target]
+    [order, priceLoading, setValue, source, target]
   )
   useEffect(() => {
     if (createOrderError) {
       setError('Unable to create an order. Please try again later or visit www.banxa.com')
     }
-    if (fiatBuyListError || tokenBuyListError) {
+    if (fiatBuyListError || tokenBuyListError || fiatSellListError || tokenSellListError) {
       setError('Unable to get currency lists. Please try again later')
     }
-  }, [createOrderError, fiatBuyListError, tokenBuyListError])
+  }, [createOrderError, fiatBuyListError, fiatSellListError, tokenBuyListError, tokenSellListError])
 
   useEffect(() => {
     if (createOrderData) {
@@ -212,10 +246,15 @@ export default function CreateOrder() {
   }, [account, setValue])
 
   useEffect(() => {
-    if (!accountReference) {
-      router.push('/')
+    if (!source && !target && tokenBuyList && fiatBuyList) {
+      setSource(fiatBuyList[0].code)
+      setTarget(tokenBuyList[0].code)
     }
-  }, [accountReference, router])
+  }, [fiatBuyList, setSource, setTarget, source, target, tokenBuyList])
+
+  if (!tokenBuyList || !tokenSellList || !fiatBuyList || !fiatSellList) {
+    return <Loader />
+  }
 
   return (
     <>
@@ -240,12 +279,37 @@ export default function CreateOrder() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
-          <div className="flex text-[#1D3E52] ">
-            {/* <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
-              <button className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>BUY</button>
-              <button className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>SELL</button>
-            </div> */}
-            <button className="bg-gray-200 rounded-lg px-3 md:text-3xl ml-auto" onClick={() => router.push('/orders')}>
+          <div className="flex  text-[#1D3E52] relative ">
+            {tokenSellList.length > 0 && (
+              <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
+                <button
+                  onClick={() => {
+                    reset()
+                    setOrder('BUY')
+                    setSource(fiatBuyList[0].code)
+                    setTarget(tokenBuyList[0].code)
+                  }}
+                  className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                >
+                  BUY
+                </button>
+                <button
+                  onClick={() => {
+                    reset()
+                    setOrder('SELL')
+                    setSource(tokenSellList[0].code)
+                    setTarget(fiatSellList[0].code)
+                  }}
+                  className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                >
+                  SELL
+                </button>
+              </div>
+            )}
+            <button
+              className=" bg-gray-200 rounded-lg px-3 h-[30px] md:h-11 md:text-3xl ml-auto wg:absolute top-0 right-0"
+              onClick={() => router.push('/orders')}
+            >
               History
             </button>
           </div>
@@ -270,7 +334,16 @@ export default function CreateOrder() {
                     },
                   })}
                 />
-                <button className="flex  items-center" onClick={() => setSelectCurrencyType('FIAT')}>
+                <button
+                  className="flex  items-center"
+                  onClick={() => {
+                    if (order === 'BUY') {
+                      setSelectCurrencyType('FIAT')
+                    } else {
+                      setSelectCurrencyType('CRYPTO')
+                    }
+                  }}
+                >
                   {source}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
@@ -297,26 +370,53 @@ export default function CreateOrder() {
                   })}
                 />
 
-                <button className="flex items-center" onClick={() => setSelectCurrencyType('CRYPTO')}>
+                <button
+                  className="flex items-center"
+                  onClick={() => {
+                    if (order === 'BUY') {
+                      setSelectCurrencyType('CRYPTO')
+                    } else {
+                      setSelectCurrencyType('FIAT')
+                    }
+                  }}
+                >
                   {target}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
             </div>
 
-            <div className="mt-3">
-              <label htmlFor="source" className="block  font-medium text-gray-400  ">
-                Selected Address
-              </label>
-              <div className="mt-1">
-                <input
-                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
-                  type="text"
-                  placeholder="Click the connect wallet button below"
-                  {...register('wallet_address', { required: true, maxLength: 100 })}
-                />
+            {order === 'BUY' && (
+              <div className="mt-3">
+                <label htmlFor="source" className="block  font-medium text-gray-400  ">
+                  Selected Address
+                </label>
+                <div className="mt-1">
+                  <input
+                    className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                    type="text"
+                    placeholder="Click the connect wallet button below"
+                    {...register('wallet_address', { required: true, maxLength: 100 })}
+                  />
+                </div>
               </div>
-            </div>
+            )}
+
+            {order === 'SELL' && (
+              <div className="mt-3">
+                <label htmlFor="source" className="block  font-medium text-gray-400  ">
+                  Refund Address
+                </label>
+                <div className="mt-1">
+                  <input
+                    className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                    type="text"
+                    placeholder="Click the connect wallet button below"
+                    {...register('refund_address', { required: true, maxLength: 100 })}
+                  />
+                </div>
+              </div>
+            )}
 
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button

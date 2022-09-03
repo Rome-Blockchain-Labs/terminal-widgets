@@ -16,7 +16,7 @@ interface Props {
   currencyList: Currency[] | undefined
   closeModal: () => void
   setCurrency: (val: string) => void
-  selectedCurrency: string
+  selectedCurrency: string | undefined
   setCurrencyChange: (val: boolean) => void
 }
 
