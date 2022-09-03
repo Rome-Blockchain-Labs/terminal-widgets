@@ -239,7 +239,7 @@ export default function CreateOrder() {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
+        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto scrollbar-thin scrollbar-thumb-gray-700">
           <div className="flex text-[#1D3E52] ">
             {/* <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
               <button className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>BUY</button>
