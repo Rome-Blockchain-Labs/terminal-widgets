@@ -1,24 +1,27 @@
 import { useReducer } from 'react'
 
+export interface Currency {
+  code: string
+  name: string
+}
+
 interface SelectReducerState {
-  currencyList?: any[]
+  currencyList?: Currency[]
   setCurrency?: (val: string) => void
   selectedCurrency?: string
   visible: boolean
   selectCurrencyType: string
 }
 const useSelectReducer = (
-  tokenBuyList: any,
-  tokenSellList: any,
-  fiatBuyList: any,
-  fiatSellList: any,
-  setTarget: any,
-  target: any,
-  setSource: any,
-  source: any
+  tokenBuyList: Currency[],
+  tokenSellList: Currency[],
+  fiatBuyList: Currency[],
+  fiatSellList: Currency[],
+  setTarget: (val: string) => void,
+  target: string | undefined,
+  setSource: (val: string) => void,
+  source: string | undefined
 ) => {
-  console.log(source)
-  console.log(target)
   const initialState: SelectReducerState = {
     currencyList: undefined,
     setCurrency: undefined,

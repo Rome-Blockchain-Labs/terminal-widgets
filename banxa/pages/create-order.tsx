@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
-import useDebounce from '../hooks/debounce'
 import { useWeb3React } from '@romeblockchain/wallet'
 import { useAppContext } from 'context/AppProvider'
 import { useRouter } from 'next/router'
@@ -17,8 +16,9 @@ import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
 import useCurrencyLists from '../hooks/useCurrencyList'
 import useSelectReducer from '../hooks/useSelectReducer'
+import useGetPrice from 'hooks/useGetPrice'
 
-interface FormValues {
+export interface FormValues {
   sourceAmount: number
   targetAmount: number
   wallet_address?: string
@@ -31,6 +31,8 @@ interface FormValues {
 
 export default function CreateOrder() {
   const [order, setOrder] = useState('BUY')
+
+  //Requests for list of token and fiat currencies tradeable in Banxa
   const {
     fiatBuyList,
     fiatBuyListError,
@@ -97,9 +99,6 @@ export default function CreateOrder() {
     },
     [setValue]
   )
-  const debouncedSourceAmount = useDebounce(sourceAmount, 500)
-  const debouncedTargetAmount = useDebounce(targetAmount, 500)
-
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
 
   const closeCurrencyModal = () => {
@@ -109,6 +108,7 @@ export default function CreateOrder() {
   const [priceLoading, setPriceLoading] = useState(false)
   const [checkoutURL, setCheckoutURL] = useState<string>()
 
+  //Enables selecting of a token or fiat from the drop down selections
   const [{ currencyList, setCurrency, selectedCurrency, visible, selectCurrencyType }, dispatch] = useSelectReducer(
     tokenBuyList,
     tokenSellList,
@@ -120,72 +120,23 @@ export default function CreateOrder() {
     source
   )
 
-  const getPrices = useCallback(
-    async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
-      const setSourceAmount = (value: number) => {
-        setValue('source_amount', value)
-      }
-      const setTargetAmount = (value: number) => {
-        setValue('target_amount', value)
-      }
-      if (!!source_amount === false && !!target_amount === false) {
-        setValue('source_amount', undefined)
-        setValue('target_amount', undefined)
-        return
-      }
-      if (priceLoading === true) {
-        return
-      }
-      setPriceLoading(true)
-      const params: {
-        source: string | undefined
-        target: string | undefined
-        source_amount?: number
-        target_amount?: number
-      } = {
-        source,
-        target,
-      }
-      if (source_amount) {
-        params.source_amount = source_amount
-      }
-      if (target_amount) {
-        params.target_amount = target_amount
-      }
-
-      const res = await axios
-        .post('/api/banxa/get-price', {
-          params,
-        })
-        .catch(() => {
-          setError(
-            'Unable to process your order at this time. Please proceed to www.banxa.com to redo your transaction.'
-          )
-        })
-
-      if (res) {
-        if (source_amount) {
-          if (order === 'BUY') {
-            setTargetAmount(res.data.data.prices[0].coin_amount)
-          } else {
-            setTargetAmount(res.data.data.prices[0].fiat_amount)
-          }
-        }
-
-        if (target_amount) {
-          if (order === 'BUY') {
-            setSourceAmount(res.data.data.prices[0].fiat_amount)
-          } else {
-            setSourceAmount(res.data.data.prices[0].coin_amount)
-          }
-        }
-      }
-
-      setPriceLoading(false)
-      setAmountInput(undefined)
-    },
-    [order, priceLoading, setValue, source, target]
+  // fetches the price for source amount and target from banxa whenever the debounce value of the input fields changes
+  useGetPrice(
+    setValue,
+    priceLoading,
+    setPriceLoading,
+    source,
+    target,
+    setError,
+    order,
+    setAmountInput,
+    amountInput,
+    sourceAmount,
+    targetAmount,
+    currencyChange,
+    setCurrencyChange
   )
+
   useEffect(() => {
     if (createOrderError) {
       setError('Unable to create an order. Please try again later or visit www.banxa.com')
@@ -200,23 +151,6 @@ export default function CreateOrder() {
       setCheckoutURL(createOrderData?.data.data.order.checkout_url)
     }
   }, [createOrderData])
-
-  useEffect(() => {
-    if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
-      getPrices({ source_amount: debouncedSourceAmount })
-    }
-
-    if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
-      getPrices({ target_amount: debouncedTargetAmount })
-    }
-  }, [amountInput, debouncedSourceAmount, debouncedTargetAmount, getPrices, sourceAmount, targetAmount])
-
-  useEffect(() => {
-    if (currencyChange && debouncedSourceAmount && debouncedTargetAmount && (source || target)) {
-      getPrices({ source_amount: debouncedSourceAmount })
-      setCurrencyChange(false)
-    }
-  }, [currencyChange, debouncedSourceAmount, debouncedTargetAmount, getPrices, source, target])
 
   useEffect(() => {
     if (wg) {
