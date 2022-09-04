@@ -16,6 +16,7 @@ import Loader from 'components/Loader'
 import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
 import useCurrencyLists from '../hooks/useCurrencyList'
+import useSelectReducer from '../hooks/useSelectReducer'
 
 interface FormValues {
   sourceAmount: number
@@ -100,39 +101,24 @@ export default function CreateOrder() {
   const debouncedTargetAmount = useDebounce(targetAmount, 500)
 
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
-  const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
-
-  const currencyList =
-    order === 'BUY' && selectCurrencyType === 'FIAT'
-      ? fiatBuyList
-      : order === 'BUY'
-      ? tokenBuyList
-      : selectCurrencyType === 'FIAT'
-      ? fiatSellList
-      : tokenSellList
-  const setCurrency =
-    order === 'BUY ' && selectCurrencyType === 'FIAT'
-      ? setSource
-      : order === 'BUY'
-      ? setTarget
-      : selectCurrencyType === 'FIAT'
-      ? setTarget
-      : setSource
-  const selectedCurrency =
-    order === 'BUY' && selectCurrencyType === 'FIAT'
-      ? source
-      : order === 'BUY'
-      ? target
-      : selectCurrencyType === 'CRYPTO'
-      ? target
-      : order
 
   const closeCurrencyModal = () => {
-    setSelectCurrencyType(undefined)
+    dispatch({ type: 'CLOSE_SELECT' })
   }
   const [buttonText, setButtonText] = useState('')
   const [priceLoading, setPriceLoading] = useState(false)
   const [checkoutURL, setCheckoutURL] = useState<string>()
+
+  const [{ currencyList, setCurrency, selectedCurrency, visible, selectCurrencyType }, dispatch] = useSelectReducer(
+    tokenBuyList,
+    tokenSellList,
+    fiatBuyList,
+    fiatSellList,
+    setTarget,
+    target,
+    setSource,
+    source
+  )
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
@@ -262,7 +248,7 @@ export default function CreateOrder() {
       {error && <ErrorModal message={error} closeModal={resetForm} />}
       {createOrderLoading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
-      {selectCurrencyType && (
+      {visible && (
         <CurrencySelect
           setCurrencyChange={setCurrencyChange}
           selectedCurrency={selectedCurrency}
@@ -338,9 +324,9 @@ export default function CreateOrder() {
                   className="flex  items-center"
                   onClick={() => {
                     if (order === 'BUY') {
-                      setSelectCurrencyType('FIAT')
+                      dispatch({ type: 'OPEN_BUY_LIST', selectCurrencyType: 'FIAT' })
                     } else {
-                      setSelectCurrencyType('CRYPTO')
+                      dispatch({ type: 'OPEN_SELL_LIST', selectCurrencyType: 'CRYPTO' })
                     }
                   }}
                 >
@@ -374,9 +360,9 @@ export default function CreateOrder() {
                   className="flex items-center"
                   onClick={() => {
                     if (order === 'BUY') {
-                      setSelectCurrencyType('CRYPTO')
+                      dispatch({ type: 'OPEN_BUY_LIST', selectCurrencyType: 'CRYPTO' })
                     } else {
-                      setSelectCurrencyType('FIAT')
+                      dispatch({ type: 'OPEN_SELL_LIST', selectCurrencyType: 'FIAT' })
                     }
                   }}
                 >

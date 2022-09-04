@@ -12,17 +12,23 @@ interface Currency {
 }
 
 interface Props {
-  type: 'FIAT' | 'CRYPTO'
+  type: string
   currencyList: Currency[] | undefined
   closeModal: () => void
-  setCurrency: (val: string) => void
+  setCurrency?: (val: string) => void
   selectedCurrency: string | undefined
   setCurrencyChange: (val: boolean) => void
 }
 
-const type = 'CRYPTO'
-
-const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyList, setCurrencyChange }: Props) => {
+const CurrencySelect = ({
+  selectedCurrency,
+  setCurrency,
+  closeModal,
+  currencyList,
+  setCurrencyChange,
+  type,
+}: Props) => {
+  console.log(selectedCurrency)
   const [searchText, setSearchText] = useState<string>('')
   const [displayList, setDisplayList] = useState<Currency[]>()
   const debouncedValue = useDebounce<string>(searchText, 500)
@@ -86,7 +92,7 @@ const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyLis
                     <button
                       key={index}
                       onClick={() => {
-                        setCurrency(currency.code)
+                        if (setCurrency) setCurrency(currency.code)
                         setCurrencyChange(true)
                         closeModal()
                       }}
