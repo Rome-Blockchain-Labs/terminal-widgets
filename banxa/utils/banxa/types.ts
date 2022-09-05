@@ -9,4 +9,5 @@ export enum PATH {
   GET_ORDERS = '/api/orders',
   GET_ORDER = '/api/order',
   GET_PRICE = '/api/prices',
+  WEBHOOK = '/api/banxa/webhook',
 }

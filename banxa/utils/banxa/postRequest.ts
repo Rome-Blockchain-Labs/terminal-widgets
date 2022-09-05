@@ -3,7 +3,7 @@ import generateHmac from './generateHmac'
 import type { NextApiResponse } from 'next'
 import { PATH } from './types'
 
-export function postRequest(query: PATH, res: NextApiResponse, payload: Record<string, string>) {
+export function postRequest(query: PATH, payload: Record<string, string>) {
   const nonce = Date.now()
   const method = 'POST'
   const stringifiedPayload = JSON.stringify(payload)
