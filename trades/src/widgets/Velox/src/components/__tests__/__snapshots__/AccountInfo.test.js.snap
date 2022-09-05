@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountInfo component render AccountInfo snapshot added 1`] = `
+<div>
+  <VeloxLinePanel
+    className="auth__row"
+  >
+    <VeloxBlueLabel
+      className="input-descr"
+      prefix="auth"
+    >
+      ChainId: 
+    </VeloxBlueLabel>
+  </VeloxLinePanel>
+  <VeloxLinePanel
+    className="auth__row"
+  >
+    <VeloxBlueLabel
+      className="input-descr"
+      prefix="auth"
+    >
+      Account: 
+    </VeloxBlueLabel>
+  </VeloxLinePanel>
+  <VeloxLinePanel
+    className="auth__row"
+  >
+    <VeloxBlueLabel
+      className="input-descr"
+      prefix="auth"
+    >
+      <Balance />
+    </VeloxBlueLabel>
+  </VeloxLinePanel>
+</div>
+`;

@@ -8,3 +8,5 @@ bridge-sdk/node_modules
 banxa/pnpm-lock.yaml
 trades/.env
 trades/node_modules
+banxa/.env
+

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.107" height="14.33" viewBox="0 0 24.107 14.33">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.1" r="0.892" gradientTransform="translate(0.166) scale(0.667 1)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#e8b619"/>
+      <stop offset="1" stop-color="#b97850"/>
+    </radialGradient>
+  </defs>
+  <g id="celerbridge_logo-01" data-name="celerbridge logo-01" transform="translate(-24 -24.7)">
+    <g id="Layer_2" transform="translate(24 24.7)">
+      <ellipse id="Ellipse_48" data-name="Ellipse 48" cx="4.687" cy="2.66" rx="4.687" ry="2.66" transform="translate(14.733 9.009)" fill="#c4c4c4"/>
+      <ellipse id="Ellipse_49" data-name="Ellipse 49" cx="4.687" cy="2.66" rx="4.687" ry="2.66" transform="translate(0 9.009)" fill="#3c444c"/>
+      <g id="Group_6826" data-name="Group 6826" transform="translate(3.323 0)">
+        <g id="Group_6825" data-name="Group 6825">
+          <path id="Path_7018" data-name="Path 7018" d="M67.279,28.686c3.17,0,5.11,3.371,5.321,7.674h3.467c0-6.848-3.669-11.66-8.788-11.66-5.206,0-8.99,4.927-8.663,11.66h3.342C62.169,32.057,64.051,28.686,67.279,28.686Z" transform="translate(-58.596 -24.7)" fill="url(#radial-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

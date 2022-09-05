@@ -3,7 +3,7 @@ import generateHmac from './generateHmac'
 import type { NextApiResponse } from 'next'
 import { PATH } from './types'
 
-export async function postRequest(query: PATH, res: NextApiResponse, payload: Record<string, string>) {
+export function postRequest(query: PATH, res: NextApiResponse, payload: Record<string, string>) {
   const nonce = Date.now()
   const method = 'POST'
   const stringifiedPayload = JSON.stringify(payload)
@@ -20,14 +20,5 @@ export async function postRequest(query: PATH, res: NextApiResponse, payload: Re
     },
     data: payload,
   }
-  try {
-    const response = await axios(options)
-    return res.status(200).json({ data: response.data.data })
-  } catch (error) {
-    const err = error as AxiosError
-    if (err.response) {
-      return res.status(err.response.status).json({ data: err.response.data })
-    }
-    return res.status(400)
-  }
+  return options
 }
