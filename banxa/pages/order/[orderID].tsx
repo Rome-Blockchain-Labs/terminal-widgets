@@ -40,21 +40,21 @@ const Order = () => {
   return (
     <>
       {error && <ErrorModal message={error} closeModal={closeModal} />}
-      <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl">
+      <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl relative">
         <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md sm:pt-4 overflow-auto flex justify-center">
+        <section className="mt-2 grow bg-white rounded-md sm:pt-4 overflow-auto flex justify-center relative ">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg max-w-6xl w-full flex flex-col pt-4">
             <button onClick={() => router.push('/create-order')} className="flex items-center text-sm pb-2">
               <ChevronLeftIcon className="w-5 h-5 ml-2" />
               <div>Back</div>
             </button>
             {order ? (
-              <div className="border-t border-gray-200 px-4 sm:py-5 sm:p-0 overflow-auto">
-                <dl className="sm:divide-y sm:divide-gray-200">
+              <div className="border-t border-gray-200 px-4 sm:pt-5 sm:p-0 overflow-auto relative">
+                <dl className="sm:divide-y sm:divide-gray-200 ">
                   <div className="py-2 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">Order ID</dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{order.id}</dd>
@@ -103,6 +103,17 @@ const Order = () => {
                     </dd>
                   </div>
                 </dl>
+
+                {/* {order.status === 'waitingPayment' && ( */}
+                <div className="sticky bottom-0 left-0 w-full h-14 bg-white grid place-items-center">
+                  <button
+                    type="button"
+                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Finalize Transaction
+                  </button>
+                </div>
+                {/* )} */}
               </div>
             ) : (
               <div className="grid h-full w-full place-items-center">Order not found</div>
