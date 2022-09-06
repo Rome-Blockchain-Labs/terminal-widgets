@@ -14,9 +14,9 @@ function App({ Component, pageProps }: AppProps) {
     <WalletProvider>
       <QueryClientProvider client={queryClient}>
         <AppProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          {/* <Layout> */}
+          <Component {...pageProps} />
+          {/* </Layout> */}
         </AppProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

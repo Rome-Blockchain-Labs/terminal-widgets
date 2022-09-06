@@ -85,7 +85,7 @@ const WalletModal = ({ setWalletVisibility }: { setWalletVisibility: (val: boole
 
 export default WalletModal
 
-const WalletBox: FC<{
+export const WalletBox: FC<{
   isActive: boolean
   walletName: string
   connectHandler: () => void
