@@ -3,6 +3,7 @@ import axios from 'axios'
 import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
 import OrderStatus from 'components/OrderStatus'
+import SellOrderModal from 'components/SellOrderModal'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ORDER_STATUS } from '../../components/Transaction'
@@ -40,6 +41,7 @@ const Order = () => {
   return (
     <>
       {error && <ErrorModal message={error} closeModal={closeModal} />}
+      {order && <SellOrderModal order={order} />}
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl relative">
         <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />

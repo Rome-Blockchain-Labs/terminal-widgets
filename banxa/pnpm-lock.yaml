@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@headlessui/react': ^1.6.6
   '@heroicons/react': ^1.0.6
-  '@romeblockchain/wallet': ^0.1.10
+  '@romeblockchain/wallet': ^0.1.12
   '@sendgrid/mail': ^7.7.0
   '@tailwindcss/forms': ^0.5.2
   '@tanstack/react-query': ^4.2.3
@@ -22,6 +22,7 @@ specifiers:
   eslint-config-prettier: ^8.5.0
   eslint-plugin-react: ^7.30.1
   eslint-plugin-react-hooks: ^4.6.0
+  ethers: ^5.7.0
   firebase: ^9.9.3
   fuse.js: ^6.6.2
   nanoid: ^4.0.0
@@ -39,7 +40,7 @@ specifiers:
 dependencies:
   '@headlessui/react': 1.6.6_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 1.0.6_react@18.2.0
-  '@romeblockchain/wallet': 0.1.10_reeldywbcxauyeyfi2tv2phkpe
+  '@romeblockchain/wallet': 0.1.12_reeldywbcxauyeyfi2tv2phkpe
   '@sendgrid/mail': 7.7.0
   '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.8
   '@tanstack/react-query': 4.2.3_biqbaboplfbrettd7655fr4n2y
@@ -47,6 +48,7 @@ dependencies:
   axios: 0.27.2
   crypto-js: 4.1.1
   dayjs: 1.11.5
+  ethers: 5.7.0
   firebase: 9.9.3
   fuse.js: 6.6.2
   nanoid: 4.0.0
@@ -1210,8 +1212,8 @@ packages:
       - ts-node
     dev: false
 
-  /@romeblockchain/wallet/0.1.10_reeldywbcxauyeyfi2tv2phkpe:
-    resolution: {integrity: sha512-+NeYyjbL17pQyMxo0g8zYB9K++vbYDzlU+XOLkqiz8SHlbe8tKmcbtKI3NS4+NtRbt09niCODXqlrS0EVN2ARQ==}
+  /@romeblockchain/wallet/0.1.12_reeldywbcxauyeyfi2tv2phkpe:
+    resolution: {integrity: sha512-geZaq/44OWm2fqB1X89lSM2aoEJWLouYTGc6nDZ5E2o32rhySEsdh+9xDJZiEuw3Bh7egbf1mQ3cjELk+0CFPQ==}
     peerDependencies:
       react: '>=16'
     dependencies:
