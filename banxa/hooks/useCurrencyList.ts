@@ -12,14 +12,12 @@ const useCurrencyLists = () => {
   })
   const { data: tokenBuyList, error: tokenBuyListError } = useQuery(['tokenBuyData'], async () => {
     const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-    return (
-      tokenBuyRes.data.data.coins
-        // .filter((coin: any) => coin.coin_code !== 'BTC')
-        .map((coin: any) => ({
-          code: coin.coin_code,
-          name: coin.coin_name,
-        }))
-    )
+    return tokenBuyRes.data.data.coins
+      .filter((coin: any) => coin.coin_code !== 'BTC')
+      .map((coin: any) => ({
+        code: coin.coin_code,
+        name: coin.coin_name,
+      }))
   })
 
   const { data: fiatSellList, error: fiatSellListError } = useQuery(['fiatSellData'], async () => {
@@ -32,14 +30,12 @@ const useCurrencyLists = () => {
   })
   const { data: tokenSellList, error: tokenSellListError } = useQuery(['tokenSellData'], async () => {
     const tokenBuyRes = await axios.get('api/banxa/crypto-sell')
-    return (
-      tokenBuyRes.data.data.coins
-        // .filter((coin: any) => coin.coin_code !== 'BTC')
-        .map((coin: any) => ({
-          code: coin.coin_code,
-          name: coin.coin_name,
-        }))
-    )
+    return tokenBuyRes.data.data.coins
+      .filter((coin: any) => coin.coin_code !== 'BTC')
+      .map((coin: any) => ({
+        code: coin.coin_code,
+        name: coin.coin_name,
+      }))
   })
   return {
     fiatBuyList,

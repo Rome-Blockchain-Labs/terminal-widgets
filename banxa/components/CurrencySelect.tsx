@@ -28,7 +28,6 @@ const CurrencySelect = ({
   setCurrencyChange,
   type,
 }: Props) => {
-  console.log(selectedCurrency)
   const [searchText, setSearchText] = useState<string>('')
   const [displayList, setDisplayList] = useState<Currency[]>()
   const debouncedValue = useDebounce<string>(searchText, 500)

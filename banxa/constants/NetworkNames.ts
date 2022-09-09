@@ -1,4 +1,4 @@
 const NETWORK_NAME_MAP: Record<string, any> = {
-  'Ethereum (ERC20)': 'ethereum',
+  ETH: 'ethereum',
 }
 export default NETWORK_NAME_MAP

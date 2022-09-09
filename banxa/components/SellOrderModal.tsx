@@ -17,6 +17,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import SuccessModal from './SuccessModal'
 import ErrorModal from './Error'
+import TokenAddresses from 'constants/TokenAddress'
 const steps = [
   { id: 'step1', pos: 'Step 1', name: 'Select Wallet', status: 'current' },
   { id: 'step2', pos: 'Step 2', name: 'Transfer Tokens', status: 'upcoming' },
@@ -74,7 +75,6 @@ const Step = ({ id, name, status, setStep }: StepProps) => {
 }
 
 const SellOrderModal = ({ order }: { order: Order }) => {
-  // blockchain, source, sourceAmount, target, targetAmount, banxaAddress
   const { blockchain } = order
 
   const [loading, setLoading] = useState(false)
@@ -110,7 +110,7 @@ const SellOrderModal = ({ order }: { order: Order }) => {
           </nav>
           <div className="rounded-lg bg-gray-800 flex flex-col h-full overflow-auto">
             {step.step1 === 'current' ? (
-              <WalletStep networkDescription={blockchain.description} setLoading={setLoading} setStep={setStep} />
+              <WalletStep networkCode={blockchain.code} setLoading={setLoading} setStep={setStep} />
             ) : (
               <PaymentStep order={order} setSuccess={setSuccess} setError={setError} />
             )}
@@ -126,13 +126,13 @@ export default SellOrderModal
 interface WalletStepProps {
   setLoading: (val: boolean) => void
   setStep: (val: any) => void
-  networkDescription: string
+  networkCode: string
 }
 
-const WalletStep = ({ setLoading, setStep, networkDescription }: WalletStepProps) => {
-  const networkName = NETWORK_NAME_MAP[networkDescription]
+const WalletStep = ({ setLoading, setStep, networkCode }: WalletStepProps) => {
+  const networkName = NETWORK_NAME_MAP[networkCode]
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets()
-  const chainParams = getAddChainParametersfromNetworkName('rinkeby')
+  const chainParams = getAddChainParametersfromNetworkName(networkName)
   return (
     <>
       <div className="text-white text-center m-6 wg:text-lg">
@@ -197,20 +197,18 @@ const PaymentStep = ({
       },
     })
   })
-  const networkName = NETWORK_NAME_MAP[blockchain.description]
-  // const contractAddress = TokenAddresses[networkName].find((t) => t.token === coin_code)
-  const contractAddress = '1231231'
+  const networkName = NETWORK_NAME_MAP[blockchain.code]
+  const token = TokenAddresses[networkName].find((t) => t.token === coin_code)
 
   useEffect(() => {
-    if (account && provider && contractAddress) {
+    if (account && provider && token) {
       const signer = provider.getSigner(account)
-      const contract = new ethers.Contract('0x386558a69c0fEf2fF5A572e9151dE64123Ef04C3', abi, signer)
+      const contract = new ethers.Contract(token.address, abi, signer)
 
-      // const contract = new ethers.Contract(contractAddress, abi, signer)
       setContract(contract)
       contract.decimals().then((res: number) => setDecimals(res))
     }
-  }, [account, contractAddress, provider])
+  }, [account, provider, token])
 
   useEffect(() => {
     if (hash) {
