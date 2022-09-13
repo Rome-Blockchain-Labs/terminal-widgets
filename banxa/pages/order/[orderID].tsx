@@ -15,6 +15,7 @@ const Order = () => {
   const [order, setOrder] = useState<IOrder>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
+  const [modalVisibility, setModalVisibility] = useState(false)
   const closeModal = () => {
     setError(undefined)
   }
@@ -41,7 +42,7 @@ const Order = () => {
   return (
     <>
       {error && <ErrorModal message={error} closeModal={closeModal} />}
-      {order && <SellOrderModal order={order} />}
+      {modalVisibility && order && <SellOrderModal order={order} setModalVisibility={setModalVisibility} />}
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl relative">
         <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
@@ -111,6 +112,7 @@ const Order = () => {
                   <button
                     type="button"
                     className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => setModalVisibility(true)}
                   >
                     Finalize Transaction
                   </button>

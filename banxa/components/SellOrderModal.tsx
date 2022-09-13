@@ -18,6 +18,7 @@ import axios from 'axios'
 import SuccessModal from './SuccessModal'
 import ErrorModal from './Error'
 import TokenAddresses from 'constants/TokenAddress'
+import { XIcon } from '@heroicons/react/solid'
 const steps = [
   { id: 'step1', pos: 'Step 1', name: 'Select Wallet', status: 'current' },
   { id: 'step2', pos: 'Step 2', name: 'Transfer Tokens', status: 'upcoming' },
@@ -74,7 +75,13 @@ const Step = ({ id, name, status, setStep }: StepProps) => {
   )
 }
 
-const SellOrderModal = ({ order }: { order: Order }) => {
+const SellOrderModal = ({
+  order,
+  setModalVisibility,
+}: {
+  order: Order
+  setModalVisibility: (val: boolean) => void
+}) => {
   const { blockchain } = order
 
   const [loading, setLoading] = useState(false)
@@ -88,7 +95,6 @@ const SellOrderModal = ({ order }: { order: Order }) => {
   const closeErrorModal = () => {
     setError(undefined)
   }
-  console.log(error)
   if (loading) {
     return <Loader />
   }
@@ -100,6 +106,10 @@ const SellOrderModal = ({ order }: { order: Order }) => {
       <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div className="fixed top-0 w-full h-full z-30 grid place-items-center ">
         <div className="wg:rounded-lg w-full  wg:w-4/5 bg-white h-full wg:h-4/5  py-2 px-4 relative flex flex-col max-w-4xl overflow-auto">
+          <XIcon
+            className="ml-auto text-black mb-4 mt-2 h-6 w-6 cursor-pointer"
+            onClick={() => setModalVisibility(false)}
+          />
           <nav aria-label="Progress" className="w-full">
             <ol role="list" className="flex space-y-0 space-x-8 ">
               {steps.map((s) => {
@@ -112,7 +122,7 @@ const SellOrderModal = ({ order }: { order: Order }) => {
             {step.step1 === 'current' ? (
               <WalletStep networkCode={blockchain.code} setLoading={setLoading} setStep={setStep} />
             ) : (
-              <PaymentStep order={order} setSuccess={setSuccess} setError={setError} />
+              <PaymentStep order={order} setSuccess={setSuccess} setError={setError} setLoading={setLoading} />
             )}
           </div>
         </div>
@@ -132,7 +142,9 @@ interface WalletStepProps {
 const WalletStep = ({ setLoading, setStep, networkCode }: WalletStepProps) => {
   const networkName = NETWORK_NAME_MAP[networkCode]
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets()
-  const chainParams = getAddChainParametersfromNetworkName(networkName)
+  // const chainParams = getAddChainParametersfromNetworkName(networkName)
+  const chainParams = getAddChainParametersfromNetworkName('rinkeby')
+
   return (
     <>
       <div className="text-white text-center m-6 wg:text-lg">
@@ -185,6 +197,7 @@ const PaymentStep = ({
   const [contract, setContract] = useState<ethers.ethers.Contract>()
   const [decimals, setDecimals] = useState(0)
   const [hash, setHash] = useState<string>()
+  const [loading, setLoading] = useState(true)
   const {
     mutate: confirmOrder,
     data: confirmOrderData,
@@ -199,11 +212,13 @@ const PaymentStep = ({
   })
   const networkName = NETWORK_NAME_MAP[blockchain.code]
   const token = TokenAddresses[networkName].find((t) => t.token === coin_code)
-
+  console.log(token?.address)
   useEffect(() => {
     if (account && provider && token) {
       const signer = provider.getSigner(account)
-      const contract = new ethers.Contract(token.address, abi, signer)
+      const contract = new ethers.Contract('0x386558a69c0fEf2fF5A572e9151dE64123Ef04C3', abi, signer)
+
+      // const contract = new ethers.Contract(token.address, abi, signer)
 
       setContract(contract)
       contract.decimals().then((res: number) => setDecimals(res))
@@ -215,7 +230,8 @@ const PaymentStep = ({
       confirmOrder({
         tx_hash: hash,
         source_address: account,
-        destination_address: wallet_address,
+        // destination_address: wallet_address,
+        destination_address: '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
         order_id: id,
       })
     }
@@ -223,9 +239,10 @@ const PaymentStep = ({
 
   useEffect(() => {
     if (confirmOrderData) {
+      setLoading(false)
       setSuccess(true)
     }
-  }, [confirmOrderData, setSuccess])
+  }, [confirmOrderData, setLoading, setSuccess])
   useEffect(() => {
     if (confirmOrderError) {
       setError(
@@ -234,10 +251,18 @@ const PaymentStep = ({
     }
   }, [confirmOrderError, setError])
 
-  if (confirmOrderLoading) {
-    return <Loader />
-  }
-
+  useEffect(() => {
+    if (confirmOrderLoading) {
+      setLoading(true)
+    }
+  }, [confirmOrderLoading, setLoading])
+  // if (loading || confirmOrderLoading) {
+  return (
+    <div className=" bg-white shadow h-full sm:rounded-lg  flex items-center justify-center space-x-2 ">
+      <div className="w-40 h-40 border-t-4 border-b-4 border-green-900 rounded-full animate-spin"></div>
+    </div>
+  )
+  // }
   return (
     <div className=" bg-white shadow h-full sm:rounded-lg  flex flex-col overflow-auto">
       <div className="px-4 py-5 sm:px-6">
@@ -273,6 +298,7 @@ const PaymentStep = ({
         className="my-4 mx-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         onClick={async () => {
           if (contract) {
+            setLoading(true)
             const transferAmount = '0x' + (1 * Math.pow(10, decimals)).toString(16)
             // const transferAmount = '0x' + (coin_amount* Math.pow(10, decimals)).toString(16)
             try {
