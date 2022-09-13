@@ -255,6 +255,7 @@ export default function CreateOrder() {
                   })}
                 />
                 <button
+                  type="button"
                   className="flex  items-center"
                   onClick={() => {
                     if (order === 'BUY') {
@@ -291,6 +292,7 @@ export default function CreateOrder() {
                 />
 
                 <button
+                  type="button"
                   className="flex items-center"
                   onClick={() => {
                     if (order === 'BUY') {
