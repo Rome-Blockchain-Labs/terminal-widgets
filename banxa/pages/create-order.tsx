@@ -270,7 +270,7 @@ export default function CreateOrder() {
                     },
                   })}
                 />
-                <button className="flex  items-center" onClick={() => setSelectCurrencyType('FIAT')}>
+                <button type="button" className="flex  items-center" onClick={() => setSelectCurrencyType('FIAT')}>
                   {source}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
@@ -297,7 +297,7 @@ export default function CreateOrder() {
                   })}
                 />
 
-                <button className="flex items-center" onClick={() => setSelectCurrencyType('CRYPTO')}>
+                <button type="button" className="flex items-center" onClick={() => setSelectCurrencyType('CRYPTO')}>
                   {target}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
