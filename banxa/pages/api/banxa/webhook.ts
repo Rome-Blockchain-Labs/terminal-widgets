@@ -1,12 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import sgMail from '@sendgrid/mail'
 import axios, { AxiosRequestConfig } from 'axios'
 import generateHmac from 'utils/banxa/generateHmac'
 import { PATH } from 'utils/banxa/types'
 import { collection, doc, getDoc } from 'firebase/firestore'
 import { db } from 'utils/firebase'
+import nodemailer from 'nodemailer'
+import { Order } from 'pages/orders'
 
 const accountRef = collection(db, 'accounts')
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL as string,
+    pass: process.env.EMAIL_PASSWORD as string,
+  },
+})
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const orderID = req.body.order_id
@@ -27,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     },
   }
   const response = await axios(options)
-  const { account_reference } = response.data.data.order
+  const { account_reference, coin_code, fiat_code, blockchain }: Order = response.data.data.order
 
   const docSnap = await getDoc(doc(accountRef, account_reference))
 
@@ -37,18 +48,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).send('invalid  account')
   }
 
-  const APIKey = process.env.SENDGRID_API_KEY
-  if (!APIKey) throw new Error('SENDGRID_API_KEY not found')
-  sgMail.setApiKey(APIKey)
+  const html = generateHTML({ coin_code, fiat_code, blockchain: blockchain.description })
+
   const msg = {
     to: account.email, // Change to your recipient
-    from: 'ian@romeblockchain.com', // Change to your verified sender
+    from: 'noreply@rometerminal.io', // Change to your verified sender
     subject: 'Order Ready For Payment',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    text: `Hey RBL Trader! Get ready to complete your ${coin_code} / ${fiat_code} order on Banxa. Since you have already completed your KYC and been approved by Banxa, you are only three steps away from a successful sell order on ${blockchain.description}: 1. Open your BANXA widget on https://app.rometerminal.io 2. Connect your preferred wallet to the BANXA widget 3. Click “Complete Order”.Happy Trading, Rome Terminal Team *Further transaction details are not included in this communication for your privacy and security`,
+    html,
   }
   try {
-    await sgMail.send(msg)
+    await transporter.sendMail(msg)
   } catch {
     res.status(400).send('Unable to send email')
   }
@@ -63,4 +73,77 @@ export function generateSignature(query: PATH, payload: Record<string, string>) 
   const data = method + '\n' + query + '\n' + nonce + '\n' + stringifiedPayload
 
   return generateHmac(data, nonce)
+}
+
+const generateHTML = ({
+  coin_code,
+  fiat_code,
+  blockchain,
+}: {
+  coin_code: string
+  fiat_code: string
+  blockchain: string
+}) => {
+  return `
+<html>
+<body>
+  <table
+    style="max-width: 600px; margin: auto; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <tbody>
+      <tr style="background: black">
+        <td align="center">
+          <img src="https://romeblockchain.com/assets/images/rbl-logo-gold-2.svg" alt="Eskwelabs" width="100%"
+            height="auto" />
+          
+        </td>
+      </tr>
+      <tr >
+        <td>
+          <div
+            style="margin-top:40px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Hey RBL Trader!</div>
+
+          <div
+            style="margin-top:40px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Get ready to complete your ${coin_code} / ${fiat_code} order on Banxa.</div>
+
+          <div
+            style="margin-top:20px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Since you have already completed your KYC and been approved by Banxa, you are only three steps away from a successful sell order on ${blockchain}</div>
+
+          <div
+            style="margin-top:20px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+          <ol>
+            <li>Open your BANXA widget on <a href="https://app.rometerminal.io">Rome Terminal</a> </li>
+            <li>
+              Click history
+            </li>
+            <li>
+              Select the sell order that is waiting for payment
+            </li>
+            <li>
+              Click "Finalize Transaction Button"
+            </li>
+          </ol>  
+          </div>
+
+      
+
+          <div
+            style="margin-top:40px; font-weight:bold; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Happy Trading,</div>
+
+          <div
+            style="margin-top:10px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Rome Terminal Team</div>
+       <div
+            style="margin-top:20px; font-family: 'Lato Extended', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            <i>*Further transaction details are not included in this communication for your privacy and security</i></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
+  `
 }
