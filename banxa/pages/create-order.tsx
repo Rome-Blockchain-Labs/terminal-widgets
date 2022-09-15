@@ -8,7 +8,6 @@ import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import useDebounce from '../hooks/debounce'
 import { useWeb3React } from '@romeblockchain/wallet'
-import { useAppContext } from 'context/AppProvider'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import CurrencySelect from 'components/CurrencySelect'
@@ -52,15 +51,22 @@ export default function CreateOrder() {
     return axios.post('/api/banxa/create-order', {
       params: {
         ...data,
-        account_reference: accountReference?.toString(),
         return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
       },
     })
   })
+
+  const {
+    mutate: logout,
+    data: logoutData,
+    isLoading: logoutLoading,
+  } = useMutation(() => {
+    return axios.post('/api/logout')
+  })
+
   const { wg } = useResponsive()
   const router = useRouter()
   // const [order] = useState('BUY')
-  const { accountReference } = useAppContext()
   const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
@@ -212,16 +218,16 @@ export default function CreateOrder() {
   }, [account, setValue])
 
   useEffect(() => {
-    if (!accountReference) {
+    if (logoutData) {
       router.push('/')
     }
-  }, [accountReference, router])
+  }, [logoutData, router])
 
   return (
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {createOrderLoading && <Loader />}
+      {createOrderLoading || (logoutLoading && <Loader />)}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
@@ -240,13 +246,22 @@ export default function CreateOrder() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
-          <div className="flex text-[#1D3E52] ">
+          <div className="flex text-[#1D3E52] items-center ">
             {/* <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
               <button className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>BUY</button>
               <button className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>SELL</button>
             </div> */}
             <button className="bg-gray-200 rounded-lg px-3 md:text-3xl ml-auto" onClick={() => router.push('/orders')}>
               History
+            </button>
+            <button
+              type="button"
+              onClick={() => logout()}
+              className={classNames(
+                'text-sm wg:text-base rounded-full h-full ml-2 px-2 max-w-sm md:text-2xl text-red-300 hover:text-red-500'
+              )}
+            >
+              Logout
             </button>
           </div>
           <form className="flex flex-col mt-4" onSubmit={handleSubmit(onSubmit)}>

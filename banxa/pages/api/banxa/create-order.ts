@@ -1,3 +1,4 @@
+import { getCookie } from 'cookies-next'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { postRequest } from 'utils/banxa/postRequest'
 import { PATH } from 'utils/banxa/types'
@@ -36,6 +37,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //     account_reference: req.body.params.account_reference,
   //   })
   // }
+  const { params } = req.body
+  const account_reference = getCookie('account_reference', { req, res })
+  params.account_reference = account_reference
 
-  await postRequest(PATH.CREATE_ORDER, res, req.body.params)
+  await postRequest(PATH.CREATE_ORDER, res, params)
 }

@@ -48,7 +48,7 @@ const Order = () => {
 
         <section className="mt-2 grow bg-white rounded-md sm:pt-4 overflow-auto flex justify-center">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg max-w-6xl w-full flex flex-col pt-4">
-            <button onClick={() => router.push('/create-order')} className="flex items-center text-sm pb-2">
+            <button onClick={() => router.push('/orders')} className="flex items-center text-sm pb-2">
               <ChevronLeftIcon className="w-5 h-5 ml-2" />
               <div>Back</div>
             </button>
