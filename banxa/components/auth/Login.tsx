@@ -3,7 +3,13 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
-const Login = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) => {
+const Login = ({
+  setIsLogin,
+  setLoading,
+}: {
+  setIsLogin: (val: boolean) => void
+  setLoading: (val: boolean) => void
+}) => {
   const router = useRouter()
   const {
     register,
@@ -18,6 +24,7 @@ const Login = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) => {
   })
 
   const onSubmit = handleSubmit(async (formData) => {
+    setLoading(true)
     try {
       await axios.post('/api/banxa/login', {
         params: {
@@ -33,6 +40,7 @@ const Login = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) => {
         setError('email', { type: 'custom', message: 'User doesnt exist' })
       }
     }
+    setLoading(false)
     router.push('/create-order')
   })
 

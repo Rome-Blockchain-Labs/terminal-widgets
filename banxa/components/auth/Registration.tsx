@@ -3,7 +3,14 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
-const Registration = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) => {
+const Registration = ({
+  setIsLogin,
+  setLoading,
+}: {
+  setIsLogin: (val: boolean) => void
+
+  setLoading: (val: boolean) => void
+}) => {
   const router = useRouter()
   const {
     register,
@@ -21,6 +28,7 @@ const Registration = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) =>
   })
 
   const onSubmit = handleSubmit(async (formData) => {
+    setLoading(true)
     try {
       await axios.post('/api/register', {
         params: {
@@ -34,7 +42,7 @@ const Registration = ({ setIsLogin }: { setIsLogin: (val: boolean) => void }) =>
 
       setError('email', { type: 'custom', message })
     }
-
+    setLoading(false)
     router.push('/create-order')
   })
 
