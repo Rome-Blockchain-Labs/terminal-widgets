@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 import Loader from 'components/Loader'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import ConfirmModal from 'components/auth/ConfirmModal'
 
 const ForgotPassword: NextPage = () => {
-  const router = useRouter()
   const [email, setEmail] = useState<string>()
   const { mutate, data, error, isLoading } = useMutation((email: any) => {
     return axios.post('/api/reset-request', {
@@ -16,15 +16,9 @@ const ForgotPassword: NextPage = () => {
       },
     })
   })
-  console.log(error)
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     router.push('/create-order')
-  //   }
-  // }, [isLoggedIn, router])
-
   return (
     <>
+      {data && <ConfirmModal />}
       {isLoading && <Loader />}
       <div className="h-full w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg">
         <img src="/logo.svg" className="h-[52px] w-auto mt-[50px] md:h-[10%]" alt="banxa_logo" />
