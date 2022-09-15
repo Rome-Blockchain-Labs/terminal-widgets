@@ -18,8 +18,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await accountRef.doc(account_reference).create({
       email: req.body.params.email,
       password,
-      promotion: req.body.params.promotion,
+      banxaPromotion: req.body.params.banxaPromotion,
+      RBLPromotion: req.body.params.RBLPromotion,
     })
+
     // used as a check that the user is logged in because account_refrence isnt acccessible using client side js
     setCookie('banxa', 'true', {
       req,

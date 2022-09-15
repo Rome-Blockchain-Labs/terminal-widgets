@@ -18,12 +18,19 @@ const Registration = ({
     formState: { errors },
     watch,
     setError,
-  } = useForm<{ email: string; password: string; repeatPassword: string; promotion: boolean }>({
+  } = useForm<{
+    email: string
+    password: string
+    repeatPassword: string
+    banxaPromotion: boolean
+    RBLPromotion: boolean
+  }>({
     defaultValues: {
       email: '',
       password: '',
       repeatPassword: '',
-      promotion: false,
+      banxaPromotion: false,
+      RBLPromotion: false,
     },
   })
 
@@ -34,7 +41,8 @@ const Registration = ({
         params: {
           email: formData.email,
           password: formData.password,
-          promotion: formData.promotion,
+          banxaPromotion: formData.banxaPromotion,
+          RBLPromotion: formData.RBLPromotion,
         },
       })
 
@@ -86,7 +94,10 @@ const Registration = ({
             placeholder="Enter your password"
             {...register('password', {
               required: 'Password is required',
-              minLength: 8,
+              minLength: {
+                value: 8,
+                message: 'Password should be at least 8 characters',
+              },
             })}
           />
           {errors && errors.password && (
@@ -134,12 +145,27 @@ const Registration = ({
             <input
               type="checkbox"
               className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              {...register('promotion', {})}
+              {...register('banxaPromotion', {})}
             />
           </div>
           <div className="ml-3 text-sm">
             <span id="comments-description" className="text-white">
-              I agree to receive promotional email from Rome Blockchain Labs.
+              I agree to receive informational e-mails directly related to Banxa on Rome Blockchain Labs
+            </span>
+          </div>
+        </div>
+
+        <div className="relative flex items-start mt-2">
+          <div className="flex h-5 items-center">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              {...register('RBLPromotion', {})}
+            />
+          </div>
+          <div className="ml-3 text-sm">
+            <span id="comments-description" className="text-white">
+              I agree to receive promotional e-mails from Rome Blockchain Labs
             </span>
           </div>
         </div>
@@ -152,12 +178,14 @@ const Registration = ({
         </button>
       </form>
 
-      <button className="mt-4 text-base" onClick={() => setIsLogin(true)}>
-        Have an account? Login here.
-      </button>
-
-      <button onClick={() => router.push('/forgot-password')} className="mt-2 text-sm">
+      <button
+        onClick={() => router.push('/forgot-password')}
+        className="mt-2 text-sm hover:underline  text-left underline-offset-4"
+      >
         Forgot your password?
+      </button>
+      <button onClick={() => setIsLogin(true)} className="mt-4 text-base hover:underline  underline-offset-4">
+        Have an RBL Account? Login here
       </button>
     </>
   )

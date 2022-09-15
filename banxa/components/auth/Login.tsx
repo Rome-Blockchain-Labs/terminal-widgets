@@ -105,13 +105,14 @@ const Login = ({
           Continue
         </button>
       </form>
-
-      <button onClick={() => setIsLogin(false)} className="mt-4 text-base">
-        No Account? Sign up here
-      </button>
-
-      <button onClick={() => router.push('/forgot-password')} className="mt-2 text-sm">
+      <button
+        onClick={() => router.push('/forgot-password')}
+        className="mt-2 text-sm hover:underline  text-left underline-offset-4"
+      >
         Forgot your password?
+      </button>
+      <button onClick={() => setIsLogin(false)} className="mt-4 text-base hover:underline  underline-offset-4">
+        No RBL Account? Sign-Up Here
       </button>
     </>
   )
