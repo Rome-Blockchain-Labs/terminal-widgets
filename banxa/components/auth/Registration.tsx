@@ -37,13 +37,16 @@ const Registration = ({
           promotion: formData.promotion,
         },
       })
+
+      setLoading(false)
+      router.push('/create-order')
     } catch (error: any) {
       const message = error.response.data
 
       setError('email', { type: 'custom', message })
+
+      setLoading(false)
     }
-    setLoading(false)
-    router.push('/create-order')
   })
 
   return (
