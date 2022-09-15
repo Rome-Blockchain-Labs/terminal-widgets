@@ -14,7 +14,10 @@ const ConfirmModal = () => {
             <div className="mt-3 text-center sm:mt-5">
               <div className="text-lg font-medium leading-6 text-gray-900">Password Email Sent</div>
               <div className="mt-2">
-                <p className="text-sm text-gray-500">Pleae check your email for instructions to reset your password.</p>
+                <p className="text-sm text-gray-500">
+                  Pleae check your email for instructions to reset your password. If you do not see the email in a few
+                  minutes, check your “junk mail” folder or “spam” folder.
+                </p>
               </div>
             </div>
           </div>
