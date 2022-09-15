@@ -110,7 +110,9 @@ const Login = ({
         No Account? Sign up here
       </button>
 
-      <button className="mt-2 text-sm">Forgot your password?</button>
+      <button onClick={() => router.push('/forgot-password')} className="mt-2 text-sm">
+        Forgot your password?
+      </button>
     </>
   )
 }

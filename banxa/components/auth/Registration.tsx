@@ -155,7 +155,10 @@ const Registration = ({
       <button className="mt-4 text-base" onClick={() => setIsLogin(true)}>
         Have an account? Login here.
       </button>
-      <button className="mt-2 text-sm">Forgot your password?</button>
+
+      <button onClick={() => router.push('/forgot-password')} className="mt-2 text-sm">
+        Forgot your password?
+      </button>
     </>
   )
 }

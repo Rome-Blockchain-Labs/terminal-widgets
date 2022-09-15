@@ -9,6 +9,7 @@ specifiers:
   '@types/bcrypt': ^5.0.0
   '@types/crypto-js': ^4.1.1
   '@types/node': 18.7.14
+  '@types/nodemailer': ^6.4.6
   '@types/react': 18.0.18
   '@types/react-dom': 18.0.6
   '@typescript-eslint/eslint-plugin': ^5.30.6
@@ -27,6 +28,7 @@ specifiers:
   fuse.js: ^6.6.2
   nanoid: ^4.0.0
   next: 12.2.5
+  nodemailer: ^6.7.8
   postcss: ^8.4.14
   react: 18.2.0
   react-dom: 18.2.0
@@ -52,6 +54,7 @@ dependencies:
   fuse.js: 6.6.2
   nanoid: 4.0.0
   next: 12.2.5_biqbaboplfbrettd7655fr4n2y
+  nodemailer: 6.7.8
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.35.0_react@18.2.0
@@ -62,6 +65,7 @@ devDependencies:
   '@types/bcrypt': 5.0.0
   '@types/crypto-js': 4.1.1
   '@types/node': 18.7.14
+  '@types/nodemailer': 6.4.6
   '@types/react': 18.0.18
   '@types/react-dom': 18.0.6
   '@typescript-eslint/eslint-plugin': 5.37.0_24bbzymtp7ex2dujqpfxllbkhe
@@ -1075,6 +1079,12 @@ packages:
 
   /@types/node/18.7.14:
     resolution: {integrity: sha512-6bbDaETVi8oyIARulOE9qF1/Qdi/23z6emrUh0fNJRUmjznqrixD4MpGDdgOFk5Xb0m2H6Xu42JGdvAxaJR/wA==}
+
+  /@types/nodemailer/6.4.6:
+    resolution: {integrity: sha512-pD6fL5GQtUKvD2WnPmg5bC2e8kWCAPDwMPmHe/ohQbW+Dy0EcHgZ2oCSuPlWNqk74LS5BVMig1SymQbFMPPK3w==}
+    dependencies:
+      '@types/node': 18.7.14
+    dev: true
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -4169,6 +4179,11 @@ packages:
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
     dev: true
+
+  /nodemailer/6.7.8:
+    resolution: {integrity: sha512-2zaTFGqZixVmTxpJRCFC+Vk5eGRd/fYtvIR+dl5u9QXLTQWGIf48x/JXvo58g9sa0bU6To04XUv554Paykum3g==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /nopt/5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}

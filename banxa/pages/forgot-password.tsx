@@ -55,17 +55,6 @@ const ForgotPassword: NextPage = () => {
             >
               Reset Password
             </button>
-            <button
-              onClick={() =>
-                axios.post('/api/register-dup', {
-                  params: {
-                    email,
-                  },
-                })
-              }
-            >
-              asdas
-            </button>
           </div>
         </div>
       </div>
