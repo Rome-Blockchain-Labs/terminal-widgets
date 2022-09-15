@@ -32,6 +32,9 @@ const Login = ({
           password: formData.password,
         },
       })
+
+      setLoading(false)
+      router.push('/create-order')
     } catch (error: any) {
       if (error.response.data.error === 'password') {
         setError('password', { type: 'custom', message: 'Invalid password' })
@@ -39,9 +42,9 @@ const Login = ({
       if (error.response.data.error === 'user') {
         setError('email', { type: 'custom', message: 'User doesnt exist' })
       }
+
+      setLoading(false)
     }
-    setLoading(false)
-    router.push('/create-order')
   })
 
   return (
