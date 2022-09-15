@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Loader from 'components/Loader'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
@@ -39,7 +39,7 @@ const ForgotPassword: NextPage = ({ resetToken }: any) => {
     if (!resetToken) {
       router.push('/')
     }
-  }, [])
+  }, [resetToken, router])
 
   return (
     <>
