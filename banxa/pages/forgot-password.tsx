@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
 import Loader from 'components/Loader'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
@@ -9,7 +8,7 @@ import ConfirmModal from 'components/auth/ConfirmModal'
 
 const ForgotPassword: NextPage = () => {
   const [email, setEmail] = useState<string>()
-  const { mutate, data, error, isLoading } = useMutation((email: any) => {
+  const { mutate, data, isLoading } = useMutation((email: any) => {
     return axios.post('/api/reset-request', {
       params: {
         email,
