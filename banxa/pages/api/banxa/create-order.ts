@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //     await setDoc(doc(accountRef, req.body.params.email), {
   //       account_reference: req.body.params.account_reference,
   //     })
-  //   }
+  //   }    //makes sure the account_reference can only be used within romterminal domain
   // } else {
   //   await setDoc(doc(accountRef, req.body.params.email), {
   //     account_reference: req.body.params.account_reference,
