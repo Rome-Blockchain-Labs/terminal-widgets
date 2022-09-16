@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await transporter.sendMail({
     subject: 'Banxa - RomeTerminal Password Reset',
     to: req.body.params.email,
+    sender: 'noreply@rometerminal.io',
     from: 'noreply@rometerminal.io',
     text: "Hey RBL Trader! We have received your password reset request. Please click the link below to update your password. If you didn't request for a password reset, please disregard this email notificaiton. Happy Trading, Rome Terminal Team",
     html,

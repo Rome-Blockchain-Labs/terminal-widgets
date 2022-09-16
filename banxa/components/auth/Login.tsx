@@ -36,13 +36,7 @@ const Login = ({
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {
-      if (error.response.data.error === 'password') {
-        setError('password', { type: 'custom', message: 'Invalid password' })
-      }
-      if (error.response.data.error === 'user') {
-        setError('email', { type: 'custom', message: 'User doesnt exist' })
-      }
-
+      setError('email', { type: 'custom', message: 'Email or password is invalid' })
       setLoading(false)
     }
   })

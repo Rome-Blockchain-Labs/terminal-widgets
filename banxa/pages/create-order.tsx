@@ -246,20 +246,18 @@ export default function CreateOrder() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
-          <div className="flex text-[#1D3E52] items-center ">
-            {/* <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
-              <button className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>BUY</button>
-              <button className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}>SELL</button>
-            </div> */}
-            <button className="bg-gray-200 rounded-lg px-3 md:text-3xl ml-auto" onClick={() => router.push('/orders')}>
-              History
+          <div className="mt-4 grow flex flex-shrink-0 md:mt-0 md:ml-4 justify-end">
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => router.push('/orders')}
+            >
+              Transaction History
             </button>
             <button
               type="button"
+              className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               onClick={() => logout()}
-              className={classNames(
-                'text-sm wg:text-base rounded-full h-full ml-2 px-2 max-w-sm md:text-2xl text-red-300 hover:text-red-500'
-              )}
             >
               Logout
             </button>

@@ -5,9 +5,11 @@ import Loader from 'components/Loader'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import ConfirmModal from 'components/auth/ConfirmModal'
+import { useRouter } from 'next/router'
 
 const ForgotPassword: NextPage = () => {
   const [email, setEmail] = useState<string>()
+  const router = useRouter()
   const { mutate, data, isLoading } = useMutation((email: any) => {
     return axios.post('/api/reset-request', {
       params: {
@@ -47,6 +49,9 @@ const ForgotPassword: NextPage = () => {
               className="font-bold mt-[11px] h-[47px] w-full rounded-md bg-gradient-to-r from-[#0472c0] to-[#00d1c0] "
             >
               Reset Password
+            </button>
+            <button className="mt-4 hover:underline" onClick={() => router.push('/')}>
+              Return home
             </button>
           </div>
         </div>
