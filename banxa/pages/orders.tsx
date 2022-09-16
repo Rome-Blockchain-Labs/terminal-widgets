@@ -3,7 +3,6 @@ import axios from 'axios'
 import OrderStatus from 'components/OrderStatus'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useAppContext } from '../context/AppProvider'
 import { ORDER_STATUS } from '../components/Transaction'
 import { useRouter } from 'next/router'
 import Loader from '../components/Loader'
@@ -13,7 +12,6 @@ const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD')
 const today = dayjs().add(1, 'day').format('YYYY-MM-DD')
 
 export default function Orders() {
-  const { accountReference } = useAppContext()
   const [orders, setOrders] = useState<Order[]>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -32,7 +30,6 @@ export default function Orders() {
             start_date: oneYearAgo,
             end_date: today,
             per_page: 50,
-            account_reference: accountReference,
           },
         })
         .catch(() => setError('Unable to fetch orders. Please try again later'))
@@ -42,7 +39,7 @@ export default function Orders() {
       }
     }
     fetchOrders()
-  }, [accountReference])
+  }, [])
 
   if (loading) {
     return <Loader />
