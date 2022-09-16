@@ -14,6 +14,14 @@ steps:
       - 'SECRET=${_SECRET}'
       - '--build-arg'
       - 'NEXT_PUBLIC_RETURN_URL_ON_SUCCESS=${_NEXT_PUBLIC_RETURN_URL_ON_SUCCESS}'
+      - '--build-arg'
+      - 'SERVICE_ACCOUNT=${_SERVICE_ACCOUNT}'
+      - '--build-arg'
+      - 'BASE_URL=${_BASE_URL}'
+      - '--build-arg'
+      - 'EMAIL_PASSWORD=${_EMAIL_PASSWORD}'
+      - '--build-arg'
+      - 'EMAIL=${_EMAIL}'
       # folder name for context
       - '$TRIGGER_NAME/'
   - name: gcr.io/cloud-builders/docker
