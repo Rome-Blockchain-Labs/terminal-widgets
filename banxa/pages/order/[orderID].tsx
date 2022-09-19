@@ -1,9 +1,11 @@
 import { ChevronLeftIcon } from '@heroicons/react/solid'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
 import OrderStatus from 'components/OrderStatus'
 import SellOrderModal from 'components/SellOrderModal'
+import TransactionHashModal from 'components/TransactionHashModal'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ORDER_STATUS } from '../../components/Transaction'
@@ -12,30 +14,52 @@ import { Order as IOrder } from '../orders'
 const Order = () => {
   const router = useRouter()
   const { orderID } = router.query
-  const [order, setOrder] = useState<IOrder>()
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
   const [modalVisibility, setModalVisibility] = useState(false)
+  const {
+    mutate: finalizeOrder,
+    data: finalizeOrderData,
+    error: finalizeOrderError,
+    isLoading: finalizeOrderLoading,
+  } = useMutation(() => {
+    return axios.post('/api/banxa/finalize-order', {
+      params: {
+        orderID,
+      },
+    })
+  })
+  const fetchOrder = async (): Promise<IOrder> => {
+    const res = await axios.post('/api/banxa/get-order', {
+      orderID,
+    })
+
+    return res.data.data.order
+  }
+  const {
+    data: order,
+    isLoading: orderLoading,
+    error: orderError,
+  } = useQuery(['order'], fetchOrder, {
+    enabled: !!orderID,
+  })
+
   const closeModal = () => {
     setError(undefined)
   }
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      setLoading(true)
-      const res = await axios
-        .post('/api/banxa/get-order', {
-          orderID,
-        })
-        .catch(() => setError('Unable to fetch order. Please try again later'))
-      if (res) {
-        setOrder(res.data.data.order)
-      }
-      setLoading(false)
+    if (finalizeOrderError || orderError) {
+      setError('Order is invalid')
     }
-    fetchOrder()
-  }, [orderID])
-  if (loading) {
+  }, [finalizeOrderError, orderError])
+
+  useEffect(() => {
+    if (finalizeOrderData) {
+      setModalVisibility(true)
+    }
+  }, [finalizeOrderData])
+
+  if (finalizeOrderLoading || orderLoading) {
     return <Loader />
   }
 
@@ -43,6 +67,9 @@ const Order = () => {
     <>
       {error && <ErrorModal message={error} closeModal={closeModal} />}
       {modalVisibility && order && <SellOrderModal order={order} setModalVisibility={setModalVisibility} />}
+      {/* {order?.finalize_status === 'active' && order.status === 'waitingPayment' && <div>oh god</div>} */}
+      <TransactionHashModal />
+      <button onClick={() => finalizeOrder()}>Finalize order</button>
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl relative">
         <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
@@ -112,7 +139,7 @@ const Order = () => {
                   <button
                     type="button"
                     className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setModalVisibility(true)}
+                    onClick={() => finalizeOrder()}
                   >
                     Finalize Transaction
                   </button>
