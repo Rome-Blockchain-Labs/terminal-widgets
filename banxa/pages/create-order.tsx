@@ -6,7 +6,6 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import { useWeb3React } from '@romeblockchain/wallet'
-import { useAppContext } from 'context/AppProvider'
 import { useRouter } from 'next/router'
 import { useMutation } from '@tanstack/react-query'
 import CurrencySelect from 'components/CurrencySelect'
@@ -53,14 +52,22 @@ export default function CreateOrder() {
     return axios.post('/api/banxa/create-order', {
       params: {
         ...data,
-        account_reference: accountReference?.toString(),
         return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
       },
     })
   })
+
+  const {
+    mutate: logout,
+    data: logoutData,
+    isLoading: logoutLoading,
+  } = useMutation(() => {
+    return axios.post('/api/logout')
+  })
+
   const { wg } = useResponsive()
   const router = useRouter()
-  const { accountReference } = useAppContext()
+  // const [order] = useState('BUY')
   const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
@@ -160,10 +167,22 @@ export default function CreateOrder() {
     }
   }, [wg])
   useEffect(() => {
+    console.log(account)
     if (account) {
-      setValue('wallet_address', account)
+      if (order === 'BUY') {
+        setValue('wallet_address', account)
+      }
+      if (order === 'SELL') {
+        setValue('refund_address', account)
+      }
     }
-  }, [account, setValue])
+  }, [account, order, setValue])
+
+  useEffect(() => {
+    if (logoutData) {
+      router.push('/')
+    }
+  }, [logoutData, router])
 
   useEffect(() => {
     if (!source && !target && tokenBuyList && fiatBuyList) {
@@ -175,12 +194,11 @@ export default function CreateOrder() {
   if (!tokenBuyList || !tokenSellList || !fiatBuyList || !fiatSellList) {
     return <Loader />
   }
-
   return (
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {createOrderLoading && <Loader />}
+      {(createOrderLoading || logoutLoading) && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {visible && (
         <CurrencySelect
@@ -199,39 +217,51 @@ export default function CreateOrder() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
-          <div className="flex  text-[#1D3E52] relative ">
-            {tokenSellList.length > 0 && (
-              <div className="h-8 w-3/5 rounded-lg border-[#0CF5F1] border  mx-auto flex max-w-lg md:text-4xl md:h-11">
-                <button
-                  onClick={() => {
-                    reset()
-                    setOrder('BUY')
-                    setSource(fiatBuyList[0].code)
-                    setTarget(tokenBuyList[0].code)
-                  }}
-                  className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
-                >
-                  BUY
-                </button>
-                <button
-                  onClick={() => {
-                    reset()
-                    setOrder('SELL')
-                    setSource(tokenSellList[0].code)
-                    setTarget(fiatSellList[0].code)
-                  }}
-                  className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
-                >
-                  SELL
-                </button>
-              </div>
-            )}
-            <button
-              className=" bg-gray-200 rounded-lg px-3 h-[30px] md:h-11 md:text-3xl ml-auto wg:absolute top-0 right-0"
-              onClick={() => router.push('/orders')}
-            >
-              History
-            </button>
+          <div className="flex  text-[#1D3E52] relative items-stretch">
+            <div className="grow text-base text-medium">
+              {tokenSellList.length > 0 && (
+                <div className="h-full rounded-md  border  mx-auto flex max-w-lg ">
+                  <button
+                    onClick={() => {
+                      reset()
+                      setOrder('BUY')
+                      setSource(fiatBuyList[0].code)
+                      setTarget(tokenBuyList[0].code)
+                    }}
+                    className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                  >
+                    BUY
+                  </button>
+                  <button
+                    onClick={() => {
+                      reset()
+                      setOrder('SELL')
+                      setSource(tokenSellList[0].code)
+                      setTarget(fiatSellList[0].code)
+                    }}
+                    className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                  >
+                    SELL
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className=" flex flex-shrink-1 md:mt-0 md:ml-4 justify-center items-cente ml-2">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                onClick={() => router.push('/orders')}
+              >
+                Transactions
+              </button>
+              <button
+                type="button"
+                className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                onClick={() => logout()}
+              >
+                Logout
+              </button>
+            </div>
           </div>
           <form className="flex flex-col mt-4" onSubmit={handleSubmit(onSubmit)}>
             <div>

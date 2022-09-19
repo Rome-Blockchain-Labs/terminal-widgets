@@ -1,23 +1,29 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from 'components/Layout'
-import AppProvider from 'context/AppProvider'
 import { WalletProvider } from '@romeblockchain/wallet'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React from 'react'
+import { getCookie } from 'cookies-next'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient())
+  const [queryClient] = useState(() => new QueryClient())
+  const router = useRouter()
+  const isLogin = !!getCookie('banxa')
+  useEffect(() => {
+    if (router.pathname !== '/forgot-password' && router.pathname !== '/reset-password' && !isLogin) {
+      router.push('/')
+    }
+  }, [isLogin, router])
 
   return (
     <WalletProvider>
       <QueryClientProvider client={queryClient}>
-        <AppProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AppProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </WalletProvider>

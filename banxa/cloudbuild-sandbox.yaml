@@ -23,7 +23,7 @@ steps:
       - '--build-arg'
       - 'EMAIL=${_EMAIL}'
       # folder name for context
-      - '$TRIGGER_NAME/'
+      - 'banxa/'
   - name: gcr.io/cloud-builders/docker
     args:
       - push

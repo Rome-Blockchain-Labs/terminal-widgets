@@ -2,22 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import axios, { AxiosRequestConfig } from 'axios'
 import generateHmac from 'utils/banxa/generateHmac'
 import { PATH } from 'utils/banxa/types'
-import { collection, doc, getDoc } from 'firebase/firestore'
 import { db } from 'utils/firebase'
-import nodemailer from 'nodemailer'
 import { Order } from 'pages/orders'
-
-const accountRef = collection(db, 'accounts')
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL as string,
-    pass: process.env.EMAIL_PASSWORD as string,
-  },
-})
+import { transporter } from 'utils/mailer'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const orderID = req.body.order_id
@@ -39,8 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const response = await axios(options)
   const { account_reference, coin_code, fiat_code, blockchain }: Order = response.data.data.order
+  const accountRef = await db.collection('accounts')
 
-  const docSnap = await getDoc(doc(accountRef, account_reference))
+  const docSnap = await accountRef.doc(account_reference).get()
 
   const account = docSnap.data()
 
@@ -51,19 +39,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const html = generateHTML({ coin_code, fiat_code, blockchain: blockchain.description })
 
   const msg = {
-    to: account.email, // Change to your recipient
-    from: 'noreply@rometerminal.io', // Change to your verified sender
+    to: account.email,
+    from: 'noreply@rometerminal.io',
     subject: 'Order Ready For Payment',
     text: `Hey RBL Trader! Get ready to complete your ${coin_code} / ${fiat_code} order on Banxa. Since you have already completed your KYC and been approved by Banxa, you are only three steps away from a successful sell order on ${blockchain.description}: 1. Open your BANXA widget on https://app.rometerminal.io 2. Connect your preferred wallet to the BANXA widget 3. Click “Complete Order”.Happy Trading, Rome Terminal Team *Further transaction details are not included in this communication for your privacy and security`,
     html,
   }
   try {
-    await transporter.sendMail(msg)
-  } catch {
-    res.status(400).send('Unable to send email')
+    await transporter.send(msg)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send('Unable to send email')
   }
 
-  res.status(200).send('User successfully notified')
+  return res.status(200).send('User successfully notified')
 }
 
 export function generateSignature(query: PATH, payload: Record<string, string>) {
@@ -92,9 +81,12 @@ const generateHTML = ({
     <tbody>
       <tr style="background: black">
         <td align="center">
-          <img src="https://romeblockchain.com/assets/images/rbl-logo-gold-2.svg" alt="Eskwelabs" width="100%"
-            height="auto" />
-          
+            <img
+              src="https://storage.googleapis.com/rometerminal-prod-lander/assets/images/header-email.png"
+              alt="RBL Logo"
+              width="100%"
+              height="auto"
+            />
         </td>
       </tr>
       <tr >
