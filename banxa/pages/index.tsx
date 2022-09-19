@@ -22,6 +22,7 @@ const Home: NextPage = () => {
   return (
     <>
       {loading && <Loader />}
+      {console.log(process.env.NODE_ENV)}
       <div className="h-full w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg">
         <img src="/logo.svg" className="h-[52px] w-auto mt-[50px] md:h-[10%]" alt="banxa_logo" />
 

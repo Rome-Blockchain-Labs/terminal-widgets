@@ -1,5 +1,6 @@
 import {
   getAddChainParametersfromNetworkName,
+  NetworkName,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
@@ -142,8 +143,11 @@ interface WalletStepProps {
 const WalletStep = ({ setLoading, setStep, networkCode }: WalletStepProps) => {
   const networkName = NETWORK_NAME_MAP[networkCode]
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets()
-  // const chainParams = getAddChainParametersfromNetworkName(networkName)
-  const chainParams = getAddChainParametersfromNetworkName('rinkeby')
+  //Set networkname to rinkeby for testing
+  const chainParams =
+    process.env.NODE_ENV === 'production'
+      ? getAddChainParametersfromNetworkName(networkName)
+      : getAddChainParametersfromNetworkName('rinkeby' as NetworkName)
 
   return (
     <>
@@ -212,13 +216,15 @@ const PaymentStep = ({
   })
   const networkName = NETWORK_NAME_MAP[blockchain.code]
   const token = TokenAddresses[networkName].find((t) => t.token === coin_code)
-  console.log(token?.address)
   useEffect(() => {
     if (account && provider && token) {
       const signer = provider.getSigner(account)
-      const contract = new ethers.Contract('0x386558a69c0fEf2fF5A572e9151dE64123Ef04C3', abi, signer)
 
-      // const contract = new ethers.Contract(token.address, abi, signer)
+      const contract =
+        process.env.NODE_ENV === 'production'
+          ? new ethers.Contract(token.address, abi, signer)
+          : // This contract address is for an erc20 token deployed in rinkeby network
+            new ethers.Contract('0x386558a69c0fEf2fF5A572e9151dE64123Ef04C3', abi, signer)
 
       setContract(contract)
       contract.decimals().then((res: number) => setDecimals(res))
@@ -227,11 +233,11 @@ const PaymentStep = ({
 
   useEffect(() => {
     if (hash) {
+      // this will always fail during development because the wallet_address is always null in sandbox
       confirmOrder({
         tx_hash: hash,
         source_address: account,
-        // destination_address: wallet_address,
-        destination_address: '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
+        destination_address: process.env.NODE_ENV ? wallet_address : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
         order_id: id,
       })
     }
@@ -248,6 +254,7 @@ const PaymentStep = ({
       setError(
         'Unable to confirm sell order. Please confirm that you have completed the transaction in your wallet before trying again'
       )
+      setLoading(false)
     }
   }, [confirmOrderError, setError])
 
@@ -314,19 +321,28 @@ const PaymentStep = ({
         onClick={async () => {
           if (contract) {
             setLoading(true)
-            const transferAmount = '0x' + (1 * Math.pow(10, decimals)).toString(16)
-            // const transferAmount = '0x' + (coin_amount* Math.pow(10, decimals)).toString(16)
+            const transferAmount =
+              process.env.NODE_ENV === 'production'
+                ? '0x' + (coin_amount * Math.pow(10, decimals)).toString(16)
+                : // send only 1 token during development
+                  '0x' + (1 * Math.pow(10, decimals)).toString(16)
             try {
-              const transaction = await contract.transfer('0xe7639fE2062c398b1E85a69d1BdA9129035008Ed', transferAmount)
+              const transaction = await contract.transfer(
+                // no need to replace wallet address
+                process.env.NODE_ENV === 'production' ? wallet_address : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
+                transferAmount
+              )
 
               const receipt = await transaction.wait()
               if (receipt.status === 1) {
                 setHash(receipt.transactionHash)
               } else {
                 setError('Transaction failed. Please check your wallet for errors and try again.')
+                setLoading(false)
               }
             } catch (error: any) {
               setError('Transaction failed. Please try again.')
+              setLoading(false)
             }
           }
         }}
