@@ -27,21 +27,29 @@ interface FormValues {
 }
 
 export default function CreateOrder() {
-  const { data: fiatBuyList, error: fiatBuyListError } = useQuery(['fiatBuyData'], async () => {
-    const res = await axios.get('/api/banxa/fiat-buy')
+  const { data: fiatBuyList, error: fiatBuyListError } = useQuery(
+    ['fiatBuyData'],
+    async () => {
+      const res = await axios.get('/api/banxa/fiat-buy')
 
-    return res.data.data.fiats.map((fiat: any) => ({
-      code: fiat.fiat_code,
-      name: fiat.fiat_name,
-    }))
-  })
-  const { data: tokenBuyList, error: tokenBuyListError } = useQuery(['tokenBuyData'], async () => {
-    const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-    return tokenBuyRes.data.data.coins.map((coin: any) => ({
-      code: coin.coin_code,
-      name: coin.coin_name,
-    }))
-  })
+      return res.data.data.fiats.map((fiat: any) => ({
+        code: fiat.fiat_code,
+        name: fiat.fiat_name,
+      }))
+    },
+    { staleTime: Infinity }
+  )
+  const { data: tokenBuyList, error: tokenBuyListError } = useQuery(
+    ['tokenBuyData'],
+    async () => {
+      const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
+      return tokenBuyRes.data.data.coins.map((coin: any) => ({
+        code: coin.coin_code,
+        name: coin.coin_name,
+      }))
+    },
+    { staleTime: Infinity }
+  )
   const {
     mutate: createOrder,
     data: createOrderData,
@@ -73,10 +81,12 @@ export default function CreateOrder() {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
     setValue,
     watch,
     reset,
+    setError: setFormError,
+    clearErrors,
   } = useForm<FormValues>({
     defaultValues: {
       source: 'USD',
@@ -85,9 +95,13 @@ export default function CreateOrder() {
       target_amount: undefined,
     },
   })
+
   const [error, setError] = useState<string>()
   const resetForm = () => {
     reset()
+    if (account) {
+      setValue('wallet_address', account)
+    }
     setError(undefined)
   }
   const onSubmit = async (data: any) => {
@@ -103,6 +117,26 @@ export default function CreateOrder() {
   const setSource = (value: string) => {
     setValue('source', value)
   }
+
+  const { data: paymentMethods } = useQuery(
+    ['paymentMethoData', source, target],
+    async () => {
+      const res = await axios.post('/api/banxa/payment-methods', {
+        params: {
+          source,
+          target,
+        },
+      })
+      return res.data.data.payment_methods[0]
+    },
+    {
+      enabled: !!source && !!target,
+      staleTime: Infinity,
+    }
+  )
+
+  const lowLimit = paymentMethods && parseInt(paymentMethods.transaction_limits[0].min)
+  const highLimit = paymentMethods && parseInt(paymentMethods.transaction_limits[0].max)
   const debouncedSourceAmount = useDebounce(sourceAmount, 500)
   const debouncedTargetAmount = useDebounce(targetAmount, 500)
 
@@ -159,11 +193,11 @@ export default function CreateOrder() {
 
       if (res) {
         if (source_amount) {
-          setTargetAmount(res.data.data.prices[0].coin_amount)
+          setTargetAmount(res.data.coin_amount)
         }
 
         if (target_amount) {
-          setSourceAmount(res.data.data.prices[0].fiat_amount)
+          setSourceAmount(res.data.fiat_amount)
         }
       }
 
@@ -174,7 +208,8 @@ export default function CreateOrder() {
   )
   useEffect(() => {
     if (createOrderError) {
-      setError('Unable to create an order. Please try again later or visit www.banxa.com')
+      //@ts-ignore
+      setError(createOrderError.response.data.data.errors.title)
     }
     if (fiatBuyListError || tokenBuyListError) {
       setError('Unable to get currency lists. Please try again later')
@@ -222,6 +257,20 @@ export default function CreateOrder() {
       router.push('/')
     }
   }, [logoutData, router])
+
+  useEffect(() => {
+    if (lowLimit && highLimit && sourceAmount) {
+      if (sourceAmount > highLimit) {
+        setFormError('source_amount', { type: 'custom', message: `Source amount should be less than ${highLimit}` })
+      }
+      if (sourceAmount < lowLimit) {
+        setFormError('source_amount', { type: 'custom', message: `Source amount should be higher than ${lowLimit}` })
+      }
+      if (sourceAmount > lowLimit && sourceAmount < highLimit) {
+        clearErrors('source_amount')
+      }
+    }
+  }, [clearErrors, highLimit, lowLimit, setFormError, source, sourceAmount])
 
   return (
     <>
@@ -272,7 +321,7 @@ export default function CreateOrder() {
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
                 <input
-                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl focus:ring-0"
                   type="number"
                   placeholder="Enter amount"
                   step="any"
@@ -288,6 +337,11 @@ export default function CreateOrder() {
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
+              {errors && (
+                <p className="mt-2 text-sm text-red-400" id="email-error">
+                  {errors.source_amount?.message}
+                </p>
+              )}
             </div>
 
             <div className="mt-3">
@@ -298,7 +352,7 @@ export default function CreateOrder() {
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
                 <input
-                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl focus:ring-0"
                   type="number"
                   placeholder="Enter amount"
                   step="any"
@@ -316,35 +370,48 @@ export default function CreateOrder() {
                 </button>
               </div>
             </div>
-
             <div className="mt-3">
               <label htmlFor="source" className="block  font-medium text-gray-400  ">
                 Selected Address
               </label>
               <div className="mt-1">
                 <input
-                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl focus:ring-0"
                   type="text"
                   placeholder="Click the connect wallet button below"
-                  {...register('wallet_address', { required: true, maxLength: 100 })}
+                  {...register('wallet_address', {
+                    required: true,
+                    maxLength: 80,
+                    pattern: {
+                      value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
+                      message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
+                    },
+                  })}
                 />
+                {errors && (
+                  <p className="mt-2 text-sm text-red-400" id="email-error">
+                    {errors.wallet_address?.message}
+                  </p>
+                )}
               </div>
             </div>
-
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button
+                disabled={target === 'BTC'}
                 type="button"
                 onClick={() => setWalletVisibility(true)}
-                className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl"
+                className={classNames(
+                  target === 'BTC' ? 'bg-gray-300' : 'bg-gradient-to-r from-[#0573C1]  to-[#01C2C1]',
+                  'rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white  md:text-2xl'
+                )}
               >
                 {buttonText}
               </button>
-
               <button
                 type="submit"
-                disabled={priceLoading}
+                disabled={priceLoading || !!errors.source_amount}
                 className={classNames(
-                  priceLoading
+                  priceLoading || errors.source_amount
                     ? 'border-gray-300 text-gray-600 font-light '
                     : 'border-[#01C2C1]   text-black font-bold',
                   'text-sm wg:text-base rounded-full border  h-full px-2 w-1/3 max-w-sm md:text-2xl'

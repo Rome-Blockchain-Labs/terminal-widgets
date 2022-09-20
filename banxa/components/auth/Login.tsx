@@ -78,7 +78,10 @@ const Login = ({
             placeholder="Enter your password"
             {...register('password', {
               required: 'Password is required',
-              minLength: 8,
+              minLength: {
+                value: 8,
+                message: 'Password should be at least 8 characters',
+              },
             })}
           />
           {errors && errors.password && (

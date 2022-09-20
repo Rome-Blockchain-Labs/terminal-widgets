@@ -19,9 +19,7 @@ steps:
       - '--build-arg'
       - 'BASE_URL=${_BASE_URL}'
       - '--build-arg'
-      - 'EMAIL_PASSWORD=${_EMAIL_PASSWORD}'
-      - '--build-arg'
-      - 'EMAIL=${_EMAIL}'
+      - 'SENDGRID_API_KEY=${_SENDGRID_API_KEY}'
       # folder name for context
       - 'banxa/'
   - name: gcr.io/cloud-builders/docker
