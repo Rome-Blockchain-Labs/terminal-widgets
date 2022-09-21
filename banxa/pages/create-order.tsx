@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import { useWeb3React } from '@romeblockchain/wallet'
@@ -31,6 +31,29 @@ export interface FormValues {
 
 export default function CreateOrder() {
   const [order, setOrder] = useState('BUY')
+  const { wg } = useResponsive()
+  const router = useRouter()
+  const [walletVisibility, setWalletVisibility] = useState(false)
+  const [currencyChange, setCurrencyChange] = useState(false)
+  const { account } = useWeb3React()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+    setError: setFormError,
+    clearErrors,
+  } = useForm<FormValues>({
+    defaultValues: {
+      source: undefined,
+      target: undefined,
+      source_amount: undefined,
+      target_amount: undefined,
+    },
+  })
+  const [error, setError] = useState<string>()
 
   //Requests for list of token and fiat currencies tradeable in Banxa
   const {
@@ -66,31 +89,6 @@ export default function CreateOrder() {
     return axios.post('/api/logout')
   })
 
-  const { wg } = useResponsive()
-  const router = useRouter()
-  // const [order] = useState('BUY')
-  const [walletVisibility, setWalletVisibility] = useState(false)
-  const [currencyChange, setCurrencyChange] = useState(false)
-  const { account } = useWeb3React()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-    setError: setFormError,
-    clearErrors,
-  } = useForm<FormValues>({
-    defaultValues: {
-      source: undefined,
-      target: undefined,
-      source_amount: undefined,
-      target_amount: undefined,
-    },
-  })
-
-  const [error, setError] = useState<string>()
   const resetForm = () => {
     reset()
     if (account) {
@@ -159,7 +157,7 @@ export default function CreateOrder() {
   )
 
   // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
-  useGetLimits({ source, target, sourceAmount, setFormError, clearErrors })
+  useGetLimits({ source, target, sourceAmount, setFormError, clearErrors, type: order, targetAmount })
   useEffect(() => {
     if (createOrderError) {
       //@ts-ignore
@@ -184,7 +182,6 @@ export default function CreateOrder() {
     }
   }, [wg])
   useEffect(() => {
-    console.log(account)
     if (account) {
       if (order === 'BUY') {
         setValue('wallet_address', account)
@@ -325,9 +322,22 @@ export default function CreateOrder() {
             </div>
 
             <div className="mt-3">
-              <label htmlFor="source" className="block  font-medium text-black  ">
-                You Receive
-              </label>
+              <div className="flex items-center">
+                <label htmlFor="source" className="block  font-medium text-black  ">
+                  You Receive
+                </label>
+                <div className="ml-1 flex self-start">
+                  <a
+                    href="#"
+                    className="group relative inline-block text-blue-500 underline hover:text-blue-800 duration-300"
+                  >
+                    <ExclamationCircleIcon className="h-5 w-5" />
+                    <span className="absolute hidden group-hover:flex -top-[13px] -right-3 translate-x-full w-48 p-2 bg-gray-500 rounded-lg text-center text-white text-xs ">
+                      Receive amount may change depending on transaction fees
+                    </span>
+                  </a>
+                </div>
+              </div>
               <div
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
@@ -359,6 +369,11 @@ export default function CreateOrder() {
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
+              {errors && (
+                <p className="mt-2 text-sm text-red-400" id="email-error">
+                  {errors.target_amount?.message}
+                </p>
+              )}
             </div>
 
             {order === 'BUY' && (

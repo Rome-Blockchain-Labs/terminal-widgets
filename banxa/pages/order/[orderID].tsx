@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@heroicons/react/solid'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
@@ -16,18 +16,8 @@ const Order = () => {
   const { orderID } = router.query
   const [error, setError] = useState<string>()
   const [modalVisibility, setModalVisibility] = useState(false)
-  const {
-    mutate: finalizeOrder,
-    data: finalizeOrderData,
-    error: finalizeOrderError,
-    isLoading: finalizeOrderLoading,
-  } = useMutation(() => {
-    return axios.post('/api/banxa/finalize-order', {
-      params: {
-        orderID,
-      },
-    })
-  })
+  const [transactionModalVisibility, setTransactionModalVisibility] = useState(false)
+
   const fetchOrder = async (): Promise<IOrder> => {
     const res = await axios.post('/api/banxa/get-order', {
       orderID,
@@ -41,6 +31,7 @@ const Order = () => {
     error: orderError,
   } = useQuery(['order'], fetchOrder, {
     enabled: !!orderID,
+    staleTime: Infinity,
   })
 
   const closeModal = () => {
@@ -48,18 +39,12 @@ const Order = () => {
   }
 
   useEffect(() => {
-    if (finalizeOrderError || orderError) {
+    if (orderError) {
       setError('Order is invalid')
     }
-  }, [finalizeOrderError, orderError])
+  }, [orderError])
 
-  useEffect(() => {
-    if (finalizeOrderData) {
-      setModalVisibility(true)
-    }
-  }, [finalizeOrderData])
-
-  if (finalizeOrderLoading || orderLoading) {
+  if (orderLoading) {
     return <Loader />
   }
 
@@ -68,8 +53,13 @@ const Order = () => {
       {error && <ErrorModal message={error} closeModal={closeModal} />}
       {modalVisibility && order && <SellOrderModal order={order} setModalVisibility={setModalVisibility} />}
       {/* {order?.finalize_status === 'active' && order.status === 'waitingPayment' && <div>oh god</div>} */}
-      <TransactionHashModal />
-      <button onClick={() => finalizeOrder()}>Finalize order</button>
+      {transactionModalVisibility && order && (
+        <TransactionHashModal
+          order={order}
+          setModalVisibility={setModalVisibility}
+          setTransactionModalVisibility={setTransactionModalVisibility}
+        />
+      )}
       <div className="flex flex-col bg-black h-full w-full px-2 py-3 md:text-4xl relative">
         <div className="flex w-full md:h-[5%] items-center">
           <img src="/logo.svg" className="h-5 w-auto  md:h-full " alt="banxa_logo" />
@@ -134,17 +124,23 @@ const Order = () => {
                   </div>
                 </dl>
 
-                {/* {order.status === 'waitingPayment' && ( */}
-                <div className="sticky bottom-0 left-0 w-full h-14 bg-white grid place-items-center">
-                  <button
-                    type="button"
-                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => finalizeOrder()}
-                  >
-                    Finalize Transaction
-                  </button>
-                </div>
-                {/* )} */}
+                {order.status === 'waitingPayment' && (
+                  <div className="sticky bottom-0 left-0 w-full h-14 bg-white grid place-items-center">
+                    <button
+                      type="button"
+                      className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        if (order.finalize_status === 'active') {
+                          setTransactionModalVisibility(true)
+                        } else {
+                          setModalVisibility(true)
+                        }
+                      }}
+                    >
+                      Finalize Transaction
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid h-full w-full place-items-center">Order not found</div>

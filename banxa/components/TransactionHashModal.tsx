@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import { classNames } from 'utils/style'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { Order } from 'pages/orders'
+import { useRouter } from 'next/router'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
 interface TransactionHashModalProps {
-  orderID: string
-  destinationAddress: string
+  order: Order
+  setModalVisibility: (val: boolean) => void
+  setTransactionModalVisibility: (val: boolean) => void
 }
 
-const TransactionHashModal = ({ orderID, destinationAddress }: TransactionHashModalProps) => {
+const TransactionHashModal = ({
+  order,
+  setModalVisibility,
+  setTransactionModalVisibility,
+}: TransactionHashModalProps) => {
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => setTransactionModalVisibility(false))
+
+  const router = useRouter()
+  const { wallet_address, id } = order
   const {
     mutate: confirmOrder,
     data: confirmOrderData,
@@ -26,7 +39,10 @@ const TransactionHashModal = ({ orderID, destinationAddress }: TransactionHashMo
     <>
       <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div className="fixed top-0 w-full h-full z-30 grid place-items-center ">
-        <div className="flex flex-col relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+        <div
+          ref={ref}
+          className="flex flex-col relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+        >
           {confirmOrderLoading && (
             <div className="absolute bg-white shadow h-full w-full z-40 sm:rounded-lg top-0 left-0 flex items-center justify-center space-x-2 ">
               <svg
@@ -47,7 +63,40 @@ const TransactionHashModal = ({ orderID, destinationAddress }: TransactionHashMo
               </svg>
             </div>
           )}
-          <TransactionForm destinationAddress={destinationAddress} orderID={orderID} confirmOrder={confirmOrder} />
+          {confirmOrderData && (
+            <>
+              <div>
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                  <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                </div>
+                <div className="mt-3 text-center sm:mt-5">
+                  <div className="text-lg font-medium leading-6 text-gray-900">Confirmation Successful</div>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Your money will be deposited to your bank accoutn once Banxa verifies the transaction hash.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 sm:mt-6">
+                <button
+                  type="button"
+                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
+                  onClick={() => router.push(`/order/${id}`)}
+                >
+                  Return to order
+                </button>
+              </div>
+            </>
+          )}
+          <TransactionForm
+            destinationAddress={wallet_address}
+            orderID={id}
+            confirmOrder={confirmOrder}
+            confirmOrderError={confirmOrderError}
+            setModalVisibility={setModalVisibility}
+            setTransactionModalVisibility={setTransactionModalVisibility}
+          />
         </div>
       </div>
     </>
@@ -60,13 +109,22 @@ interface TrnsactionFormProps {
   destinationAddress: string
   orderID: string
   confirmOrder: (data: any) => void
+  confirmOrderError: any
+  setTransactionModalVisibility: (val: boolean) => void
+  setModalVisibility: (val: boolean) => void
 }
 
-const TransactionForm = ({ destinationAddress, orderID, confirmOrder }: TrnsactionFormProps) => {
+const TransactionForm = ({
+  destinationAddress,
+  orderID,
+  confirmOrder,
+  confirmOrderError,
+  setTransactionModalVisibility,
+  setModalVisibility,
+}: TrnsactionFormProps) => {
   const [acceptRisk, setAcceptRisk] = useState(false)
   const [hash, setHash] = useState<string>()
   const [walletAddress, setWalletAddress] = useState<string>()
-
   return (
     <>
       <div className="sm:flex sm:items-start">
@@ -118,6 +176,11 @@ const TransactionForm = ({ destinationAddress, orderID, confirmOrder }: Trnsacti
                 placeholder="0xb9a54a0..."
               />
             </div>
+            {confirmOrderError && (
+              <p className="mt-2 text-sm text-red-400" id="email-error">
+                We are unable to complete the order confirmation. Please contact Banxa team for support.
+              </p>
+            )}
           </div>
           <div className="relative flex items-start mt-3">
             <div className="flex h-5 items-center">
@@ -152,9 +215,10 @@ const TransactionForm = ({ destinationAddress, orderID, confirmOrder }: Trnsacti
             confirmOrder({
               tx_hash: hash,
               source_address: walletAddress,
-              destination_address: process.env.NODE_ENV
-                ? destinationAddress
-                : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
+              destination_address:
+                process.env.NODE_ENV === 'production'
+                  ? destinationAddress
+                  : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
               order_id: orderID,
             })
           }
@@ -164,41 +228,16 @@ const TransactionForm = ({ destinationAddress, orderID, confirmOrder }: Trnsacti
         <button
           disabled={!acceptRisk}
           type="button"
-          onClick={() => console.log('hee')}
+          onClick={() => {
+            setModalVisibility(true)
+            setTransactionModalVisibility(false)
+          }}
           className={classNames(
             acceptRisk ? 'bg-red-300 text-gray-900' : 'bg-red-100 text-gray-800',
             'mt-3 inline-flex w-full justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-base font-medium  shadow-sm hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm'
           )}
         >
           Continue Payment
-        </button>
-      </div>
-    </>
-  )
-}
-const ConfirmationSuccess = () => {
-  return (
-    <>
-      <div>
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
-        </div>
-        <div className="mt-3 text-center sm:mt-5">
-          <div className="text-lg font-medium leading-6 text-gray-900">Payment successful</div>
-          <div className="mt-2">
-            <p className="text-sm text-gray-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="mt-5 sm:mt-6">
-        <button
-          type="button"
-          className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
-          // onClick={() => setOpen(false)}
-        >
-          Go back to dashboard
         </button>
       </div>
     </>

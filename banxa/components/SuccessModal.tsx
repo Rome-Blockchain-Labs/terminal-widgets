@@ -1,14 +1,20 @@
 import { CheckIcon } from '@heroicons/react/solid'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useRef } from 'react'
 
-const SuccessModal = () => {
+const SuccessModal = ({ orderID }: { orderID: string }) => {
   const router = useRouter()
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => router.push(`/order/${orderID}`))
   return (
     <>
       <div className="fixed top-0 z-40 w-full h-full bg-black bg-opacity-80" />
       <div className="fixed top-0 w-full h-full z-50 flex justify-center items-center">
-        <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+        <div
+          ref={ref}
+          className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+        >
           <div>
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
               <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />

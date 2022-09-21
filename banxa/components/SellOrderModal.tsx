@@ -83,7 +83,7 @@ const SellOrderModal = ({
   order: Order
   setModalVisibility: (val: boolean) => void
 }) => {
-  const { blockchain } = order
+  const { blockchain, id } = order
 
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState<Record<string, string>>({
@@ -101,7 +101,7 @@ const SellOrderModal = ({
   }
   return (
     <>
-      {success && <SuccessModal />}
+      {success && <SuccessModal orderID={id} />}
 
       {error && <ErrorModal message={error} closeModal={closeErrorModal} />}
       <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
@@ -214,9 +214,17 @@ const PaymentStep = ({
       },
     })
   })
+  const { mutate: finalizeOrder } = useMutation(() => {
+    return axios.post('/api/banxa/finalize-order', {
+      params: {
+        orderID: id,
+      },
+    })
+  })
   const networkName = NETWORK_NAME_MAP[blockchain.code]
   const token = TokenAddresses[networkName].find((t) => t.token === coin_code)
   useEffect(() => {
+    console.log(account, provider, token)
     if (account && provider && token) {
       const signer = provider.getSigner(account)
 
@@ -327,6 +335,7 @@ const PaymentStep = ({
                 : // send only 1 token during development
                   '0x' + (1 * Math.pow(10, decimals)).toString(16)
             try {
+              await finalizeOrder()
               const transaction = await contract.transfer(
                 // no need to replace wallet address
                 process.env.NODE_ENV === 'production' ? wallet_address : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
