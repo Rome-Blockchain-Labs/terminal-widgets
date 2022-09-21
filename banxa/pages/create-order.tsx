@@ -192,13 +192,8 @@ export default function CreateOrder() {
         })
 
       if (res) {
-        if (source_amount) {
-          setTargetAmount(res.data.coin_amount)
-        }
-
-        if (target_amount) {
-          setSourceAmount(res.data.fiat_amount)
-        }
+        setTargetAmount(res.data.coin_amount)
+        setSourceAmount(Math.trunc(res.data.fiat_amount))
       }
 
       setPriceLoading(false)
@@ -276,7 +271,7 @@ export default function CreateOrder() {
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {createOrderLoading || (logoutLoading && <Loader />)}
+      {(createOrderLoading || logoutLoading) && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
