@@ -16,6 +16,7 @@ import WalletModal from 'components/WalletModal'
 import useCurrencyLists from '../hooks/useCurrencyList'
 import useSelectReducer from '../hooks/useSelectReducer'
 import useGetPrice from 'hooks/useGetPrice'
+import useGetLimits from '../hooks/usePaymentMethod'
 
 export interface FormValues {
   sourceAmount: number
@@ -71,7 +72,16 @@ export default function CreateOrder() {
   const [walletVisibility, setWalletVisibility] = useState(false)
   const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
-  const { register, handleSubmit, setValue, watch, reset } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+    setError: setFormError,
+    clearErrors,
+  } = useForm<FormValues>({
     defaultValues: {
       source: undefined,
       target: undefined,
@@ -79,9 +89,13 @@ export default function CreateOrder() {
       target_amount: undefined,
     },
   })
+
   const [error, setError] = useState<string>()
   const resetForm = () => {
     reset()
+    if (account) {
+      setValue('wallet_address', account)
+    }
     setError(undefined)
   }
 
@@ -97,15 +111,15 @@ export default function CreateOrder() {
     },
     [setValue]
   )
-  const source = watch('source')
-  const sourceAmount = watch('source_amount')
-  const targetAmount = watch('target_amount')
   const setSource = useCallback(
     (value: string) => {
       setValue('source', value)
     },
     [setValue]
   )
+  const source = watch('source')
+  const sourceAmount = watch('source_amount')
+  const targetAmount = watch('target_amount')
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
 
   const closeCurrencyModal = () => {
@@ -144,9 +158,12 @@ export default function CreateOrder() {
     setCurrencyChange
   )
 
+  // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
+  useGetLimits({ source, target, sourceAmount, setFormError, clearErrors })
   useEffect(() => {
     if (createOrderError) {
-      setError('Unable to create an order. Please try again later or visit www.banxa.com')
+      //@ts-ignore
+      setError(createOrderError.response.data.data.errors.title)
     }
     if (fiatBuyListError || tokenBuyListError || fiatSellListError || tokenSellListError) {
       setError('Unable to get currency lists. Please try again later')
@@ -194,6 +211,7 @@ export default function CreateOrder() {
   if (!tokenBuyList || !tokenSellList || !fiatBuyList || !fiatSellList) {
     return <Loader />
   }
+
   return (
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
@@ -273,7 +291,7 @@ export default function CreateOrder() {
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
                 <input
-                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl focus:ring-0"
                   type="number"
                   placeholder="Enter amount"
                   step="any"
@@ -299,6 +317,11 @@ export default function CreateOrder() {
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
+              {errors && (
+                <p className="mt-2 text-sm text-red-400" id="email-error">
+                  {errors.source_amount?.message}
+                </p>
+              )}
             </div>
 
             <div className="mt-3">
@@ -309,7 +332,7 @@ export default function CreateOrder() {
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
                 <input
-                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl"
+                  className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl focus:ring-0"
                   type="number"
                   placeholder="Enter amount"
                   step="any"
@@ -348,8 +371,20 @@ export default function CreateOrder() {
                     className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
                     type="text"
                     placeholder="Click the connect wallet button below"
-                    {...register('wallet_address', { required: true, maxLength: 100 })}
+                    {...register('wallet_address', {
+                      required: true,
+                      maxLength: 100,
+                      pattern: {
+                        value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
+                        message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
+                      },
+                    })}
                   />
+                  {errors && (
+                    <p className="mt-2 text-sm text-red-400" id="email-error">
+                      {errors.wallet_address?.message}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -364,26 +399,41 @@ export default function CreateOrder() {
                     className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
                     type="text"
                     placeholder="Click the connect wallet button below"
-                    {...register('refund_address', { required: true, maxLength: 100 })}
+                    {...register('refund_address', {
+                      required: true,
+                      maxLength: 100,
+                      pattern: {
+                        value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
+                        message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
+                      },
+                    })}
                   />
+                  {errors && (
+                    <p className="mt-2 text-sm text-red-400" id="email-error">
+                      {errors.wallet_address?.message}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
 
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button
+                disabled={target === 'BTC'}
                 type="button"
                 onClick={() => setWalletVisibility(true)}
-                className="rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white bg-gradient-to-r from-[#0573C1]  to-[#01C2C1] md:text-2xl"
+                className={classNames(
+                  target === 'BTC' ? 'bg-gray-300' : 'bg-gradient-to-r from-[#0573C1]  to-[#01C2C1]',
+                  'rounded-full h-full text-sm wg:text-base px-2 w-1/3 max-w-sm text-white  md:text-2xl'
+                )}
               >
                 {buttonText}
               </button>
-
               <button
                 type="submit"
-                disabled={priceLoading}
+                disabled={priceLoading || !!errors.source_amount}
                 className={classNames(
-                  priceLoading
+                  priceLoading || errors.source_amount
                     ? 'border-gray-300 text-gray-600 font-light '
                     : 'border-[#01C2C1]   text-black font-bold',
                   'text-sm wg:text-base rounded-full border  h-full px-2 w-1/3 max-w-sm md:text-2xl'

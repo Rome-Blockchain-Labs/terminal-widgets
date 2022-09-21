@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Loader from 'components/Loader'
 import { useMutation } from '@tanstack/react-query'
@@ -21,6 +21,7 @@ const ForgotPassword: NextPage = ({ resetToken }: any) => {
       },
     })
   })
+  const [showModal, setShowmModal] = useState(false)
 
   const {
     register,
@@ -40,10 +41,15 @@ const ForgotPassword: NextPage = ({ resetToken }: any) => {
       router.push('/')
     }
   }, [resetToken, router])
+  useEffect(() => {
+    if (data) {
+      setShowmModal(true)
+    }
+  }, [data])
 
   return (
     <>
-      {data && <AuthModal />}
+      {showModal && <AuthModal setShowModal={setShowmModal} />}
       {error && <ErrorModal message={error?.response?.data as string} />}
       {isLoading && <Loader />}
       <div className="h-full w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg">

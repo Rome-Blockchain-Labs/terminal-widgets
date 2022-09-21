@@ -68,17 +68,12 @@ const useGetPrice = (
       if (res) {
         if (source_amount) {
           if (order === 'BUY') {
-            setTargetAmount(res.data.data.prices[0].coin_amount)
+            setSourceAmount(Math.trunc(res.data.fiat_amount))
+            setTargetAmount(res.data.coin_amount)
           } else {
-            setTargetAmount(res.data.data.prices[0].fiat_amount)
-          }
-        }
+            setTargetAmount(Math.trunc(res.data.fiat_amount))
 
-        if (target_amount) {
-          if (order === 'BUY') {
-            setSourceAmount(res.data.data.prices[0].fiat_amount)
-          } else {
-            setSourceAmount(res.data.data.prices[0].coin_amount)
+            setSourceAmount(res.data.coin_amount)
           }
         }
       }

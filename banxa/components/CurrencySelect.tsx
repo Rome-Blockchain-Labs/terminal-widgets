@@ -21,12 +21,12 @@ interface Props {
 }
 
 const CurrencySelect = ({
+  type,
   selectedCurrency,
   setCurrency,
   closeModal,
   currencyList,
   setCurrencyChange,
-  type,
 }: Props) => {
   const [searchText, setSearchText] = useState<string>('')
   const [displayList, setDisplayList] = useState<Currency[]>()
