@@ -327,15 +327,12 @@ export default function CreateOrder() {
                   You Receive
                 </label>
                 <div className="ml-1 flex self-start">
-                  <a
-                    href="#"
-                    className="group relative inline-block text-blue-500 underline hover:text-blue-800 duration-300"
-                  >
+                  <div className="group relative inline-block text-gray-500 underline hover:text-gray-800 duration-300">
                     <ExclamationCircleIcon className="h-5 w-5" />
                     <span className="absolute hidden group-hover:flex -top-[13px] -right-3 translate-x-full w-48 p-2 bg-gray-500 rounded-lg text-center text-white text-xs ">
                       Receive amount may change depending on transaction fees
                     </span>
-                  </a>
+                  </div>
                 </div>
               </div>
               <div
