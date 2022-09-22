@@ -3,7 +3,7 @@ import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
 import useDebounce from '../hooks/debounce'
@@ -340,9 +340,19 @@ export default function CreateOrder() {
             </div>
 
             <div className="mt-3">
-              <label htmlFor="source" className="block  font-medium text-black  ">
-                You Receive
-              </label>
+              <div className="flex items-center">
+                <label htmlFor="source" className="block  font-medium text-black  ">
+                  You Receive
+                </label>
+                <div className="ml-1 flex self-start">
+                  <div className="group relative inline-block text-gray-500 underline hover:text-gray-800 duration-300">
+                    <ExclamationCircleIcon className="h-5 w-5" />
+                    <span className="absolute hidden group-hover:flex -top-[13px] -right-3 translate-x-full w-48 p-2 bg-gray-500 rounded-lg text-center text-white text-xs ">
+                      Receive amount may change depending on transaction fees
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >

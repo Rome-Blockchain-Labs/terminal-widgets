@@ -12,6 +12,9 @@ function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const isLogin = !!getCookie('banxa')
   useEffect(() => {
+    if (router.pathname === '/privacy-policy' || router.pathname === '/terms-of-use') {
+      return
+    }
     if (router.pathname !== '/forgot-password' && router.pathname !== '/reset-password' && !isLogin) {
       router.push('/')
     }
