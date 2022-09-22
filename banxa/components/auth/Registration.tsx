@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
@@ -182,7 +183,14 @@ const Registration = ({
           </div>
           <div className="ml-3 text-sm">
             <span id="comments-description" className="text-white">
-              I agree to receive promotional e-mails from Rome Blockchain Labs
+              I accept the{' '}
+              <Link href="/terms-of-use">
+                <span className="text-blue-300 cursor-pointer">Terms of Service </span>
+              </Link>
+              and have read the
+              <Link href="/privacy-policy">
+                <span className="text-blue-300 cursor-pointer"> Privacy Policy</span>
+              </Link>
             </span>
           </div>
         </div>
