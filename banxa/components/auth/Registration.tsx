@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
@@ -24,6 +25,7 @@ const Registration = ({
     repeatPassword: string
     banxaPromotion: boolean
     RBLPromotion: boolean
+    terms: boolean
   }>({
     defaultValues: {
       email: '',
@@ -31,6 +33,7 @@ const Registration = ({
       repeatPassword: '',
       banxaPromotion: false,
       RBLPromotion: false,
+      terms: false,
     },
   })
 
@@ -170,6 +173,32 @@ const Registration = ({
           </div>
         </div>
 
+        <div className="relative flex items-start mt-2">
+          <div className="flex h-5 items-center">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              {...register('terms', { required: 'Please accept terms and conditions to proceed' })}
+            />
+          </div>
+          <div className="ml-3 text-sm">
+            <span id="comments-description" className="text-white">
+              I accept the{' '}
+              <Link href="/terms-of-use">
+                <span className="text-blue-300 cursor-pointer">Terms of Service </span>
+              </Link>
+              and have read the
+              <Link href="/privacy-policy">
+                <span className="text-blue-300 cursor-pointer"> Privacy Policy</span>
+              </Link>
+            </span>
+          </div>
+        </div>
+        {errors && (
+          <p className="mt-2 text-sm text-red-400" id="email-error">
+            {errors.terms?.message}
+          </p>
+        )}
         <button
           type="submit"
           className="font-bold mt-[11px] h-[47px] w-full rounded-md bg-gradient-to-r from-[#0472c0] to-[#00d1c0] "
