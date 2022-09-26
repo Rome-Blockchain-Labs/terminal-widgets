@@ -22,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res,
         maxAge: 60 * 60 * 24,
         sameSite: 'none',
-        secure: true,
       })
       setCookie('account_reference', account_reference, {
         req,
