@@ -66,7 +66,7 @@ const Order = () => {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md sm:pt-4 overflow-auto flex justify-center relative ">
+        <section className="mt-2 grow bg-white rounded-md sm:pt-4 overflow-auto flex justify-center scrollbar-thin scrollbar-thumb-gray-700">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg max-w-6xl w-full flex flex-col pt-4">
             <button onClick={() => router.push('/orders')} className="flex items-center text-sm pb-2">
               <ChevronLeftIcon className="w-5 h-5 ml-2" />

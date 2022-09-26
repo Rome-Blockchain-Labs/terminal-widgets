@@ -17,6 +17,7 @@ import useCurrencyLists from '../hooks/useCurrencyList'
 import useSelectReducer from '../hooks/useSelectReducer'
 import useGetPrice from 'hooks/useGetPrice'
 import useGetLimits from '../hooks/usePaymentMethod'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 export interface FormValues {
   sourceAmount: number
@@ -66,6 +67,7 @@ export default function CreateOrder() {
     tokenSellList,
     tokenSellListError,
   } = useCurrencyLists()
+  const { setIsLoggedIn } = useAuthContext()
 
   const {
     mutate: createOrder,
@@ -79,14 +81,6 @@ export default function CreateOrder() {
         return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
       },
     })
-  })
-
-  const {
-    mutate: logout,
-    data: logoutData,
-    isLoading: logoutLoading,
-  } = useMutation(() => {
-    return axios.post('/api/logout')
   })
 
   const resetForm = () => {
@@ -192,19 +186,6 @@ export default function CreateOrder() {
     }
   }, [account, order, setValue])
 
-  useEffect(() => {
-    if (logoutData) {
-      router.push('/')
-    }
-  }, [logoutData, router])
-
-  useEffect(() => {
-    if (!source && !target && tokenBuyList && fiatBuyList) {
-      setSource(fiatBuyList[0].code)
-      setTarget(tokenBuyList[0].code)
-    }
-  }, [fiatBuyList, setSource, setTarget, source, target, tokenBuyList])
-
   if (!tokenBuyList || !tokenSellList || !fiatBuyList || !fiatSellList) {
     return <Loader />
   }
@@ -213,7 +194,7 @@ export default function CreateOrder() {
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {(createOrderLoading || logoutLoading) && <Loader />}
+      {createOrderLoading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {visible && (
         <CurrencySelect
@@ -272,7 +253,7 @@ export default function CreateOrder() {
               <button
                 type="button"
                 className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                onClick={() => logout()}
+                onClick={() => setIsLoggedIn('false')}
               >
                 Logout
               </button>

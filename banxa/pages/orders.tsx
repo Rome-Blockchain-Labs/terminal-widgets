@@ -53,7 +53,7 @@ export default function Orders() {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md py-4 overflow-auto flex justify-center">
+        <section className="mt-2 grow bg-white rounded-md py-4 overflow-auto flex justify-center scrollbar-thin scrollbar-thumb-gray-700">
           <div className="px-4 sm:px-6 lg:px-8 max-w-6xl w-full">
             <button onClick={() => router.push('/create-order')} className="flex items-center -mx-4 text-sm">
               <ChevronLeftIcon className="w-5 h-5 ml-2" />
