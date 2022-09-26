@@ -21,13 +21,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         req,
         res,
         maxAge: 60 * 60 * 24,
+        sameSite: 'none',
+        secure: true,
       })
       setCookie('account_reference', account_reference, {
         req,
         res,
         httpOnly: true,
         maxAge: 60 * 60 * 24,
-        sameSite: 'lax',
+        sameSite: 'none',
+        secure: true,
       })
       res.status(200).send('login success')
     } else {
