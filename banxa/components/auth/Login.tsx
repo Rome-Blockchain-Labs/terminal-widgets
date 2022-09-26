@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { useAuthContext } from 'hooks/useAuthContext'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
@@ -22,7 +23,7 @@ const Login = ({
       password: '',
     },
   })
-
+  const { setIsLoggedIn } = useAuthContext()
   const onSubmit = handleSubmit(async (formData) => {
     setLoading(true)
     try {
@@ -32,7 +33,7 @@ const Login = ({
           password: formData.password,
         },
       })
-
+      setIsLoggedIn('true')
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {

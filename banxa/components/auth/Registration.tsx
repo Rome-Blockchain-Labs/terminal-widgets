@@ -3,6 +3,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 const Registration = ({
   setIsLogin,
@@ -37,6 +38,8 @@ const Registration = ({
     },
   })
 
+  const { setIsLoggedIn } = useAuthContext()
+
   const onSubmit = handleSubmit(async (formData) => {
     setLoading(true)
     try {
@@ -48,7 +51,7 @@ const Registration = ({
           RBLPromotion: formData.RBLPromotion,
         },
       })
-
+      setIsLoggedIn('true')
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {

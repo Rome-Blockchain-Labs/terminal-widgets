@@ -15,6 +15,7 @@ import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
 import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 interface FormValues {
   sourceAmount: number
@@ -27,6 +28,7 @@ interface FormValues {
 }
 
 export default function CreateOrder() {
+  const { setIsLoggedIn } = useAuthContext()
   const { data: fiatBuyList, error: fiatBuyListError } = useQuery(
     ['fiatBuyData'],
     async () => {
@@ -62,14 +64,6 @@ export default function CreateOrder() {
         return_url_on_success: process.env.NEXT_PUBLIC_RETURN_URL_ON_SUCCESS,
       },
     })
-  })
-
-  const {
-    mutate: logout,
-    data: logoutData,
-    isLoading: logoutLoading,
-  } = useMutation(() => {
-    return axios.post('/api/logout')
   })
 
   const { wg } = useResponsive()
@@ -248,12 +242,6 @@ export default function CreateOrder() {
   }, [account, setValue])
 
   useEffect(() => {
-    if (logoutData) {
-      router.push('/')
-    }
-  }, [logoutData, router])
-
-  useEffect(() => {
     if (lowLimit && highLimit && sourceAmount) {
       if (sourceAmount > highLimit) {
         setFormError('source_amount', { type: 'custom', message: `Source amount should be less than ${highLimit}` })
@@ -271,7 +259,7 @@ export default function CreateOrder() {
     <>
       {checkoutURL && <RedirectModal setCheckoutURL={setCheckoutURL} checkoutURL={checkoutURL} />}
       {error && <ErrorModal message={error} closeModal={resetForm} />}
-      {(createOrderLoading || logoutLoading) && <Loader />}
+      {createOrderLoading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
       {selectCurrencyType && (
         <CurrencySelect
@@ -301,7 +289,7 @@ export default function CreateOrder() {
             <button
               type="button"
               className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              onClick={() => logout()}
+              onClick={() => setIsLoggedIn('false')}
             >
               Logout
             </button>

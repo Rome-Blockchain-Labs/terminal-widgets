@@ -17,12 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { password } = data
     const validPassword = await bcrypt.compare(req.body.params.password, password)
     if (validPassword) {
-      setCookie('banxa', 'true', {
-        req,
-        res,
-        maxAge: 60 * 60 * 24,
-        sameSite: 'none',
-      })
       setCookie('account_reference', account_reference, {
         req,
         res,

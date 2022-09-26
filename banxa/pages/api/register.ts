@@ -22,12 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       RBLPromotion: req.body.params.RBLPromotion,
     })
 
-    // used as a check that the user is logged in because account_refrence isnt acccessible using client side js
-    setCookie('banxa', 'true', {
-      req,
-      res,
-      maxAge: 60 * 60 * 24,
-    })
     //makes sure the account_reference can only be used within romterminal domain
     setCookie('account_reference', account_reference, {
       req,
