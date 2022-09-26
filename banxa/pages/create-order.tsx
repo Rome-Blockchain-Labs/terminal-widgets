@@ -289,7 +289,7 @@ export default function CreateOrder() {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
+        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto scrollbar-thin scrollbar-thumb-gray-700">
           <div className="mt-4 grow flex flex-shrink-0 md:mt-0 md:ml-4 justify-end">
             <button
               type="button"
