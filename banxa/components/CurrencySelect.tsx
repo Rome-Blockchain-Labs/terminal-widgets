@@ -20,9 +20,14 @@ interface Props {
   setCurrencyChange: (val: boolean) => void
 }
 
-const type = 'CRYPTO'
-
-const CurrencySelect = ({ selectedCurrency, setCurrency, closeModal, currencyList, setCurrencyChange }: Props) => {
+const CurrencySelect = ({
+  type,
+  selectedCurrency,
+  setCurrency,
+  closeModal,
+  currencyList,
+  setCurrencyChange,
+}: Props) => {
   const [searchText, setSearchText] = useState<string>('')
   const [displayList, setDisplayList] = useState<Currency[]>()
   const debouncedValue = useDebounce<string>(searchText, 500)

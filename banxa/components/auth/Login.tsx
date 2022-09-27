@@ -1,13 +1,15 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { AUTH_STATUS } from 'Context/AuthContext'
+import { useAuthContext } from 'hooks/useAuthContext'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 const Login = ({
-  setIsLogin,
+  setIsLoginPage,
   setLoading,
 }: {
-  setIsLogin: (val: boolean) => void
+  setIsLoginPage: (val: boolean) => void
   setLoading: (val: boolean) => void
 }) => {
   const router = useRouter()
@@ -22,7 +24,7 @@ const Login = ({
       password: '',
     },
   })
-
+  const { setIsLoggedIn } = useAuthContext()
   const onSubmit = handleSubmit(async (formData) => {
     setLoading(true)
     try {
@@ -32,17 +34,11 @@ const Login = ({
           password: formData.password,
         },
       })
-
+      setIsLoggedIn(AUTH_STATUS.LOGGED_IN)
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {
-      if (error.response.data.error === 'password') {
-        setError('password', { type: 'custom', message: 'Invalid password' })
-      }
-      if (error.response.data.error === 'user') {
-        setError('email', { type: 'custom', message: 'User doesnt exist' })
-      }
-
+      setError('email', { type: 'custom', message: 'Email or password is invalid' })
       setLoading(false)
     }
   })
@@ -84,7 +80,10 @@ const Login = ({
             placeholder="Enter your password"
             {...register('password', {
               required: 'Password is required',
-              minLength: 8,
+              minLength: {
+                value: 8,
+                message: 'Password should be at least 8 characters',
+              },
             })}
           />
           {errors && errors.password && (
@@ -105,12 +104,15 @@ const Login = ({
           Continue
         </button>
       </form>
-
-      <button onClick={() => setIsLogin(false)} className="mt-4 text-base">
-        No Account? Sign up here
+      <button
+        onClick={() => router.push('/forgot-password')}
+        className="mt-2 text-sm hover:underline  text-left underline-offset-4"
+      >
+        Forgot your password?
       </button>
-
-      <button className="mt-2 text-sm">Forgot your password?</button>
+      <button onClick={() => setIsLoginPage(false)} className="mt-4 text-base hover:underline  underline-offset-4">
+        No RBL Account? Sign-Up Here
+      </button>
     </>
   )
 }
