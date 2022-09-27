@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { AUTH_STATUS } from 'Context/AuthContext'
 
 const Home: NextPage = () => {
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLoginPage, setIsLoginPage] = useState(true)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const { isLoggedIn } = useAuthContext()
@@ -28,10 +28,10 @@ const Home: NextPage = () => {
         <div className="my-3 w-full h-[1px]  bg-gradient-to-r from-[#d9d9d9] via-[#d9d9d9] to-[#d9d9d9]/0" />
         <div className="flex flex-col justify-center">
           <div className="mt-[8%] flex flex-col w-[346px] ">
-            {isLogin ? (
-              <Login setIsLogin={setIsLogin} setLoading={setLoading} />
+            {isLoginPage ? (
+              <Login setIsLoginPage={setIsLoginPage} setLoading={setLoading} />
             ) : (
-              <Registration setLoading={setLoading} setIsLogin={setIsLogin} />
+              <Registration setLoading={setLoading} setIsLoginPage={setIsLoginPage} />
             )}
           </div>
         </div>

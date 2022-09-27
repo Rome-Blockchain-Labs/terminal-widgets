@@ -7,10 +7,10 @@ import { useForm } from 'react-hook-form'
 import { useAuthContext } from '../../hooks/useAuthContext'
 
 const Registration = ({
-  setIsLogin,
+  setIsLoginPage,
   setLoading,
 }: {
-  setIsLogin: (val: boolean) => void
+  setIsLoginPage: (val: boolean) => void
 
   setLoading: (val: boolean) => void
 }) => {
@@ -217,7 +217,7 @@ const Registration = ({
       >
         Forgot your password?
       </button>
-      <button onClick={() => setIsLogin(true)} className="mt-4 text-base hover:underline  underline-offset-4">
+      <button onClick={() => setIsLoginPage(true)} className="mt-4 text-base hover:underline  underline-offset-4">
         Have an RBL Account? Login here
       </button>
     </>
