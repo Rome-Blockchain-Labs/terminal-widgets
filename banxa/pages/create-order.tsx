@@ -16,6 +16,7 @@ import Loader from 'components/Loader'
 import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
 import { useAuthContext } from '../hooks/useAuthContext'
+import { AUTH_STATUS } from 'Context/AuthContext'
 
 interface FormValues {
   sourceAmount: number
@@ -289,7 +290,7 @@ export default function CreateOrder() {
             <button
               type="button"
               className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              onClick={() => setIsLoggedIn('false')}
+              onClick={() => setIsLoggedIn(AUTH_STATUS.LOGGGED_OUT)}
             >
               Logout
             </button>

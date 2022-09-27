@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useRouter } from 'next/router'
+import { AUTH_STATUS } from 'Context/AuthContext'
 
 interface Props {
   children: ReactNode
@@ -14,7 +15,11 @@ export default function Layout({ children }: Props) {
     if (router.pathname === '/privacy-policy' || router.pathname === '/terms-of-use') {
       return
     }
-    if (router.pathname !== '/forgot-password' && router.pathname !== '/reset-password' && isLoggedIn === 'false') {
+    if (
+      router.pathname !== '/forgot-password' &&
+      router.pathname !== '/reset-password' &&
+      isLoggedIn === AUTH_STATUS.LOGGGED_OUT
+    ) {
       router.push('/')
     }
   }, [isLoggedIn, router])

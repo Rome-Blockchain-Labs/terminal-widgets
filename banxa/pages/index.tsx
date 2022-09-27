@@ -3,18 +3,19 @@ import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import Registration from '../components/auth/Registration'
 import Login from 'components/auth/Login'
-import { getCookie } from 'cookies-next'
-import { useRouter } from 'next/router'
 import Loader from 'components/Loader'
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useRouter } from 'next/router'
+import { AUTH_STATUS } from 'Context/AuthContext'
 
 const Home: NextPage = () => {
   const [isLogin, setIsLogin] = useState(true)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const { isLoggedIn } = useAuthContext()
 
-  const isLoggedIn = !!getCookie('banxa')
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn === AUTH_STATUS.LOGGED_IN) {
       router.push('/create-order')
     }
   }, [isLoggedIn, router])

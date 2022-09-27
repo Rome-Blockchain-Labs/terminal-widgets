@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { AUTH_STATUS } from 'Context/AuthContext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -51,7 +52,7 @@ const Registration = ({
           RBLPromotion: formData.RBLPromotion,
         },
       })
-      setIsLoggedIn('true')
+      setIsLoggedIn(AUTH_STATUS.LOGGED_IN)
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {
