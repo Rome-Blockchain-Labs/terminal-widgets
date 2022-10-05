@@ -21,7 +21,7 @@ steps:
       - '--build-arg'
       - 'SENDGRID_API_KEY=${_SENDGRID_API_KEY}'
       # folder name for context
-      - '$TRIGGER_NAME/'
+      - 'banxa/'
   - name: gcr.io/cloud-builders/docker
     args:
       - push

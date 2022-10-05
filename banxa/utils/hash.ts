@@ -14,5 +14,5 @@ export function stringToHash(string: string) {
     hash = hash & hash
   }
 
-  return hash
+  return Math.abs(hash)
 }

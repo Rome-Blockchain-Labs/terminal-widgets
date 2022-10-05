@@ -3,7 +3,6 @@ import axios from 'axios'
 import OrderStatus from 'components/OrderStatus'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useAppContext } from '../context/AppProvider'
 import { ORDER_STATUS } from '../components/Transaction'
 import { useRouter } from 'next/router'
 import Loader from '../components/Loader'
@@ -13,7 +12,6 @@ const oneYearAgo = dayjs().subtract(1, 'year').format('YYYY-MM-DD')
 const today = dayjs().add(1, 'day').format('YYYY-MM-DD')
 
 export default function Orders() {
-  const { accountReference } = useAppContext()
   const [orders, setOrders] = useState<Order[]>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -32,7 +30,6 @@ export default function Orders() {
             start_date: oneYearAgo,
             end_date: today,
             per_page: 50,
-            account_reference: accountReference,
           },
         })
         .catch(() => setError('Unable to fetch orders. Please try again later'))
@@ -42,7 +39,7 @@ export default function Orders() {
       }
     }
     fetchOrders()
-  }, [accountReference])
+  }, [])
 
   if (loading) {
     return <Loader />
@@ -56,7 +53,7 @@ export default function Orders() {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md py-4 overflow-auto flex justify-center">
+        <section className="mt-2 grow bg-white rounded-md py-4 overflow-auto flex justify-center scrollbar-thin scrollbar-thumb-gray-700">
           <div className="px-4 sm:px-6 lg:px-8 max-w-6xl w-full">
             <button onClick={() => router.push('/create-order')} className="flex items-center -mx-4 text-sm">
               <ChevronLeftIcon className="w-5 h-5 ml-2" />
