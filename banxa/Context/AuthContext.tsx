@@ -1,18 +1,22 @@
-import React, { createContext, ReactNode, useEffect } from 'react'
+import React, { createContext, ReactNode } from 'react'
 import useLocalStorage from 'utils/useLocalStorage'
-import { useRouter } from 'next/router'
+
+export enum AUTH_STATUS {
+  LOGGED_IN = 'logged-in',
+  LOGGGED_OUT = 'logged-out',
+}
 
 interface IAuthContext {
-  isLoggedIn: string
-  setIsLoggedIn: (val: string) => void
+  isLoggedIn: AUTH_STATUS
+  setIsLoggedIn: (val: AUTH_STATUS) => void
 }
 export const AuthContext = createContext<IAuthContext>({
-  isLoggedIn: 'false',
+  isLoggedIn: AUTH_STATUS.LOGGGED_OUT,
   setIsLoggedIn: () => {},
 })
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('loggedin', 'false')
+  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('loggedin', AUTH_STATUS.LOGGGED_OUT)
 
   const context = {
     isLoggedIn,

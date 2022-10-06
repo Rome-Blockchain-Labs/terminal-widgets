@@ -1,14 +1,15 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { AUTH_STATUS } from 'Context/AuthContext'
 import { useAuthContext } from 'hooks/useAuthContext'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 const Login = ({
-  setIsLogin,
+  setIsLoginPage,
   setLoading,
 }: {
-  setIsLogin: (val: boolean) => void
+  setIsLoginPage: (val: boolean) => void
   setLoading: (val: boolean) => void
 }) => {
   const router = useRouter()
@@ -33,7 +34,7 @@ const Login = ({
           password: formData.password,
         },
       })
-      setIsLoggedIn('true')
+      setIsLoggedIn(AUTH_STATUS.LOGGED_IN)
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {
@@ -109,7 +110,7 @@ const Login = ({
       >
         Forgot your password?
       </button>
-      <button onClick={() => setIsLogin(false)} className="mt-4 text-base hover:underline  underline-offset-4">
+      <button onClick={() => setIsLoginPage(false)} className="mt-4 text-base hover:underline  underline-offset-4">
         No RBL Account? Sign-Up Here
       </button>
     </>
