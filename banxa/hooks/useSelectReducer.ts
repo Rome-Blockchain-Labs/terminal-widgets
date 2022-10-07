@@ -33,9 +33,7 @@ const useSelectReducer = (
   const reducer = (state: SelectReducerState, action: any) => {
     switch (action.type) {
       case 'CLOSE_SELECT':
-        return {
-          ...initialState,
-        }
+        return initialState
       case 'OPEN_BUY_LIST':
         if (action.selectCurrencyType === 'CRYPTO') {
           return {

@@ -2,25 +2,23 @@ import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { FormValues } from 'pages/create-order'
-import { UseFormSetError, UseFormClearErrors } from 'react-hook-form'
+import { UseFormSetError, UseFormClearErrors, UseFormWatch } from 'react-hook-form'
 
 const useGetLimits = ({
   type,
-  source,
-  target,
-  sourceAmount,
-  targetAmount,
   setFormError,
   clearErrors,
+  watch,
 }: {
   type: string
-  source: string | undefined
-  target: string | undefined
-  sourceAmount: number | undefined
-  targetAmount: number | undefined
   setFormError: UseFormSetError<FormValues>
   clearErrors: UseFormClearErrors<FormValues>
+  watch: UseFormWatch<FormValues>
 }) => {
+  const source = watch('source')
+  const sourceAmount = watch('source_amount')
+  const targetAmount = watch('target_amount')
+  const target = watch('target')
   const { data: paymentMethods } = useQuery(
     ['paymentMethoData', source, target],
     async () => {

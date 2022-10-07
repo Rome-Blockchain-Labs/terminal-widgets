@@ -36,8 +36,20 @@ export default function CreateOrder() {
   const { wg } = useResponsive()
   const router = useRouter()
   const [walletVisibility, setWalletVisibility] = useState(false)
-  const [currencyChange, setCurrencyChange] = useState(false)
   const { account } = useWeb3React()
+
+  //Requests for list of token and fiat currencies tradeable in Banxa
+  const {
+    fiatBuyList,
+    fiatBuyListError,
+    fiatSellList,
+    fiatSellListError,
+    tokenBuyList,
+    tokenBuyListError,
+    tokenSellList,
+    tokenSellListError,
+  } = useCurrencyLists()
+
   const {
     register,
     handleSubmit,
@@ -57,17 +69,6 @@ export default function CreateOrder() {
   })
   const [error, setError] = useState<string>()
 
-  //Requests for list of token and fiat currencies tradeable in Banxa
-  const {
-    fiatBuyList,
-    fiatBuyListError,
-    fiatSellList,
-    fiatSellListError,
-    tokenBuyList,
-    tokenBuyListError,
-    tokenSellList,
-    tokenSellListError,
-  } = useCurrencyLists()
   const { setIsLoggedIn } = useAuthContext()
 
   const {
@@ -97,7 +98,6 @@ export default function CreateOrder() {
     if (order === 'SELL') delete data.wallet_address
     createOrder(data)
   }
-  const target = watch('target')
   const setTarget = useCallback(
     (value: string) => {
       setValue('target', value)
@@ -110,16 +110,14 @@ export default function CreateOrder() {
     },
     [setValue]
   )
+
   const source = watch('source')
-  const sourceAmount = watch('source_amount')
-  const targetAmount = watch('target_amount')
-  const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
+  const target = watch('target')
 
   const closeCurrencyModal = () => {
     dispatch({ type: 'CLOSE_SELECT' })
   }
   const [buttonText, setButtonText] = useState('')
-  const [priceLoading, setPriceLoading] = useState(false)
   const [checkoutURL, setCheckoutURL] = useState<string>()
 
   //Enables selecting of a token or fiat from the drop down selections
@@ -134,25 +132,14 @@ export default function CreateOrder() {
     source
   )
 
-  // fetches the price for source amount and target from banxa whenever the debounce value of the input fields changes
-  useGetPrice(
-    setValue,
-    priceLoading,
-    setPriceLoading,
-    source,
-    target,
-    setError,
-    order,
-    setAmountInput,
-    amountInput,
-    sourceAmount,
-    targetAmount,
-    currencyChange,
-    setCurrencyChange
-  )
-
   // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
-  useGetLimits({ source, target, sourceAmount, setFormError, clearErrors, type: order, targetAmount })
+  useGetLimits({ setFormError, clearErrors, type: order, watch })
+
+  // fetches the price for source amount and target from banxa whenever the debounce value of the input fields changes
+  const { setCurrencyChange, priceLoading, setAmountInput } = useGetPrice(setValue, setError, order, watch)
+
+  const listsLoaded = tokenBuyList && tokenSellList && fiatBuyList && fiatSellList
+
   useEffect(() => {
     if (createOrderError) {
       //@ts-ignore
@@ -187,7 +174,14 @@ export default function CreateOrder() {
     }
   }, [account, order, setValue])
 
-  if (!tokenBuyList || !tokenSellList || !fiatBuyList || !fiatSellList) {
+  useEffect(() => {
+    if (listsLoaded) {
+      setSource(fiatBuyList[0].code)
+      setTarget(tokenBuyList[0].code)
+    }
+  }, [fiatBuyList, listsLoaded, setSource, setTarget, tokenBuyList])
+
+  if (!listsLoaded) {
     return <Loader />
   }
 
@@ -216,7 +210,7 @@ export default function CreateOrder() {
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
           <div className="flex  text-[#1D3E52] relative items-stretch">
             <div className="grow text-base text-medium">
-              {tokenSellList.length > 0 && (
+              {listsLoaded && (
                 <div className="h-full rounded-md  border  mx-auto flex max-w-lg ">
                   <button
                     onClick={() => {

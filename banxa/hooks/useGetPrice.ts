@@ -1,24 +1,24 @@
 import axios from 'axios'
 import { FormValues } from 'pages/create-order'
-import { useCallback, useEffect } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
+import { useCallback, useEffect, useState } from 'react'
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import useDebounce from './debounce'
 
 const useGetPrice = (
   setValue: UseFormSetValue<FormValues>,
-  priceLoading: boolean,
-  setPriceLoading: (val: boolean) => void,
-  source: string | undefined,
-  target: string | undefined,
   setError: (val: string | undefined) => void,
   order: string,
-  setAmountInput: (val: 'SOURCE' | 'TARGET' | undefined) => void,
-  amountInput: 'SOURCE' | 'TARGET' | undefined,
-  sourceAmount: number | undefined,
-  targetAmount: number | undefined,
-  currencyChange: boolean,
-  setCurrencyChange: (val: boolean) => void
+  watch: UseFormWatch<FormValues>
 ) => {
+  const source = watch('source')
+  const sourceAmount = watch('source_amount')
+  const targetAmount = watch('target_amount')
+  const target = watch('target')
+
+  const [currencyChange, setCurrencyChange] = useState<boolean>(false)
+
+  const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
+  const [priceLoading, setPriceLoading] = useState(false)
   const debouncedSourceAmount = useDebounce(sourceAmount, 500)
   const debouncedTargetAmount = useDebounce(targetAmount, 500)
 
@@ -30,6 +30,8 @@ const useGetPrice = (
       const setTargetAmount = (value: number) => {
         setValue('target_amount', value)
       }
+
+      //if block is called whenever the form inputs are cleared
       if (!!source_amount === false && !!target_amount === false) {
         setValue('source_amount', undefined)
         setValue('target_amount', undefined)
@@ -98,6 +100,7 @@ const useGetPrice = (
       setCurrencyChange(false)
     }
   }, [currencyChange, debouncedSourceAmount, debouncedTargetAmount, getPrices, setCurrencyChange, source, target])
+  return { setCurrencyChange, priceLoading, setPriceLoading, amountInput, setAmountInput }
 }
 
 export default useGetPrice
