@@ -82,7 +82,7 @@ const generateHTML = ({
       <tr style="background: black">
         <td align="center">
             <img
-              src="https://storage.googleapis.com/rometerminal-prod-lander/assets/images/header-email.png"
+              src="${process.env.BASE_URL}/header-email.png"
               alt="RBL Logo"
               width="100%"
               height="auto"

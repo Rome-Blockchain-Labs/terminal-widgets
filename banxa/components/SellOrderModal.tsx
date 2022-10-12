@@ -154,9 +154,9 @@ const WalletStep = ({ setLoading, setStep, networkCode }: WalletStepProps) => {
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets()
   //Set networkname to rinkeby for testing
   const chainParams =
-    process.env.NODE_ENV === 'production'
-      ? getAddChainParametersfromNetworkName(networkName)
-      : getAddChainParametersfromNetworkName('rinkeby' as NetworkName)
+    process.env.NODE_ENV === 'development'
+      ? getAddChainParametersfromNetworkName('rinkeby' as NetworkName)
+      : getAddChainParametersfromNetworkName(networkName)
 
   return (
     <>
@@ -233,15 +233,14 @@ const PaymentStep = ({
   const networkName = NETWORK_NAME_MAP[blockchain.code]
   const token = TokenAddresses[networkName].find((t) => t.token === coin_code)
   useEffect(() => {
-    console.log(account, provider, token)
     if (account && provider && token) {
       const signer = provider.getSigner(account)
 
       const contract =
-        process.env.NODE_ENV === 'production'
-          ? new ethers.Contract(token.address, abi, signer)
-          : // This contract address is for an erc20 token deployed in rinkeby network
+        process.env.NODE_ENV === 'development'
+          ? // This contract address is for an erc20 token deployed in rinkeby network
             new ethers.Contract('0x386558a69c0fEf2fF5A572e9151dE64123Ef04C3', abi, signer)
+          : new ethers.Contract(token.address, abi, signer)
 
       setContract(contract)
       contract.decimals().then((res: number) => setDecimals(res))
@@ -339,15 +338,15 @@ const PaymentStep = ({
           if (contract) {
             setLoading(true)
             const transferAmount =
-              process.env.NODE_ENV === 'production'
-                ? '0x' + (coin_amount * Math.pow(10, decimals)).toString(16)
-                : // send only 1 token during development
+              process.env.NODE_ENV === 'development'
+                ? // send only 1 token during development
                   '0x' + (1 * Math.pow(10, decimals)).toString(16)
+                : '0x' + (coin_amount * Math.pow(10, decimals)).toString(16)
             try {
               await finalizeOrder()
               const transaction = await contract.transfer(
                 // no need to replace wallet address
-                process.env.NODE_ENV === 'production' ? wallet_address : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
+                process.env.NODE_ENV === 'development' ? '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed' : wallet_address,
                 transferAmount
               )
 

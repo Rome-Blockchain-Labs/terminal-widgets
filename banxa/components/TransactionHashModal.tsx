@@ -216,9 +216,9 @@ const TransactionForm = ({
               tx_hash: hash,
               source_address: walletAddress,
               destination_address:
-                process.env.NODE_ENV === 'production'
-                  ? destinationAddress
-                  : '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed',
+                process.env.NODE_ENV === 'development'
+                  ? '0xe7639fE2062c398b1E85a69d1BdA9129035008Ed'
+                  : destinationAddress,
               order_id: orderID,
             })
           }
