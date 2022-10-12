@@ -1,3 +1,12 @@
+// Testing notes
+// After creating a sell order in sandbox, making a GET request to fetch an order
+// will not return a banxa wallet address where we would need to send tokens to
+// Banxa doesnt also support any testnet to complete the whole transaction process
+// the hardcoded addressse here are smart contract address to an ERC20 token
+// in rinkeby and my own addresses that would serve to receive the payment
+// Ultimately, we cant confirm that sell orders work unless we do live
+// testing.
+
 import {
   getAddChainParametersfromNetworkName,
   NetworkName,
