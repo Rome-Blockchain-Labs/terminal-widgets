@@ -157,7 +157,7 @@ const Registration = ({
           </div>
           <div className="ml-3 text-sm">
             <span id="comments-description" className="text-white">
-              I agree to receive informational e-mails directly related to Banxa on Rome Blockchain Labs
+              I agree to receive informational e-mails directly related to Banxa from Rome Blockchain Labs
             </span>
           </div>
         </div>
