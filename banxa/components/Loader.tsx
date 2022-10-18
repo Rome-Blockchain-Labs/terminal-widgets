@@ -3,8 +3,8 @@ import React from 'react'
 const Loader = () => {
   return (
     <>
-      <div className="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
-      <div className="fixed top-0 w-full h-full z-30 flex justify-center items-center">
+      <div className="fixed top-0 z-40 w-full h-full bg-black bg-opacity-80" />
+      <div className="fixed top-0 w-full h-full z-50 flex justify-center items-center">
         <svg
           aria-hidden="true"
           className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

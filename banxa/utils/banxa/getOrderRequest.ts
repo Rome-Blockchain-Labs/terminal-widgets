@@ -1,8 +1,18 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios'
 import generateHmac from './generateHmac'
 import type { NextApiResponse } from 'next'
+import { db } from 'utils/firebase'
+
+const orderRef = db.collection('orders')
 
 export async function getOrderRequest(res: NextApiResponse, orderID: string) {
+  const docSnap = await orderRef.doc(orderID).get()
+
+  const order = docSnap.data()
+  if (!order) {
+    return res.status(400).send('No order found')
+  }
+
   const nonce = Date.now()
   const method = 'GET'
 
@@ -20,7 +30,11 @@ export async function getOrderRequest(res: NextApiResponse, orderID: string) {
   }
   try {
     const response = await axios(options)
-    return res.status(200).json({ data: response.data.data })
+    const data = response.data.data
+    if (order.status) {
+      data.order.finalize_status = order.status
+    }
+    return res.status(200).json({ data })
   } catch (error) {
     const err = error as AxiosError
     if (err.response) {

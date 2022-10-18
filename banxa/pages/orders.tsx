@@ -176,4 +176,5 @@ export interface Order {
   status: string
   tx_hash: string
   wallet_address: string
+  finalize_status: string
 }

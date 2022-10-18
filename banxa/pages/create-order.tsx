@@ -2,57 +2,75 @@ import { useCallback, useEffect, useState } from 'react'
 import { classNames } from '../utils/style'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-
 import { ChevronDownIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import { useResponsive } from '../hooks/useMediaQuery'
-import useDebounce from '../hooks/debounce'
 import { useWeb3React } from '@romeblockchain/wallet'
 import { useRouter } from 'next/router'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import CurrencySelect from 'components/CurrencySelect'
 import ErrorModal from 'components/Error'
 import Loader from 'components/Loader'
 import RedirectModal from 'components/RedirectModal'
 import WalletModal from 'components/WalletModal'
+import useCurrencyLists from '../hooks/useCurrencyList'
+import useSelectReducer from '../hooks/useSelectReducer'
+import useGetPrice from 'hooks/useGetPrice'
+import useGetLimits from '../hooks/usePaymentMethod'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { AUTH_STATUS } from 'Context/AuthContext'
 
-interface FormValues {
+export interface FormValues {
   sourceAmount: number
   targetAmount: number
-  wallet_address: string
-  source: string
-  target: string
+  wallet_address?: string
+  refund_address?: string
+  source: string | undefined
+  target: string | undefined
   source_amount: number | undefined
   target_amount: number | undefined
 }
 
 export default function CreateOrder() {
-  const { setIsLoggedIn } = useAuthContext()
-  const { data: fiatBuyList, error: fiatBuyListError } = useQuery(
-    ['fiatBuyData'],
-    async () => {
-      const res = await axios.get('/api/banxa/fiat-buy')
+  const [order, setOrder] = useState('BUY')
+  const { wg } = useResponsive()
+  const router = useRouter()
+  const [walletVisibility, setWalletVisibility] = useState(false)
+  const { account } = useWeb3React()
 
-      return res.data.data.fiats.map((fiat: any) => ({
-        code: fiat.fiat_code,
-        name: fiat.fiat_name,
-      }))
+  //Requests for list of token and fiat currencies tradeable in Banxa
+  const {
+    fiatBuyList,
+    fiatBuyListError,
+    fiatSellList,
+    fiatSellListError,
+    tokenBuyList,
+    tokenBuyListError,
+    tokenSellList,
+    tokenSellListError,
+  } = useCurrencyLists()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+    setError: setFormError,
+    clearErrors,
+  } = useForm<FormValues>({
+    defaultValues: {
+      source: undefined,
+      target: undefined,
+      source_amount: undefined,
+      target_amount: undefined,
     },
-    { staleTime: Infinity }
-  )
-  const { data: tokenBuyList, error: tokenBuyListError } = useQuery(
-    ['tokenBuyData'],
-    async () => {
-      const tokenBuyRes = await axios.get('api/banxa/crypto-buy')
-      return tokenBuyRes.data.data.coins.map((coin: any) => ({
-        code: coin.coin_code,
-        name: coin.coin_name,
-      }))
-    },
-    { staleTime: Infinity }
-  )
+  })
+  const [error, setError] = useState<string>()
+
+  const { setIsLoggedIn } = useAuthContext()
+
   const {
     mutate: createOrder,
     data: createOrderData,
@@ -67,31 +85,6 @@ export default function CreateOrder() {
     })
   })
 
-  const { wg } = useResponsive()
-  const router = useRouter()
-  // const [order] = useState('BUY')
-  const [walletVisibility, setWalletVisibility] = useState(false)
-  const [currencyChange, setCurrencyChange] = useState(false)
-  const { account } = useWeb3React()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-    setError: setFormError,
-    clearErrors,
-  } = useForm<FormValues>({
-    defaultValues: {
-      source: 'USD',
-      target: 'ETH',
-      source_amount: undefined,
-      target_amount: undefined,
-    },
-  })
-
-  const [error, setError] = useState<string>()
   const resetForm = () => {
     reset()
     if (account) {
@@ -99,135 +92,69 @@ export default function CreateOrder() {
     }
     setError(undefined)
   }
+
   const onSubmit = async (data: any) => {
+    if (order === 'BUY') delete data.refund_address
+    if (order === 'SELL') delete data.wallet_address
     createOrder(data)
   }
-  const target = watch('target')
-  const setTarget = (value: string) => {
-    setValue('target', value)
-  }
-  const source = watch('source')
-  const sourceAmount = watch('source_amount')
-  const targetAmount = watch('target_amount')
-  const setSource = (value: string) => {
-    setValue('source', value)
-  }
-
-  const { data: paymentMethods } = useQuery(
-    ['paymentMethoData', source, target],
-    async () => {
-      const res = await axios.post('/api/banxa/payment-methods', {
-        params: {
-          source,
-          target,
-        },
-      })
-      return res.data.data.payment_methods[0]
+  const setTarget = useCallback(
+    (value: string) => {
+      setValue('target', value)
     },
-    {
-      enabled: !!source && !!target,
-      staleTime: Infinity,
-    }
+    [setValue]
+  )
+  const setSource = useCallback(
+    (value: string) => {
+      setValue('source', value)
+    },
+    [setValue]
   )
 
-  const lowLimit = paymentMethods && parseInt(paymentMethods.transaction_limits[0].min)
-  const highLimit = paymentMethods && parseInt(paymentMethods.transaction_limits[0].max)
-  const debouncedSourceAmount = useDebounce(sourceAmount, 500)
-  const debouncedTargetAmount = useDebounce(targetAmount, 500)
+  const source = watch('source')
+  const target = watch('target')
 
-  const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
-  const [selectCurrencyType, setSelectCurrencyType] = useState<'FIAT' | 'CRYPTO'>()
-
-  const currencyList = selectCurrencyType === 'FIAT' ? fiatBuyList : tokenBuyList
-  const setCurrency = selectCurrencyType === 'FIAT' ? setSource : setTarget
-  const selectedCurrency = selectCurrencyType === 'FIAT' ? source : target
   const closeCurrencyModal = () => {
-    setSelectCurrencyType(undefined)
+    dispatch({ type: 'CLOSE_SELECT' })
   }
   const [buttonText, setButtonText] = useState('')
-  const [priceLoading, setPriceLoading] = useState(false)
   const [checkoutURL, setCheckoutURL] = useState<string>()
 
-  const getPrices = useCallback(
-    async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
-      const setSourceAmount = (value: number) => {
-        setValue('source_amount', value)
-      }
-      const setTargetAmount = (value: number) => {
-        setValue('target_amount', value)
-      }
-      if (!!source_amount === false && !!target_amount === false) {
-        setValue('source_amount', undefined)
-        setValue('target_amount', undefined)
-        return
-      }
-      if (priceLoading === true) {
-        return
-      }
-      setPriceLoading(true)
-      const params: { source: string; target: string; source_amount?: number; target_amount?: number } = {
-        source,
-        target,
-      }
-      if (source_amount) {
-        params.source_amount = source_amount
-      }
-      if (target_amount) {
-        params.target_amount = target_amount
-      }
-
-      const res = await axios
-        .post('/api/banxa/get-price', {
-          params,
-        })
-        .catch(() => {
-          setError(
-            'Unable to process your order at this time. Please proceed to www.banxa.com to redo your transaction.'
-          )
-        })
-
-      if (res) {
-        setTargetAmount(res.data.coin_amount)
-        setSourceAmount(Math.trunc(res.data.fiat_amount))
-      }
-
-      setPriceLoading(false)
-      setAmountInput(undefined)
-    },
-    [priceLoading, setValue, source, target]
+  //Enables selecting of a token or fiat from the drop down selections
+  const [{ currencyList, setCurrency, selectedCurrency, visible, selectCurrencyType }, dispatch] = useSelectReducer(
+    tokenBuyList,
+    tokenSellList,
+    fiatBuyList,
+    fiatSellList,
+    setTarget,
+    target,
+    setSource,
+    source
   )
+
+  // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
+  useGetLimits({ setFormError, clearErrors, type: order, watch })
+
+  // fetches the price for source amount and target from banxa whenever the debounce value of the input fields changes
+  const { setCurrencyChange, priceLoading, setAmountInput } = useGetPrice(setValue, setError, order, watch)
+
+  const listsLoaded = tokenBuyList && tokenSellList && fiatBuyList && fiatSellList
+
   useEffect(() => {
     if (createOrderError) {
       //@ts-ignore
       setError(createOrderError.response.data.data.errors.title)
     }
-    if (fiatBuyListError || tokenBuyListError) {
+    if (fiatBuyListError || tokenBuyListError || fiatSellListError || tokenSellListError) {
       setError('Unable to get currency lists. Please try again later')
     }
-  }, [createOrderError, fiatBuyListError, tokenBuyListError])
+  }, [createOrderError, fiatBuyListError, fiatSellListError, tokenBuyListError, tokenSellListError])
 
   useEffect(() => {
     if (createOrderData) {
       setCheckoutURL(createOrderData?.data.data.order.checkout_url)
     }
   }, [createOrderData])
-
-  useEffect(() => {
-    if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
-      getPrices({ source_amount: debouncedSourceAmount })
-    }
-
-    if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
-      getPrices({ target_amount: debouncedTargetAmount })
-    }
-  }, [amountInput, debouncedSourceAmount, debouncedTargetAmount, getPrices, sourceAmount, targetAmount])
-
-  useEffect(() => {
-    if (currencyChange && debouncedSourceAmount && debouncedTargetAmount && (source || target)) {
-      getPrices({ source_amount: debouncedSourceAmount })
-      setCurrencyChange(false)
-    }
-  }, [currencyChange, debouncedSourceAmount, debouncedTargetAmount, getPrices, source, target])
 
   useEffect(() => {
     if (wg) {
@@ -238,23 +165,25 @@ export default function CreateOrder() {
   }, [wg])
   useEffect(() => {
     if (account) {
-      setValue('wallet_address', account)
+      if (order === 'BUY') {
+        setValue('wallet_address', account)
+      }
+      if (order === 'SELL') {
+        setValue('refund_address', account)
+      }
     }
-  }, [account, setValue])
+  }, [account, order, setValue])
 
   useEffect(() => {
-    if (lowLimit && highLimit && sourceAmount) {
-      if (sourceAmount > highLimit) {
-        setFormError('source_amount', { type: 'custom', message: `Source amount should be less than ${highLimit}` })
-      }
-      if (sourceAmount < lowLimit) {
-        setFormError('source_amount', { type: 'custom', message: `Source amount should be higher than ${lowLimit}` })
-      }
-      if (sourceAmount > lowLimit && sourceAmount < highLimit) {
-        clearErrors('source_amount')
-      }
+    if (listsLoaded) {
+      setSource(fiatBuyList[0].code)
+      setTarget(tokenBuyList[0].code)
     }
-  }, [clearErrors, highLimit, lowLimit, setFormError, source, sourceAmount])
+  }, [fiatBuyList, listsLoaded, setSource, setTarget, tokenBuyList])
+
+  if (!listsLoaded) {
+    return <Loader />
+  }
 
   return (
     <>
@@ -262,7 +191,7 @@ export default function CreateOrder() {
       {error && <ErrorModal message={error} closeModal={resetForm} />}
       {createOrderLoading && <Loader />}
       {walletVisibility && <WalletModal setWalletVisibility={setWalletVisibility} />}
-      {selectCurrencyType && (
+      {visible && (
         <CurrencySelect
           setCurrencyChange={setCurrencyChange}
           selectedCurrency={selectedCurrency}
@@ -278,22 +207,52 @@ export default function CreateOrder() {
           <div className="text-white text-sm  ml-5 md:text-lg ">Leading global Web3 on-and-off ramp solution</div>
         </div>
 
-        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto scrollbar-thin scrollbar-thumb-gray-700">
-          <div className="mt-4 grow flex flex-shrink-0 md:mt-0 md:ml-4 justify-end">
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={() => router.push('/orders')}
-            >
-              Transaction History
-            </button>
-            <button
-              type="button"
-              className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              onClick={() => setIsLoggedIn(AUTH_STATUS.LOGGGED_OUT)}
-            >
-              Logout
-            </button>
+        <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
+          <div className="flex  text-[#1D3E52] relative items-stretch">
+            <div className="grow text-base text-medium">
+              {listsLoaded && (
+                <div className="h-full rounded-md  border  mx-auto flex max-w-lg ">
+                  <button
+                    onClick={() => {
+                      reset()
+                      setOrder('BUY')
+                      setSource(fiatBuyList[0].code)
+                      setTarget(tokenBuyList[0].code)
+                    }}
+                    className={classNames(order === 'BUY' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                  >
+                    BUY
+                  </button>
+                  <button
+                    onClick={() => {
+                      reset()
+                      setOrder('SELL')
+                      setSource(tokenSellList[0].code)
+                      setTarget(fiatSellList[0].code)
+                    }}
+                    className={classNames(order === 'SELL' ? 'bg-gray-200 rounded-lg' : '', 'grow')}
+                  >
+                    SELL
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className=" flex flex-shrink-1 md:mt-0 md:ml-4 justify-center items-cente ml-2">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                onClick={() => router.push('/orders')}
+              >
+                Transactions
+              </button>
+              <button
+                type="button"
+                className="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                onClick={() => setIsLoggedIn(AUTH_STATUS.LOGGGED_OUT)}
+              >
+                Logout
+              </button>
+            </div>
           </div>
           <form className="flex flex-col mt-4" onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -316,7 +275,17 @@ export default function CreateOrder() {
                     },
                   })}
                 />
-                <button type="button" className="flex  items-center" onClick={() => setSelectCurrencyType('FIAT')}>
+                <button
+                  type="button"
+                  className="flex  items-center"
+                  onClick={() => {
+                    if (order === 'BUY') {
+                      dispatch({ type: 'OPEN_BUY_LIST', selectCurrencyType: 'FIAT' })
+                    } else {
+                      dispatch({ type: 'OPEN_SELL_LIST', selectCurrencyType: 'CRYPTO' })
+                    }
+                  }}
+                >
                   {source}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
@@ -358,37 +327,84 @@ export default function CreateOrder() {
                   })}
                 />
 
-                <button type="button" className="flex items-center" onClick={() => setSelectCurrencyType('CRYPTO')}>
+                <button
+                  type="button"
+                  className="flex items-center"
+                  onClick={() => {
+                    if (order === 'BUY') {
+                      dispatch({ type: 'OPEN_BUY_LIST', selectCurrencyType: 'CRYPTO' })
+                    } else {
+                      dispatch({ type: 'OPEN_SELL_LIST', selectCurrencyType: 'FIAT' })
+                    }
+                  }}
+                >
                   {target}
                   <ChevronDownIcon className="h-5 w-5 md:h-10 md:w-10 text-current" />
                 </button>
               </div>
+              {errors && (
+                <p className="mt-2 text-sm text-red-400" id="email-error">
+                  {errors.target_amount?.message}
+                </p>
+              )}
             </div>
-            <div className="mt-3">
-              <label htmlFor="source" className="block  font-medium text-gray-400  ">
-                Selected Address
-              </label>
-              <div className="mt-1">
-                <input
-                  className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl focus:ring-0"
-                  type="text"
-                  placeholder="Click the connect wallet button below"
-                  {...register('wallet_address', {
-                    required: true,
-                    maxLength: 80,
-                    pattern: {
-                      value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
-                      message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
-                    },
-                  })}
-                />
-                {errors && (
-                  <p className="mt-2 text-sm text-red-400" id="email-error">
-                    {errors.wallet_address?.message}
-                  </p>
-                )}
+
+            {order === 'BUY' && (
+              <div className="mt-3">
+                <label htmlFor="source" className="block  font-medium text-gray-400  ">
+                  Selected Address
+                </label>
+                <div className="mt-1">
+                  <input
+                    className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                    type="text"
+                    placeholder="Click the connect wallet button below"
+                    {...register('wallet_address', {
+                      required: true,
+                      maxLength: 100,
+                      pattern: {
+                        value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
+                        message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
+                      },
+                    })}
+                  />
+                  {errors && (
+                    <p className="mt-2 text-sm text-red-400" id="email-error">
+                      {errors.wallet_address?.message}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
+
+            {order === 'SELL' && (
+              <div className="mt-3">
+                <label htmlFor="source" className="block  font-medium text-gray-400  ">
+                  Refund Address
+                </label>
+                <div className="mt-1">
+                  <input
+                    className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+                    type="text"
+                    placeholder="Click the connect wallet button below"
+                    {...register('refund_address', {
+                      required: true,
+                      maxLength: 100,
+                      pattern: {
+                        value: target === 'BTC' ? /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/i : /^0x[a-fA-F0-9]{40}$/g,
+                        message: target === 'BTC' ? 'Invalid Bitcoin Address' : 'Invalid Wallet Address',
+                      },
+                    })}
+                  />
+                  {errors && (
+                    <p className="mt-2 text-sm text-red-400" id="email-error">
+                      {errors.wallet_address?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="flex h-8 justify-center gap-x-2 mt-2 md:h-20 md:mt-6">
               <button
                 disabled={target === 'BTC'}

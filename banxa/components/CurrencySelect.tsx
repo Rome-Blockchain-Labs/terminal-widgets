@@ -12,11 +12,11 @@ interface Currency {
 }
 
 interface Props {
-  type: 'FIAT' | 'CRYPTO'
+  type: string
   currencyList: Currency[] | undefined
   closeModal: () => void
-  setCurrency: (val: string) => void
-  selectedCurrency: string
+  setCurrency?: (val: string) => void
+  selectedCurrency: string | undefined
   setCurrencyChange: (val: boolean) => void
 }
 
@@ -91,7 +91,7 @@ const CurrencySelect = ({
                     <button
                       key={index}
                       onClick={() => {
-                        setCurrency(currency.code)
+                        if (setCurrency) setCurrency(currency.code)
                         setCurrencyChange(true)
                         closeModal()
                       }}

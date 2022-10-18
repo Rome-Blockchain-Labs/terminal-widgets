@@ -22,7 +22,7 @@ const OrderStatus = ({ orderStatus }: OrderStatusProps) => {
     <div
       className={classNames(
         background,
-        'bg-success-bg border-success-border border w-fit  min-w-[120px] px-3 py-1 text-center'
+        'bg-success-bg border-success-border border w-fit  min-w-[140px] px-3 py-1 text-center'
       )}
     >
       {status.text}
