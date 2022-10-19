@@ -1,9 +1,6 @@
 import { ChainId, JSBI, Percent, Token, WETH } from '@dynamic-amm/sdk';
-import { Connector } from '@web3-react/types';
 
 import { KYBER_MAINNET_ENV } from '../../../config';
-import { coinbaseWallet } from '../../../connectors/coinbaseWallet';
-import { metaMask } from '../../../connectors/metaMask';
 import { PopularPair } from '../state/pair/types';
 
 export const ZAP_ADDRESSES: { [chainId in ChainId]?: string } = {
@@ -913,38 +910,7 @@ export const PINNED_PAIRS: {
   ],
 };
 
-export interface WalletInfo {
-  connector?: Connector;
-  name: string;
-  iconName: string;
-  description: string;
-  href: string | null;
-  color: string;
-  primary?: true;
-  mobile?: true;
-  mobileOnly?: true;
-}
 
-export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  COINBASE_LINK: {
-    color: '#315CF5',
-    connector: coinbaseWallet,
-    description: 'Easy-to-use browser extension.',
-    // To get this link: go to Coinbase app -> Dapp Browser -> go to dmm.exchange -> click "..." button -> share -> copy link
-    href: 'https://go.cb-w.com/S7mannYpWjb',
-    iconName: 'wallet-link.svg',
-    name: 'Coinbase Wallet',
-  },
-
-  METAMASK: {
-    color: '#E8831D',
-    connector: metaMask,
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    iconName: 'metamask.svg',
-    name: 'MetaMask',
-  },
-};
 
 export const BLACKLIST_WALLETS: string[] = [
   '0xd882cfc20f52f2599d84b8e8d58c7fb62cfe344b',

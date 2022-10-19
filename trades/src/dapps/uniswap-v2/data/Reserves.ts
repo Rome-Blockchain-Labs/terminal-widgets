@@ -48,6 +48,8 @@ const getExchangeNameFromExchange = (exchange: ExchangeName | undefined) => {
       return 'UniswapV2';
     case 'BEAMSWAP':
       return 'BeamSwap';
+    case 'CRYSTALVALE':
+      return 'Crystalvale';
     default:
       return '';
   }

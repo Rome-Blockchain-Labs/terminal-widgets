@@ -34,6 +34,7 @@ export type WidgetState = WidgetCommonState & {
   isTokenDetailsOpened?: boolean;
   toolbar?: WidgetToolbar;
   targetPosition: number;
+  createdAt?: Date;
 };
 
 export enum WidgetType {
@@ -47,7 +48,6 @@ export enum WidgetType {
   AVAX_BRIDGE = 'avax_bridge',
   BENQI = 'benqi',
   BISWAP = 'biswap',
-  SHERPACASH = 'sherpacash',
   BEAMSWAP = 'beamswap',
   SOLARBEAM = 'solarbeam',
   NETSWAP = 'netswap',
@@ -60,16 +60,24 @@ export enum WidgetType {
   AXIAL = 'axial',
   BENQI_STAKING = 'benqi_staking',
   SNOWBALL = 'snowball',
+  VENUS = 'venus',
+  CHARTONLY = 'non_existant_widget',
+  MOONWELL = 'moonwell',
+  CRYSTALVALE = 'crystalvale',
+  BANXA = 'banxa',
+  CONNEXT_BRIDGE = 'connext_bridge',
+  SYNAPSE_BRIDGE = 'synapse_bridge',
 }
 
 export type AddWidgetState = Pick<
-  WidgetState,
+  WidgetState & { startEnlarged?: boolean },
   | 'type'
   | 'isTable'
   | 'pair'
   | 'blockchain'
   | 'exchangeType'
   | 'disableDuplication'
+  | 'startEnlarged'
 >;
 
 export type ColumnType = {

@@ -1369,28 +1369,6 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@coinbase/wallet-sdk@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@coinbase/wallet-sdk/-/wallet-sdk-3.3.0.tgz#e77383bce1388e5367dc35f8309702e73be47503"
-  integrity sha512-Prmxs5eYRxe5i+kDSsny97oPG4Pa5PhLmNDx8f7UQrvlPowGy5Tg0gHOqCie6ck2shVMdW8sKJ+RCLIRZ9kIjA==
-  dependencies:
-    "@metamask/safe-event-emitter" "2.0.0"
-    bind-decorator "^1.0.11"
-    bn.js "^5.1.1"
-    buffer "^6.0.3"
-    clsx "^1.1.0"
-    eth-block-tracker "4.4.3"
-    eth-json-rpc-filters "4.2.2"
-    eth-rpc-errors "4.0.2"
-    js-sha256 "0.9.0"
-    json-rpc-engine "6.1.0"
-    keccak "^3.0.1"
-    preact "^10.5.9"
-    qs "^6.10.3"
-    rxjs "^6.6.3"
-    stream-browserify "^3.0.0"
-    util "^0.12.4"
-
 "@commitlint/cli@^13.2.0":
   version "13.2.1"
   resolved "https://registry.npmjs.org/@commitlint/cli/-/cli-13.2.1.tgz"
@@ -4201,21 +4179,6 @@
     tweetnacl "^1.0.3"
     tweetnacl-util "^0.15.1"
 
-"@metamask/jazzicon@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@metamask/jazzicon/-/jazzicon-2.0.0.tgz"
-  integrity sha512-7M+WSZWKcQAo0LEhErKf1z+D3YX0tEDAcGvcKbDyvDg34uvgeKR00mFNIYwAhdAS9t8YXxhxZgsrRBBg6X8UQg==
-  dependencies:
-    color "^0.11.3"
-    mersenne-twister "^1.1.0"
-
-"@metamask/onboarding@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@metamask/onboarding/-/onboarding-1.0.1.tgz"
-  integrity sha512-FqHhAsCI+Vacx2qa5mAFcWNSrTcVGMNjzxVgaX8ECSny/BJ9/vgXP9V7WF/8vb9DltPeQkxr+Fnfmm6GHfmdTQ==
-  dependencies:
-    bowser "^2.9.0"
-
 "@metamask/safe-event-emitter@2.0.0", "@metamask/safe-event-emitter@^2.0.0":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz"
@@ -4503,10 +4466,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@rbl/velox-common@4.1.22":
-  version "4.1.22"
-  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.22.tgz#1cdc8f4e387fc6dcfb7137955d2ea13138de4995"
-  integrity sha512-hacxRJ2nS3Kofsp45kmMvM6snZpc1zCl1H/ytcyS4KwDp/nRn7dD8VIDDiKhoiIAQwflz/ZJHFTqphlC5JO7cw==
+"@rbl/velox-common@4.1.26":
+  version "4.1.26"
+  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.26.tgz#099960eccee25956c39e3767ae8028cc7780f09f"
+  integrity sha512-k6YNVEBOcwEIQnKxDr11WoZrNekzcX4/TG3ibBUNJlniNZhSrJGtpX3iwmXdN88tSb+/J+dBvZQ96KNeTQc/pg==
   dependencies:
     "@ethersproject/providers" "^5.5.0"
     "@ethersproject/solidity" "^5.5.0"
@@ -4815,10 +4778,10 @@
     reactstrap "^9.0.1"
     styled-components "^5.3.5"
 
-"@romeblockchain/wallet@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.10.tgz#97dce90facee6f045293be91a2b3f307ee488554"
-  integrity sha512-+NeYyjbL17pQyMxo0g8zYB9K++vbYDzlU+XOLkqiz8SHlbe8tKmcbtKI3NS4+NtRbt09niCODXqlrS0EVN2ARQ==
+"@romeblockchain/wallet@^0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.13.tgz#a321d6001de3a73c4d4b1fe27d61fc4bfc246592"
+  integrity sha512-80KoHssDiTV77M1v2pYhfk3XRAbPR1R/niNViKkQ/Gzjhfezh0gOAZBtBsxom5V+mRezGhT1FoI5tnMWifpkfg==
   dependencies:
     "@romeblockchain/bridge" "^0.0.3"
     "@types/ua-parser-js" "^0.7.36"
@@ -6306,7 +6269,7 @@
   resolved "https://registry.yarnpkg.com/@walletconnect/environment/-/environment-1.0.0.tgz#c4545869fa9c389ec88c364e1a5f8178e8ab5034"
   integrity sha512-4BwqyWy6KpSvkocSaV7WR3BlZfrxLbJSLkg+j7Gl6pTDE+U55lLhJvQaMuDVazXYxcjBsG09k7UlH7cGiUI5vQ==
 
-"@walletconnect/ethereum-provider@^1.5.4", "@walletconnect/ethereum-provider@^1.7.8":
+"@walletconnect/ethereum-provider@^1.7.8":
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/@walletconnect/ethereum-provider/-/ethereum-provider-1.7.8.tgz#8b969b394e14c68855b6ae2660f2e39dec857f5f"
   integrity sha512-dnl560zFMdK/LD4MD2XwHbWj7RXOaeXWPc9jzDaosLQLAXfA5mKe4XbCFFUPbVMYuyBdRI9NZv3Ci/qDb5wncQ==
@@ -6466,20 +6429,6 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.0"
 
-"@web3-react/abstract-connector@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.npmjs.org/@web3-react/abstract-connector/-/abstract-connector-6.0.7.tgz"
-  integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
-  dependencies:
-    "@web3-react/types" "^6.0.7"
-
-"@web3-react/coinbase-wallet@8.0.33-beta.0":
-  version "8.0.33-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/coinbase-wallet/-/coinbase-wallet-8.0.33-beta.0.tgz#65db92da057e9e4d2c63d689cc42874eaa9989e0"
-  integrity sha512-bi+lm5g8PbLkXjrSS8cKXUuU4yg4A8OJp9M+BAuEWiQ++f7er+XtVF9+o/S81F411YkQH+NTP4VtJmo4V0kWIw==
-  dependencies:
-    "@web3-react/types" "^8.0.19-beta.0"
-
 "@web3-react/core@8.0.30-beta.0":
   version "8.0.30-beta.0"
   resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-8.0.30-beta.0.tgz#744c8a47a59eb75ff8f3e407c2190a90762a9905"
@@ -6509,28 +6458,12 @@
   dependencies:
     "@web3-react/types" "^8.0.17-beta.0"
 
-"@web3-react/eip1193@8.0.25-beta.0":
-  version "8.0.25-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/eip1193/-/eip1193-8.0.25-beta.0.tgz#1df94b7c5ecef1ea97181015f0717a26b0a08bc7"
-  integrity sha512-L96B+xWjklR23bYyxYCvDWWcBsoThgY076oKmjJDel+3BnuEK7IH92aWcB1wUo3oLKzETdOm7eWi0ZyjBoM3Ag==
-  dependencies:
-    "@web3-react/types" "^8.0.19-beta.0"
-
 "@web3-react/empty@8.0.17-beta.0":
   version "8.0.17-beta.0"
   resolved "https://registry.yarnpkg.com/@web3-react/empty/-/empty-8.0.17-beta.0.tgz#992a7cf4baa58bd9094536dffcd62ac14f57b305"
   integrity sha512-1aKYWE7E5EUVol7M1G5kEiiVXG0e+9g4ehFk8O/3zKsjEWRBIP6xwT12Q/9H6AwrDLc2hNJmKe0BW7F8mDd6KQ==
   dependencies:
     "@web3-react/types" "^8.0.17-beta.0"
-
-"@web3-react/injected-connector@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.npmjs.org/@web3-react/injected-connector/-/injected-connector-6.0.7.tgz"
-  integrity sha512-Y7aJSz6pg+MWKtvdyuqyy6LWuH+4Tqtph1LWfiyVms9II9ar/9B/de4R8wh4wjg91wmHkU+D75yP09E/Soh2RA==
-  dependencies:
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-warning "^1.0.3"
 
 "@web3-react/metamask@8.0.26-beta.0":
   version "8.0.26-beta.0"
@@ -6580,11 +6513,6 @@
   dependencies:
     zustand "^4.0.0-rc.0"
 
-"@web3-react/types@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.npmjs.org/@web3-react/types/-/types-6.0.7.tgz"
-  integrity sha512-ofGmfDhxmNT1/P/MgVa8IKSkCStFiyvXe+U5tyZurKdrtTDFU+wJ/LxClPDtFerWpczNFPUSrKcuhfPX1sI6+A==
-
 "@web3-react/url@8.0.22-beta.0":
   version "8.0.22-beta.0"
   resolved "https://registry.yarnpkg.com/@web3-react/url/-/url-8.0.22-beta.0.tgz#721425fe9271fa5bcafe697233f060eb47bb82bb"
@@ -6593,24 +6521,6 @@
     "@ethersproject/providers" "^5"
     "@web3-react/types" "^8.0.17-beta.0"
 
-"@web3-react/url@8.0.24-beta.0":
-  version "8.0.24-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/url/-/url-8.0.24-beta.0.tgz#7417cdb37bace531aa0fe76ccc4ccef8ed55c0e9"
-  integrity sha512-+pAMWVKNqg2h0iCRQ6b8zETdmSk903Vg3jinjMwwWSdxLAArCPlUoMgCtnxIFonQzwphynCEIo9w55uQBrOglA==
-  dependencies:
-    "@ethersproject/providers" "^5"
-    "@web3-react/types" "^8.0.19-beta.0"
-
-"@web3-react/walletconnect-connector@^7.0.2-alpha.0":
-  version "7.0.2-alpha.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/walletconnect-connector/-/walletconnect-connector-7.0.2-alpha.0.tgz#dacd59db626b42137a1e4f34ea23ef1f04cc8b99"
-  integrity sha512-Qr+AecDt5/gbAb8sFfW5kbMo0nberCAU/6AB9KmmwCm2YGEEqJrj8fW3Kin7SGxv8pgDxgXwPYsW7qMUzayXEQ==
-  dependencies:
-    "@walletconnect/ethereum-provider" "^1.5.4"
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    tiny-invariant "^1.0.6"
-
 "@web3-react/walletconnect@8.0.34-beta.0":
   version "8.0.34-beta.0"
   resolved "https://registry.yarnpkg.com/@web3-react/walletconnect/-/walletconnect-8.0.34-beta.0.tgz#b0dee4d8e37dbb8783b46f6e181cbb7c317084d8"
@@ -6618,15 +6528,6 @@
   dependencies:
     "@web3-react/types" "^8.0.19-beta.0"
     eventemitter3 "^4.0.7"
-
-"@web3-react/walletlink-connector@^6.2.8":
-  version "6.2.8"
-  resolved "https://registry.npmjs.org/@web3-react/walletlink-connector/-/walletlink-connector-6.2.8.tgz"
-  integrity sha512-pSGufPz5JntSUvy88XcOrn5VN3qmX+ZVQ2lXAeWWb7YS2wTlAStPghZbln8t1li7jr1NUJ0w/gMDVpAwjwq4ZA==
-  dependencies:
-    "@web3-react/abstract-connector" "^6.0.7"
-    "@web3-react/types" "^6.0.7"
-    walletlink "^2.2.6"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -8094,11 +7995,6 @@ boolean@^3.0.1:
   resolved "https://registry.npmjs.org/boolean/-/boolean-3.1.4.tgz"
   integrity sha512-3hx0kwU3uzG6ReQ3pnaFQPSktpBw6RHN3/ivDKEuU8g1XSfafowyvDnadjv1xp8IZqhtSukxlwv9bF6FhX8m0w==
 
-bowser@^2.9.0:
-  version "2.11.0"
-  resolved "https://registry.npmjs.org/bowser/-/bowser-2.11.0.tgz"
-  integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
-
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz"
@@ -8969,11 +8865,6 @@ clone@2.x, clone@^2.1.1:
   resolved "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz"
   integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
 
-clone@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/clone/-/clone-1.0.4.tgz"
-  integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
-
 clsx@^1.0.4, clsx@^1.1.0, clsx@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz"
@@ -9011,7 +8902,7 @@ collection-visit@^1.0.0:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
 
-color-convert@^1.3.0, color-convert@^1.9.0, color-convert@^1.9.3:
+color-convert@^1.9.0, color-convert@^1.9.3:
   version "1.9.3"
   resolved "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz"
   integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
@@ -9035,13 +8926,6 @@ color-name@^1.0.0, color-name@^1.1.4, color-name@~1.1.4:
   resolved "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-color-string@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/color-string/-/color-string-0.3.0.tgz"
-  integrity sha1-J9RvtnAlxcL6JZk7+/V55HhBuZE=
-  dependencies:
-    color-name "^1.0.0"
-
 color-string@^1.6.0:
   version "1.6.0"
   resolved "https://registry.npmjs.org/color-string/-/color-string-1.6.0.tgz"
@@ -9049,15 +8933,6 @@ color-string@^1.6.0:
   dependencies:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
-
-color@^0.11.3:
-  version "0.11.4"
-  resolved "https://registry.npmjs.org/color/-/color-0.11.4.tgz"
-  integrity sha1-bXtcdPtl6EHNSHkq0e1eB7kE12Q=
-  dependencies:
-    clone "^1.0.2"
-    color-convert "^1.3.0"
-    color-string "^0.3.0"
 
 color@^3.0.0, color@^3.1.3:
   version "3.2.1"
@@ -15558,11 +15433,6 @@ meros@1.1.4:
   resolved "https://registry.npmjs.org/meros/-/meros-1.1.4.tgz"
   integrity sha512-E9ZXfK9iQfG9s73ars9qvvvbSIkJZF5yOo9j4tcwM5tN8mUKfj/EKN5PzOr3ZH0y5wL7dLAHw3RVEfpQV9Q7VQ==
 
-mersenne-twister@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/mersenne-twister/-/mersenne-twister-1.1.0.tgz"
-  integrity sha1-+RZhjuQ9cXnvz2Qb7EUx65Zwl4o=
-
 methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz"
@@ -18061,13 +17931,6 @@ qs@^6.10.2, qs@^6.9.4:
   version "6.10.3"
   resolved "https://registry.npmjs.org/qs/-/qs-6.10.3.tgz"
   integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
-  dependencies:
-    side-channel "^1.0.4"
-
-qs@^6.10.3:
-  version "6.10.5"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.5.tgz#974715920a80ff6a262264acd2c7e6c2a53282b4"
-  integrity sha512-O5RlPh0VFtR78y79rgcgKK4wbAI0C5zGVLztOIdpWX6ep368q5Hv6XRxDvXuZ9q3C6v+e3n8UfZZJw7IIG27eQ==
   dependencies:
     side-channel "^1.0.4"
 
@@ -21031,7 +20894,7 @@ timsort@^0.3.0:
   resolved "https://registry.npmjs.org/timsort/-/timsort-0.3.0.tgz"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tiny-invariant@^1.0.2, tiny-invariant@^1.0.6, tiny-invariant@^1.1.0, tiny-invariant@^1.2.0:
+tiny-invariant@^1.0.2, tiny-invariant@^1.1.0, tiny-invariant@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.2.0.tgz"
   integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==

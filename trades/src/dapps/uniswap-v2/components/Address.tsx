@@ -1,7 +1,7 @@
 import 'twin.macro';
 
 import { getAddress } from '@ethersproject/address';
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React from 'react';
 
 import { usePageContext } from '../PageContext';

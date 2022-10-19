@@ -91,9 +91,24 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName
     );
-    setDefaultTokenList(defaultListOfLists[0]);
-    fetch(defaultListOfLists[0]).then((response) => {
-      response.json().then((responseData) => {
+
+    const fetchTokenList = async () => {
+      let res = await fetch(defaultListOfLists[0]).catch((err) =>
+        console.log('Failed to fetch from 1st list with error', err)
+      );
+
+      if (!res) {
+        res = await fetch(defaultListOfLists[1]).catch((err) =>
+          console.log('Failed to fetch from 2nd list with error', err)
+        );
+        setDefaultTokenList(defaultListOfLists[1]);
+      } else {
+        setDefaultTokenList(defaultListOfLists[0]);
+      }
+
+      if (res) {
+        const responseData = await res.json();
+
         const tokenData = responseData.tokens
           ? responseData.tokens
           : responseData;
@@ -108,8 +123,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
         if (tokenIn && tokenOut) {
           setTokens({ tokenIn, tokenOut });
         }
-      });
-    });
+      }
+    };
+    fetchTokenList();
   }, [
     exchangeName,
     widget.exchange,

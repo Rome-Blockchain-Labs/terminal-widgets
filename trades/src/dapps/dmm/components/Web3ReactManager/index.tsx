@@ -1,7 +1,7 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useWallets } from '../../../../contexts/WalletsContext/WalletContext';
 import Loader from '../Loader';
 
 const MessageWrapper = styled.div`
@@ -18,7 +18,7 @@ export default function Web3ReactManager({
 }: {
   children: JSX.Element;
 }) {
-  const { active, error } = useWallets();
+  const { isActive: active } = useWeb3React();
 
   const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Web3ReactManager({
   }, []);
 
   // if the account context isn't networkLogos, and there's an error on the network context, it's an irrecoverable error
-  if (!active && error) {
+  if (!active) {
     return (
       <MessageWrapper>
         <Message>
@@ -44,7 +44,7 @@ export default function Web3ReactManager({
   }
 
   // if neither context is networkLogos, spin
-  if (!active && !error) {
+  if (!active) {
     return showLoader ? (
       <MessageWrapper>
         <Loader />
