@@ -23,7 +23,7 @@ const Home: NextPage = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="h-full w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg ">
+      <div className="py-4 w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg ">
         <img src="/logo.svg" className="h-9 w-auto mt-5 md:h-[10%]" alt="banxa_logo" />
         <div className="my-3 w-full h-[1px]  bg-gradient-to-r from-[#d9d9d9] via-[#d9d9d9] to-[#d9d9d9]/0" />
         <div className="flex flex-col justify-center">
