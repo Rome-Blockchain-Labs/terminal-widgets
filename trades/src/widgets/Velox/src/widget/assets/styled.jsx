@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { withEnlargedProps } from '../WidgetSizeStateContext';
 import BackgroundImg from './v2/background.png';
-import BackgroundVeloxImg from './velox.png';
+import BackgroundVeloxImg from './velox.svg';
 
 /** LAYOUTS **/
 export const WidgetFrame = styled.div`
@@ -11,7 +11,7 @@ export const WidgetFrame = styled.div`
   background-position: right -3.125rem bottom -3.125rem;
   background-repeat: no-repeat;
   border-radius: 1.25rem;
-
+  background-size: 220px 220px;
   min-width: 100%;
 
   @media only screen and (max-width: 48rem) {

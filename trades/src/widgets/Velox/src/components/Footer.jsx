@@ -10,7 +10,7 @@ export const Footer = (props) => {
         textAlign: 'center',
       }}
     >
-      &copy; 2021 Velox.Global All Right Reserved
+      &copy; 2022 RBL Velox All Right Reserved
       {/* <div className="footer__inner flex --align-center --just-center">
                 <a href="1"
                     className="footer__link --svg__tg">Telegram</a>
