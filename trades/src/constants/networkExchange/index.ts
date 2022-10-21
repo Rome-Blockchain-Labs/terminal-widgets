@@ -1,3 +1,4 @@
+
 import * as ethers from 'ethers';
 import keyBy from 'lodash/keyBy';
 
@@ -22,6 +23,7 @@ export enum NetworkName {
   RINKEBY = 'rinkeby',
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
+  DFK = 'dfk',
 }
 
 export enum NetworkChainId {
@@ -35,6 +37,7 @@ export enum NetworkChainId {
   RINKEBY = 4,
   OPTIMISM = 10,
   POLYGON = 137,
+  DFK = 53935,
 }
 export type NetworkChainHex = `0x${string}`;
 
@@ -62,7 +65,8 @@ export enum ExchangeType {
   SUSHISWAP = 'sushiswap',
   UNISWAPV2 = 'uniswapv2',
   UNISWAPV3 = 'uniswapv3',
-  VELOX = 'velox',
+  CRYSTALVALE = 'crystalvale',
+  NOTEXCHANGE = 'notexchange',
 }
 
 /** Constants **/
@@ -148,6 +152,7 @@ const AVALANCHE_NETWORK_PARAM: NetworkParam = {
   exchanges: [
     { name: ExchangeType.PANGOLIN },
     { name: ExchangeType.TRADERJOE },
+    { name: ExchangeType.DMM },
     // { name: ExchangeType.AXIAL },
   ],
   name: NetworkName.AVALANCHE,
@@ -286,6 +291,25 @@ const POLYGON_NETWORK_PARAM: NetworkParam = {
   supportingWallets: ['metamask', 'coinbase'],
 };
 
+const DFK_NETWORK_PARAM: NetworkParam = {
+  blockExplorerUrl: 'https://subnets.avax.network/defi-kingdoms',
+  chainHex: '0xD2AF',
+  chainId: NetworkChainId.DFK,
+  exchanges: [{ name: ExchangeType.CRYSTALVALE }],
+  name: NetworkName.DFK,
+  nativeCurrency: {
+    decimals: 18,
+    isNative: true,
+    name: 'JEWEL',
+    symbol: 'JEWEL',
+  },
+  provider: new ethers.providers.JsonRpcProvider(
+    'https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc'
+  ),
+  rpcUrl: 'https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc',
+  supportingWallets: ['metamask', 'coinbase'],
+};
+
 const networkParams: Array<NetworkParam> = [
   ETHEREUM_NETWORK_PARAM,
   ETHEREUM_TEST_NETWORK_PARAM,
@@ -297,6 +321,7 @@ const networkParams: Array<NetworkParam> = [
   METIS_NETWORK_PARAM,
   OPTIMISM_NETWORK_PARAM,
   POLYGON_NETWORK_PARAM,
+  DFK_NETWORK_PARAM,
 ];
 
 /** Getters
@@ -582,9 +607,38 @@ export const getBasePairByNetworkExchange = (
       }
 
       return polygonBasePair;
+    case NetworkName.DFK:
+      const dfkBasePair = {
+        address: '',
+        blockchain: NetworkName.DFK,
+        exchange,
+        token0: {
+          address: '0x04b9dA42306B023f3572e106B11D82aAd9D32EBb',
+          decimals: 18,
+          name: 'Crystals',
+          symbol: 'CRYSTAL',
+        },
+        token1: {
+          address: '0xCCb93dABD71c8Dad03Fc4CE5559dC3D89F67a260',
+          decimals: 18,
+          name: 'Wrapped JEWEL',
+          symbol: 'WJEWEL',
+        },
+      };
+
+      if (exchange === ExchangeType.CRYSTALVALE) {
+        dfkBasePair.address = '0x48658E69D741024b4686C8f7b236D3F1D291f386';
+      } else {
+        throw new Error(
+          `There's no valid base pair for ${exchange} in ${network} network`
+        );
+      }
+
+      return dfkBasePair;
     default:
       throw new Error(
         `Invalid network: ${network} in getBasePairByNetworkExchange`
       );
   }
 };
+

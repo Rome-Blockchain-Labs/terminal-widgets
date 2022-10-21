@@ -21,7 +21,6 @@ export const PROD_WIDGET_MODE_MAP: {
   [WidgetType.AVAX_BRIDGE]: WidgetMode.NATIVE,
   [WidgetType.BENQI]: WidgetMode.NATIVE,
   [WidgetType.BISWAP]: WidgetMode.IFRAME,
-  [WidgetType.SHERPACASH]: WidgetMode.NATIVE,
   [WidgetType.BEAMSWAP]: WidgetMode.NATIVE,
   [WidgetType.SOLARBEAM]: WidgetMode.NATIVE,
   [WidgetType.NETSWAP]: WidgetMode.NATIVE,
@@ -34,6 +33,13 @@ export const PROD_WIDGET_MODE_MAP: {
   [WidgetType.UNISWAPV3]: WidgetMode.NATIVE,
   [WidgetType.BENQI_STAKING]: WidgetMode.NATIVE,
   [WidgetType.SNOWBALL]: WidgetMode.NATIVE,
+  [WidgetType.VENUS]: WidgetMode.NATIVE,
+  [WidgetType.CHARTONLY]: WidgetMode.NATIVE,
+  [WidgetType.MOONWELL]: WidgetMode.NATIVE,
+  [WidgetType.CRYSTALVALE]: WidgetMode.NATIVE,
+  [WidgetType.BANXA]: WidgetMode.NATIVE,
+  [WidgetType.CONNEXT_BRIDGE]: WidgetMode.NATIVE,
+  [WidgetType.SYNAPSE_BRIDGE]: WidgetMode.NATIVE,
 };
 
 export const STAGING_WIDGET_MODE_MAP = {};

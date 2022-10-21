@@ -46,9 +46,8 @@ export type ExchangeName =
   | 'CRODEX'
   | 'CYBORGSWAP'
   | 'NETSWAP'
-  | 'VELOX'
-  | 'KYBERSWAP'
-  | 'HERMES';
+  | 'HERMESPROTOCOL'
+  | 'CRYSTALVALE';
 
 export const NETWORKS = {
   [NetworkName.AVALANCHE]: {
@@ -157,6 +156,14 @@ export const NETWORKS = {
     },
     NAME: 'Polygon',
     NATIVE_TOKEN_NAME: 'MATIC',
+  },
+  [NetworkName.DFK]: {
+    MAINNET: {
+      CHAIN_ID: '53935',
+      CRYSTALVALE: { NAME: 'Crystalvale' },
+    },
+    NAME: 'DFK',
+    NATIVE_TOKEN_NAME: 'JEWEL',
   },
 };
 
@@ -448,6 +455,27 @@ const networks = [
         id: '137',
         key: 'MAINNET',
         nativeTokenAddress: '0x0000000000000000000000000000000000001010',
+        nativeTokenDecimals: 18,
+        veloxProxyAddress: '',
+      },
+    ],
+  },
+  {
+    id: 'DFK',
+    key: 'DFK',
+    subChains: [
+      {
+        USDTokenAddress: '0x3AD9DFE640E1A9Cc1D9B0948620820D975c3803a',
+        exchanges: [
+          {
+            ROUTER_ADDRESS: '0x3C351E1afdd1b1BC44e931E12D4E05D6125eaeCa',
+            id: 'Crystalvale',
+            key: 'CRYSTALVALE',
+          },
+        ],
+        id: '53935',
+        key: 'MAINNET',
+        nativeTokenAddress: '0xCCb93dABD71c8Dad03Fc4CE5559dC3D89F67a260',
         nativeTokenDecimals: 18,
         veloxProxyAddress: '',
       },
