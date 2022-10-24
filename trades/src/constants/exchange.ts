@@ -31,7 +31,7 @@ export const EXCHANGES: Array<Exchange> = [
     icon: PangolinIcon,
     iconAlt: PangolinIcon,
     name: ExchangeType.PANGOLIN,
-    title: 'Pangolin',
+    title: 'PANGOLIN',
     widgetType: WidgetType.PANGOLIN,
   },
   {
@@ -39,7 +39,7 @@ export const EXCHANGES: Array<Exchange> = [
     icon: TraderJoeIcon,
     iconAlt: TraderJoeIcon,
     name: ExchangeType.TRADERJOE,
-    title: 'Trader Joe',
+    title: 'TRADERJOE',
     widgetType: WidgetType.TRADERJOE,
   },
   {
@@ -47,7 +47,7 @@ export const EXCHANGES: Array<Exchange> = [
     icon: Kyber,
     iconAlt: Kyber,
     name: ExchangeType.DMM,
-    title: 'Kyberswap',
+    title: 'KYBERSWAP',
     widgetType: WidgetType.KYBERSWAP,
   },
   {

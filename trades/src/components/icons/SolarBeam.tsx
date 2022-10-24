@@ -1,22 +1,13 @@
 import React, { FC, useRef } from 'react';
-import tw from 'twin.macro';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IIconProps, TransitionCircle, TransitionPath } from '.';
 
-export const Solarbeam: FC<IIconProps> = ({
-  className,
-  grayscale,
-  height,
-  isBackground,
-  width,
-}) => {
+export const Solarbeam: FC<IIconProps> = ({ active, height, width }) => {
   const uuid = useRef(uuidv4());
 
   return (
     <svg
-      className={className}
-      css={[isBackground ? tw`absolute -left-1/2` : '']}
       height={height ?? 28}
       viewBox="0 0 400 400"
       width={width ?? 28}
@@ -28,7 +19,7 @@ export const Solarbeam: FC<IIconProps> = ({
             gradientTransform="matrix(-0.7071 -0.7071 0.7071 -0.7071 429.0644 3182.4226)"
             gradientUnits="userSpaceOnUse"
             id={`SOLARBEAM_BG_1_${uuid.current}`}
-            x1="2073.5037"
+            x1="2074.5037"
             x2="2470.3464"
             y1="1947.2719"
             y2="1947.2719"
@@ -39,9 +30,7 @@ export const Solarbeam: FC<IIconProps> = ({
           <TransitionCircle
             cx="199.5"
             cy="199"
-            fill={
-              grayscale ? '#B4BBC7' : `url(#SOLARBEAM_BG_1_${uuid.current})`
-            }
+            fill={active ? `url(#SOLARBEAM_BG_1_${uuid.current})` : '#B4BBC7'}
             r="198.42"
           />
         </g>
@@ -67,3 +56,4 @@ export const Solarbeam: FC<IIconProps> = ({
     </svg>
   );
 };
+

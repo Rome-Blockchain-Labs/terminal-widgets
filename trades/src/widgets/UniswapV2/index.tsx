@@ -69,7 +69,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     exchangeName as any,
     widget.network.toUpperCase() as VeloxNetworkName
   );
-
   const Icon = EXCHANGES.find((exchange) => {
     if (exchange.title === exchangeName) {
       return exchange;
@@ -136,7 +135,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   return (
     <div
       id={uid}
-      tw="flex justify-center items-center h-full  bg-dark-500 relative"
+      tw="flex justify-center items-center h-[100vh]  bg-dark-500 relative"
     >
       <PageContextProvider>
         <Provider store={store}>
