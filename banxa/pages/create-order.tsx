@@ -150,9 +150,6 @@ export default function CreateOrder() {
 
   const listsLoaded = tokenBuyList && tokenSellList && fiatBuyList && fiatSellList
 
-
-
-
   useEffect(() => {
     if (createOrderError) {
       //@ts-ignore
@@ -371,9 +368,9 @@ export default function CreateOrder() {
               {...register("blockchain", { required: "Select a blockchain network" })}>
 
               <option value="none" selected disabled hidden>Select a network</option>
-              {availableBlockchains && availableBlockchains.map((availableBlockchain: any) => (
+              {availableBlockchains && availableBlockchains.map((availableBlockchain: any, index: number) => (
 
-                <option value={availableBlockchain.code}>{availableBlockchain.description}</option>
+                <option key={index} value={availableBlockchain.code}>{availableBlockchain.description}</option>
               ))}
 
             </select>
