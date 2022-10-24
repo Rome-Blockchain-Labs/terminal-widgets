@@ -12,7 +12,6 @@ export interface IAccount {
 }
 
 export interface IAuthContextValue {
-  login: (connector: Connector) => Promise<void>;
   logOut: () => void;
   openAuthModal: () => void;
   closeAuthModal: () => void;
@@ -20,7 +19,6 @@ export interface IAuthContextValue {
 }
 
 export const AuthContext = React.createContext<IAuthContextValue>({
-  login: noop,
   logOut: noop,
   openAuthModal: noop,
   closeAuthModal: noop,
@@ -29,15 +27,10 @@ export const AuthContext = React.createContext<IAuthContextValue>({
 export const AuthProvider: React.FC = ({ children }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
 
-  const { login, accountAddress, logOut, connectedConnector } = useAuth();
+  const { accountAddress, connectedWallet, logOut } = useAuth();
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
-
-  const handleLogin = (connector: Connector) => {
-    login(connector);
-    closeAuthModal();
-  };
 
   const handleCopyAccountAddress = (accountAddressToCopy: string) => {
     copyToClipboard(accountAddressToCopy);
@@ -47,10 +40,14 @@ export const AuthProvider: React.FC = ({ children }) => {
     });
   };
 
+  const logoutAndCloseModal = () => {
+    logOut();
+    closeAuthModal();
+  };
+
   const account = accountAddress
     ? {
         address: accountAddress,
-        connector: connectedConnector,
       }
     : undefined;
 
@@ -58,8 +55,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         account,
-        login,
-        logOut,
+        logOut: logoutAndCloseModal,
         openAuthModal,
         closeAuthModal,
       }}
@@ -67,12 +63,11 @@ export const AuthProvider: React.FC = ({ children }) => {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
-        account={account}
-        onLogOut={logOut}
-        onLogin={handleLogin}
+        account={account?.address}
+        connectedWallet={connectedWallet}
+        onLogOut={logoutAndCloseModal}
         onCopyAccountAddress={handleCopyAccountAddress}
       />
-
       {children}
     </AuthContext.Provider>
   );

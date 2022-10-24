@@ -48,11 +48,11 @@ export const PALETTE = {
 const BREAKPOINTS = {
   values: {
     xs: 0,
-    sm: 576,
+    sm: 510,
     md: 768,
-    lg: 992,
+    lg: 1024,
     xl: 1280,
-    xxl: 1440,
+    xxl: 1536,
   },
 };
 

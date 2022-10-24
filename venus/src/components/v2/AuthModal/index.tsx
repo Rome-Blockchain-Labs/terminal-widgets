@@ -1,26 +1,26 @@
 import React from 'react';
+import { Wallet } from '@romeblockchain/wallet';
 
 import { useTranslation } from 'translation';
 import { Modal, IModalProps } from '../Modal';
 import { AccountDetails, IAccountDetailsProps } from './AccountDetails';
-import { WalletList, IWalletListProps } from './WalletList';
 
 export interface IAuthModalProps {
   isOpen: boolean;
   onClose: IModalProps['handleClose'];
-  onLogin: IWalletListProps['onLogin'];
   onLogOut: IAccountDetailsProps['onLogOut'];
   onCopyAccountAddress: IAccountDetailsProps['onCopyAccountAddress'];
   account?: IAccountDetailsProps['account'];
+  connectedWallet?: IAccountDetailsProps['connectedWallet'];
 }
 
 export const AuthModal: React.FC<IAuthModalProps> = ({
   isOpen,
   onClose,
-  onLogin,
   onLogOut,
   onCopyAccountAddress,
-  account,
+  account = '',
+  connectedWallet = Wallet.METAMASK,
 }) => {
   const { t } = useTranslation();
 
@@ -31,18 +31,15 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
       handleClose={onClose}
       noHorizontalPadding={!account}
       title={
-        <h4>{!account ? t('authModal.title.connectWallet') : t('authModal.title.yourWallet')}</h4>
+        <h4>{t('authModal.title.yourWallet')}</h4>
       }
     >
-      {!account ? (
-        <WalletList onLogin={onLogin} />
-      ) : (
-        <AccountDetails
-          account={account}
-          onCopyAccountAddress={onCopyAccountAddress}
-          onLogOut={onLogOut}
-        />
-      )}
+      <AccountDetails
+        account={account}
+        connectedWallet={connectedWallet}
+        onCopyAccountAddress={onCopyAccountAddress}
+        onLogOut={onLogOut}
+      />
     </Modal>
   );
 };

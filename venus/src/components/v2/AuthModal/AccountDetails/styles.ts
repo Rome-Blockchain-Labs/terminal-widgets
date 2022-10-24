@@ -40,6 +40,7 @@ export const useStyles = () => {
       display: block;
       margin-bottom: ${theme.spacing(1)};
       color: ${theme.palette.text.secondary};
+      text-transform: capitalize;
 
       ${theme.breakpoints.down('md')} {
         margin-bottom: ${theme.spacing(4)};

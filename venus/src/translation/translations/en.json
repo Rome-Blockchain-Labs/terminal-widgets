@@ -86,7 +86,8 @@
     "title": "Connect wallet"
   },
   "connectWallet": {
-    "connectButton": "Connect wallet"
+    "connectButton": "Connect wallet",
+    "title": "Please choose a wallet and connect to it"
   },
   "convertVrt": {
     "balance": "Balance: <White>{{amount}} VRT</White>",
