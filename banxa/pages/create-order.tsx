@@ -29,7 +29,7 @@ export interface FormValues {
   target: string | undefined
   source_amount: number | undefined
   target_amount: number | undefined
-  blockchain?: string | false
+  blockchain?: string
 }
 
 export default function CreateOrder() {
@@ -66,7 +66,7 @@ export default function CreateOrder() {
       target: undefined,
       source_amount: undefined,
       target_amount: undefined,
-      blockchain: false
+      blockchain: "none"
     },
   })
   const [error, setError] = useState<string>()
@@ -370,7 +370,7 @@ export default function CreateOrder() {
               className="mt-1 py-1 text-black text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
               {...register("blockchain", { required: "Select a blockchain network" })}>
 
-              <option value={false} selected disabled hidden>Select an Option</option>
+              <option value="none" selected disabled hidden>Select a network</option>
               {availableBlockchains && availableBlockchains.map((availableBlockchain: any) => (
 
                 <option value={availableBlockchain.code}>{availableBlockchain.description}</option>
