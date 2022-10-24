@@ -24,6 +24,9 @@ const useGetPrice = (
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+      if (!source || !target) {
+        return
+      }
       const setSourceAmount = (value: number) => {
         setValue('source_amount', value)
       }

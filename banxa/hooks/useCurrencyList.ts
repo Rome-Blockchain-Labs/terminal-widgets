@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 const useCurrencyLists = () => {
+
   const { data: fiatBuyList, error: fiatBuyListError } = useQuery(
     ['fiatBuyData'],
     async () => {
