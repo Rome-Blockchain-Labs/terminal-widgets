@@ -19,14 +19,11 @@ const useGetPrice = (
 
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
   const [priceLoading, setPriceLoading] = useState(false)
-  const debouncedSourceAmount = useDebounce(sourceAmount, 500)
-  const debouncedTargetAmount = useDebounce(targetAmount, 500)
+  const debouncedSourceAmount = useDebounce(sourceAmount, 1000)
+  const debouncedTargetAmount = useDebounce(targetAmount, 1000)
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
-      if (!source || !target) {
-        return
-      }
       const setSourceAmount = (value: number) => {
         setValue('source_amount', value)
       }
@@ -96,7 +93,7 @@ const useGetPrice = (
     if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
       getPrices({ target_amount: debouncedTargetAmount })
     }
-  }, [amountInput, debouncedSourceAmount, debouncedTargetAmount, getPrices, sourceAmount, targetAmount])
+  }, [debouncedSourceAmount, debouncedTargetAmount])
 
   useEffect(() => {
     if (currencyChange && debouncedSourceAmount && debouncedTargetAmount && (source || target)) {

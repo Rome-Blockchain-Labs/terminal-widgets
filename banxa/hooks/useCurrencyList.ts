@@ -26,6 +26,7 @@ const useCurrencyLists = () => {
         .map((coin: any) => ({
           code: coin.coin_code,
           name: coin.coin_name,
+          blockchain: [...coin.blockchains]
         }))
     },
     { staleTime: Infinity }
@@ -52,6 +53,7 @@ const useCurrencyLists = () => {
         .map((coin: any) => ({
           code: coin.coin_code,
           name: coin.coin_name,
+          blockchain: [...coin.blockchains]
         }))
     },
     { staleTime: Infinity }
