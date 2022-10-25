@@ -34,21 +34,12 @@ import { MarketContextProvider } from 'context/MarketContext';
 import { VaiContextProvider } from 'context/VaiContext';
 import { MuiThemeProvider } from 'theme/MuiThemeProvider/MuiThemeProvider';
 import 'assets/styles/App.scss';
+import IFrameProvider from 'context/IFrameContext';
 
 initTranslationLibrary();
 
 const App = () => {
   const { isActive, isUnsupportedChainId } = useAuth();
-
-  if (!isActive || isUnsupportedChainId) {
-    return (
-      <Theme>
-        <MuiThemeProvider>
-          <ConnectWallet />
-        </MuiThemeProvider>
-      </Theme>
-    );
-  }
 
   return (
     <Theme>
@@ -61,40 +52,46 @@ const App = () => {
                   <MarketContextProvider>
                     <SuccessfulTransactionModalProvider>
                       <BrowserRouter>
-                        <ToastContainer
-                          autoClose={8000}
-                          transition={Slide}
-                          hideProgressBar
-                          newestOnTop
-                          position={toast.POSITION.TOP_LEFT}
-                        />
-                        <Layout>
-                          <Switch>
-                            <Route exact path="/dashboard" component={Dashboard} />
-                            <Route exact path="/vote" component={Vote} />
-                            <Route exact path="/xvs" component={XVS} />
-                            <Route exact path="/market" component={Market} />
-                            <Route
-                              exact
-                              path="/market/:assetId"
-                              component={
-                                process.env.REACT_APP_RUN_V2 ? MarketDetails : MarketDetailsV1
-                              }
-                            />
-                            <Route exact path="/transaction" component={Transaction} />
-                            <Route exact path="/vault" component={Vault} />
-                            <Route exact path="/vote/leaderboard" component={VoterLeaderboard} />
-                            <Route exact path="/vote/proposal/:id" component={VoteOverview} />
-                            <Route exact path="/vote/address/:address" component={ProposerDetail} />
-                            <Route
-                              exact
-                              path="/convert-vrt"
-                              component={process.env.REACT_APP_RUN_V2 ? ConvertVrt : ConvertVrtV1}
-                            />
-                            {isOnTestnet && <Route exact path="/faucet" component={Faucet} />}
-                            <Redirect from="/" to="/dashboard" />
-                          </Switch>
-                        </Layout>
+                        <IFrameProvider>
+                          <ToastContainer
+                            autoClose={8000}
+                            transition={Slide}
+                            hideProgressBar
+                            newestOnTop
+                            position={toast.POSITION.TOP_LEFT}
+                          />
+                          {!isActive || isUnsupportedChainId ? (
+                            <ConnectWallet />
+                          ) : (
+                            <Layout>
+                              <Switch>
+                                <Route exact path="/dashboard" component={Dashboard} />
+                                <Route exact path="/vote" component={Vote} />
+                                <Route exact path="/xvs" component={XVS} />
+                                <Route exact path="/market" component={Market} />
+                                <Route
+                                  exact
+                                  path="/market/:assetId"
+                                  component={
+                                    process.env.REACT_APP_RUN_V2 ? MarketDetails : MarketDetailsV1
+                                  }
+                                />
+                                <Route exact path="/transaction" component={Transaction} />
+                                <Route exact path="/vault" component={Vault} />
+                                <Route exact path="/vote/leaderboard" component={VoterLeaderboard} />
+                                <Route exact path="/vote/proposal/:id" component={VoteOverview} />
+                                <Route exact path="/vote/address/:address" component={ProposerDetail} />
+                                <Route
+                                  exact
+                                  path="/convert-vrt"
+                                  component={process.env.REACT_APP_RUN_V2 ? ConvertVrt : ConvertVrtV1}
+                                />
+                                {isOnTestnet && <Route exact path="/faucet" component={Faucet} />}
+                                <Redirect from="/" to="/dashboard" />
+                              </Switch>
+                            </Layout>
+                          )}
+                        </IFrameProvider>
                       </BrowserRouter>
                     </SuccessfulTransactionModalProvider>
                   </MarketContextProvider>
