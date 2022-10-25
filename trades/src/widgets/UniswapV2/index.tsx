@@ -133,28 +133,30 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
           <IFrameProvider>
             <WalletModal chainParams={chainParams} />
             <AddressModal />
-            <UniswapV2Component
-              backgroundImage={
-                Icon && <Icon isBackground height="100%" width="100%" />
-              }
-              defaultTokenList={defaultTokenList}
-              exchange={widget.exchange.toUpperCase() as any}
-              network={widget.network}
-              pageOverride={pageOverride}
-              settingsOpenOverride={settingOpen}
-              widget={{
-                blockchain: widget.network,
-                pair: {
-                  address: '0x1',
+            {targetChainID === chainId && (
+              <UniswapV2Component
+                backgroundImage={
+                  Icon && <Icon isBackground height="100%" width="100%" />
+                }
+                defaultTokenList={defaultTokenList}
+                exchange={widget.exchange.toUpperCase() as any}
+                network={widget.network}
+                pageOverride={pageOverride}
+                settingsOpenOverride={settingOpen}
+                widget={{
                   blockchain: widget.network,
-                  exchange: widget.exchange,
-                  token0: tokens.tokenIn,
-                  token1: tokens.tokenOut,
-                },
-                targetPosition: 1,
-                uid: uid,
-              }}
-            />
+                  pair: {
+                    address: '0x1',
+                    blockchain: widget.network,
+                    exchange: widget.exchange,
+                    token0: tokens.tokenIn,
+                    token1: tokens.tokenOut,
+                  },
+                  targetPosition: 1,
+                  uid: uid,
+                }}
+              />
+            )}
           </IFrameProvider>
         </Provider>
       </PageContextProvider>
