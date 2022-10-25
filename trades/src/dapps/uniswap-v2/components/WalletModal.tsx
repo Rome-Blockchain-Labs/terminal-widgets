@@ -37,7 +37,7 @@ const WalletModal = ({
     ) {
       setWalletVisibility(true);
     }
-  }, [account, setWalletVisibility]);
+  }, [account, setWalletVisibility, chainId, chainParams]);
   if (!walletVisibility) {
     return null;
   }
