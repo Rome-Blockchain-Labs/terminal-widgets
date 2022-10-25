@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material';
 
 export const useStyles = () => {
   const theme = useTheme();
-  const gap = theme.spacing(8);
+  const gap = theme.spacing(2);
 
   return {
     row: css`
@@ -12,7 +12,7 @@ export const useStyles = () => {
       justify-content: space-between;
       margin-bottom: ${gap};
 
-      ${theme.breakpoints.down('xl')} {
+      ${theme.breakpoints.down('lg')} {
         flex-direction: column;
         margin-bottom: 0;
       }
@@ -20,10 +20,13 @@ export const useStyles = () => {
     column: css`
       width: calc(50% - ${gap} / 2);
 
-      ${theme.breakpoints.down('xl')} {
+      ${theme.breakpoints.down('lg')} {
         width: 100%;
         margin-bottom: ${gap};
       }
+    `,
+    accountSection: css`
+      margin-bottom: ${gap};
     `,
   };
 };

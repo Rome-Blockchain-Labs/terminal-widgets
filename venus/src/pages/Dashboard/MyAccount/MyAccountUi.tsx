@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import { useTranslation } from 'translation';
 
 import { formatCentsToReadableValue, formatToReadablePercentage } from 'utilities/common';
-import { useTranslation } from 'translation';
 import { IToggleProps, Toggle, Icon, Tooltip, BorrowLimitUsedAccountHealth } from 'components';
-import Paper from '@mui/material/Paper';
 import { useMyAccountStyles as useStyles } from './styles';
 
 export interface IMyAccountUiProps {
@@ -81,48 +82,53 @@ export const MyAccountUi = ({
           <Toggle css={styles.toggle} value={isXvsEnabled} onChange={handleXvsToggleChange} />
         </div>
       </div>
+      <Grid container spacing={2} mb={4}>
+        <Grid item xs={6} lg={3} css={styles.netApyContainer}>
+          <div css={styles.netApy}>
+            <Typography component="span" variant="small2" css={styles.netApyLabel}>
+              {t('myAccount.netApy')}
+            </Typography>
 
-      <div css={styles.netApyContainer}>
-        <div css={styles.netApy}>
-          <Typography component="span" variant="small2" css={styles.netApyLabel}>
-            {t('myAccount.netApy')}
+            <Tooltip css={styles.tooltip} title={t('myAccount.netApyTooltip')}>
+              <Icon css={styles.infoIcon} name="info" />
+            </Tooltip>
+          </div>
+
+          <Typography variant="h2" color="interactive.success" component="span">
+            {readableNetApyPercentage}
           </Typography>
+        </Grid>
 
-          <Tooltip css={styles.tooltip} title={t('myAccount.netApyTooltip')}>
-            <Icon css={styles.infoIcon} name="info" />
-          </Tooltip>
-        </div>
-
-        <Typography variant="h1" color="interactive.success" component="span">
-          {readableNetApyPercentage}
-        </Typography>
-      </div>
-
-      <ul css={styles.list}>
-        <Typography component="li" variant="h4" css={styles.item}>
+        <Grid item xs={6} lg={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.dailyEarnings')}
           </Typography>
 
-          {readableDailyEarnings}
-        </Typography>
+          <Typography variant="h2" component="span">
+            {readableDailyEarnings}
+          </Typography>
+        </Grid>
 
-        <Typography component="li" variant="h4" css={styles.item}>
+        <Grid item xs={6} lg={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.supplyBalance')}
           </Typography>
 
-          {readableSupplyBalance}
-        </Typography>
+          <Typography variant="h2" component="span">
+            {readableSupplyBalance}
+          </Typography>
+        </Grid>
 
-        <Typography component="li" variant="h4" css={styles.item}>
+        <Grid item xs={6} lg={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.borrowBalance')}
           </Typography>
 
-          {readableBorrowBalance}
-        </Typography>
-      </ul>
+          <Typography variant="h2" component="span">
+            {readableBorrowBalance}
+          </Typography>
+        </Grid>
+      </Grid>
 
       <BorrowLimitUsedAccountHealth
         css={styles.progressBar}

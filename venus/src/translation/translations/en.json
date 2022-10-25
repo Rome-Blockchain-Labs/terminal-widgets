@@ -80,7 +80,7 @@
       "message": "You successfully claimed",
       "title": "Your claim was successful"
     },
-    "title": "Claim <Icon/> {{amount}}"
+    "title": "<Icon/> Claim XVS"
   },
   "connectButton": {
     "title": "Connect wallet"

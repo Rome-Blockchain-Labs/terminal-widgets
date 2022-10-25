@@ -6,6 +6,11 @@ export const useMyAccountStyles = () => {
   return {
     container: css`
       width: 100%;
+      padding: ${theme.spacing(2)};
+
+      ${theme.breakpoints.up('lg')} {
+        padding: ${theme.spacing(6)};
+      }
     `,
     row: css`
       display: flex;
@@ -40,7 +45,7 @@ export const useMyAccountStyles = () => {
       display: inline-block;
     `,
     netApyContainer: css`
-      margin-bottom: ${theme.spacing(4)};
+      padding: ${theme.spacing(0, 2)};
     `,
     netApy: css`
       display: flex;
@@ -61,30 +66,12 @@ export const useMyAccountStyles = () => {
     `,
     item: css`
       list-style: none;
-      padding-left: ${theme.spacing(8)};
-      padding-right: ${theme.spacing(8)};
-      border-right: 1px solid ${theme.palette.secondary.light};
+      padding-left: ${theme.spacing(2)};
+      padding-right: ${theme.spacing(2)};
 
       ${theme.breakpoints.down('sm')} {
-        border-right: none;
         padding: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         font-size: 14px;
-
-        & + & {
-          margin-top: ${theme.spacing(2)};
-        }
-      }
-
-      :first-of-type {
-        border-left: none;
-        padding-left: 0;
-      }
-      :last-child {
-        border-right: none;
-        padding-right: 0;
       }
     `,
     inlineLabel: css`

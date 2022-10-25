@@ -40,6 +40,16 @@ initTranslationLibrary();
 const App = () => {
   const { isActive, isUnsupportedChainId } = useAuth();
 
+  if (!isActive || isUnsupportedChainId) {
+    return (
+      <Theme>
+        <MuiThemeProvider>
+          <ConnectWallet />
+        </MuiThemeProvider>
+      </Theme>
+    );
+  }
+
   return (
     <Theme>
       <QueryClientProvider client={queryClient}>
@@ -58,37 +68,33 @@ const App = () => {
                           newestOnTop
                           position={toast.POSITION.TOP_LEFT}
                         />
-                        {(!isActive || isUnsupportedChainId) ? (
-                          <ConnectWallet />
-                        ) : (
-                          <Layout>
-                            <Switch>
-                              <Route exact path="/dashboard" component={Dashboard} />
-                              <Route exact path="/vote" component={Vote} />
-                              <Route exact path="/xvs" component={XVS} />
-                              <Route exact path="/market" component={Market} />
-                              <Route
-                                exact
-                                path="/market/:assetId"
-                                component={
-                                  process.env.REACT_APP_RUN_V2 ? MarketDetails : MarketDetailsV1
-                                }
-                              />
-                              <Route exact path="/transaction" component={Transaction} />
-                              <Route exact path="/vault" component={Vault} />
-                              <Route exact path="/vote/leaderboard" component={VoterLeaderboard} />
-                              <Route exact path="/vote/proposal/:id" component={VoteOverview} />
-                              <Route exact path="/vote/address/:address" component={ProposerDetail} />
-                              <Route
-                                exact
-                                path="/convert-vrt"
-                                component={process.env.REACT_APP_RUN_V2 ? ConvertVrt : ConvertVrtV1}
-                              />
-                              {isOnTestnet && <Route exact path="/faucet" component={Faucet} />}
-                              <Redirect from="/" to="/dashboard" />
-                            </Switch>
-                          </Layout>
-                        )}
+                        <Layout>
+                          <Switch>
+                            <Route exact path="/dashboard" component={Dashboard} />
+                            <Route exact path="/vote" component={Vote} />
+                            <Route exact path="/xvs" component={XVS} />
+                            <Route exact path="/market" component={Market} />
+                            <Route
+                              exact
+                              path="/market/:assetId"
+                              component={
+                                process.env.REACT_APP_RUN_V2 ? MarketDetails : MarketDetailsV1
+                              }
+                            />
+                            <Route exact path="/transaction" component={Transaction} />
+                            <Route exact path="/vault" component={Vault} />
+                            <Route exact path="/vote/leaderboard" component={VoterLeaderboard} />
+                            <Route exact path="/vote/proposal/:id" component={VoteOverview} />
+                            <Route exact path="/vote/address/:address" component={ProposerDetail} />
+                            <Route
+                              exact
+                              path="/convert-vrt"
+                              component={process.env.REACT_APP_RUN_V2 ? ConvertVrt : ConvertVrtV1}
+                            />
+                            {isOnTestnet && <Route exact path="/faucet" component={Faucet} />}
+                            <Redirect from="/" to="/dashboard" />
+                          </Switch>
+                        </Layout>
                       </BrowserRouter>
                     </SuccessfulTransactionModalProvider>
                   </MarketContextProvider>
