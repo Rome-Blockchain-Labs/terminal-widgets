@@ -1,9 +1,9 @@
 import {
   BeamSwap,
+  MdexIcon,
   PancakeswapIcon,
   PangolinIcon,
   Solarbeam,
-  MdexIcon,
   SushiswapIcon,
   TraderJoeIcon,
   UniswapIcon,
@@ -97,8 +97,8 @@ export const EXCHANGES: Array<Exchange> = [
 ];
 
 export const EXCHANGE_TITLE: { [key: string]: string } = {
-  mdex: 'MDEX',
   beamswap: 'BEAMSWAP',
+  mdex: 'MDEX',
   pancakeswap: 'PANCAKESWAP',
   pangolin: 'PANGOLIN',
   safeswap: 'SAFESWAP',

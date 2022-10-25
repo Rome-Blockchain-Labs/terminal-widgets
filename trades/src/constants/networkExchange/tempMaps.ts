@@ -69,13 +69,13 @@ export const mapThisNetworkMULTICHAINSNETWORKSNameToMultiChainNetwork: {
  */
 const deprecatedNetworkMap: { [key in ExchangeType]?: NetworkName } = {
   beamswap: NetworkName.MOONBEAM,
+  mdex: NetworkName.BINANCE,
   pancakeswap: NetworkName.BINANCE,
   pangolin: NetworkName.AVALANCHE,
   safeswap: NetworkName.BINANCE,
   solarbeam: NetworkName.MOONRIVER,
   sushiswap: NetworkName.ETHEREUM,
   traderjoe: NetworkName.AVALANCHE,
-  mdex: NetworkName.BINANCE,
 };
 export const deprecatedGetNetworkFromExchange = (exchange: ExchangeType) => {
   return deprecatedNetworkMap[exchange];

@@ -34,8 +34,8 @@ export const NETWORKS = {
   [NetworkName.BINANCE]: {
     MAINNET: {
       CHAIN_ID: '56',
-      PANCAKESWAP: { NAME: 'PancakeSwap' },
       MDEX: { NAME: 'MDex' },
+      PANCAKESWAP: { NAME: 'PancakeSwap' },
     },
     NAME: 'BSC',
     NATIVE_TOKEN_NAME: 'BNB',
