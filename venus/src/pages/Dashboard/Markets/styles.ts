@@ -60,7 +60,7 @@ export const useStyles = () => {
       }
     `,
     delimiter: css`
-      margin: ${theme.spacing(6)};
+      margin: ${theme.spacing(3)};
 
       ${theme.breakpoints.down('sm')} {
         display: none;
