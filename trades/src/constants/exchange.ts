@@ -119,7 +119,7 @@ export const EXCHANGES: Array<Exchange> = [
     icon: UniswapIcon,
     iconAlt: UniswapIcon,
     name: ExchangeType.UNISWAPV2,
-    title: 'UNISWAP V2',
+    title: 'UNISWAPV2',
     widgetType: WidgetType.UNISWAPV2,
   },
   {
@@ -127,7 +127,7 @@ export const EXCHANGES: Array<Exchange> = [
     icon: UniswapIcon,
     iconAlt: UniswapIcon,
     name: ExchangeType.UNISWAPV3,
-    title: 'UNISWAP V3',
+    title: 'UNISWAPV3',
     widgetType: WidgetType.UNISWAPV3,
   },
   {

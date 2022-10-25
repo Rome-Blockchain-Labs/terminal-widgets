@@ -6,7 +6,6 @@ import {
   useWallets,
   useWeb3React,
 } from '@romeblockchain/wallet';
-import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useContext, useEffect, useState } from 'react';
@@ -25,10 +24,7 @@ import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
 import AddressModal from '../../dapps/uniswap-v2/components/AddressModal';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
-import {
-  PageContext,
-  PageContextProvider,
-} from '../../dapps/uniswap-v2/PageContext';
+import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
 import { getStore } from '../../dapps/uniswap-v2/state';
 import { getTokenListUrlsByExchangeName } from '../../dapps/uniswap-v2/token-list';
 import { Token, WidgetCommonState } from '../../types';
@@ -93,9 +89,24 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName
     );
-    setDefaultTokenList(defaultListOfLists[0]);
-    fetch(defaultListOfLists[0]).then((response) => {
-      response.json().then((responseData) => {
+
+    const fetchTokenList = async () => {
+      let res = await fetch(defaultListOfLists[0]).catch((err) =>
+        console.log('Failed to fetch from 1st list with error', err)
+      );
+
+      if (!res) {
+        res = await fetch(defaultListOfLists[1]).catch((err) =>
+          console.log('Failed to fetch from 2nd list with error', err)
+        );
+        setDefaultTokenList(defaultListOfLists[1]);
+      } else {
+        setDefaultTokenList(defaultListOfLists[0]);
+      }
+
+      if (res) {
+        const responseData = await res.json();
+
         const tokenData = responseData.tokens
           ? responseData.tokens
           : responseData;
@@ -110,8 +121,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
         if (tokenIn && tokenOut) {
           setTokens({ tokenIn, tokenOut });
         }
-      });
-    });
+      }
+    };
+    fetchTokenList();
   }, [
     exchangeName,
     widget.exchange,
