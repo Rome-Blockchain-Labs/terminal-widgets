@@ -31,26 +31,14 @@ export const ReplaceNetworkExchangeEnumsForStrings = (storage: any): any => {
         case 0:
           widget.exchangeType = ExchangeType.PANGOLIN;
           break;
-        case 1:
-          widget.exchangeType = ExchangeType.DMM;
-          break;
         case 2:
           widget.exchangeType = ExchangeType.TRADERJOE;
           break;
         case 3:
           widget.exchangeType = ExchangeType.PANCAKESWAP;
           break;
-        case 4:
-          widget.exchangeType = ExchangeType.MDEX;
-          break;
         case 5:
           widget.exchangeType = ExchangeType.SAFESWAP;
-          break;
-        case 6:
-          widget.exchangeType = ExchangeType.ELLIPSIS;
-          break;
-        case 7:
-          widget.exchangeType = ExchangeType.BISWAP;
           break;
         case 8:
           widget.exchangeType = ExchangeType.BEAMSWAP;

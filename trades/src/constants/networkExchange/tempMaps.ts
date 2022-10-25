@@ -69,12 +69,6 @@ export const mapThisNetworkMULTICHAINSNETWORKSNameToMultiChainNetwork: {
  */
 const deprecatedNetworkMap: { [key in ExchangeType]?: NetworkName } = {
   beamswap: NetworkName.MOONBEAM,
-  biswap: NetworkName.BINANCE,
-  'ellipsis.finance': NetworkName.BINANCE,
-  hermesprotocol: NetworkName.METIS,
-  kyberdmm: NetworkName.AVALANCHE,
-  mdex: NetworkName.BINANCE,
-  netswap: NetworkName.METIS,
   pancakeswap: NetworkName.BINANCE,
   pangolin: NetworkName.AVALANCHE,
   safeswap: NetworkName.BINANCE,

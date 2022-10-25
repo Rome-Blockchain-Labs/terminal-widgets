@@ -7,46 +7,13 @@ export type BscChainName = 'MAINNET' | 'TESTNET';
 export type ChainName = EthereumChainName | AvalancheChainName | BscChainName;
 export type ExchangeName =
   | 'UNISWAPV2'
-  | 'UNISWAPV3'
   | 'SUSHISWAP'
   | 'PANGOLIN'
   | 'TRADERJOE'
   | 'PANCAKESWAP'
-  | 'SAFESWAP'
-  | 'KYBERDMM'
-  | 'ZEROEXCHANGE'
-  | 'YETISWAP'
-  | 'BAGUETTE'
-  | 'CANARY'
-  | 'LYDIAFINANCE'
-  | 'ELKFINANCE'
-  | 'PANDASWAP'
-  | 'COMPLUSNETWORK'
-  | 'OLIVESWAP'
-  | 'MDEX'
-  | 'ELLIPSIS.FINANCE'
-  | 'BISWAP'
-  | 'APESWAP'
-  | 'KNIGHTSWAP.FINANCE'
-  | 'BABYSWAP'
-  | 'SYNAPSE'
   | 'BEAMSWAP'
-  | 'SOLARFLARE'
-  | 'STELLASWAP'
-  | 'ZENLINK'
   | 'SOLARBEAM'
-  | 'SHIBASWAP'
-  | 'QUICKSWAP'
-  | 'SOLIDEX'
-  | 'SPOOKYSWAP'
-  | 'SPIRITSWAP'
-  | 'VVS.FINANCE'
-  | 'MM.FINANCE'
-  | 'CRONASWAP'
-  | 'CRODEX'
-  | 'CYBORGSWAP'
   | 'NETSWAP'
-  | 'HERMESPROTOCOL'
   | 'CRYSTALVALE';
 
 export const NETWORKS = {
@@ -65,11 +32,8 @@ export const NETWORKS = {
   },
   [NetworkName.BINANCE]: {
     MAINNET: {
-      BISWAP: { NAME: 'BiSwap' },
       CHAIN_ID: '56',
-      MDEX: { NAME: 'MDex' },
       PANCAKESWAP: { NAME: 'PancakeSwap' },
-      SAFESWAP: { NAME: 'SafeSwap' },
     },
     NAME: 'BSC',
     NATIVE_TOKEN_NAME: 'BNB',
@@ -83,7 +47,6 @@ export const NETWORKS = {
       CHAIN_ID: '1',
       SUSHISWAP: { NAME: 'SushiSwap' },
       UNISWAPV2: { NAME: 'UniswapV2' },
-      UNISWAPV3: { NAME: 'UniswapV3' },
     },
     NAME: 'Ethereum',
     NATIVE_TOKEN_NAME: 'ETH',
@@ -102,9 +65,6 @@ export const NETWORKS = {
     MAINNET: {
       BEAMSWAP: { NAME: 'BeamSwap' },
       CHAIN_ID: '1284',
-      SOLARFLARE: { NAME: 'SolarFlare' },
-      STELLASWAP: { NAME: 'StellaSwap' },
-      ZENLINK: { NAME: 'ZenLink' },
     },
     NAME: 'Moonbeam',
     NATIVE_TOKEN_NAME: 'GLMR',
@@ -114,7 +74,6 @@ export const NETWORKS = {
       CHAIN_ID: '1285',
       SOLARBEAM: { NAME: 'SolarBeam' },
       SUSHISWAP: { NAME: 'SushiSwap' },
-      ZENLINK: { NAME: 'ZenLink' },
     },
     NAME: 'MoonRiver',
     NATIVE_TOKEN_NAME: 'MOVR',
@@ -152,7 +111,6 @@ export const NETWORKS = {
     MAINNET: {
       CHAIN_ID: '137',
       SUSHISWAP: { NAME: 'SushiSwap' },
-      UNISWAPV3: { NAME: 'UniswapV3' },
     },
     NAME: 'Polygon',
     NATIVE_TOKEN_NAME: 'MATIC',

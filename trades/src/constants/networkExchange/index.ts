@@ -51,17 +51,12 @@ export type possiblyNativeCurrency = {
 //these types should match https://github.com/Rome-Blockchain-Labs/rome-backend/tree/main/collectors/evm/networks
 export enum ExchangeType {
   PANGOLIN = 'pangolin',
-  DMM = 'kyberdmm',
   TRADERJOE = 'traderjoe',
   PANCAKESWAP = 'pancakeswap',
-  MDEX = 'mdex',
   SAFESWAP = 'safeswap',
-  ELLIPSIS = 'ellipsis.finance',
-  BISWAP = 'biswap',
   BEAMSWAP = 'beamswap',
   SOLARBEAM = 'solarbeam',
   NETSWAP = 'netswap',
-  HERMESPROTOCOL = 'hermesprotocol',
   SUSHISWAP = 'sushiswap',
   UNISWAPV2 = 'uniswapv2',
   UNISWAPV3 = 'uniswapv3',
@@ -87,7 +82,6 @@ const ETHEREUM_NETWORK_PARAM: NetworkParam = {
   chainHex: '0x1',
   chainId: NetworkChainId.ETHEREUM,
   exchanges: [
-    { name: ExchangeType.UNISWAPV3 },
     { name: ExchangeType.UNISWAPV2 },
     { name: ExchangeType.SUSHISWAP },
   ],
@@ -152,7 +146,6 @@ const AVALANCHE_NETWORK_PARAM: NetworkParam = {
   exchanges: [
     { name: ExchangeType.PANGOLIN },
     { name: ExchangeType.TRADERJOE },
-    { name: ExchangeType.DMM },
     // { name: ExchangeType.AXIAL },
   ],
   name: NetworkName.AVALANCHE,
@@ -174,8 +167,6 @@ const BINANCE_NETWORK_PARAM: NetworkParam = {
   chainHex: '0x38',
   chainId: NetworkChainId.BINANCE,
   exchanges: [
-    { name: ExchangeType.MDEX },
-    { name: ExchangeType.BISWAP },
     { name: ExchangeType.PANCAKESWAP },
   ],
   name: NetworkName.BINANCE,
@@ -236,7 +227,6 @@ const METIS_NETWORK_PARAM: NetworkParam = {
   chainId: NetworkChainId.METIS,
   exchanges: [
     { name: ExchangeType.NETSWAP },
-    { name: ExchangeType.HERMESPROTOCOL },
   ],
   name: NetworkName.METIS,
   nativeCurrency: {
@@ -420,9 +410,6 @@ export const getBasePairByNetworkExchange = (
       } else if (exchange === ExchangeType.PANGOLIN) {
         avalancheBasePair.address =
           '0xe28984e1EE8D431346D32BeC9Ec800Efb643eef4';
-      } else if (exchange === ExchangeType.DMM) {
-        avalancheBasePair.address =
-          '0x8BcBc65Ce330BC019D87409C2949A2471Bef1E5C'; //todo this is a pool, not a pair, there could be multiple pools
       } else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
@@ -451,10 +438,6 @@ export const getBasePairByNetworkExchange = (
 
       if (exchange === ExchangeType.PANCAKESWAP) {
         binanceBasePair.address = '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16';
-      } else if (exchange === ExchangeType.BISWAP) {
-        binanceBasePair.address = '0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc';
-      } else if (exchange === ExchangeType.MDEX) {
-        binanceBasePair.address = '0x340192D37d95fB609874B1db6145ED26d1e47744';
       } else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
@@ -536,10 +519,6 @@ export const getBasePairByNetworkExchange = (
 
       if (exchange === ExchangeType.NETSWAP) {
         metisBasePair.address = '0x3D60aFEcf67e6ba950b499137A72478B2CA7c5A1';
-      }
-
-      if (exchange === ExchangeType.HERMESPROTOCOL) {
-        metisBasePair.address = '0x732f7A04FabA1FccBd36ac22BA9903B2f51F33fb';
       }
 
       return metisBasePair;
