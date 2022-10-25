@@ -41,9 +41,8 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { account, chainId, connector, isActivating } = useWeb3React();
+  const { chainId, connector, isActivating } = useWeb3React();
 
-  const { setWalletVisibility } = useContext(PageContext);
   const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
@@ -90,12 +89,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     }
   }, [widget.network]);
   useEffect(() => {
-    if (!account) {
-      setWalletVisibility(true);
-    }
-  }, [account, setWalletVisibility]);
-
-  useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName
@@ -127,19 +120,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  useEffect(() => {
-    const walletOnWrongNetwork = chainId !== targetChainID;
-    const shouldFallbackToNetwork = walletOnWrongNetwork && !isActivating;
-    if (shouldFallbackToNetwork) {
-      setSelectedWallet(undefined);
-
-      if (connector instanceof Network) {
-        connector.activate(targetChainID);
-      }
-    }
-  }, [chainId, connector, isActivating, setSelectedWallet, targetChainID]);
-
-  if (chainId !== targetChainID || !chainParams || isActivating) {
+  if (!chainParams) {
     return null;
   }
   return (

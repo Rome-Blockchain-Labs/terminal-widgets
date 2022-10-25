@@ -43,41 +43,36 @@ initializeApp({
 ReactDOM.render(
   <WalletProvider>
     <GtagContextProvider>
-      <WalletsContextProvider>
-        <ReduxProvider store={store}>
-          <Suspense
-            fallback={
-              <div style={{ display: 'grid', placeItems: 'center' }}>
-                <WidgetLoader />
-              </div>
-            }
-          >
-            <Router>
-              <GlobalStyles />
-              <WalletModal />
+      <ReduxProvider store={store}>
+        <Suspense
+          fallback={
+            <div style={{ display: 'grid', placeItems: 'center' }}>
+              <WidgetLoader />
+            </div>
+          }
+        >
+          <Router>
+            <GlobalStyles />
+            <WalletModal />
 
-              <Switch>
-                <Route path="/swap">
-                  <UniswapV2Widget
-                    blockchain={NetworkName.AVALANCHE}
-                    uid={'univ2'}
-                  />
-                </Route>
-                <Route path="/kyber">
-                  <DmmWidget blockchain={NetworkName.ETHEREUM} uid={'kyber'} />
-                </Route>
+            <Switch>
+              <Route path="/swap">
+                <UniswapV2Widget
+                  blockchain={NetworkName.AVALANCHE}
+                  uid={'univ2'}
+                />
+              </Route>
+              <Route path="/kyber">
+                <DmmWidget blockchain={NetworkName.ETHEREUM} uid={'kyber'} />
+              </Route>
 
-                <Route path="/velox">
-                  <VeloxWidget
-                    blockchain={NetworkName.ETHEREUM}
-                    uid={'velox'}
-                  />
-                </Route>
-              </Switch>
-            </Router>
-          </Suspense>
-        </ReduxProvider>
-      </WalletsContextProvider>
+              <Route path="/velox">
+                <VeloxWidget blockchain={NetworkName.ETHEREUM} uid={'velox'} />
+              </Route>
+            </Switch>
+          </Router>
+        </Suspense>
+      </ReduxProvider>
     </GtagContextProvider>
   </WalletProvider>,
   document.getElementById('root')
