@@ -93,7 +93,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     if (!account) {
       setWalletVisibility(true);
     }
-  }, [account]);
+  }, [account, setWalletVisibility]);
 
   useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
