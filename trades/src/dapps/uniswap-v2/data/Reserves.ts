@@ -7,6 +7,7 @@ import {
   Pair,
   TokenAmount,
 } from '@rbl/velox-common/uniV2ClonesSDK';
+import { useWeb3React } from '@romeblockchain/wallet';
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json';
 import { useContext, useMemo } from 'react';
 
@@ -58,7 +59,7 @@ const getExchangeNameFromExchange = (exchange: ExchangeName | undefined) => {
 export function usePairs(
   currencies: [Currency | undefined, Currency | undefined][]
 ): [PairState, Pair | null][] {
-  const { chainId } = useWallets();
+  const { chainId } = useWeb3React();
   const { exchange, network } = useContext(DappContext);
   const exchangeName = getExchangeNameFromExchange(exchange);
   const networkName =
