@@ -14,7 +14,8 @@ export type ExchangeName =
   | 'BEAMSWAP'
   | 'SOLARBEAM'
   | 'NETSWAP'
-  | 'CRYSTALVALE';
+  | 'CRYSTALVALE'
+  | 'MDEX';
 
 export const NETWORKS = {
   [NetworkName.AVALANCHE]: {
@@ -34,6 +35,7 @@ export const NETWORKS = {
     MAINNET: {
       CHAIN_ID: '56',
       PANCAKESWAP: { NAME: 'PancakeSwap' },
+      MDEX: { NAME: 'MDex' },
     },
     NAME: 'BSC',
     NATIVE_TOKEN_NAME: 'BNB',

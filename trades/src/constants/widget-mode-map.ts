@@ -23,6 +23,7 @@ export const PROD_WIDGET_MODE_MAP: {
   [WidgetType.CHARTONLY]: WidgetMode.NATIVE,
   [WidgetType.CRYSTALVALE]: WidgetMode.NATIVE,
   [WidgetType.VELOX]: WidgetMode.NATIVE,
+  [WidgetType.MDEX]: WidgetMode.NATIVE,
 };
 
 export const STAGING_WIDGET_MODE_MAP = {};

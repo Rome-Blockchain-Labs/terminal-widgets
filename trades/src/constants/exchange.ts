@@ -3,6 +3,7 @@ import {
   PancakeswapIcon,
   PangolinIcon,
   Solarbeam,
+  MdexIcon,
   SushiswapIcon,
   TraderJoeIcon,
   UniswapIcon,
@@ -21,6 +22,14 @@ export type Exchange = {
 };
 
 export const EXCHANGES: Array<Exchange> = [
+  {
+    exchangeType: ExchangeType.MDEX,
+    icon: MdexIcon,
+    iconAlt: MdexIcon,
+    name: ExchangeType.MDEX,
+    title: 'MDEX',
+    widgetType: WidgetType.MDEX,
+  },
   {
     exchangeType: ExchangeType.PANGOLIN,
     icon: PangolinIcon,
@@ -88,6 +97,7 @@ export const EXCHANGES: Array<Exchange> = [
 ];
 
 export const EXCHANGE_TITLE: { [key: string]: string } = {
+  mdex: 'MDEX',
   beamswap: 'BEAMSWAP',
   pancakeswap: 'PANCAKESWAP',
   pangolin: 'PANGOLIN',

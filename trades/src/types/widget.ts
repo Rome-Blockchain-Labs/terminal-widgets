@@ -50,6 +50,7 @@ export enum WidgetType {
   CHARTONLY = 'non_existant_widget',
   CRYSTALVALE = 'crystalvale',
   VELOX = 'velox',
+  MDEX = 'mdex',
 }
 
 export type AddWidgetState = Pick<

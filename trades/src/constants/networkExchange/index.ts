@@ -50,6 +50,7 @@ export type possiblyNativeCurrency = {
 
 //these types should match https://github.com/Rome-Blockchain-Labs/rome-backend/tree/main/collectors/evm/networks
 export enum ExchangeType {
+  MDEX = 'mdex',
   PANGOLIN = 'pangolin',
   TRADERJOE = 'traderjoe',
   PANCAKESWAP = 'pancakeswap',
@@ -167,6 +168,7 @@ const BINANCE_NETWORK_PARAM: NetworkParam = {
   chainHex: '0x38',
   chainId: NetworkChainId.BINANCE,
   exchanges: [
+    {name: ExchangeType.MDEX},
     { name: ExchangeType.PANCAKESWAP },
   ],
   name: NetworkName.BINANCE,
@@ -438,7 +440,11 @@ export const getBasePairByNetworkExchange = (
 
       if (exchange === ExchangeType.PANCAKESWAP) {
         binanceBasePair.address = '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16';
-      } else {
+      } else if (exchange === ExchangeType.MDEX) {
+        binanceBasePair.address = '0x340192D37d95fB609874B1db6145ED26d1e47744';
+      }  
+
+      else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
         );
