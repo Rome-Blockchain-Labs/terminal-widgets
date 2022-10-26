@@ -25,10 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     },
   }
   const response = await axios(options)
-  const { account_reference, coin_code, fiat_code, blockchain, order_type }: Order = response.data.data.order
-  if (order_type === "CRYPTO-BUY") {
-    return res.status(200).send("No email sent for BUY orders")
+  const { account_reference, coin_code, fiat_code, blockchain, order_type, wallet_address, status }: Order = response.data.data.order
+  if (order_type === "CRYPTO-BUY" || wallet_address === null || status !== 'waitingPayment') {
+    return res.status(200).send("Order doesnt require any user notification")
   }
+
   const accountRef = db.collection('accounts')
 
   const docSnap = await accountRef.doc(account_reference).get()
