@@ -83,7 +83,7 @@ export const MyAccountUi = ({
         </div>
       </div>
       <Grid container spacing={2} mb={4}>
-        <Grid item xs={6} lg={3} css={styles.netApyContainer}>
+        <Grid item xs={6} md={3} css={styles.netApyContainer}>
           <div css={styles.netApy}>
             <Typography component="span" variant="small2" css={styles.netApyLabel}>
               {t('myAccount.netApy')}
@@ -99,7 +99,7 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} lg={3} css={styles.item}>
+        <Grid item xs={6} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.dailyEarnings')}
           </Typography>
@@ -109,7 +109,7 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} lg={3} css={styles.item}>
+        <Grid item xs={6} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.supplyBalance')}
           </Typography>
@@ -119,7 +119,7 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} lg={3} css={styles.item}>
+        <Grid item xs={6} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.borrowBalance')}
           </Typography>
