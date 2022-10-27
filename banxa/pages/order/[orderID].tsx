@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from '@heroicons/react/solid'
+import { ChevronLeftIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import ErrorModal from 'components/Error'
@@ -74,6 +74,27 @@ const Order = () => {
             </button>
             {order ? (
               <div className="border-t border-gray-200 px-4 sm:pt-5 sm:p-0 overflow-auto relative">
+
+                {(order.status === 'waitingPayment' && !order.wallet_address) || order.status === 'pendingPayment' &&
+
+                  <div className="w-full bg-white grid place-items-center  text-base ">
+                    <div className="rounded-md bg-yellow-50 p-4">
+                      <div className="flex">
+                        <div className="flex-shrink-0">
+                          <ExclamationCircleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3">
+                          <h3 className="text-sm font-medium text-yellow-800">Ongoing Verification</h3>
+                          <div className="mt-2 text-sm text-yellow-700">
+                            Order pending verification by Banxa. Email will be sent to complete payment once verification is complete.
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                }
                 <dl className="sm:divide-y sm:divide-gray-200 ">
                   <div className="py-2 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">Order ID</dt>
@@ -124,7 +145,7 @@ const Order = () => {
                   </div>
                 </dl>
 
-                {order.status === 'waitingPayment' && (
+                {order.status === 'waitingPayment' && order.wallet_address && (
                   <div className="sticky bottom-0 left-0 w-full h-14 bg-white grid place-items-center">
                     <button
                       type="button"
