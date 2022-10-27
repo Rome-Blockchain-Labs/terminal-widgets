@@ -10,8 +10,9 @@ import { SUBGRAPH_BLOCK_NUMBER } from './queries';
 
 const EXCHANGE_SUBGRAPH_URLS = {
   avalanche: [
-    'https://avax-subgraph.dmm.exchange/subgraphs/name/dynamic-amm/dmm-exchange-avax',
-    'https://api.thegraph.com/subgraphs/name/dynamic-amm/dmm-exchange-avax',
+    'https://api.thegraph.com/subgraphs/name/kybernetwork/kyberswap-elastic-avalanche',
+    // 'https://avax-subgraph.dmm.exchange/subgraphs/name/dynamic-amm/dmm-exchange-avax',
+    // 'https://api.thegraph.com/subgraphs/name/dynamic-amm/dmm-exchange-avax'
   ],
   avalancheTestnet: [
     'https://api.thegraph.com/subgraphs/name/ducquangkstn/dmm-exchange-fuij',

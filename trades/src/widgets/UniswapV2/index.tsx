@@ -6,10 +6,9 @@ import {
   useWallets,
   useWeb3React,
 } from '@romeblockchain/wallet';
-import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo, useContext, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -39,6 +38,7 @@ interface QueryParams {
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   const { chainId, connector, isActivating } = useWeb3React();
+
   const { setSelectedWallet } = useWallets();
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
@@ -69,7 +69,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     exchangeName as any,
     widget.network.toUpperCase() as VeloxNetworkName
   );
-
   const Icon = EXCHANGES.find((exchange) => {
     if (exchange.title === exchangeName) {
       return exchange;
@@ -85,15 +84,29 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setChainParams(targetChainParams);
     }
   }, [widget.network]);
-
   useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName
     );
-    setDefaultTokenList(defaultListOfLists[0]);
-    fetch(defaultListOfLists[0]).then((response) => {
-      response.json().then((responseData) => {
+
+    const fetchTokenList = async () => {
+      let res = await fetch(defaultListOfLists[0]).catch((err) =>
+        console.log('Failed to fetch from 1st list with error', err)
+      );
+
+      if (!res) {
+        res = await fetch(defaultListOfLists[1]).catch((err) =>
+          console.log('Failed to fetch from 2nd list with error', err)
+        );
+        setDefaultTokenList(defaultListOfLists[1]);
+      } else {
+        setDefaultTokenList(defaultListOfLists[0]);
+      }
+
+      if (res) {
+        const responseData = await res.json();
+
         const tokenData = responseData.tokens
           ? responseData.tokens
           : responseData;
@@ -108,8 +121,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
         if (tokenIn && tokenOut) {
           setTokens({ tokenIn, tokenOut });
         }
-      });
-    });
+      }
+    };
+    fetchTokenList();
   }, [
     exchangeName,
     widget.exchange,
@@ -118,53 +132,43 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  useEffect(() => {
-    const walletOnWrongNetwork = chainId !== targetChainID;
-    const shouldFallbackToNetwork = walletOnWrongNetwork && !isActivating;
-    if (shouldFallbackToNetwork) {
-      setSelectedWallet(undefined);
-
-      if (connector instanceof Network) {
-        connector.activate(targetChainID);
-      }
-    }
-  }, [chainId, connector, isActivating, setSelectedWallet, targetChainID]);
-
-  if (chainId !== targetChainID || !chainParams || isActivating) {
+  if (!chainParams) {
     return null;
   }
   return (
     <div
       id={uid}
-      tw="flex justify-center items-center h-full  bg-dark-500 relative"
+      tw="flex justify-center items-center h-[100vh]  bg-dark-500 relative"
     >
       <PageContextProvider>
         <Provider store={store}>
           <IFrameProvider>
             <WalletModal chainParams={chainParams} />
             <AddressModal />
-            <UniswapV2Component
-              backgroundImage={
-                Icon && <Icon isBackground height="100%" width="100%" />
-              }
-              defaultTokenList={defaultTokenList}
-              exchange={widget.exchange.toUpperCase() as any}
-              network={widget.network}
-              pageOverride={pageOverride}
-              settingsOpenOverride={settingOpen}
-              widget={{
-                blockchain: widget.network,
-                pair: {
-                  address: '0x1',
+            {targetChainID === chainId && (
+              <UniswapV2Component
+                backgroundImage={
+                  Icon && <Icon isBackground height="100%" width="100%" />
+                }
+                defaultTokenList={defaultTokenList}
+                exchange={widget.exchange.toUpperCase() as any}
+                network={widget.network}
+                pageOverride={pageOverride}
+                settingsOpenOverride={settingOpen}
+                widget={{
                   blockchain: widget.network,
-                  exchange: widget.exchange,
-                  token0: tokens.tokenIn,
-                  token1: tokens.tokenOut,
-                },
-                targetPosition: 1,
-                uid: uid,
-              }}
-            />
+                  pair: {
+                    address: '0x1',
+                    blockchain: widget.network,
+                    exchange: widget.exchange,
+                    token0: tokens.tokenIn,
+                    token1: tokens.tokenOut,
+                  },
+                  targetPosition: 1,
+                  uid: uid,
+                }}
+              />
+            )}
           </IFrameProvider>
         </Provider>
       </PageContextProvider>

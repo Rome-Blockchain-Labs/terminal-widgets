@@ -7,48 +7,15 @@ export type BscChainName = 'MAINNET' | 'TESTNET';
 export type ChainName = EthereumChainName | AvalancheChainName | BscChainName;
 export type ExchangeName =
   | 'UNISWAPV2'
-  | 'UNISWAPV3'
   | 'SUSHISWAP'
   | 'PANGOLIN'
   | 'TRADERJOE'
   | 'PANCAKESWAP'
-  | 'SAFESWAP'
-  | 'KYBERDMM'
-  | 'ZEROEXCHANGE'
-  | 'YETISWAP'
-  | 'BAGUETTE'
-  | 'CANARY'
-  | 'LYDIAFINANCE'
-  | 'ELKFINANCE'
-  | 'PANDASWAP'
-  | 'COMPLUSNETWORK'
-  | 'OLIVESWAP'
-  | 'MDEX'
-  | 'ELLIPSIS.FINANCE'
-  | 'BISWAP'
-  | 'APESWAP'
-  | 'KNIGHTSWAP.FINANCE'
-  | 'BABYSWAP'
-  | 'SYNAPSE'
   | 'BEAMSWAP'
-  | 'SOLARFLARE'
-  | 'STELLASWAP'
-  | 'ZENLINK'
   | 'SOLARBEAM'
-  | 'SHIBASWAP'
-  | 'QUICKSWAP'
-  | 'SOLIDEX'
-  | 'SPOOKYSWAP'
-  | 'SPIRITSWAP'
-  | 'VVS.FINANCE'
-  | 'MM.FINANCE'
-  | 'CRONASWAP'
-  | 'CRODEX'
-  | 'CYBORGSWAP'
   | 'NETSWAP'
-  | 'VELOX'
-  | 'KYBERSWAP'
-  | 'HERMES';
+  | 'CRYSTALVALE'
+  | 'MDEX';
 
 export const NETWORKS = {
   [NetworkName.AVALANCHE]: {
@@ -66,11 +33,9 @@ export const NETWORKS = {
   },
   [NetworkName.BINANCE]: {
     MAINNET: {
-      BISWAP: { NAME: 'BiSwap' },
       CHAIN_ID: '56',
       MDEX: { NAME: 'MDex' },
       PANCAKESWAP: { NAME: 'PancakeSwap' },
-      SAFESWAP: { NAME: 'SafeSwap' },
     },
     NAME: 'BSC',
     NATIVE_TOKEN_NAME: 'BNB',
@@ -84,7 +49,6 @@ export const NETWORKS = {
       CHAIN_ID: '1',
       SUSHISWAP: { NAME: 'SushiSwap' },
       UNISWAPV2: { NAME: 'UniswapV2' },
-      UNISWAPV3: { NAME: 'UniswapV3' },
     },
     NAME: 'Ethereum',
     NATIVE_TOKEN_NAME: 'ETH',
@@ -103,9 +67,6 @@ export const NETWORKS = {
     MAINNET: {
       BEAMSWAP: { NAME: 'BeamSwap' },
       CHAIN_ID: '1284',
-      SOLARFLARE: { NAME: 'SolarFlare' },
-      STELLASWAP: { NAME: 'StellaSwap' },
-      ZENLINK: { NAME: 'ZenLink' },
     },
     NAME: 'Moonbeam',
     NATIVE_TOKEN_NAME: 'GLMR',
@@ -115,7 +76,6 @@ export const NETWORKS = {
       CHAIN_ID: '1285',
       SOLARBEAM: { NAME: 'SolarBeam' },
       SUSHISWAP: { NAME: 'SushiSwap' },
-      ZENLINK: { NAME: 'ZenLink' },
     },
     NAME: 'MoonRiver',
     NATIVE_TOKEN_NAME: 'MOVR',
@@ -153,10 +113,17 @@ export const NETWORKS = {
     MAINNET: {
       CHAIN_ID: '137',
       SUSHISWAP: { NAME: 'SushiSwap' },
-      UNISWAPV3: { NAME: 'UniswapV3' },
     },
     NAME: 'Polygon',
     NATIVE_TOKEN_NAME: 'MATIC',
+  },
+  [NetworkName.DFK]: {
+    MAINNET: {
+      CHAIN_ID: '53935',
+      CRYSTALVALE: { NAME: 'Crystalvale' },
+    },
+    NAME: 'DFK',
+    NATIVE_TOKEN_NAME: 'JEWEL',
   },
 };
 
@@ -448,6 +415,27 @@ const networks = [
         id: '137',
         key: 'MAINNET',
         nativeTokenAddress: '0x0000000000000000000000000000000000001010',
+        nativeTokenDecimals: 18,
+        veloxProxyAddress: '',
+      },
+    ],
+  },
+  {
+    id: 'DFK',
+    key: 'DFK',
+    subChains: [
+      {
+        USDTokenAddress: '0x3AD9DFE640E1A9Cc1D9B0948620820D975c3803a',
+        exchanges: [
+          {
+            ROUTER_ADDRESS: '0x3C351E1afdd1b1BC44e931E12D4E05D6125eaeCa',
+            id: 'Crystalvale',
+            key: 'CRYSTALVALE',
+          },
+        ],
+        id: '53935',
+        key: 'MAINNET',
+        nativeTokenAddress: '0xCCb93dABD71c8Dad03Fc4CE5559dC3D89F67a260',
         nativeTokenDecimals: 18,
         veloxProxyAddress: '',
       },

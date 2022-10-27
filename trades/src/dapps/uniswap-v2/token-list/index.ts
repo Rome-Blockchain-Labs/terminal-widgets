@@ -1,11 +1,13 @@
 import { ExchangeName, NetworkName } from '@rbl/velox-common/multiChains';
 
 import PANGOLIN_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/pangolin';
-import SUSHISWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/sushiswap';
+import SUSHISWAP_AVALANCHE_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/sushiswap';
 import TRADER_JOE_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/traderjoe';
 import YETISWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/yetiswap';
 import MDEX_DEFAULT_TOKEN_LIST_OF_LISTS from './bsc/mdex';
 import PANCAKE_DEFAULT_TOKEN_LIST_OF_LISTS from './bsc/pancake';
+import CRYSTALVALE_DEFAULT_TOKEN_LIST_OF_LISTS from './dfk/crystalvale';
+import SUSHISWAP_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS from './ethereum/sushiswap';
 import UNISWAP_V2_DEFAULT_TOKEN_LIST_OF_LISTS from './ethereum/uniswapv2';
 import NETSWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './metis/netswap';
 import BEAMSWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './moonbeam/beamswap';
@@ -19,7 +21,6 @@ export type NetworkExchangeTokenListUrlsMap = {
 export const BSC_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
   MDEX: MDEX_DEFAULT_TOKEN_LIST_OF_LISTS,
   PANCAKESWAP: PANCAKE_DEFAULT_TOKEN_LIST_OF_LISTS,
-  SUSHISWAP: SUSHISWAP_DEFAULT_TOKEN_LIST_OF_LISTS,
 };
 
 export const AVALANCHE_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
@@ -53,7 +54,7 @@ export const AVALANCHE_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
   SPIRITSWAP: [],
   SPOOKYSWAP: [],
   STELLASWAP: [],
-  SUSHISWAP: SUSHISWAP_DEFAULT_TOKEN_LIST_OF_LISTS,
+  SUSHISWAP: SUSHISWAP_AVALANCHE_DEFAULT_TOKEN_LIST_OF_LISTS,
   SYNAPSE: [],
   TRADERJOE: TRADER_JOE_DEFAULT_TOKEN_LIST_OF_LISTS,
   UNISWAPV2: [],
@@ -76,14 +77,19 @@ export const METIS_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
 };
 
 const ETHEREUM_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
-  SUSHISWAP: SUSHISWAP_DEFAULT_TOKEN_LIST_OF_LISTS,
+  SUSHISWAP: SUSHISWAP_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS,
   UNISWAPV2: UNISWAP_V2_DEFAULT_TOKEN_LIST_OF_LISTS,
+};
+
+const DFK_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
+  CRYSTALVALE: CRYSTALVALE_DEFAULT_TOKEN_LIST_OF_LISTS,
 };
 
 export const NETWORK_EXCHANGE_TOKEN_LIST_URLS_MAP: NetworkExchangeTokenListUrlsMap =
   {
     AVALANCHE: AVALANCHE_TOKEN_LIST_URLS_MAP,
     BSC: BSC_TOKEN_LIST_URLS_MAP,
+    DFK: DFK_TOKEN_LIST_URLS_MAP,
     ETHEREUM: ETHEREUM_TOKEN_LIST_URLS_MAP,
     METIS: METIS_TOKEN_LIST_URLS_MAP,
     MOONBEAM: MOONBEAM_TOKEN_LIST_URLS_MAP,
@@ -92,9 +98,9 @@ export const NETWORK_EXCHANGE_TOKEN_LIST_URLS_MAP: NetworkExchangeTokenListUrlsM
 
 export const getTokenListUrlsByExchangeName = (
   exchange: ExchangeName,
-  network: NetworkName
+  network?: NetworkName
 ): string[] => {
-  const networkName = network;
+  const networkName = network || 'AVALANCHE';
   const exchangeTokenListMap: any =
     NETWORK_EXCHANGE_TOKEN_LIST_URLS_MAP[networkName] || {};
 

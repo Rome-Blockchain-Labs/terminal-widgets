@@ -13,6 +13,7 @@ import { useContext, useMemo } from 'react';
 
 import { mapThisNetworkINIT_CODE_HASHNameToMultiChainNetwork } from '../../../constants/networkExchange/tempMaps';
 import { DappContext } from '../../../contexts';
+import { useWallets } from '../../../contexts/WalletsContext/WalletContext';
 import { wrappedCurrency } from '../../../utils';
 import { useMultipleContractSingleData } from '../state/multicall/hooks';
 
@@ -48,6 +49,8 @@ const getExchangeNameFromExchange = (exchange: ExchangeName | undefined) => {
       return 'UniswapV2';
     case 'BEAMSWAP':
       return 'BeamSwap';
+    case 'CRYSTALVALE':
+      return 'Crystalvale';
     default:
       return '';
   }

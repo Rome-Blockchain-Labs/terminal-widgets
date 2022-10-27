@@ -1,9 +1,8 @@
+import { useWeb3React } from '@romeblockchain/wallet';
 import React, { FC, useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled from 'styled-components';
 import { theme } from 'twin.macro';
-
-import { useWallets } from '../contexts/WalletsContext/WalletContext';
 
 const MessageWrapper = styled.div`
   display: flex;
@@ -17,7 +16,7 @@ const Message = styled.h2`
 `;
 
 const Web3ReactManager: FC = ({ children }) => {
-  const { active, error } = useWallets();
+  const { isActive: active } = useWeb3React();
 
   const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
@@ -29,14 +28,6 @@ const Web3ReactManager: FC = ({ children }) => {
       clearTimeout(timeout);
     };
   }, []);
-
-  if (!active && error) {
-    return (
-      <MessageWrapper>
-        <Message>{'unknownError'}</Message>
-      </MessageWrapper>
-    );
-  }
 
   // if neither context is networkLogos, spin
   if (!active) {

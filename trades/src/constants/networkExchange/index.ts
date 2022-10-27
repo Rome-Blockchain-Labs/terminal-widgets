@@ -1,3 +1,4 @@
+
 import * as ethers from 'ethers';
 import keyBy from 'lodash/keyBy';
 
@@ -22,6 +23,7 @@ export enum NetworkName {
   RINKEBY = 'rinkeby',
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
+  DFK = 'dfk',
 }
 
 export enum NetworkChainId {
@@ -35,6 +37,7 @@ export enum NetworkChainId {
   RINKEBY = 4,
   OPTIMISM = 10,
   POLYGON = 137,
+  DFK = 53935,
 }
 export type NetworkChainHex = `0x${string}`;
 
@@ -47,22 +50,19 @@ export type possiblyNativeCurrency = {
 
 //these types should match https://github.com/Rome-Blockchain-Labs/rome-backend/tree/main/collectors/evm/networks
 export enum ExchangeType {
+  MDEX = 'mdex',
   PANGOLIN = 'pangolin',
-  DMM = 'kyberdmm',
   TRADERJOE = 'traderjoe',
   PANCAKESWAP = 'pancakeswap',
-  MDEX = 'mdex',
   SAFESWAP = 'safeswap',
-  ELLIPSIS = 'ellipsis.finance',
-  BISWAP = 'biswap',
   BEAMSWAP = 'beamswap',
   SOLARBEAM = 'solarbeam',
   NETSWAP = 'netswap',
-  HERMESPROTOCOL = 'hermesprotocol',
   SUSHISWAP = 'sushiswap',
   UNISWAPV2 = 'uniswapv2',
   UNISWAPV3 = 'uniswapv3',
-  VELOX = 'velox',
+  CRYSTALVALE = 'crystalvale',
+  NOTEXCHANGE = 'notexchange',
 }
 
 /** Constants **/
@@ -83,7 +83,6 @@ const ETHEREUM_NETWORK_PARAM: NetworkParam = {
   chainHex: '0x1',
   chainId: NetworkChainId.ETHEREUM,
   exchanges: [
-    { name: ExchangeType.UNISWAPV3 },
     { name: ExchangeType.UNISWAPV2 },
     { name: ExchangeType.SUSHISWAP },
   ],
@@ -169,8 +168,7 @@ const BINANCE_NETWORK_PARAM: NetworkParam = {
   chainHex: '0x38',
   chainId: NetworkChainId.BINANCE,
   exchanges: [
-    { name: ExchangeType.MDEX },
-    { name: ExchangeType.BISWAP },
+    {name: ExchangeType.MDEX},
     { name: ExchangeType.PANCAKESWAP },
   ],
   name: NetworkName.BINANCE,
@@ -231,7 +229,6 @@ const METIS_NETWORK_PARAM: NetworkParam = {
   chainId: NetworkChainId.METIS,
   exchanges: [
     { name: ExchangeType.NETSWAP },
-    { name: ExchangeType.HERMESPROTOCOL },
   ],
   name: NetworkName.METIS,
   nativeCurrency: {
@@ -286,6 +283,25 @@ const POLYGON_NETWORK_PARAM: NetworkParam = {
   supportingWallets: ['metamask', 'coinbase'],
 };
 
+const DFK_NETWORK_PARAM: NetworkParam = {
+  blockExplorerUrl: 'https://subnets.avax.network/defi-kingdoms',
+  chainHex: '0xD2AF',
+  chainId: NetworkChainId.DFK,
+  exchanges: [{ name: ExchangeType.CRYSTALVALE }],
+  name: NetworkName.DFK,
+  nativeCurrency: {
+    decimals: 18,
+    isNative: true,
+    name: 'JEWEL',
+    symbol: 'JEWEL',
+  },
+  provider: new ethers.providers.JsonRpcProvider(
+    'https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc'
+  ),
+  rpcUrl: 'https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc',
+  supportingWallets: ['metamask', 'coinbase'],
+};
+
 const networkParams: Array<NetworkParam> = [
   ETHEREUM_NETWORK_PARAM,
   ETHEREUM_TEST_NETWORK_PARAM,
@@ -297,6 +313,7 @@ const networkParams: Array<NetworkParam> = [
   METIS_NETWORK_PARAM,
   OPTIMISM_NETWORK_PARAM,
   POLYGON_NETWORK_PARAM,
+  DFK_NETWORK_PARAM,
 ];
 
 /** Getters
@@ -395,9 +412,6 @@ export const getBasePairByNetworkExchange = (
       } else if (exchange === ExchangeType.PANGOLIN) {
         avalancheBasePair.address =
           '0xe28984e1EE8D431346D32BeC9Ec800Efb643eef4';
-      } else if (exchange === ExchangeType.DMM) {
-        avalancheBasePair.address =
-          '0x8BcBc65Ce330BC019D87409C2949A2471Bef1E5C'; //todo this is a pool, not a pair, there could be multiple pools
       } else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
@@ -426,11 +440,11 @@ export const getBasePairByNetworkExchange = (
 
       if (exchange === ExchangeType.PANCAKESWAP) {
         binanceBasePair.address = '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16';
-      } else if (exchange === ExchangeType.BISWAP) {
-        binanceBasePair.address = '0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc';
       } else if (exchange === ExchangeType.MDEX) {
         binanceBasePair.address = '0x340192D37d95fB609874B1db6145ED26d1e47744';
-      } else {
+      }  
+
+      else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
         );
@@ -513,10 +527,6 @@ export const getBasePairByNetworkExchange = (
         metisBasePair.address = '0x3D60aFEcf67e6ba950b499137A72478B2CA7c5A1';
       }
 
-      if (exchange === ExchangeType.HERMESPROTOCOL) {
-        metisBasePair.address = '0x732f7A04FabA1FccBd36ac22BA9903B2f51F33fb';
-      }
-
       return metisBasePair;
     case NetworkName.FUJI:
       return {} as any;
@@ -582,9 +592,38 @@ export const getBasePairByNetworkExchange = (
       }
 
       return polygonBasePair;
+    case NetworkName.DFK:
+      const dfkBasePair = {
+        address: '',
+        blockchain: NetworkName.DFK,
+        exchange,
+        token0: {
+          address: '0x04b9dA42306B023f3572e106B11D82aAd9D32EBb',
+          decimals: 18,
+          name: 'Crystals',
+          symbol: 'CRYSTAL',
+        },
+        token1: {
+          address: '0xCCb93dABD71c8Dad03Fc4CE5559dC3D89F67a260',
+          decimals: 18,
+          name: 'Wrapped JEWEL',
+          symbol: 'WJEWEL',
+        },
+      };
+
+      if (exchange === ExchangeType.CRYSTALVALE) {
+        dfkBasePair.address = '0x48658E69D741024b4686C8f7b236D3F1D291f386';
+      } else {
+        throw new Error(
+          `There's no valid base pair for ${exchange} in ${network} network`
+        );
+      }
+
+      return dfkBasePair;
     default:
       throw new Error(
         `Invalid network: ${network} in getBasePairByNetworkExchange`
       );
   }
 };
+

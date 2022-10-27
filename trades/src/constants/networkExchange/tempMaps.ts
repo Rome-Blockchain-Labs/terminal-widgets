@@ -11,6 +11,10 @@ export const mapThisNetworkNameToMultiChainNetwork = (network: NetworkName) => {
       return 'BSC';
     case NetworkName.MOONBEAM:
       return 'MOONBEAM';
+    case NetworkName.POLYGON:
+      return 'POLYGON';
+    case NetworkName.DFK:
+      return 'DFK';
     default:
       return 'MOONRIVER';
   }
@@ -32,7 +36,8 @@ export const mapThisNetworkINIT_CODE_HASHNameToMultiChainNetwork = (
       return 'Metis';
     case NetworkName.POLYGON:
       return 'Polygon';
-    // case NetworkName.MOONRIVER:
+    case NetworkName.DFK:
+      return 'DFK';
     default:
       return 'MoonRiver';
   }
@@ -51,6 +56,7 @@ export const mapThisNetworkMULTICHAINSNETWORKSNameToMultiChainNetwork: {
   [NetworkName.FUJI]: 'Fuji',
   [NetworkName.RINKEBY]: 'Rinkeby',
   [NetworkName.POLYGON]: 'Polygon',
+  [NetworkName.DFK]: 'DFK',
 };
 
 /**
@@ -63,12 +69,7 @@ export const mapThisNetworkMULTICHAINSNETWORKSNameToMultiChainNetwork: {
  */
 const deprecatedNetworkMap: { [key in ExchangeType]?: NetworkName } = {
   beamswap: NetworkName.MOONBEAM,
-  biswap: NetworkName.BINANCE,
-  'ellipsis.finance': NetworkName.BINANCE,
-  hermesprotocol: NetworkName.METIS,
-  kyberdmm: NetworkName.AVALANCHE,
   mdex: NetworkName.BINANCE,
-  netswap: NetworkName.METIS,
   pancakeswap: NetworkName.BINANCE,
   pangolin: NetworkName.AVALANCHE,
   safeswap: NetworkName.BINANCE,

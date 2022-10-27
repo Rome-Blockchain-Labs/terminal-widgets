@@ -1,6 +1,5 @@
 import {
-  BiswapIcon,
-  Kyber,
+  BeamSwap,
   MdexIcon,
   PancakeswapIcon,
   PangolinIcon,
@@ -8,36 +7,34 @@ import {
   SushiswapIcon,
   TraderJoeIcon,
   UniswapIcon,
-  Velox2Icon,
-  VeloxIcon,
 } from '../components/icons';
-import { BeamSwap } from '../components/icons';
-import { HermesProtocolIcon } from '../components/icons/HermesProtocol';
-import { NetswapIcon } from '../components/icons/Netswap';
+import { CrystalValeIcon } from '../components/icons/CrystalVale';
 import { WidgetType } from '../types';
-import { ExchangeName } from './multichain';
 import { ExchangeType } from './networkExchange';
 
-export const EXCHANGES: Array<{
-  icon: React.ElementType;
+export type Exchange = {
+  icon: any;
   iconAlt: any;
-  name: string;
-  title: ExchangeName;
+  name: ExchangeType;
+  title: string;
   widgetType: WidgetType;
-  exchangeType?: ExchangeType;
-}> = [
+  exchangeType: ExchangeType;
+};
+
+export const EXCHANGES: Array<Exchange> = [
   {
-    icon: Velox2Icon,
-    iconAlt: VeloxIcon,
-    name: 'velox',
-    title: 'VELOX',
-    widgetType: WidgetType.VELOX,
+    exchangeType: ExchangeType.MDEX,
+    icon: MdexIcon,
+    iconAlt: MdexIcon,
+    name: ExchangeType.MDEX,
+    title: 'MDEX',
+    widgetType: WidgetType.MDEX,
   },
   {
     exchangeType: ExchangeType.PANGOLIN,
     icon: PangolinIcon,
     iconAlt: PangolinIcon,
-    name: 'pangolin',
+    name: ExchangeType.PANGOLIN,
     title: 'PANGOLIN',
     widgetType: WidgetType.PANGOLIN,
   },
@@ -45,47 +42,23 @@ export const EXCHANGES: Array<{
     exchangeType: ExchangeType.TRADERJOE,
     icon: TraderJoeIcon,
     iconAlt: TraderJoeIcon,
-    name: 'traderjoe',
+    name: ExchangeType.TRADERJOE,
     title: 'TRADERJOE',
     widgetType: WidgetType.TRADERJOE,
-  },
-  {
-    exchangeType: ExchangeType.DMM,
-    icon: Kyber,
-    iconAlt: Kyber,
-    name: 'kyberdmm',
-    title: 'KYBERSWAP',
-    widgetType: WidgetType.KYBERSWAP,
-  },
-  {
-    exchangeType: ExchangeType.BISWAP,
-    icon: BiswapIcon,
-    iconAlt: BiswapIcon,
-    name: 'biswap',
-    title: 'BISWAP',
-    widgetType: WidgetType.BISWAP,
   },
   {
     exchangeType: ExchangeType.PANCAKESWAP,
     icon: PancakeswapIcon,
     iconAlt: PancakeswapIcon,
-    name: 'pancakeswap',
+    name: ExchangeType.PANCAKESWAP,
     title: 'PANCAKESWAP',
     widgetType: WidgetType.PANCAKESWAP,
-  },
-  {
-    exchangeType: ExchangeType.MDEX,
-    icon: MdexIcon,
-    iconAlt: MdexIcon,
-    name: 'mdex',
-    title: 'MDEX',
-    widgetType: WidgetType.MDEX,
   },
   {
     exchangeType: ExchangeType.BEAMSWAP,
     icon: BeamSwap,
     iconAlt: BeamSwap,
-    name: 'beamswap',
+    name: ExchangeType.BEAMSWAP,
     title: 'BEAMSWAP',
     widgetType: WidgetType.BEAMSWAP,
   },
@@ -93,31 +66,15 @@ export const EXCHANGES: Array<{
     exchangeType: ExchangeType.SOLARBEAM,
     icon: Solarbeam,
     iconAlt: Solarbeam,
-    name: 'solarbeam',
+    name: ExchangeType.SOLARBEAM,
     title: 'SOLARBEAM',
     widgetType: WidgetType.SOLARBEAM,
-  },
-  {
-    exchangeType: ExchangeType.NETSWAP,
-    icon: NetswapIcon,
-    iconAlt: NetswapIcon,
-    name: 'netswap',
-    title: 'NETSWAP',
-    widgetType: WidgetType.NETSWAP,
-  },
-  {
-    exchangeType: ExchangeType.HERMESPROTOCOL,
-    icon: HermesProtocolIcon,
-    iconAlt: HermesProtocolIcon,
-    name: 'hermesprotocol',
-    title: 'HERMES',
-    widgetType: WidgetType.HERMESPROTOCOL,
   },
   {
     exchangeType: ExchangeType.SUSHISWAP,
     icon: SushiswapIcon,
     iconAlt: SushiswapIcon,
-    name: 'sushiswap',
+    name: ExchangeType.SUSHISWAP,
     title: 'SUSHISWAP',
     widgetType: WidgetType.SUSHISWAP,
   },
@@ -125,28 +82,23 @@ export const EXCHANGES: Array<{
     exchangeType: ExchangeType.UNISWAPV2,
     icon: UniswapIcon,
     iconAlt: UniswapIcon,
-    name: 'uniswapv2',
+    name: ExchangeType.UNISWAPV2,
     title: 'UNISWAPV2',
     widgetType: WidgetType.UNISWAPV2,
   },
   {
-    exchangeType: ExchangeType.UNISWAPV3,
-    icon: UniswapIcon,
-    iconAlt: UniswapIcon,
-    name: 'uniswapv3',
-    title: 'UNISWAPV3',
-    widgetType: WidgetType.UNISWAPV3,
+    exchangeType: ExchangeType.CRYSTALVALE,
+    icon: CrystalValeIcon,
+    iconAlt: CrystalValeIcon,
+    name: ExchangeType.CRYSTALVALE,
+    title: 'CRYSTALVALE',
+    widgetType: WidgetType.CRYSTALVALE,
   },
 ];
 
 export const EXCHANGE_TITLE: { [key: string]: string } = {
   beamswap: 'BEAMSWAP',
-  biswap: 'BISWAP',
-  'ellipsis.finance': 'ELLIPSIS.FINANCE',
-  hermesprotocol: 'Hermes',
-  kyberdmm: 'KYBERSWAP',
   mdex: 'MDEX',
-  netswap: 'NETSWAP',
   pancakeswap: 'PANCAKESWAP',
   pangolin: 'PANGOLIN',
   safeswap: 'SAFESWAP',

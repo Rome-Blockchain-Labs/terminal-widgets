@@ -1,8 +1,12 @@
 import 'twin.macro';
 
-import { SUPPORTED_WALLETS, useWallets } from '@romeblockchain/wallet';
+import {
+  SUPPORTED_WALLETS,
+  useWallets,
+  useWeb3React,
+} from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PulseLoader } from 'react-spinners';
 
 import { CloseIcon } from '../../../components/icons';
@@ -19,12 +23,21 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
+  const { account, chainId } = useWeb3React();
   const { widgetBridge } = useIFrameContext();
   const [loading, setLoading] = useState(false);
 
   const closeModal = () => {
     setWalletVisibility(false);
   };
+  useEffect(() => {
+    if (
+      !account ||
+      (typeof chainParams !== 'number' && chainId !== chainParams.chainId)
+    ) {
+      setWalletVisibility(true);
+    }
+  }, [account, setWalletVisibility, chainId, chainParams]);
   if (!walletVisibility) {
     return null;
   }

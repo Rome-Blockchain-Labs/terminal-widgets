@@ -34,42 +34,34 @@ export type WidgetState = WidgetCommonState & {
   isTokenDetailsOpened?: boolean;
   toolbar?: WidgetToolbar;
   targetPosition: number;
+  createdAt?: Date;
 };
 
 export enum WidgetType {
   TRANSACTIONS = 'transactions',
   PANGOLIN = 'pangolin',
-  VELOX = 'velox',
   TRADERJOE = 'traderjoe',
-  KYBERSWAP = 'kyberswap',
-  MDEX = 'mdex',
   PANCAKESWAP = 'pancakeswap',
-  AVAX_BRIDGE = 'avax_bridge',
-  BENQI = 'benqi',
-  BISWAP = 'biswap',
-  SHERPACASH = 'sherpacash',
   BEAMSWAP = 'beamswap',
   SOLARBEAM = 'solarbeam',
   NETSWAP = 'netswap',
-  HERMESPROTOCOL = 'hermesprotocol',
-  DEXPOOLS = 'dexpools',
   SUSHISWAP = 'sushiswap',
   UNISWAPV2 = 'uniswapv2',
-  UNISWAPV3 = 'uniswapv3',
-  METIS_BRIDGE = 'metis_bridge',
-  AXIAL = 'axial',
-  BENQI_STAKING = 'benqi_staking',
-  SNOWBALL = 'snowball',
+  CHARTONLY = 'non_existant_widget',
+  CRYSTALVALE = 'crystalvale',
+  VELOX = 'velox',
+  MDEX = 'mdex',
 }
 
 export type AddWidgetState = Pick<
-  WidgetState,
+  WidgetState & { startEnlarged?: boolean },
   | 'type'
   | 'isTable'
   | 'pair'
   | 'blockchain'
   | 'exchangeType'
   | 'disableDuplication'
+  | 'startEnlarged'
 >;
 
 export type ColumnType = {
