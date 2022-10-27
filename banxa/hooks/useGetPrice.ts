@@ -3,6 +3,7 @@ import { FormValues } from 'pages/create-order'
 import { useCallback, useEffect, useState } from 'react'
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import useDebounce from './debounce'
+import { useRef } from 'react'
 
 const useGetPrice = (
   setValue: UseFormSetValue<FormValues>,
@@ -10,6 +11,7 @@ const useGetPrice = (
   order: string,
   watch: UseFormWatch<FormValues>
 ) => {
+  const latestSourceAmount = useRef<any>()
   const source = watch('source')
   const sourceAmount = watch('source_amount')
   const targetAmount = watch('target_amount')
@@ -24,6 +26,7 @@ const useGetPrice = (
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+      console.log('get price start',source_amount)
       const setSourceAmount = (value: number) => {
         setValue('source_amount', value)
       }
@@ -37,9 +40,9 @@ const useGetPrice = (
         setValue('target_amount', undefined)
         return
       }
-      if (priceLoading === true) {
-        return
-      }
+      // if (priceLoading === true) {
+      //   return
+      // }
       setPriceLoading(true)
       const params: {
         source: string | undefined
@@ -56,7 +59,7 @@ const useGetPrice = (
       if (target_amount) {
         params.target_amount = target_amount
       }
-
+      console.log('fetching')
       const res = await axios
         .post('/api/banxa/get-price', {
           params,
@@ -67,12 +70,20 @@ const useGetPrice = (
           )
         })
 
+
       if (res) {
+        console.log(res.data)
         const sourceAmount = Math.trunc(res.data.fiat_amount)
         const targetAmount = Number(Number(res.data.coin_amount).toFixed(4))
         if (order === 'BUY') {
-          setSourceAmount(sourceAmount)
-          setTargetAmount(targetAmount)
+          if (Number(latestSourceAmount.current) === Number(source_amount)) {
+            console.log('match buy')
+            setSourceAmount(sourceAmount)
+            setTargetAmount(targetAmount)
+          }else{
+            console.log('no match buy',Number(latestSourceAmount.current), Number(source_amount))
+          }
+
         } else {
           setTargetAmount(sourceAmount)
           setSourceAmount(targetAmount)
@@ -86,8 +97,11 @@ const useGetPrice = (
   )
 
   useEffect(() => {
-    if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
-      getPrices({ source_amount: debouncedSourceAmount })
+    if (amountInput === 'SOURCE') {
+      latestSourceAmount.current = sourceAmount
+      console.log('getting prices')
+
+      getPrices({ source_amount: sourceAmount })
     }
 
     if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
