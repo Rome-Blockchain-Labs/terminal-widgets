@@ -80,13 +80,14 @@
       "message": "You successfully claimed",
       "title": "Your claim was successful"
     },
-    "title": "Claim <Icon/> {{amount}}"
+    "title": "<Icon/> Claim XVS"
   },
   "connectButton": {
     "title": "Connect wallet"
   },
   "connectWallet": {
-    "connectButton": "Connect wallet"
+    "connectButton": "Connect wallet",
+    "title": "Please choose a wallet and connect to it"
   },
   "convertVrt": {
     "balance": "Balance: <White>{{amount}} VRT</White>",

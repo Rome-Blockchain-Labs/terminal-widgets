@@ -14,6 +14,7 @@ export const useStyles = () => {
     toolbar: css`
       padding: ${theme.spacing(8, 10, 0)} !important;
       justify-content: space-between;
+      align-items: center;
       display: flex;
 
       ${theme.breakpoints.down('lg')} {
@@ -26,12 +27,17 @@ export const useStyles = () => {
       }
     `,
     claimXvsButton: css`
-      margin-right: ${theme.spacing(6)};
+      margin-left: ${theme.spacing(2)};
     `,
     ctaContainer: css`
       display: flex;
       align-items: center;
       margin-left: auto;
+    `,
+    logo: css`
+      height: 30px;
+      width: auto;
+      margin-right: ${theme.spacing(2)};
     `,
   };
 };

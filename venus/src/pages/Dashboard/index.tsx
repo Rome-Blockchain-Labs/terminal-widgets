@@ -6,7 +6,6 @@ import { useUserMarketInfo } from 'clients/api';
 import { Asset } from 'types';
 
 import MyAccount from './MyAccount';
-import MintRepayVai from './MintRepayVai';
 import Markets from './Markets';
 import { useStyles } from './styles';
 
@@ -56,19 +55,15 @@ const DashboardUi: React.FC<IDashboardUiProps> = ({
 
   return (
     <>
-      <div css={styles.row}>
-        <MyAccount
-          assets={assets}
-          setIsXvsEnabled={setIsXvsEnabled}
-          isXvsEnabled={isXvsEnabled}
-          css={styles.column}
-          userTotalBorrowLimit={userTotalBorrowLimit}
-          userTotalBorrowBalance={userTotalBorrowBalance}
-          userTotalSupplyBalance={userTotalSupplyBalance}
-        />
-
-        <MintRepayVai css={styles.column} />
-      </div>
+      <MyAccount
+        assets={assets}
+        setIsXvsEnabled={setIsXvsEnabled}
+        isXvsEnabled={isXvsEnabled}
+        css={styles.accountSection}
+        userTotalBorrowLimit={userTotalBorrowLimit}
+        userTotalBorrowBalance={userTotalBorrowBalance}
+        userTotalSupplyBalance={userTotalSupplyBalance}
+      />
 
       <Markets
         isXvsEnabled={isXvsEnabled}

@@ -6,15 +6,6 @@ export const useStyles = () => {
 
   return {
     button: css`
-      border-color: ${theme.palette.background.paper};
-
-      > span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
       ${theme.breakpoints.down('sm')} {
         padding: ${theme.spacing(3)}
       }

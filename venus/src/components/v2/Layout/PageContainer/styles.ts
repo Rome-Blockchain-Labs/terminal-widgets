@@ -6,16 +6,15 @@ export const useStyles = () => {
   return {
     main: css`
       flex-grow: 1;
-      padding: ${theme.spacing(8)} ${theme.spacing(10)} ${theme.shape.footerHeight};
-
-      ${theme.breakpoints.down('lg')} {
-        padding-left: ${theme.spacing(6)};
-        padding-right: ${theme.spacing(6)};
-      }
+      padding: ${theme.spacing(4)} ${theme.spacing(4)};
 
       ${theme.breakpoints.down('md')} {
-        padding: ${theme.spacing(4)} ${theme.spacing(4)} ${theme.shape.footerHeight};
+        padding: ${theme.spacing(2)} ${theme.spacing(2)};
       }
+    `,
+    content: css`
+      max-width: 1000px;
+      margin: 0 auto;
     `,
     footer: css`
       position: fixed;

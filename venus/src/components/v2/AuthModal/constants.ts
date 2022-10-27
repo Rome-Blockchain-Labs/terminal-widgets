@@ -1,3 +1,5 @@
+import { Wallet as WalletEnum } from '@romeblockchain/wallet';
+
 import { ReactComponent as MetaMaskLogo } from 'assets/img/v2/wallets/metaMaskLogo.svg';
 import { ReactComponent as TrustWalletLogo } from 'assets/img/v2/wallets/trustWalletLogo.svg';
 import { ReactComponent as WalletConnectLogo } from 'assets/img/v2/wallets/walletConnectLogo.svg';
@@ -48,3 +50,13 @@ export const UPCOMING_WALLETS: BaseWallet[] = [
     Logo: SafePalLogo,
   },
 ];
+
+export const WALLET_LOGO_MAP: Record<WalletEnum, React.FC<React.SVGProps<SVGSVGElement>>> = {
+  [WalletEnum.METAMASK]: MetaMaskLogo,
+  [WalletEnum.WALLET_CONNECT]: WalletConnectLogo,
+  [WalletEnum.COINBASE_WALLET]: CoinbaseWalletLogo,
+  [WalletEnum.FORTMATIC]: CoinbaseWalletLogo,
+  [WalletEnum.GNOSIS_SAFE]: CoinbaseWalletLogo,
+  [WalletEnum.INJECTED]: CoinbaseWalletLogo,
+  [WalletEnum.NETWORK]: CoinbaseWalletLogo,
+};

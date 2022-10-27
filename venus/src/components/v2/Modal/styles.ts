@@ -34,17 +34,17 @@ export const useModalStyles = ({
       max-height: calc(100% - ${theme.spacing(8)});
     `,
     titleWrapper: css`
-      padding-left: ${theme.spacing(6)};
-      padding-right: ${theme.spacing(6)};
-      padding-top: ${theme.spacing(6)};
-      padding-bottom: ${hasTitleComponent ? theme.spacing(6) : 0};
+      padding-left: ${theme.spacing(4)};
+      padding-right: ${theme.spacing(4)};
+      padding-top: ${theme.spacing(4)};
+      padding-bottom: ${hasTitleComponent ? theme.spacing(4) : 0};
       border-bottom: ${hasTitleComponent ? `1px solid ${theme.palette.secondary.light}` : 0};
       position: sticky;
       top: 0;
       background-color: ${hasTitleComponent ? theme.palette.background.paper : 'transparent'};
-      margin-bottom: ${hasTitleComponent ? theme.spacing(10) : 0};
+      margin-bottom: ${hasTitleComponent ? theme.spacing(4) : 0};
       ${theme.breakpoints.down('md')} {
-        margin-bottom: ${hasTitleComponent ? theme.spacing(4) : 0};
+        margin-bottom: ${hasTitleComponent ? theme.spacing(2) : 0};
       }
     `,
     titleComponent: css`

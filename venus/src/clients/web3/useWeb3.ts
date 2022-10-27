@@ -1,19 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
 import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@romeblockchain/wallet';
 import getWeb3NoAccount from './getWeb3NoAccount';
 
 const useWeb3 = () => {
-  const { library } = useWeb3React();
-  const refEth = useRef(library);
-  const [web3, setWeb3] = useState(library ? new Web3(library) : getWeb3NoAccount());
+  const { provider } = useWeb3React();
+  const refEth = useRef(provider);
+  const [web3, setWeb3] = useState(provider ? new Web3(Web3.givenProvider) : getWeb3NoAccount());
 
   useEffect(() => {
-    if (library !== refEth.current) {
-      setWeb3(library ? new Web3(library) : getWeb3NoAccount());
-      refEth.current = library;
+    if (provider !== refEth.current) {
+      setWeb3(provider ? new Web3(Web3.givenProvider) : getWeb3NoAccount());
+      refEth.current = provider;
     }
-  }, [library]);
+  }, [provider]);
 
   return web3;
 };

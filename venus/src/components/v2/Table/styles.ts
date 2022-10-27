@@ -6,20 +6,14 @@ export const useStyles = () => {
   return {
     root: css`
       overflow: hidden;
-      padding-left: 0;
-      padding-right: 0;
-
-      ${theme.breakpoints.down('sm')} {
-        padding-top: ${theme.spacing(2)};
-        padding-bottom: ${theme.spacing(2)};
-      }
+      padding: ${theme.spacing(2, 0)};
     `,
     rootMobile: css`
       background-color: transparent;
     `,
     title: css`
-      margin-bottom: ${theme.spacing(4)};
-      padding: ${theme.spacing(0, 6)};
+      margin-bottom: ${theme.spacing(2)};
+      padding: ${theme.spacing(0, 4)};
     `,
     titleMobile: css`
       padding: 0;
@@ -134,6 +128,14 @@ export const useStyles = () => {
     cellWrapper: css`
       overflow: hidden;
       text-overflow: ellipsis;
+      padding: ${theme.spacing(2)};
+
+      &:first-of-type {
+        padding-left: ${theme.spacing(4)}!important;
+      }
+      &:last-of-type {
+        padding-right: ${theme.spacing(4)}!important;
+      }
     `,
     cellInner: css`
       text-overflow: ellipsis;
@@ -144,6 +146,16 @@ export const useStyles = () => {
 
     getTemplateRows: ({ gridRows }: { gridRows: string }) => css`
       grid-template-rows: ${gridRows};
+    `,
+    tableHeaderCell: css`
+      padding: ${theme.spacing(2)};
+
+      &:first-of-type {
+        padding-left: ${theme.spacing(4)}!important;
+      }
+      &:last-of-type {
+        padding-right: ${theme.spacing(4)}!important;
+      }
     `,
   };
 };

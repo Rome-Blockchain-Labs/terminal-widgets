@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
+import Box from '@mui/material/Box';
 
 import { useTranslation } from 'translation';
 import { AuthContext } from 'context/AuthContext';
 import { truncateAddress } from 'utilities/truncateAddress';
 import { SecondaryButton, IButtonProps } from '../../Button';
+import { Icon } from '../../Icon';
+import { useStyles } from './styles';
 
 export interface IConnectButton extends IButtonProps {
   accountAddress?: string;
@@ -12,10 +15,14 @@ export interface IConnectButton extends IButtonProps {
 
 export const ConnectButtonUi: React.FC<IConnectButton> = ({ accountAddress, ...otherProps }) => {
   const { t } = useTranslation();
+  const styles = useStyles();
 
   return (
-    <SecondaryButton {...otherProps}>
-      {!accountAddress ? t('connectButton.title') : truncateAddress(accountAddress)}
+    <SecondaryButton {...otherProps} css={styles.button}>
+      <Box display="flex" justifyContent="center" alignItems="center" flexWrap="wrap">
+        <Icon css={styles.icon} name="wallet" />
+        {!accountAddress ? t('connectButton.title') : truncateAddress(accountAddress)}
+      </Box>
     </SecondaryButton>
   );
 };
