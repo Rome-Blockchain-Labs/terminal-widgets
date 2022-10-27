@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 const useCurrencyLists = () => {
+
   const { data: fiatBuyList, error: fiatBuyListError } = useQuery(
     ['fiatBuyData'],
     async () => {
@@ -25,6 +26,7 @@ const useCurrencyLists = () => {
         .map((coin: any) => ({
           code: coin.coin_code,
           name: coin.coin_name,
+          blockchain: [...coin.blockchains]
         }))
     },
     { staleTime: Infinity }
@@ -51,6 +53,7 @@ const useCurrencyLists = () => {
         .map((coin: any) => ({
           code: coin.coin_code,
           name: coin.coin_name,
+          blockchain: [...coin.blockchains]
         }))
     },
     { staleTime: Infinity }

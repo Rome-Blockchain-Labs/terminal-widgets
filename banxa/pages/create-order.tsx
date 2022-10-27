@@ -29,6 +29,7 @@ export interface FormValues {
   target: string | undefined
   source_amount: number | undefined
   target_amount: number | undefined
+  blockchain?: string
 }
 
 export default function CreateOrder() {
@@ -65,6 +66,7 @@ export default function CreateOrder() {
       target: undefined,
       source_amount: undefined,
       target_amount: undefined,
+      blockchain: "none"
     },
   })
   const [error, setError] = useState<string>()
@@ -94,6 +96,7 @@ export default function CreateOrder() {
   }
 
   const onSubmit = async (data: any) => {
+    console.log(data)
     if (order === 'BUY') delete data.refund_address
     if (order === 'SELL') delete data.wallet_address
     createOrder(data)
@@ -114,6 +117,12 @@ export default function CreateOrder() {
   const source = watch('source')
   const target = watch('target')
 
+  const buyBlockchains = order === 'BUY' && target && tokenBuyList && tokenBuyList.find((coin: any) => coin.code === target).blockchain
+  const sellBlockchains = order === 'SELL' && source && tokenSellList && tokenSellList.find((coin: any) => coin.code === source).blockchain
+
+  const availableBlockchains = order === 'BUY' ? buyBlockchains : sellBlockchains
+
+
   const closeCurrencyModal = () => {
     dispatch({ type: 'CLOSE_SELECT' })
   }
@@ -129,8 +138,9 @@ export default function CreateOrder() {
     setTarget,
     target,
     setSource,
-    source
+    source,
   )
+
 
   // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
   useGetLimits({ setFormError, clearErrors, type: order, watch })
@@ -315,6 +325,7 @@ export default function CreateOrder() {
                 className={classNames(priceLoading ? 'border-b-animate' : 'border-b-gray-300 border-b', 'mt-1 flex')}
               >
                 <input
+                  disabled={priceLoading}
                   className="text-sm shadow-sm block w-full border-0  rounded-md md:text-2xl focus:ring-0"
                   type="number"
                   placeholder="Enter amount"
@@ -349,6 +360,26 @@ export default function CreateOrder() {
               )}
             </div>
 
+            <label htmlFor="source" className="mt-3 block  font-medium text-gray800  ">
+              Blockchain
+            </label>
+            <select
+              className="mt-1 py-1 text-black text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
+              {...register("blockchain", { required: "Select a blockchain network" })}>
+
+              <option value="none" selected disabled hidden>Select a network</option>
+              {availableBlockchains && availableBlockchains.map((availableBlockchain: any, index: number) => (
+
+                <option key={index} value={availableBlockchain.code}>{availableBlockchain.description}</option>
+              ))}
+
+            </select>
+
+            {errors && (
+              <p className="mt-2 text-sm text-red-400" >
+                {errors.blockchain?.message}
+              </p>
+            )}
             {order === 'BUY' && (
               <div className="mt-3">
                 <label htmlFor="source" className="block  font-medium text-gray-400  ">
@@ -356,6 +387,7 @@ export default function CreateOrder() {
                 </label>
                 <div className="mt-1">
                   <input
+                    disabled={priceLoading}
                     className="text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
                     type="text"
                     placeholder="Click the connect wallet button below"
