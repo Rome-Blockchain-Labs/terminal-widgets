@@ -4,6 +4,7 @@ import type { NextApiResponse } from 'next'
 import { PATH } from './types'
 
 export async function getPriceRequest(query: PATH, res: NextApiResponse, params?: Record<string, string>) {
+  console.log(params)
   const nonce = Date.now()
   const method = 'GET'
   let data: string
@@ -33,7 +34,7 @@ export async function getPriceRequest(query: PATH, res: NextApiResponse, params?
     // const netFiatAmount = order.fiat_amount - order.fee_amount
     // const netCoinAmount = netFiatAmount / spotPrice
     // order.coin_amount = netCoinAmount
-    return res.status(200).json({ ...order })
+    return res.status(200).json({ ...order, nonce: params?.nonce })
   } catch (error) {
     const err = error as AxiosError
     if (err.response) {

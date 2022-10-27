@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { FormValues } from 'pages/create-order'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import useDebounce from './debounce'
+// import useDebounce from './debounce'
 
 const useGetPrice = (
   setValue: UseFormSetValue<FormValues>,
@@ -19,11 +19,13 @@ const useGetPrice = (
 
   const [amountInput, setAmountInput] = useState<'SOURCE' | 'TARGET'>()
   const [priceLoading, setPriceLoading] = useState(false)
-  const debouncedSourceAmount = useDebounce(sourceAmount, 1000)
-  const debouncedTargetAmount = useDebounce(targetAmount, 1000)
+  const nonce = useRef(0)
+  // const debouncedSourceAmount = useDebounce(sourceAmount, 1000)
+  // const debouncedTargetAmount = useDebounce(targetAmount, 1000)
 
   const getPrices = useCallback(
     async ({ source_amount, target_amount }: { source_amount?: number; target_amount?: number }) => {
+      nonce.current = nonce.current + 1
       const setSourceAmount = (value: number) => {
         setValue('source_amount', value)
       }
@@ -37,15 +39,14 @@ const useGetPrice = (
         setValue('target_amount', undefined)
         return
       }
-      if (priceLoading === true) {
-        return
-      }
+
       setPriceLoading(true)
       const params: {
         source: string | undefined
         target: string | undefined
         source_amount?: number
         target_amount?: number
+        nonce?: number
       } = {
         source,
         target,
@@ -56,6 +57,7 @@ const useGetPrice = (
       if (target_amount) {
         params.target_amount = target_amount
       }
+      params.nonce = nonce.current
 
       const res = await axios
         .post('/api/banxa/get-price', {
@@ -67,7 +69,7 @@ const useGetPrice = (
           )
         })
 
-      if (res) {
+      if (res && res.data.nonce === nonce.current) {
         const sourceAmount = Math.trunc(res.data.fiat_amount)
         const targetAmount = Number(Number(res.data.coin_amount).toFixed(4))
         if (order === 'BUY') {
@@ -86,21 +88,21 @@ const useGetPrice = (
   )
 
   useEffect(() => {
-    if (amountInput === 'SOURCE' && debouncedSourceAmount === sourceAmount) {
-      getPrices({ source_amount: debouncedSourceAmount })
+    if (amountInput === 'SOURCE' && sourceAmount) {
+      getPrices({ source_amount: sourceAmount })
     }
 
-    if (amountInput === 'TARGET' && debouncedTargetAmount === targetAmount) {
-      getPrices({ target_amount: debouncedTargetAmount })
+    if (amountInput === 'TARGET' && targetAmount) {
+      getPrices({ target_amount: targetAmount })
     }
-  }, [debouncedSourceAmount, debouncedTargetAmount])
+  }, [sourceAmount, targetAmount])
 
   useEffect(() => {
-    if (currencyChange && debouncedSourceAmount && debouncedTargetAmount && (source || target)) {
-      getPrices({ source_amount: debouncedSourceAmount })
+    if (currencyChange && (source || target)) {
+      getPrices({ source_amount: sourceAmount })
       setCurrencyChange(false)
     }
-  }, [currencyChange, debouncedSourceAmount, debouncedTargetAmount, getPrices, setCurrencyChange, source, target])
+  }, [currencyChange, sourceAmount, targetAmount, getPrices, setCurrencyChange, source, target])
   return { setCurrencyChange, priceLoading, setPriceLoading, amountInput, setAmountInput }
 }
 
