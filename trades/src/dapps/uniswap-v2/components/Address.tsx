@@ -1,10 +1,10 @@
 import 'twin.macro';
 
 import { getAddress } from '@ethersproject/address';
+import { useWeb3React } from '@romeblockchain/wallet';
 import React from 'react';
 
 import { usePageContext } from '../PageContext';
-import { useWeb3React } from '@romeblockchain/wallet';
 
 const Address = () => {
   const { account } = useWeb3React();

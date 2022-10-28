@@ -129,6 +129,9 @@ const CustomStyles = createGlobalStyle`
 .walletconnect-modal__base{
   ${tw`mt-[5%]! lg:mt-0!`}
 }
+#walletconnect-qrcode-modal{
+  ${tw`overflow-auto`}
+}
 `;
 
 const GlobalStyles: FC = () => (
