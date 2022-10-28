@@ -51,10 +51,9 @@ export default function SettingsModal() {
 
                   await handleConnect(
                     wallet.connector,
-                    setSelectedWallet,
                     wallet.wallet,
-                    widgetBridge,
-                    chainParams
+                    chainParams,
+                    widgetBridge
                   );
                   toggle();
                 }}

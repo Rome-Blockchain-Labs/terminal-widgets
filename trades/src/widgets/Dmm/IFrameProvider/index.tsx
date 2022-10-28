@@ -2,11 +2,11 @@ import { widgetBridge } from '@romeblockchain/bridge';
 import React, { ReactNode, useContext, useEffect } from 'react';
 
 interface IFrameContextState {
-  widgetBridge: typeof widgetBridge | null;
+  widgetBridge: typeof widgetBridge | undefined;
 }
 
 export const IFrameContext = React.createContext<IFrameContextState>({
-  widgetBridge: null,
+  widgetBridge: undefined,
 });
 
 // Do not extend provider with other variables to prevent rerenders

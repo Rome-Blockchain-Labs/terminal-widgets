@@ -12,7 +12,7 @@ import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionMo
 import { useIFrameContext } from './IFrameProvider';
 
 const WalletModal = () => {
-  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
 
   return (
@@ -35,10 +35,9 @@ const WalletModal = () => {
                 connectHandler={async () => {
                   await handleConnect(
                     wallet.connector,
-                    setSelectedWallet,
                     wallet.wallet,
+                    chainParams,
                     widgetBridge,
-                    chainParams
                   );
                 }}
                 isActive={isActive}
