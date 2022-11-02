@@ -33,12 +33,7 @@ const WalletModal = () => {
               <WalletBox
                 key={index}
                 connectHandler={async () => {
-                  await handleConnect(
-                    wallet.connector,
-                    wallet.wallet,
-                    chainParams,
-                    widgetBridge,
-                  );
+                  await handleConnect(wallet, chainParams, widgetBridge);
                 }}
                 isActive={isActive}
                 walletName={wallet.wallet}
