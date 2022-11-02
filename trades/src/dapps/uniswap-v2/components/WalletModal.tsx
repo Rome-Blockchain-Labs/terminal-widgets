@@ -23,7 +23,7 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
-  const { account, chainId } = useWeb3React();
+  const { account, chainId, connector } = useWeb3React();
   const { widgetBridge } = useIFrameContext();
   const [error, setShowError] = useState(false);
 
@@ -33,11 +33,24 @@ const WalletModal = ({
   useEffect(() => {
     if (
       !account ||
-      (typeof chainParams !== 'number' && chainId !== chainParams.chainId)
+      (typeof chainParams !== 'number' && chainId !== chainParams.chainId) ||
+      (typeof chainParams === 'number' && chainId !== chainParams)
     ) {
       setWalletVisibility(true);
     }
   }, [account, setWalletVisibility, chainId, chainParams]);
+
+  useEffect(() => {
+    if (
+      !account &&
+      typeof chainParams !== 'number' &&
+      chainId === chainParams.chainId &&
+      connector
+    ) {
+      connector.activate();
+    }
+  }, [account, chainId, chainParams, connector]);
+
   if (!walletVisibility) {
     return null;
   }
