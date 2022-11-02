@@ -127,10 +127,10 @@ const CustomStyles = createGlobalStyle`
 }
 
 .walletconnect-modal__base{
-  ${tw`mt-[5%]! lg:mt-0!`}
+  ${tw`mt-[5%]! lg:mt-0! w-full max-w-full!`}
 }
 #walletconnect-qrcode-modal{
-  ${tw`overflow-auto`}
+  ${tw`overflow-auto grid place-items-center`}
 }
 `;
 
