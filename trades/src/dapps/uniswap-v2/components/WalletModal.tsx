@@ -4,12 +4,13 @@ import {
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
+  Wallet,
 } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, X } from 'react-feather';
-import { PulseLoader } from 'react-spinners';
 
+import { CoinbaseIcon } from '../../../components/icons/Coinbase';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
@@ -107,6 +108,8 @@ const WalletModal = ({
               >
                 {wallet.wallet === 'METAMASK' ? (
                   <MetamaskLogo size={30} />
+                ) : wallet.wallet === Wallet.COINBASE ? (
+                  <CoinbaseIcon height={30} width={30} />
                 ) : (
                   <WalletConnectLogo size={30} />
                 )}

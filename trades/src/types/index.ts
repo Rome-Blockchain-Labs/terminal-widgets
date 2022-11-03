@@ -1,5 +1,4 @@
 export * from './candle';
-export * from './chart';
 export * from './env';
 export * from './exchange';
 export * from './graphql';
