@@ -80,6 +80,10 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     }
   }, [widget.network]);
   useEffect(() => {
+    window.localStorage.clear();
+  }, []);
+
+  useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
       widget.network.toUpperCase() as VeloxNetworkName

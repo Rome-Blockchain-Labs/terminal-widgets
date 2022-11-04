@@ -9,8 +9,6 @@ import { Connector } from '@web3-react/types';
 
 import CoinbaseSvg from '../assets/svgs/coinbase.svg';
 import MetamaskSvg from '../assets/svgs/metamask-logo.svg';
-import { coinbaseWallet } from '../connectors/coinbaseWallet';
-import { metaMask } from '../connectors/metaMask';
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -135,34 +133,6 @@ export interface WalletInfo {
   mobile?: true;
   mobileOnly?: true;
 }
-
-export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  COINBASE: {
-    color: '#E8831D',
-    connector: coinbaseWallet,
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    icon: CoinbaseSvg,
-    name: 'Coinbase',
-  },
-  // INJECTED: {
-  //   color: '#010101',
-  //   connector: injected,
-  //   description: 'Injected web3 provider.',
-  //   href: null,
-  //   icon: ArrowRightSvg,
-  //   name: 'Injected',
-  //   primary: true,
-  // },
-  METAMASK: {
-    color: '#E8831D',
-    connector: metaMask,
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    icon: MetamaskSvg,
-    name: 'MetaMask',
-  },
-};
 
 export const NetworkContextName = 'NETWORK';
 
