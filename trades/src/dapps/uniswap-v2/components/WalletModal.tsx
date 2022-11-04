@@ -87,35 +87,37 @@ const WalletModal = ({
             <span> CONNECT / SWITCH TO A WALLET</span>
           </div>
           <hr tw="w-full bg-gray-50 mt-2" />
-          {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
-            const wallet = SUPPORTED_WALLETS[key];
-            const isActive = selectedWallet === wallet.wallet;
+          {Object.keys(SUPPORTED_WALLETS)
+            .filter((key) => key !== Wallet.COINBASE)
+            .map((key, index) => {
+              const wallet = SUPPORTED_WALLETS[key];
+              const isActive = selectedWallet === wallet.wallet;
 
-            return (
-              <WalletBox
-                key={index}
-                connectHandler={async () => {
-                  try {
-                    setShowError(false);
-                    await handleConnect(wallet, chainParams, widgetBridge);
-                    closeModal();
-                  } catch (error) {
-                    setShowError(true);
-                  }
-                }}
-                isActive={isActive}
-                walletName={wallet.wallet}
-              >
-                {wallet.wallet === 'METAMASK' ? (
-                  <MetamaskLogo size={30} />
-                ) : wallet.wallet === Wallet.COINBASE ? (
-                  <CoinbaseIcon height={30} width={30} />
-                ) : (
-                  <WalletConnectLogo size={30} />
-                )}
-              </WalletBox>
-            );
-          })}
+              return (
+                <WalletBox
+                  key={index}
+                  connectHandler={async () => {
+                    try {
+                      setShowError(false);
+                      await handleConnect(wallet, chainParams, widgetBridge);
+                      closeModal();
+                    } catch (error) {
+                      setShowError(true);
+                    }
+                  }}
+                  isActive={isActive}
+                  walletName={wallet.wallet}
+                >
+                  {wallet.wallet === 'METAMASK' ? (
+                    <MetamaskLogo size={30} />
+                  ) : wallet.wallet === Wallet.COINBASE ? (
+                    <CoinbaseIcon height={30} width={30} />
+                  ) : (
+                    <WalletConnectLogo size={30} />
+                  )}
+                </WalletBox>
+              );
+            })}
         </div>
       </div>
     </>
