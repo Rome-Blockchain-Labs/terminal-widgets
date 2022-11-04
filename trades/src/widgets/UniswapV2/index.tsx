@@ -37,7 +37,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
 
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
-  >();
+  >(1);
   const [targetChainID, setTargetChainID] = useState<number>();
 
   const { search } = useLocation();
@@ -79,9 +79,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setChainParams(targetChainParams);
     }
   }, [widget.network]);
-  useEffect(() => {
-    window.localStorage.clear();
-  }, []);
+  // useEffect(() => {
+  //   window.localStorage.clear();
+  // }, []);
 
   useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
@@ -131,9 +131,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  if (!chainParams) {
-    return null;
-  }
+  // if (!chainParams) {
+  //   return null;
+  // }
   return (
     <div
       id={uid}
