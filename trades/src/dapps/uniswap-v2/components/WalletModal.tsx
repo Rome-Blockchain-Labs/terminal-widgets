@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import {
   SUPPORTED_WALLETS,
   useWallets,
