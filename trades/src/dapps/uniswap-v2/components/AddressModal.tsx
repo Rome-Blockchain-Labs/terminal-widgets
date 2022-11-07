@@ -60,7 +60,7 @@ const AddressModal = () => {
             >
               Disconnect
             </button>
-            <button
+            {/* <button
               tw="flex-1 bg-gray-800 text-yellow-400 h-full"
               onClick={() => {
                 setWalletVisibility(true);
@@ -68,7 +68,7 @@ const AddressModal = () => {
               }}
             >
               Change
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

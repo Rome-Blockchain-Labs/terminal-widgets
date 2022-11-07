@@ -4,7 +4,7 @@ import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
 import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo, useContext, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -20,12 +20,15 @@ import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
 import AddressModal from '../../dapps/uniswap-v2/components/AddressModal';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
-import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
+import {
+  PageContext,
+  PageContextProvider,
+} from '../../dapps/uniswap-v2/PageContext';
 import { getStore } from '../../dapps/uniswap-v2/state';
 import { getTokenListUrlsByExchangeName } from '../../dapps/uniswap-v2/token-list';
 import { Token, WidgetCommonState } from '../../types';
 
-interface QueryParams {
+export interface QueryParams {
   network: NetworkName;
   exchange: ExchangeType;
   token_in?: string;
@@ -35,6 +38,7 @@ interface QueryParams {
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
   const { chainId } = useWeb3React();
 
+  const { setWalletVisibility } = useContext(PageContext);
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
   >(1);
@@ -131,9 +135,12 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  // if (!chainParams) {
-  //   return null;
-  // }
+  useEffect(() => {
+    if (targetChainID !== chainId) {
+      setWalletVisibility(true);
+    }
+  }, [chainId, setWalletVisibility, targetChainID]);
+
   return (
     <div
       id={uid}

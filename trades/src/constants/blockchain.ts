@@ -7,9 +7,6 @@ import {
 } from '@rbl/velox-common/uniV2ClonesSDK';
 import { Connector } from '@web3-react/types';
 
-import CoinbaseSvg from '../assets/svgs/coinbase.svg';
-import MetamaskSvg from '../assets/svgs/metamask-logo.svg';
-
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]?: Token[];

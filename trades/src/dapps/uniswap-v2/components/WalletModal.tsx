@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import {
   SUPPORTED_WALLETS,
   useWallets,
@@ -7,12 +5,15 @@ import {
   Wallet,
 } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
+import queryString from 'query-string';
 import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, X } from 'react-feather';
+import { useLocation } from 'react-router-dom';
 
 import { CoinbaseIcon } from '../../../components/icons/Coinbase';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
+import { getChainIdByNetworkName } from '../../../constants/networkExchange';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 import { useIFrameContext } from './IFrameProvider/index';
@@ -23,34 +24,19 @@ const WalletModal = ({
   chainParams: number | AddEthereumChainParameter;
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
-  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
-  const { account, chainId, connector } = useWeb3React();
+  const { handleConnect, selectedWallet } = useWallets();
+  const { account, chainId, connector, isActivating } = useWeb3React();
   const { widgetBridge } = useIFrameContext();
   const [error, setShowError] = useState(false);
 
-  const closeModal = () => {
-    setWalletVisibility(false);
-  };
+  const { search } = useLocation();
   useEffect(() => {
-    if (
-      !account ||
-      (typeof chainParams !== 'number' && chainId !== chainParams.chainId) ||
-      (typeof chainParams === 'number' && chainId !== chainParams)
-    ) {
-      setWalletVisibility(true);
+    const widget = queryString.parse(search) as any;
+    const targetChain = getChainIdByNetworkName(widget.network);
+    if (chainId && chainId !== targetChain && selectedWallet) {
+      window.location.reload();
     }
-  }, [account, setWalletVisibility, chainId, chainParams]);
-
-  useEffect(() => {
-    if (
-      !account &&
-      typeof chainParams !== 'number' &&
-      chainId === chainParams.chainId &&
-      connector
-    ) {
-      connector.activate();
-    }
-  }, [account, chainId, chainParams, connector]);
+  }, [account, chainId, connector, isActivating, search, selectedWallet]);
 
   if (!walletVisibility) {
     return null;
@@ -100,7 +86,7 @@ const WalletModal = ({
                     try {
                       setShowError(false);
                       await handleConnect(wallet, chainParams, widgetBridge);
-                      closeModal();
+                      setWalletVisibility(false);
                     } catch (error) {
                       setShowError(true);
                     }
