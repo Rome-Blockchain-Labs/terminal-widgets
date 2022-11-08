@@ -1,27 +1,5 @@
 @import './Global.scss';
 
-body {
-  /* width */
-  &::-webkit-scrollbar {
-    width: 2px;
-    height: 5px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: #f6f6f6;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: gray;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-}
 .switch-wrapper {
   position: relative;
 }
