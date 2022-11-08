@@ -1,11 +1,13 @@
 import 'twin.macro';
 
 import {
+  getAddChainParametersfromNetworkName,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
   Wallet,
 } from '@romeblockchain/wallet';
+import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import { useContext, useEffect, useState } from 'react';
@@ -39,6 +41,12 @@ const WalletModal = ({
       window.location.reload();
     }
   }, [account, chainId, connector, isActivating, search, selectedWallet]);
+
+  useEffect(() => {
+    if (connector instanceof Network) {
+      setWalletVisibility(true);
+    }
+  }, [connector, setWalletVisibility]);
 
   if (!walletVisibility) {
     return null;

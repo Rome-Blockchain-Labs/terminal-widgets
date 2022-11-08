@@ -74,7 +74,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     }
     return false;
   })?.icon;
-
   useEffect(() => {
     if (widget.network) {
       const targetChain = getChainIdByNetworkName(widget.network);
@@ -83,9 +82,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setChainParams(targetChainParams);
     }
   }, [widget.network]);
-  // useEffect(() => {
-  //   window.localStorage.clear();
-  // }, []);
 
   useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
