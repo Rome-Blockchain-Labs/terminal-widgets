@@ -8,6 +8,7 @@ import { SAFE_BORROW_LIMIT_PERCENTAGE } from 'config';
 import { Asset, VTokenId } from 'types';
 import { AuthContext } from 'context/AuthContext';
 import { AmountForm, IAmountFormProps, ErrorCode } from 'containers/AmountForm';
+
 import {
   formatToReadablePercentage,
   formatCoinsToReadableValue,
@@ -117,7 +118,7 @@ export const BorrowForm: React.FC<IBorrowFormProps> = ({
                 <Trans
                   i18nKey="borrowRepayModal.borrow.borrowableAmount"
                   components={{
-                    White: <span css={styles.whiteLabel} />,
+                    White: <div css={styles.whiteLabel} />,
                   }}
                   values={{ amount: readableTokenBorrowableAmount }}
                 />

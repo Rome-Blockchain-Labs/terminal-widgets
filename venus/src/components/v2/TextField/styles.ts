@@ -69,6 +69,12 @@ export const useStyles = () => {
       display: block;
       color: ${theme.palette.text.secondary};
       margin-top: ${theme.spacing(1)};
+      margin-right: auto;
+    `,
+    rightAdornment: css`
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
     `,
   };
 };

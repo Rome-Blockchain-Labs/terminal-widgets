@@ -6,9 +6,11 @@ const iconCloseSize = '35px';
 export const useModalStyles = ({
   hasTitleComponent,
   noHorizontalPadding,
+  hasBackCopy,
 }: {
   hasTitleComponent: boolean;
   noHorizontalPadding?: boolean;
+  hasBackCopy: boolean;
 }) => {
   const theme = useTheme();
 
@@ -28,15 +30,12 @@ export const useModalStyles = ({
       }
       width: calc(100% - ${theme.spacing(8)});
       max-width: ${theme.spacing(136)};
-      border-radius: ${theme.spacing(6)};
+      border-radius: 0.375rem;
       background-color: ${theme.palette.background.paper};
       overflow: auto;
       max-height: calc(100% - ${theme.spacing(8)});
     `,
     titleWrapper: css`
-      padding-left: ${theme.spacing(6)};
-      padding-right: ${theme.spacing(6)};
-      padding-top: ${theme.spacing(6)};
       padding-bottom: ${hasTitleComponent ? theme.spacing(6) : 0};
       border-bottom: ${hasTitleComponent ? `1px solid ${theme.palette.secondary.light}` : 0};
       position: sticky;
@@ -56,16 +55,40 @@ export const useModalStyles = ({
       padding-left: ${iconCloseSize};
       padding-right: ${iconCloseSize};
     `,
-    closeIcon: css`
-      right: ${theme.spacing(6)};
-      top: ${theme.spacing(6)};
-      position: absolute;
-      height: ${iconCloseSize};
-      width: ${iconCloseSize};
-      min-width: ${iconCloseSize};
+    closeButton: css`
+      ${theme.breakpoints.down('sm')} {
+        background: #454549;
+        margin-top: 1px;
+        margin-left: 1px;
+        margin-right: 1px;
+        border-radius: 0.375rem;
+        padding: 1px;
+        display: flex;
+        justify-content: center;
+        text-transform: ${hasBackCopy && 'capitalize'};
+        width: 100%;
+        color: #9597a0;
+        align-items: center;
+        height: 48px;
+        border-width: 1px;
+        border-color: #383943;
+        border-style: solid;
+        font-size: 18px;
+        position: relative;
+      }
+    `,
+    backCopy: css`
       margin-left: auto;
-      padding: 0;
-      background-color: ${theme.palette.background.paper};
+      margin-right: auto;
+    `,
+    closeIcon: css`
+      ${theme.breakpoints.down('sm')} {
+        position: absolute;
+        right: 10px;
+        display: grid;
+        place-items: center;
+        margin-right: 12px;
+      }
     `,
     contentWrapper: css`
       padding-bottom: ${theme.spacing(10)};

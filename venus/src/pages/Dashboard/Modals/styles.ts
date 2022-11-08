@@ -10,6 +10,10 @@ export const useStyles = () => {
       ${theme.breakpoints.down('md')} {
         margin-top: ${theme.spacing(8)};
       }
+      ${theme.breakpoints.down('sm')} {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
     `,
     input: css`
       margin-bottom: ${theme.spacing(1)};
@@ -26,6 +30,10 @@ export const useStyles = () => {
     `,
     getRow: ({ isLast }: { isLast: boolean }) => css`
       margin-bottom: ${theme.spacing(isLast ? 8 : 3)};
+      ${theme.breakpoints.down('sm')} {
+        margin-right: 4px;
+        margin-left: 4px;
+      }
 
       ${theme.breakpoints.down('md')} {
         margin-bottom: ${theme.spacing(isLast ? 6 : 3)};

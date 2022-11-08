@@ -8,7 +8,14 @@ export const styles = () => {
     getContainer: ({ hasTitle }: { hasTitle: boolean }) => css`
       display: flex;
       margin-bottom: ${theme.spacing(6)};
-      width: 100%;
+      border-width: 1px;
+      border-color: #383943;
+      border-style: solid;
+      border-radius: 0.375rem;
+      padding: 1px;
+      margin-left: 2px;
+      margin-right: 2px;
+      margin-top: 6px;
 
       ${hasTitle &&
       css`

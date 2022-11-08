@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { Asset } from 'types';
-import { Tabs, Modal, IModalProps, Token } from 'components';
+import { Tabs, Modal, IModalProps } from 'components';
 import { useTranslation } from 'translation';
 import { useStyles } from '../styles';
 import Borrow from './Borrow';
@@ -38,7 +38,13 @@ const BorrowRepay: React.FC<IBorrowRepayProps> = ({ onClose, asset, isXvsEnabled
   ];
 
   return (
-    <Modal isOpened title={<Token symbol={asset.id} variant="h4" />} handleClose={onClose}>
+    <Modal
+      isOpened
+      backCopy="Back to Dashboard"
+      // title={<Token symbol={asset.id} variant="h4" />}
+      handleClose={onClose}
+      noHorizontalPadding
+    >
       <Tabs tabsContent={tabsContent} />
     </Modal>
   );

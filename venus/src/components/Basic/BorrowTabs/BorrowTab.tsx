@@ -241,11 +241,11 @@ function BorrowTab({ asset, changeTab, onCancel, setSetting }: Props & DispatchP
             )}
           </div>
           <div className="borrow-limit">
-            <span>Borrow Limit Used</span>
+            <div>Borrow Limit Used</div>
             {amount.isZero() || amount.isNaN() ? (
               <span>{borrowPercent.dp(2, 1).toString(10)}%</span>
             ) : (
-              <div className="flex align-center just-between">
+              <div>
                 <span>{borrowPercent.dp(2, 1).toString(10)}%</span>
                 <img className="arrow-right-img" src={arrowRightImg} alt="arrow" />
                 <span>{newBorrowPercent.dp(2, 1).toString(10)}%</span>

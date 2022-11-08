@@ -73,15 +73,16 @@ export const TextField: React.FC<ITextFieldProps> = ({
           disabled={disabled}
           {...inputProps}
         />
-
-        {rightAdornment}
       </Box>
-
-      {!!description && (
-        <Typography variant="small2" css={styles.description}>
-          {description}
-        </Typography>
-      )}
+      <div css={styles.rightAdornment}>
+        {console.log(description)}
+        {!!description && (
+          <Typography variant="small2" css={styles.description}>
+            {description}
+          </Typography>
+        )}
+        {rightAdornment}
+      </div>
     </Box>
   );
 };
