@@ -38,6 +38,8 @@ export const styles = () => {
       last: boolean;
       fullWidth: boolean;
     }) => css`
+      padding: ${theme.spacing(2, 3)};
+
       :hover:not(:disabled),
       :active:not(:disabled) {
         background-color: ${theme.palette.secondary.light};

@@ -23,7 +23,8 @@ export const Modal: React.FC<IModalProps> = ({
   noHorizontalPadding,
   ...otherModalProps
 }) => {
-  const s = useModalStyles({ hasTitleComponent: Boolean(title), noHorizontalPadding });
+  const hasTitleComponent = Boolean(title);
+  const s = useModalStyles({ hasTitleComponent, noHorizontalPadding });
   return (
     <MUIModal
       open={isOpened}
@@ -39,7 +40,7 @@ export const Modal: React.FC<IModalProps> = ({
       <Fade in={isOpened}>
         <div css={s.box} className={className}>
           <div css={s.titleWrapper}>
-            <div css={s.titleComponent}>{title}</div>
+            {hasTitleComponent && <div css={s.titleComponent}>{title}</div>}
             <Button css={s.closeIcon} disableRipple onClick={handleClose}>
               <Icon name="close" />
             </Button>

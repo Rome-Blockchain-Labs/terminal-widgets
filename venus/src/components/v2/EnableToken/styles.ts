@@ -11,7 +11,7 @@ export const styles = () => {
       hr {
         width: 100%;
         border: 1px solid ${theme.palette.secondary.light};
-        margin-bottom: ${theme.spacing(8)};
+        margin-bottom: ${theme.spacing(4)};
       }
     `,
     mainLogo: css`
@@ -21,14 +21,14 @@ export const styles = () => {
     `,
     mainText: css`
       text-align: center;
-      margin-bottom: ${theme.spacing(8)};
+      margin-bottom: ${theme.spacing(4)};
     `,
     delimiter: css`
       margin-bottom: ${theme.spacing(8)};
     `,
     tokenInfoContainer: css`
       width: 100%;
-      margin-bottom: ${theme.spacing(12)};
+      margin-bottom: ${theme.spacing(5)};
     `,
     labeledInlineContent: css`
       :not(:last-of-type) {
