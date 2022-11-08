@@ -4732,10 +4732,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@rbl/velox-common@4.1.26":
-  version "4.1.26"
-  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.26.tgz#099960eccee25956c39e3767ae8028cc7780f09f"
-  integrity sha512-k6YNVEBOcwEIQnKxDr11WoZrNekzcX4/TG3ibBUNJlniNZhSrJGtpX3iwmXdN88tSb+/J+dBvZQ96KNeTQc/pg==
+"@rbl/velox-common@4.1.27":
+  version "4.1.27"
+  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.27.tgz#e94eb163e31eb7f58c85e4ce6933096fdb01f19f"
+  integrity sha512-Yj+FjshQ9YimnVG/MlMnoFbtkjqzrK4IQQ44GZeLVU6W/m6oSYdf2o72R2Yf6zR+oCmEf2wmP8FjmNPrE6h5sA==
   dependencies:
     "@ethersproject/providers" "^5.5.0"
     "@ethersproject/solidity" "^5.5.0"
