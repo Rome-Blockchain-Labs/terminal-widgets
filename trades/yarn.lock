@@ -4902,10 +4902,10 @@
     tsup "^5.11.13"
     typescript "^4.6.3"
 
-"@romeblockchain/wallet@^0.1.28":
-  version "0.1.28"
-  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.28.tgz#3caaf3bcb573ff2d367e55b0b65ed777a9a55e5b"
-  integrity sha512-N3EgGTMttFDm+Jgz6GPTE/IunkMQMz/b0DWpyDsXkayGhJTg9G1FFrdVKMeKJtT7Axo9ckjX2AnrUsBAlN3CJg==
+"@romeblockchain/wallet@^0.1.29":
+  version "0.1.29"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.29.tgz#348716e71b7b3d58b29615662540d3bb5e0c060f"
+  integrity sha512-EVXmFtuOEEwIYTzxPQjkLBWLYgtUCL3AWSD2VpbwosCHmYpjTWmrsMyWYpy3vgIPkR6/B63EgxsrTOjnvDFSOw==
   dependencies:
     "@coinbase/wallet-sdk" "^3.5.4"
     "@romeblockchain/bridge" "^0.0.3"
