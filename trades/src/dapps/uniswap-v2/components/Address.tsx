@@ -26,7 +26,7 @@ const Address = () => {
   }
 
   return (
-    <motion.div
+    <motion.button
       className="group"
       drag="x"
       tw="absolute flex gap-x-3 top-2 left-2"
@@ -53,7 +53,7 @@ const Address = () => {
       <div tw="h-auto rounded-md border border-gray-500 bg-gray-400 p-2 text-white  hidden group-hover:block group-hover:opacity-80">
         {shortenedAddress}
       </div>
-    </motion.div>
+    </motion.button>
   );
 };
 
