@@ -1,30 +1,59 @@
 import 'twin.macro';
 
 import { getAddress } from '@ethersproject/address';
-import { useWeb3React } from '@romeblockchain/wallet';
-import React from 'react';
+import { useWallets, useWeb3React, Wallet } from '@romeblockchain/wallet';
+import { motion } from 'framer-motion';
+import { ReactNode, useRef } from 'react';
 
+import MetamaskLogo from '../../../components/icons/MetamaskLogo';
+import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { usePageContext } from '../PageContext';
+const WALLET_ICONS: { [id: string]: ReactNode } = {
+  METAMASK: <MetamaskLogo />,
+  WALLET_CONNECT: <WalletConnectLogo />,
+};
 
 const Address = () => {
   const { account } = useWeb3React();
+  const { selectedWallet } = useWallets();
   const shortenedAddress = account && shortenAddress(account);
 
   const { setAddressVisibility } = usePageContext();
+  const isDragging = useRef(false);
 
   if (!account) {
     return null;
   }
 
   return (
-    <div tw="w-full flex mb-3 max-w-sm ">
-      <button
-        tw="h-11 rounded-full bg-yellow-200 text-black grid place-items-center p-2 border  ml-auto"
-        onClick={() => setAddressVisibility(true)}
-      >
+    <motion.div
+      className="group"
+      drag="x"
+      tw="absolute flex gap-x-3 top-2 left-2"
+      onClick={() => {
+        if (!isDragging.current) {
+          setAddressVisibility(true);
+        }
+      }}
+      onDragEnd={() => {
+        setTimeout(() => {
+          isDragging.current = false;
+        }, 150);
+      }}
+      onDragStart={() => {
+        isDragging.current = true;
+      }}
+    >
+      {selectedWallet === 'METAMASK' ? (
+        <MetamaskLogo tw="h-10 w-10 rounded-md border border-gray-500 bg-gray-400 p-2 text-white opacity-40 group-hover:opacity-80" />
+      ) : (
+        <WalletConnectLogo tw="h-10 w-10 rounded-md border border-gray-500 bg-gray-400 p-2 text-white opacity-40 group-hover:opacity-80" />
+      )}
+
+      <div tw="h-auto rounded-md border border-gray-500 bg-gray-400 p-2 text-white  hidden group-hover:block group-hover:opacity-80">
         {shortenedAddress}
-      </button>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 
