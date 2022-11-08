@@ -29,7 +29,7 @@ const Address = () => {
     <motion.button
       className="group"
       drag="x"
-      tw="absolute flex gap-x-3 top-2 left-2"
+      tw="absolute flex gap-x-3 top-2 left-2 z-10"
       onClick={() => {
         if (!isDragging.current) {
           setAddressVisibility(true);
