@@ -52,6 +52,7 @@ const BorrowingTable: React.FC<IBorrowingUiProps> = ({
       denominator: +userTotalBorrowLimit,
     });
     return [
+      //TODO copy SuppliedTable implementation of rows
       {
         key: 'asset',
         render: () =>
