@@ -1,9 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React, { useMemo } from 'react';
 import PLACEHOLDER_KEY from 'constants/placeholderKey';
-import { formatCoinsToReadableValue, formatToReadablePercentage } from 'utilities/common';
+import {
+  formatCentsToReadableValue,
+  formatCoinsToReadableValue,
+  formatToReadablePercentage,
+} from 'utilities/common';
 import { Asset, TokenId } from 'types';
-import { Table, ITableProps, Toggle, Token } from 'components';
+import { Table, ITableProps, Toggle, Token, LayeredValues } from 'components';
 import { useTranslation } from 'translation';
 import { useIsSmDown, useIsLgDown } from 'hooks/responsive';
 import { useStyles } from './styles';
@@ -46,7 +50,16 @@ export const SupplyMarketTable: React.FC<ISupplyMarketTableUiProps> = ({
       {
         key: 'asset',
         render: () =>
-          isSmDown ? <div>{asset.symbol}</div> : <Token symbol={asset.symbol as TokenId} />,
+          isSmDown ? (
+            <LayeredValues
+              topValue={asset.symbol}
+              bottomValue={formatCentsToReadableValue({
+                value: asset.tokenPrice,
+              })}
+            />
+          ) : (
+            <Token symbol={asset.symbol as TokenId} />
+          ),
         value: asset.id,
       },
       {
@@ -57,11 +70,25 @@ export const SupplyMarketTable: React.FC<ISupplyMarketTableUiProps> = ({
       {
         key: 'wallet',
         render: () =>
-          formatCoinsToReadableValue({
-            value: asset.walletBalance,
-            tokenId: asset.symbol as TokenId,
-            shorthand: true,
-          }),
+          isSmDown ? (
+            <LayeredValues
+              topValue={formatCoinsToReadableValue({
+                value: asset.walletBalance,
+                tokenId: asset.symbol as TokenId,
+                shorthand: true,
+                hideTokenId: true,
+              })}
+              bottomValue={formatCentsToReadableValue({
+                value: asset.walletBalance.multipliedBy(asset.tokenPrice).multipliedBy(100),
+              })}
+            />
+          ) : (
+            formatCoinsToReadableValue({
+              value: asset.walletBalance,
+              tokenId: asset.symbol as TokenId,
+              shorthand: true,
+            })
+          ),
         value: asset.walletBalance.toFixed(),
       },
       {

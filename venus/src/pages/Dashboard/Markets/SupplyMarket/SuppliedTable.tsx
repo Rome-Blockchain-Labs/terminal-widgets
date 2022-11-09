@@ -30,6 +30,9 @@ export const SuppliedTable: React.FC<ISuppliedTableUiProps> = ({
   const isSmDown = useIsSmDown();
   // const isLgDown = useIsLgDown();
   const styles = useStyles();
+  // useEffect(() => {
+  //   console.log(assets[0].tokenPrice.dp(2, 1).toString(10));
+  // }, []);
 
   const columns = useMemo(
     () => [
@@ -46,7 +49,16 @@ export const SuppliedTable: React.FC<ISuppliedTableUiProps> = ({
     {
       key: 'asset',
       render: () =>
-        isSmDown ? <div>{asset.symbol}</div> : <Token symbol={asset.symbol as TokenId} />,
+        isSmDown ? (
+          <LayeredValues
+            topValue={asset.symbol}
+            bottomValue={formatCentsToReadableValue({
+              value: asset.tokenPrice,
+            })}
+          />
+        ) : (
+          <Token symbol={asset.symbol as TokenId} />
+        ),
       value: asset.id,
     },
     {
