@@ -25,6 +25,10 @@ export const useMyAccountStyles = () => {
     apyWithXvs: css`
       display: flex;
       flex-direction: column;
+      ${theme.breakpoints.up('sm')} {
+        flex-direction: row;
+        align-items: center;
+      }
     `,
     apyWithXvsLabel: css`
       margin-left: ${theme.spacing(2)};
@@ -39,6 +43,11 @@ export const useMyAccountStyles = () => {
       margin-left: auto;
       margin-right: auto;
       margin-top: ${theme.spacing(3)};
+      ${theme.breakpoints.up('sm')} {
+        margin-top: 0;
+        margin-left: ${theme.spacing(3)};
+        margin-right: 0;
+      }
     `,
     labelListItem: css`
       display: block;
