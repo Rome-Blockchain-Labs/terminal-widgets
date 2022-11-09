@@ -11,7 +11,7 @@ export const useStyles = () => {
     `,
     selectButton: css`
       flex: 1;
-      border-radius: ${theme.spacing(13)};
+      border-radius: ${theme.spacing(2)};
       padding-left: ${theme.spacing(2)};
       padding-right: ${theme.spacing(2)};
 
