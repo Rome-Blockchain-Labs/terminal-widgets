@@ -4,8 +4,6 @@ import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter, Connector } from '@web3-react/types';
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 
-import { coinbaseWallet } from '../../connectors/coinbaseWallet';
-import { metaMask } from '../../connectors/metaMask';
 import {
   getChainIdByNetworkName,
   getNetworkNameFromChainId,
@@ -182,25 +180,7 @@ export const WalletsContextProvider: FC<ProviderProps> = (props) => {
 
   const connectToWallet = async (wallet: WalletName) => {
     await disconnectFromWallet();
-    if (wallet === 'coinbase') {
-      await coinbaseWallet
-        .activate()
-        .then(() => {
-          setError(undefined);
-          window.localStorage.setItem('activeWallet', 'coinbase');
-        })
-        .catch(setError);
-    }
 
-    if (wallet === 'metamask') {
-      await metaMask
-        .activate()
-        .then(() => {
-          setError(undefined);
-          window.localStorage.setItem('activeWallet', 'metamask');
-        })
-        .catch(setError);
-    }
     setPromptingWalletChange(false);
 
     setEagerConnect(true);

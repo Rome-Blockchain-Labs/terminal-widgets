@@ -12,7 +12,7 @@ import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionMo
 import { useIFrameContext } from './IFrameProvider';
 
 const WalletModal = () => {
-  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
 
   return (
@@ -24,34 +24,30 @@ const WalletModal = () => {
             <span>CONNECT / SWITCH TO A WALLET</span>
           </div>
           <hr tw="w-full bg-gray-50 mt-2" />
-          {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
-            const wallet = SUPPORTED_WALLETS[key];
-            const isActive = selectedWallet === wallet.wallet;
-            const chainParams = getAddChainParameters(43114);
+          {Object.keys(SUPPORTED_WALLETS)
+            .filter((key) => key !== 'COINBASE')
+            .map((key, index) => {
+              const wallet = SUPPORTED_WALLETS[key];
+              const isActive = selectedWallet === wallet.wallet;
+              const chainParams = getAddChainParameters(43114);
 
-            return (
-              <WalletBox
-                key={index}
-                connectHandler={async () => {
-                  await handleConnect(
-                    wallet.connector,
-                    setSelectedWallet,
-                    wallet.wallet,
-                    widgetBridge,
-                    chainParams
-                  );
-                }}
-                isActive={isActive}
-                walletName={wallet.wallet}
-              >
-                {wallet.wallet === 'METAMASK' ? (
-                  <MetamaskLogo size={30} />
-                ) : (
-                  <WalletConnectLogo size={30} />
-                )}
-              </WalletBox>
-            );
-          })}
+              return (
+                <WalletBox
+                  key={index}
+                  connectHandler={async () => {
+                    await handleConnect(wallet, chainParams, widgetBridge);
+                  }}
+                  isActive={isActive}
+                  walletName={wallet.wallet}
+                >
+                  {wallet.wallet === 'METAMASK' ? (
+                    <MetamaskLogo size={30} />
+                  ) : (
+                    <WalletConnectLogo size={30} />
+                  )}
+                </WalletBox>
+              );
+            })}
         </div>
       </div>
     </>

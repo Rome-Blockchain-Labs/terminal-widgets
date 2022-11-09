@@ -47,6 +47,7 @@ export const NETWORKS = {
   [NetworkName.ETHEREUM]: {
     MAINNET: {
       CHAIN_ID: '1',
+      PANCAKESWAP: { NAME: 'PancakeSwap' },
       SUSHISWAP: { NAME: 'SushiSwap' },
       UNISWAPV2: { NAME: 'UniswapV2' },
     },
@@ -151,6 +152,11 @@ const networks = [
             ROUTER_ADDRESS: '0xd9e1ce17f2641f24ae83637ab66a2cca9c378b9f',
             id: 'SushiSwap',
             key: 'SUSHISWAP',
+          },
+          {
+            ROUTER_ADDRESS: '0xEfF92A263d31888d860bD50809A8D171709b7b1c',
+            id: 'PancakeSwap',
+            key: 'PANCAKESWAP',
           },
         ],
         id: '1',

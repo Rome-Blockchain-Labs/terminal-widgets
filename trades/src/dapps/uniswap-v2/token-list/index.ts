@@ -7,6 +7,7 @@ import YETISWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './avalanche/yetiswap';
 import MDEX_DEFAULT_TOKEN_LIST_OF_LISTS from './bsc/mdex';
 import PANCAKE_DEFAULT_TOKEN_LIST_OF_LISTS from './bsc/pancake';
 import CRYSTALVALE_DEFAULT_TOKEN_LIST_OF_LISTS from './dfk/crystalvale';
+import PANCAKE_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS from './ethereum/pancake';
 import SUSHISWAP_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS from './ethereum/sushiswap';
 import UNISWAP_V2_DEFAULT_TOKEN_LIST_OF_LISTS from './ethereum/uniswapv2';
 import NETSWAP_DEFAULT_TOKEN_LIST_OF_LISTS from './metis/netswap';
@@ -77,6 +78,7 @@ export const METIS_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
 };
 
 const ETHEREUM_TOKEN_LIST_URLS_MAP: ExchangeTokenListUrlsMap = {
+  PANCAKESWAP: PANCAKE_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS,
   SUSHISWAP: SUSHISWAP_ETHEREUM_DEFAULT_TOKEN_LIST_OF_LISTS,
   UNISWAPV2: UNISWAP_V2_DEFAULT_TOKEN_LIST_OF_LISTS,
 };

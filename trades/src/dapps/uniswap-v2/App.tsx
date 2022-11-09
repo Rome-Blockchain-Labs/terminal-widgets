@@ -60,7 +60,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
     settingsOpenOverride = false,
   }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { page, setPage } = usePageContext();
+    const { page, setAddressVisibility, setPage } = usePageContext();
     const toggle = useSettingsModalToggle();
     const [removeLiquidityCurrencies, setRemoveLiquidityCurrencies] = useState<
       string[]
@@ -113,7 +113,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
               {backgroundImage}
             </div>
             <div tw="h-full relative">
-              <div tw="flex flex-col justify-center items-center p-4 min-h-full">
+              <div tw="flex flex-col justify-center items-center p-4 min-h-full relative">
                 <Address />
                 <Web3ReactManager>
                   {page === UniswapPage.SWAP && (
