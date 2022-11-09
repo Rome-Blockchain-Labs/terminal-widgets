@@ -25,6 +25,7 @@ export const useStyles = () => {
     rowTitleMobile: css`
       padding-left: ${theme.spacing(4)};
       padding-right: ${theme.spacing(4)};
+      text-transform: uppercase;
     `,
     delimiterMobile: css`
       margin: ${theme.spacing(4)};
@@ -43,6 +44,7 @@ export const useStyles = () => {
     `,
     columnLabelMobile: css`
       font-size: ${theme.spacing(3)};
+      text-transform: uppercase;
     `,
     cellValueMobile: css`
       padding-top: ${theme.spacing(2)};

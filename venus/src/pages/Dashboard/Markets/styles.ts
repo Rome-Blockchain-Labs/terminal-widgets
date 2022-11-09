@@ -48,6 +48,7 @@ export const useStyles = () => {
       ${theme.breakpoints.down('sm')} {
         padding-left: 0;
         padding-right: 0;
+        margin-bottom: 0;
       }
     `,
     tabsTitle: css`
@@ -59,7 +60,8 @@ export const useStyles = () => {
       border-radius: 10px;
 
       ${theme.breakpoints.down('sm')} {
-        background-color: transparent;
+        background-color: ${theme.palette.background.paper};
+        border-radius: 0;
       }
     `,
     delimiter: css`

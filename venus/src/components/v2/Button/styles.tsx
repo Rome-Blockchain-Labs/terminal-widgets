@@ -64,6 +64,24 @@ export const styles = ({
       `;
     }
 
+    if (refVariant === 'market') {
+      return css`
+        border-radius: 0;
+        background-color: ${theme.palette.secondary.contrastText};
+        border-color: ${theme.palette.secondary.contrastText};
+
+        :hover:not(:disabled) {
+          background-color: ${theme.palette.text.secondary};
+          border-color: ${theme.palette.text.secondary};
+        }
+
+        :active:not(:disabled) {
+          background-color: ${theme.palette.secondary.contrastText};
+          border-color: ${theme.palette.secondary.contrastText};
+        }
+      `;
+    }
+
     // Primary variant
     return css`
       background-color: ${theme.palette.button.main};

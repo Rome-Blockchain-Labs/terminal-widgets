@@ -144,7 +144,7 @@ export const formatCoinsToReadableValue = ({
   }
 
   return `${formatCommaThousandsPeriodDecimal(
-    value.dp(decimalPlaces).toFixed(),
+    value.dp(decimalPlaces).toFixed(4),
   )} ${tokenId.toUpperCase()}`;
 };
 

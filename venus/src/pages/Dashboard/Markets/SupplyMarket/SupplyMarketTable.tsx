@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import PLACEHOLDER_KEY from 'constants/placeholderKey';
 import { formatCoinsToReadableValue, formatToReadablePercentage } from 'utilities/common';
 import { Asset, TokenId } from 'types';
-import { Table, ITableProps, Token, Toggle } from 'components';
+import { Table, ITableProps, Toggle, Token } from 'components';
 import { useTranslation } from 'translation';
 import { useIsSmDown, useIsLgDown } from 'hooks/responsive';
 import { useStyles } from './styles';
@@ -45,7 +45,8 @@ export const SupplyMarketTable: React.FC<ISupplyMarketTableUiProps> = ({
     return [
       {
         key: 'asset',
-        render: () => <Token symbol={asset.symbol as TokenId} />,
+        render: () =>
+          isSmDown ? <div>{asset.symbol}</div> : <Token symbol={asset.symbol as TokenId} />,
         value: asset.id,
       },
       {

@@ -121,8 +121,8 @@
   },
   "dashboard": {
     "markets": {
-      "tabBorrow": "Borrow",
-      "tabSupply": "Supply",
+      "tabBorrow": "Borrowed",
+      "tabSupply": "Supplied",
       "title": "Markets"
     }
   },

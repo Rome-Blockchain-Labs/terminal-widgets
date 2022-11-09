@@ -45,4 +45,5 @@ export const Button = ({
 export const PrimaryButton = (props: IButtonProps) => <Button variant="primary" {...props} />;
 export const SecondaryButton = (props: IButtonProps) => <Button variant="secondary" {...props} />;
 export const TertiaryButton = (props: IButtonProps) => <Button variant="tertiary" {...props} />;
+export const MarketButton = (props: IButtonProps) => <Button variant="market" {...props} />;
 export const TextButton = (props: IButtonProps) => <Button variant="text" {...props} />;

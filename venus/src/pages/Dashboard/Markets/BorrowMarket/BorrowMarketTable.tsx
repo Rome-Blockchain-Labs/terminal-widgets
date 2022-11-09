@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Token, ITableProps } from 'components';
+import { Table, ITableProps, Token } from 'components';
 import { useTranslation } from 'translation';
 import { Asset, TokenId } from 'types';
 import {
@@ -44,7 +44,8 @@ const BorrowMarketTable: React.FC<IBorrowMarketTableProps> = ({
     return [
       {
         key: 'asset',
-        render: () => <Token symbol={asset.symbol as TokenId} />,
+        render: () =>
+          isSmDown ? <div>{asset.symbol}</div> : <Token symbol={asset.symbol as TokenId} />,
         value: asset.id,
       },
       {

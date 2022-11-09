@@ -31,7 +31,11 @@ function Head<C extends { key: string; label: string; orderable: boolean }[]>({
         {columns.map((col: C[number]) => {
           const active = orderBy === col.key;
           return (
-            <TableCell key={col.key} sortDirection={active ? orderDirection : false} css={styles.tableHeaderCell}>
+            <TableCell
+              key={col.key}
+              sortDirection={active ? orderDirection : false}
+              css={styles.tableHeaderCell}
+            >
               <TableSortLabel
                 css={styles.tableSortLabel({ orderable: col.orderable })}
                 active={active}
