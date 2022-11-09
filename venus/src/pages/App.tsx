@@ -68,7 +68,7 @@ const App = () => {
                                 <Route exact path="/dashboard" component={Dashboard} />
                                 <Route exact path="/vote" component={Vote} />
                                 <Route exact path="/xvs" component={XVS} />
-                                <Route exact path="/market" component={Market} />
+                                <Route exact path="/markets" component={Market} />
                                 <Route
                                   exact
                                   path="/market/:assetId"

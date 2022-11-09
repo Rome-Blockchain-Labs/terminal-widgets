@@ -27,6 +27,9 @@ const IFrameProvider = ({ children }: { children: ReactNode }) => {
           case 'dashboard':
             history.push('/dashboard');
             break;
+          case 'markets':
+            history.push('/markets');
+            break;
           default:
             break;
         }
