@@ -64,26 +64,9 @@ export const MyAccountUi = ({
     <Paper css={styles.container} className={className}>
       <div css={[styles.row, styles.header]}>
         <Typography variant="h4">{t('myAccount.title')}</Typography>
-
-        <div css={styles.apyWithXvs}>
-          <Tooltip css={styles.tooltip} title={t('myAccount.apyWithXvsTooltip')}>
-            <Icon css={styles.infoIcon} name="info" />
-          </Tooltip>
-
-          <Typography
-            color="text.primary"
-            variant="small1"
-            component="span"
-            css={styles.apyWithXvsLabel}
-          >
-            {t('myAccount.apyWithXvs')}
-          </Typography>
-
-          <Toggle css={styles.toggle} value={isXvsEnabled} onChange={handleXvsToggleChange} />
-        </div>
       </div>
       <Grid container spacing={2} mb={4}>
-        <Grid item xs={6} md={3} css={styles.netApyContainer}>
+        <Grid item xs={4} md={3} css={styles.netApyContainer}>
           <div css={styles.netApy}>
             <Typography component="span" variant="small2" css={styles.netApyLabel}>
               {t('myAccount.netApy')}
@@ -99,7 +82,7 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} md={3} css={styles.item}>
+        <Grid item xs={4} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.dailyEarnings')}
           </Typography>
@@ -109,7 +92,14 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} md={3} css={styles.item}>
+        <Grid item xs={4} css={styles.apyWithXvs}>
+          <Typography variant="small2" component="span" css={styles.apyWithXvsLabel}>
+            {t('myAccount.apyWithXvs')}
+          </Typography>
+
+          <Toggle css={styles.toggle} value={isXvsEnabled} onChange={handleXvsToggleChange} />
+        </Grid>
+        <Grid item xs={4} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.supplyBalance')}
           </Typography>
@@ -119,7 +109,7 @@ export const MyAccountUi = ({
           </Typography>
         </Grid>
 
-        <Grid item xs={6} md={3} css={styles.item}>
+        <Grid item xs={4} md={3} css={styles.item}>
           <Typography component="span" variant="small2" css={styles.labelListItem}>
             {t('myAccount.borrowBalance')}
           </Typography>
