@@ -41,9 +41,12 @@ export const useStyles = () => {
       padding: 1px;
       border: 1px solid ${theme.palette.secondary.light};
       border-radius: 10px;
-      margin-bottom: 0;
       width: 80%;
       margin: 0 auto;
+
+      ${theme.breakpoints.down('sm')} {
+        width: 100%;
+      }
     `,
   };
 };

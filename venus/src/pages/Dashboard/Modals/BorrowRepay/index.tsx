@@ -40,7 +40,7 @@ const BorrowRepay: React.FC<IBorrowRepayProps> = ({ onClose, asset, isXvsEnabled
   ];
 
   return (
-    <Modal isOpened title={isSmDown ? 'Back to Dashboard' : undefined} handleClose={onClose}>
+    <Modal isOpened backText="Back to Dashboard" handleClose={onClose}>
       <Tabs tabsContent={tabsContent} css={styles.tabs} />
     </Modal>
   );
