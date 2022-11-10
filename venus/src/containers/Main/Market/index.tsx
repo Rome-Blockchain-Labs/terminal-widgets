@@ -95,11 +95,15 @@ const TableWrapper = styled.div`
       .item-content {
         display: grid;
         gap: 10px;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+
+        @media (min-width: 400px) {
+          grid-template-columns: 1fr auto;
+        }
 
         @media (min-width: 510px) {
           gap: 15px;
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr auto;
         }
       }
 
