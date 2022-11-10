@@ -100,7 +100,7 @@ const useGetMarketData = ({ vTokenId }: { vTokenId: Token['id'] }) => {
     if (vTokenCashData?.cashWei && assetMarket && reserveTokens) {
       const vTokenCashTokens = convertWeiToTokens({
         valueWei: vTokenCashData.cashWei,
-        token: vToken as Token,
+        token: (underlyingToken ?? vToken) as Token,
       });
 
       currentUtilizationRate = new BigNumber(assetMarket.totalBorrows2)
