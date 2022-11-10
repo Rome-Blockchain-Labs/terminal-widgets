@@ -13,7 +13,7 @@ export const useStyles = () => {
     `,
     title: css`
       margin-right: ${theme.spacing(4)};
-      margin-bottom: ${theme.spacing(6)};
+      margin-bottom: ${theme.spacing(2)};
     `,
     row: css`
       display: flex;

@@ -41,7 +41,7 @@ export const InterestRateChart: React.FC<InterestRateChartProps> = ({
 
   return (
     <div css={sharedStyles.container} className={className}>
-      <ResponsiveContainer>
+      <ResponsiveContainer css={sharedStyles.responsiveContainer}>
         <LineChart data={data} margin={sharedStyles.chartMargin}>
           <XAxis
             dataKey="utilizationRate"

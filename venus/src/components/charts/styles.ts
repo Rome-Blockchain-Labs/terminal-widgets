@@ -24,6 +24,12 @@ export const useStyles = () => {
     container: css`
       width: 100%;
       height: ${theme.spacing(62)};
+      position: relative;
+    `,
+    responsiveContainer: css`
+      .recharts-wrapper {
+        position: absolute!important;
+      }
     `,
   };
 };

@@ -24,14 +24,14 @@ const Header = () => {
   return (
     <AppBar position="relative" css={styles.appBar}>
       <Toolbar css={styles.toolbar}>
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" css={styles.logoBackButton}>
           {isOnMobile ? (
             <img src={Logo} width="50" height="50" alt="logo" />
           ) : (
             <LogoDesktop width="auto" height="auto" css={styles.logo} />
           )}
           {marketDetailsMatch && (
-            <BackButton>
+            <BackButton css={styles.backButton}>
               BACK
             </BackButton>
           )}

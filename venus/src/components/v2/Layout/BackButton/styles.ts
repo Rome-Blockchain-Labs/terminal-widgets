@@ -6,7 +6,6 @@ export const useStyles = () => {
 
   return {
     container: css`
-      margin-left: ${theme.spacing(2)};
       border: none;
     `,
     icon: css`

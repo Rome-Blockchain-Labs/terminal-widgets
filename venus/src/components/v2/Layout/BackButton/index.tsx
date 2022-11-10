@@ -6,12 +6,16 @@ import { Icon } from 'components/v2/Icon';
 import { SecondaryButton } from 'components/v2/Button';
 import { useStyles } from './styles';
 
-const BackButton: React.FC = ({ children }) => {
+export interface IBackButton {
+  className?: string;
+}
+
+const BackButton: React.FC<IBackButton> = ({ children, className }) => {
   const styles = useStyles();
   const history = useHistory();
 
   return (
-    <SecondaryButton onClick={() => history.goBack()} css={styles.container} small>
+    <SecondaryButton onClick={() => history.goBack()} className={className} css={styles.container} small>
       <Icon name="chevronLeft" css={styles.icon} />
 
       {children}

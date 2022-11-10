@@ -40,5 +40,18 @@ export const useStyles = () => {
       width: auto;
       margin-right: ${theme.spacing(2)};
     `,
+    backButton: css`
+      margin-left: ${theme.spacing(2)};
+
+      @media only screen and (max-width: 460px) {
+        margin-left: 0;
+        margin-top: ${theme.spacing(2)};
+      }
+    `,
+    logoBackButton: css`
+      @media only screen and (max-width: 460px) {
+        flex-direction: column;
+      }
+    `,
   };
 };

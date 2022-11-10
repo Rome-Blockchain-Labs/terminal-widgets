@@ -10,14 +10,15 @@ import { useStyles } from './styles';
 export interface MarketInfoProps {
   stats: Stat[];
   testId?: string;
+  className?: string;
 }
 
-const MarketInfo: React.FC<MarketInfoProps> = ({ stats, testId }) => {
+const MarketInfo: React.FC<MarketInfoProps> = ({ className, stats, testId }) => {
   const { t } = useTranslation();
   const styles = useStyles();
 
   return (
-    <Card title={t('marketDetails.marketInfo.title')} testId={testId}>
+    <Card title={t('marketDetails.marketInfo.title')} testId={testId} className={className}>
       <ul css={styles.itemList}>
         {stats.map(stat => (
           <li css={styles.item} key={`market-info-stat-${stat.label}`}>

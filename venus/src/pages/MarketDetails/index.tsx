@@ -17,6 +17,7 @@ import {
   unsafelyGetToken,
   unsafelyGetVToken,
 } from 'utilities';
+import Box from '@mui/material/Box';
 
 import { useGetVTokenApySimulations } from 'clients/api';
 import PLACEHOLDER_KEY from 'constants/placeholderKey';
@@ -274,51 +275,49 @@ export const MarketDetailsUi: React.FC<MarketDetailsUiProps> = ({
   // @TODO: handle fetching errors
 
   return (
-    <div css={styles.container}>
-      <div css={[styles.column, styles.graphsColumn]}>
-        <Card
-          testId={TEST_IDS.supplyInfo}
-          title={t('marketDetails.supplyInfo.title')}
-          css={styles.graphCard}
-          stats={supplyInfoStats}
-          legends={supplyInfoLegends}
-        >
-          <div css={styles.apyChart}>
-            <ApyChart data={supplyChartData} type="supply" />
-          </div>
-        </Card>
+    <Box>
+      <Box css={styles.firstRow}>
+        <Box css={styles.graphsColumn}>
+          <Card
+            testId={TEST_IDS.supplyInfo}
+            title={t('marketDetails.supplyInfo.title')}
+            css={styles.graphCard}
+            stats={supplyInfoStats}
+            legends={supplyInfoLegends}
+          >
+            <div css={styles.apyChart}>
+              <ApyChart data={supplyChartData} type="supply" />
+            </div>
+          </Card>
 
-        <Card
-          testId={TEST_IDS.borrowInfo}
-          title={t('marketDetails.borrowInfo.title')}
-          css={styles.graphCard}
-          stats={borrowInfoStats}
-          legends={borrowInfoLegends}
-        >
-          <div css={styles.apyChart}>
-            <ApyChart data={borrowChartData} type="borrow" />
-          </div>
-        </Card>
-
-        <Card
-          testId={TEST_IDS.interestRateModel}
-          title={t('marketDetails.interestRateModel.title')}
-          css={styles.graphCard}
-          legends={interestRateModelLegends}
-        >
-          <div css={styles.apyChart}>
-            <InterestRateChart
-              data={interestRateChartData}
-              currentUtilizationRate={currentUtilizationRate}
-            />
-          </div>
-        </Card>
-      </div>
-
-      <div css={[styles.column, styles.statsColumn]}>
-        <MarketInfo stats={marketInfoStats} testId={TEST_IDS.marketInfo} />
-      </div>
-    </div>
+          <Card
+            testId={TEST_IDS.borrowInfo}
+            title={t('marketDetails.borrowInfo.title')}
+            css={styles.graphCard}
+            stats={borrowInfoStats}
+            legends={borrowInfoLegends}
+          >
+            <div css={styles.apyChart}>
+              <ApyChart data={borrowChartData} type="borrow" />
+            </div>
+          </Card>
+        </Box>
+        <MarketInfo stats={marketInfoStats} testId={TEST_IDS.marketInfo} css={styles.infoColumn} />
+      </Box>
+      <Card
+        testId={TEST_IDS.interestRateModel}
+        title={t('marketDetails.interestRateModel.title')}
+        css={styles.graphCard}
+        legends={interestRateModelLegends}
+      >
+        <div css={styles.apyChart}>
+          <InterestRateChart
+            data={interestRateChartData}
+            currentUtilizationRate={currentUtilizationRate}
+          />
+        </div>
+      </Card>
+    </Box>
   );
 };
 

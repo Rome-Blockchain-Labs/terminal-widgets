@@ -9,11 +9,11 @@
     "safeBorrowLimitTooltip": "Safe borrow limit:<LineBreak/>{{safeBorrowLimit}} ({{safeBorrowLimitPercentage}}% of your borrow limit)"
   },
   "apyChart": {
-    "tooltipItems": {
-      "borrowApy": "<Label>Borrow APY</Label><Value>{{percentage}}</Value>",
-      "supplyApy": "<Label>Supply APY</Label><Value>{{percentage}}</Value>",
-      "totalBorrow": "<Label>Total borrow</Label><Value>{{balance}}</Value>",
-      "totalSupply": "<Label>Total supply</Label><Value>{{balance}}</Value>"
+    "tooltipItemLabels": {
+      "borrowApy": "Borrow APY",
+      "supplyApy": "Supply APY",
+      "totalBorrow": "Total borrow",
+      "totalSupply": "Total supply"
     }
   },
   "authModal": {
@@ -232,6 +232,14 @@
     },
     "suppliedTableTitle": "Supplied",
     "supplyMarketTableTitle": "Supply market"
+  },
+  "interestRateChart": {
+    "currentUtilizationRateLabelValue": "Current ({{percentage}})",
+    "tooltipItemLabels": {
+      "borrowApy": "Borrow APY",
+      "supplyApy": "Supply APY",
+      "utilizationRate": "Utilization rate"
+    }
   },
   "mintRepayVai": {
     "mintVai": {
