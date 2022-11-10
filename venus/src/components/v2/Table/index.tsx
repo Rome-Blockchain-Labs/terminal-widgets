@@ -6,10 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// import Typography from '@mui/material/Typography';
-
-// import { useIsSmDown } from 'hooks/responsive';
-// import { Delimiter } from '../Delimiter';
 import Head from './Head';
 import { useStyles } from './styles';
 
@@ -33,6 +29,7 @@ export interface ITableProps {
   className?: string;
   gridTemplateColumns?: string;
   gridTemplateRowsMobile?: string /* used for mobile view if table has to display more than 1 row */;
+  isStriped?: boolean;
 }
 
 /* helper function for getting grid-template-columns string, used by default for similar cells width depending on cells count */
@@ -49,6 +46,7 @@ export const Table = ({
   rowKeyIndex,
   className,
   gridTemplateColumns,
+  isStriped,
 }: ITableProps) => {
   const styles = useStyles();
   const isSmDown = false;
@@ -129,7 +127,7 @@ export const Table = ({
                   hover
                   key={rowKey}
                   onClick={e => rowOnClick && rowOnClick(e, row)}
-                  css={styles.getTemplateColumns({ gridColumns })}
+                  css={styles.getTemplateColumns({ gridColumns, isStriped })}
                 >
                   {row.map(({ key, render }: ITableRowProps) => {
                     const cellContent = render();

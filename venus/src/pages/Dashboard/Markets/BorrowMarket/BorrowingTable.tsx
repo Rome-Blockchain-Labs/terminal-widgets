@@ -55,7 +55,16 @@ const BorrowingTable: React.FC<IBorrowingUiProps> = ({
       {
         key: 'asset',
         render: () =>
-          isSmDown ? <div>{asset.symbol}</div> : <Token symbol={asset.symbol as TokenId} />,
+          isSmDown ? (
+            <LayeredValues
+              topValue={asset.symbol}
+              bottomValue={formatCentsToReadableValue({
+                value: asset.tokenPrice,
+              })}
+            />
+          ) : (
+            <Token symbol={asset.symbol as TokenId} />
+          ),
         value: asset.id,
       },
       {

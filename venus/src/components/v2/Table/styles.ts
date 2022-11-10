@@ -12,8 +12,13 @@ export const useStyles = () => {
       background-color: transparent;
     `,
     title: css`
+      font-family: Montserrat;
       margin-bottom: ${theme.spacing(2)};
       padding: ${theme.spacing(0, 4)};
+
+      ${theme.breakpoints.down('sm')} {
+        text-align: center;
+      }
     `,
     titleMobile: css`
       padding: 0;
@@ -141,8 +146,18 @@ export const useStyles = () => {
     cellInner: css`
       text-overflow: ellipsis;
     `,
-    getTemplateColumns: ({ gridColumns }: { gridColumns: string }) => css`
+    getTemplateColumns: ({
+      gridColumns,
+      isStriped,
+    }: {
+      gridColumns: string;
+      isStriped?: boolean;
+    }) => css`
       grid-template-columns: ${gridColumns};
+
+      &:nth-of-type(even) {
+        background-color: ${isStriped ? '#4e4c4c' : ''};
+      }
     `,
 
     getTemplateRows: ({ gridRows }: { gridRows: string }) => css`
