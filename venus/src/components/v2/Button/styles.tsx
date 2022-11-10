@@ -34,6 +34,7 @@ export const styles = ({
 
     if (refVariant === 'tertiary') {
       return css`
+        font-family: 'Montserrat';
         background-color: ${theme.palette.secondary.light};
         border-color: ${theme.palette.secondary.light};
 
@@ -64,6 +65,25 @@ export const styles = ({
       `;
     }
 
+    if (refVariant === 'market') {
+      return css`
+        font-family: 'Montserrat';
+        border-radius: 0;
+        background-color: ${theme.palette.secondary.contrastText};
+        border-color: ${theme.palette.secondary.contrastText};
+
+        :hover:not(:disabled) {
+          background-color: ${theme.palette.text.secondary};
+          border-color: ${theme.palette.text.secondary};
+        }
+
+        :active:not(:disabled) {
+          background-color: ${theme.palette.secondary.contrastText};
+          border-color: ${theme.palette.secondary.contrastText};
+        }
+      `;
+    }
+
     // Primary variant
     return css`
       background-color: ${theme.palette.button.main};
@@ -79,6 +99,15 @@ export const styles = ({
         border-color: ${theme.palette.button.dark};
       }
     `;
+  };
+
+  const getButtonFontFamily = (refVariant: Variant) => {
+    if (refVariant === 'market' || refVariant === 'tertiary' || refVariant === 'primary') {
+      return css`
+        font-family: Montserrat;
+      `;
+    }
+    return css``;
   };
 
   return {
@@ -123,6 +152,8 @@ export const styles = ({
     label: css`
       font-weight: 600;
       color: inherit;
+
+      ${getButtonFontFamily(variant)}
     `,
   };
 };

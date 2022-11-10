@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Token, ITableProps } from 'components';
+import { Table, ITableProps, Token, LayeredValues } from 'components';
 import { useTranslation } from 'translation';
 import { Asset, TokenId } from 'types';
 import {
@@ -40,11 +40,20 @@ const BorrowMarketTable: React.FC<IBorrowMarketTableProps> = ({
   // Format assets to rows
   const rows: ITableProps['data'] = assets.map(asset => {
     const borrowApy = isXvsEnabled ? asset.xvsBorrowApy.plus(asset.borrowApy) : asset.borrowApy;
-
     return [
       {
         key: 'asset',
-        render: () => <Token symbol={asset.symbol as TokenId} />,
+        render: () =>
+          isSmDown ? (
+            <LayeredValues
+              topValue={asset.symbol}
+              bottomValue={formatCentsToReadableValue({
+                value: asset.tokenPrice,
+              })}
+            />
+          ) : (
+            <Token symbol={asset.symbol as TokenId} />
+          ),
         value: asset.id,
       },
       {
@@ -55,11 +64,25 @@ const BorrowMarketTable: React.FC<IBorrowMarketTableProps> = ({
       {
         key: 'wallet',
         render: () =>
-          formatCoinsToReadableValue({
-            value: asset.walletBalance,
-            tokenId: asset.id as TokenId,
-            shorthand: true,
-          }),
+          isSmDown ? (
+            <LayeredValues
+              topValue={formatCoinsToReadableValue({
+                value: asset.walletBalance,
+                tokenId: asset.symbol as TokenId,
+                shorthand: true,
+                hideTokenId: true,
+              })}
+              bottomValue={formatCentsToReadableValue({
+                value: asset.walletBalance.multipliedBy(asset.tokenPrice).multipliedBy(100),
+              })}
+            />
+          ) : (
+            formatCoinsToReadableValue({
+              value: asset.walletBalance,
+              tokenId: asset.symbol as TokenId,
+              shorthand: true,
+            })
+          ),
         value: asset.walletBalance.toFixed(),
       },
       {
@@ -90,6 +113,7 @@ const BorrowMarketTable: React.FC<IBorrowMarketTableProps> = ({
       rowKeyIndex={0}
       rowOnClick={rowOnClick}
       gridTemplateColumns={styles.getGridTemplateColumns({ isCardLayout: isSmDown })}
+      isStriped
     />
   );
 };

@@ -1,7 +1,7 @@
 /* https://mui.com/customization/theming/ */
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 
-const fontFamily = ['ProximaNova', 'Arial', 'sans-serif'].join(',');
+const fontFamily = ['Roboto Condensed', 'Arial', 'sans-serif'].join(',');
 
 export const FONTS = {
   primary: fontFamily,
@@ -24,6 +24,7 @@ export const PALETTE = {
     light: 'rgba(56, 57, 68, 1)',
     main: 'rgba(40, 41, 49, 1)',
     dark: 'rgba(31, 32, 40, 1)',
+    contrastText: '#282930',
   },
   text: {
     primary: 'rgba(255, 255, 255, 1)',
@@ -104,19 +105,23 @@ export default createTheme({
     color: PALETTE.text.primary,
     h1: {
       fontSize: '2.5rem',
-      fontWeight: 600,
+      fontWeight: 700,
+      fontFamily: 'Montserrat',
     },
     h2: {
       fontSize: '2rem',
-      fontWeight: 600,
+      fontWeight: 700,
+      fontFamily: 'Montserrat',
     },
     h3: {
       fontSize: '1.5rem',
       fontWeight: 700,
+      fontFamily: 'Montserrat',
     },
     h4: {
       fontSize: '1.25rem',
-      fontWeight: 600,
+      fontWeight: 700,
+      fontFamily: 'Montserrat',
     },
     body1: {
       fontSize: '1rem',

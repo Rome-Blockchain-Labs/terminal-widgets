@@ -92,7 +92,6 @@ export const useModalStyles = ({
         background-color: ${theme.palette.secondary.main};
         border-color: ${theme.palette.secondary.main};
       }
-<<<<<<< HEAD
     `,
     mobileTitleCloseButton: css`
       background-color: ${theme.palette.secondary.light};
@@ -118,8 +117,6 @@ export const useModalStyles = ({
       right: ${theme.spacing(2)};
       top: ${theme.spacing(2.5)};
       position: absolute;
-=======
->>>>>>> origin/master
     `,
     contentWrapper: css`
       padding-left: ${noHorizontalPadding ? 0 : theme.spacing(6)};

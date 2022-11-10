@@ -6,10 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-
-import { useIsSmDown } from 'hooks/responsive';
-import { Delimiter } from '../Delimiter';
 import Head from './Head';
 import { useStyles } from './styles';
 
@@ -33,6 +29,7 @@ export interface ITableProps {
   className?: string;
   gridTemplateColumns?: string;
   gridTemplateRowsMobile?: string /* used for mobile view if table has to display more than 1 row */;
+  isStriped?: boolean;
 }
 
 /* helper function for getting grid-template-columns string, used by default for similar cells width depending on cells count */
@@ -49,10 +46,10 @@ export const Table = ({
   rowKeyIndex,
   className,
   gridTemplateColumns,
-  gridTemplateRowsMobile = '1fr',
+  isStriped,
 }: ITableProps) => {
   const styles = useStyles();
-  const isSmDown = useIsSmDown();
+  const isSmDown = false;
 
   const [orderBy, setOrderBy] = React.useState<typeof columns[number]['key'] | undefined>(
     initialOrder?.orderBy,
@@ -107,89 +104,50 @@ export const Table = ({
     <Paper css={[styles.root, isSmDown && styles.rootMobile]} className={className}>
       {title && <h4 css={[styles.title, isSmDown && styles.titleMobile]}>{title}</h4>}
 
-      {isSmDown ? (
-        <>
-          {rows.map(row => {
-            const rowKey = row[rowKeyIndex].value.toString();
-            const [titleCell, ...otherCells] = row;
+      <TableContainer>
+        <TableMUI css={styles.table({ minWidth: minWidth ?? '0' })} aria-label={title}>
+          <Head
+            columns={columns}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            onRequestOrder={onRequestOrder}
+            css={styles.getTemplateColumns({ gridColumns })}
+          />
 
-            return (
-              <Paper
-                key={rowKey}
-                css={styles.tableWrapperMobile}
-                onClick={e => rowOnClick && rowOnClick(e, row)}
-              >
-                <div css={styles.rowTitleMobile}>{titleCell.render()}</div>
-                <Delimiter css={styles.delimiterMobile} />
-                <div
-                  css={[
-                    styles.rowWrapperMobile,
-                    styles.getTemplateColumns({ gridColumns }),
-                    styles.getTemplateRows({ gridRows: gridTemplateRowsMobile }),
-                  ]}
+          {/* TODO: add loading state */}
+
+          {/* TODO: add error state */}
+
+          <TableBody>
+            {rows.map(row => {
+              const rowKey = row[rowKeyIndex].value.toString();
+
+              return (
+                <TableRow
+                  hover
+                  key={rowKey}
+                  onClick={e => rowOnClick && rowOnClick(e, row)}
+                  css={styles.getTemplateColumns({ gridColumns, isStriped })}
                 >
-                  {otherCells.map(cell => {
-                    const currentColumn = columns.find(column => column.key === cell.key);
+                  {row.map(({ key, render }: ITableRowProps) => {
+                    const cellContent = render();
+                    const cellTitle = typeof cellContent === 'string' ? cellContent : undefined;
                     return (
-                      <div key={`${rowKey}-${cell.key}`} css={styles.cellMobile}>
-                        <Typography variant="body2" css={styles.columnLabelMobile}>
-                          {currentColumn?.label}
-                        </Typography>
-                        <div css={styles.cellValueMobile}>{cell.render()}</div>
-                      </div>
+                      <TableCell
+                        css={styles.cellWrapper}
+                        key={`${rowKey}-${key}`}
+                        title={cellTitle}
+                      >
+                        {cellContent}
+                      </TableCell>
                     );
                   })}
-                </div>
-              </Paper>
-            );
-          })}
-        </>
-      ) : (
-        <TableContainer>
-          <TableMUI css={styles.table({ minWidth: minWidth ?? '0' })} aria-label={title}>
-            <Head
-              columns={columns}
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onRequestOrder={onRequestOrder}
-              css={styles.getTemplateColumns({ gridColumns })}
-            />
-
-            {/* TODO: add loading state */}
-
-            {/* TODO: add error state */}
-
-            <TableBody>
-              {rows.map(row => {
-                const rowKey = row[rowKeyIndex].value.toString();
-
-                return (
-                  <TableRow
-                    hover
-                    key={rowKey}
-                    onClick={e => rowOnClick && rowOnClick(e, row)}
-                    css={styles.getTemplateColumns({ gridColumns })}
-                  >
-                    {row.map(({ key, render }: ITableRowProps) => {
-                      const cellContent = render();
-                      const cellTitle = typeof cellContent === 'string' ? cellContent : undefined;
-                      return (
-                        <TableCell
-                          css={styles.cellWrapper}
-                          key={`${rowKey}-${key}`}
-                          title={cellTitle}
-                        >
-                          {cellContent}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </TableMUI>
-        </TableContainer>
-      )}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </TableMUI>
+      </TableContainer>
     </Paper>
   );
 };

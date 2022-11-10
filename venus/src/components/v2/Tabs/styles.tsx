@@ -33,10 +33,12 @@ export const styles = () => {
       active,
       last,
       fullWidth,
+      isMarket,
     }: {
       active: boolean;
       last: boolean;
       fullWidth: boolean;
+      isMarket?: boolean;
     }) => css`
       padding: ${theme.spacing(2, 3)};
 
@@ -58,6 +60,7 @@ export const styles = () => {
 
         :not(:hover, :active) {
           color: ${theme.palette.text.secondary};
+          background-color: ${isMarket && '#1b1b1c'};
         }
 
         :hover {

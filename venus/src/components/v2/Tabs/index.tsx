@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { ReactElement, useState } from 'react';
 
-import { TertiaryButton } from '../Button';
 import useStyles from './styles';
+import { MarketButton, TertiaryButton } from '../Button/index';
 
 type Tab = {
   title: string;
@@ -15,6 +15,7 @@ export interface ITabsProps {
   initialActiveTabIndex?: number;
   onTabChange?: (newIndex: number) => void;
   className?: string;
+  isMarket?: boolean;
 }
 
 export const Tabs = ({
@@ -23,9 +24,11 @@ export const Tabs = ({
   onTabChange,
   className,
   componentTitle,
+  isMarket,
 }: ITabsProps) => {
   const styles = useStyles();
   const [activeTabIndex, setActiveTabIndex] = useState(initialActiveTabIndex);
+  const TabButton = isMarket ? MarketButton : TertiaryButton;
 
   const handleChange = (index: number) => {
     setActiveTabIndex(index);
@@ -49,17 +52,18 @@ export const Tabs = ({
           </div>
         )}
         {tabsContent.map(({ title }, index) => (
-          <TertiaryButton
+          <TabButton
             key={title}
             onClick={() => handleChange(index)}
             css={styles.getButton({
               active: index === activeTabIndex,
               last: index === tabsContent.length - 1,
               fullWidth: !componentTitle,
+              isMarket,
             })}
           >
             {title}
-          </TertiaryButton>
+          </TabButton>
         ))}
       </div>
       {tabsContent[activeTabIndex].content}

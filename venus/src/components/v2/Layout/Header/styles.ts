@@ -6,13 +6,14 @@ export const useStyles = () => {
 
   return {
     appBar: css`
+      max-width: 1000px;
       background-image: none;
       background-color: transparent;
       box-shadow: none;
       padding: 0;
     `,
     toolbar: css`
-      padding: ${theme.spacing(8, 10, 0)} !important;
+      padding: ${theme.spacing(8, 0, 0)} !important;
       justify-content: space-between;
       align-items: center;
       display: flex;

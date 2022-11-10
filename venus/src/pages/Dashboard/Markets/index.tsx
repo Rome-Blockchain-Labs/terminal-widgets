@@ -113,9 +113,14 @@ const Markets: React.FC<IMarketsProps> = ({
 
       {/* Mobile display */}
       <Paper css={styles.mobileViewContainer}>
-        <h4 css={[styles.tabsHeader, styles.tabsTitle]}>{t('dashboard.markets.title')}</h4>
+        {/* <h4 css={[styles.tabsHeader, styles.tabsTitle]}>{t('dashboard.markets.title')}</h4> */}
 
-        <Tabs css={styles.tabsHeader} tabsContent={tabsContent} onTabChange={setActiveTabIndex} />
+        <Tabs
+          isMarket
+          css={styles.tabsHeader}
+          tabsContent={tabsContent}
+          onTabChange={setActiveTabIndex}
+        />
       </Paper>
     </>
   );

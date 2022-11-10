@@ -124,15 +124,22 @@ export const formatCoinsToReadableValue = ({
   value,
   tokenId,
   shorthand = false,
+  hideTokenId = false,
 }: {
   value: BigNumber | undefined;
   tokenId: TokenId;
   shorthand?: boolean;
+  hideTokenId?: boolean;
 }) => {
   if (value === undefined) {
     return PLACEHOLDER_KEY;
   }
-
+  if (value.dp() === 0) {
+    if (!hideTokenId) {
+      return `0 ${tokenId.toUpperCase()}`;
+    }
+    return '0';
+  }
   let decimalPlaces;
   if (shorthand) {
     // If value is greater than 1, use 2 decimal places, otherwise use 8
@@ -143,9 +150,13 @@ export const formatCoinsToReadableValue = ({
     decimalPlaces = token.decimals;
   }
 
-  return `${formatCommaThousandsPeriodDecimal(
-    value.dp(decimalPlaces).toFixed(),
-  )} ${tokenId.toUpperCase()}`;
+  if (!hideTokenId) {
+    return `${formatCommaThousandsPeriodDecimal(
+      value.dp(decimalPlaces).toFixed(4),
+    )} ${tokenId.toUpperCase()}`;
+  }
+
+  return `${formatCommaThousandsPeriodDecimal(value.dp(decimalPlaces).toFixed(4))}`;
 };
 
 type ConvertWeiToCoinsOutput<T> = T extends true ? string : BigNumber;

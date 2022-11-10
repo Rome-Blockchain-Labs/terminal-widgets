@@ -7,10 +7,11 @@ import {
   formatCentsToReadableValue,
 } from 'utilities/common';
 import { Asset, TokenId } from 'types';
-import { Table, ITableProps, Token, Toggle, LayeredValues } from 'components';
+import { Table, ITableProps, Toggle, LayeredValues, Token } from 'components';
 import { useTranslation } from 'translation';
-import { useIsSmDown, useIsLgDown } from 'hooks/responsive';
+// import { useIsSmDown } from 'hooks/responsive';
 import { useStyles } from './styles';
+import { useIsSmDown } from '../../../../hooks/responsive';
 
 export interface ISuppliedTableUiProps {
   assets: Asset[];
@@ -27,8 +28,11 @@ export const SuppliedTable: React.FC<ISuppliedTableUiProps> = ({
 }) => {
   const { t } = useTranslation();
   const isSmDown = useIsSmDown();
-  const isLgDown = useIsLgDown();
+  // const isLgDown = useIsLgDown();
   const styles = useStyles();
+  // useEffect(() => {
+  //   console.log(assets[0].tokenPrice.dp(2, 1).toString(10));
+  // }, []);
 
   const columns = useMemo(
     () => [
@@ -44,7 +48,17 @@ export const SuppliedTable: React.FC<ISuppliedTableUiProps> = ({
   const rows: ITableProps['data'] = assets.map(asset => [
     {
       key: 'asset',
-      render: () => <Token symbol={asset.symbol as TokenId} />,
+      render: () =>
+        isSmDown ? (
+          <LayeredValues
+            topValue={asset.symbol}
+            bottomValue={formatCentsToReadableValue({
+              value: asset.tokenPrice,
+            })}
+          />
+        ) : (
+          <Token symbol={asset.symbol as TokenId} />
+        ),
       value: asset.id,
     },
     {
@@ -85,7 +99,7 @@ export const SuppliedTable: React.FC<ISuppliedTableUiProps> = ({
 
   return (
     <Table
-      title={isLgDown && !isSmDown ? undefined : t('markets.suppliedTableTitle')}
+      title={isSmDown ? undefined : t('markets.suppliedTableTitle')}
       columns={columns}
       data={rows}
       initialOrder={{

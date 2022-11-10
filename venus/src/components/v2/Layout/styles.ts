@@ -9,8 +9,10 @@ export const useStyles = () => {
       flex: 1;
       flex-direction: row;
       height: 100vh;
-      background: #010101;
+      background-image: url(/background.jpg);
       overflow: auto;
+      background-repeat: no-repeat;
+      background-size: cover;
 
       ${theme.breakpoints.down('md')} {
         flex-direction: column;
