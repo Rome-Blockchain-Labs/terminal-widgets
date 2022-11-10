@@ -33,7 +33,9 @@ export interface FormValues {
 }
 
 export default function CreateOrder() {
-  const [order, setOrder] = useState('BUY')
+  // const [order, setOrder] = useState('BUY')
+
+  const [order] = useState('BUY')
   const { wg } = useResponsive()
   const router = useRouter()
   const [walletVisibility, setWalletVisibility] = useState(false)
@@ -43,12 +45,12 @@ export default function CreateOrder() {
   const {
     fiatBuyList,
     fiatBuyListError,
-    fiatSellList,
-    fiatSellListError,
+    // fiatSellList,
+    // fiatSellListError,
     tokenBuyList,
     tokenBuyListError,
-    tokenSellList,
-    tokenSellListError,
+    // tokenSellList,
+    // tokenSellListError,
   } = useCurrencyLists()
 
   const {
@@ -66,7 +68,7 @@ export default function CreateOrder() {
       target: undefined,
       source_amount: undefined,
       target_amount: undefined,
-      blockchain: "none"
+      blockchain: 'none',
     },
   })
   const [error, setError] = useState<string>()
@@ -117,11 +119,13 @@ export default function CreateOrder() {
   const source = watch('source')
   const target = watch('target')
 
-  const buyBlockchains = order === 'BUY' && target && tokenBuyList && tokenBuyList.find((coin: any) => coin.code === target).blockchain
-  const sellBlockchains = order === 'SELL' && source && tokenSellList && tokenSellList.find((coin: any) => coin.code === source).blockchain
+  const buyBlockchains =
+    order === 'BUY' && target && tokenBuyList && tokenBuyList.find((coin: any) => coin.code === target).blockchain
+  // const sellBlockchains = order === 'SELL' && source && tokenSellList && tokenSellList.find((coin: any) => coin.code === source).blockchain
 
-  const availableBlockchains = order === 'BUY' ? buyBlockchains : sellBlockchains
+  // const availableBlockchains = order === 'BUY' ? buyBlockchains : sellBlockchains
 
+  const availableBlockchains = buyBlockchains
 
   const closeCurrencyModal = () => {
     dispatch({ type: 'CLOSE_SELECT' })
@@ -132,15 +136,16 @@ export default function CreateOrder() {
   //Enables selecting of a token or fiat from the drop down selections
   const [{ currencyList, setCurrency, selectedCurrency, visible, selectCurrencyType }, dispatch] = useSelectReducer(
     tokenBuyList,
-    tokenSellList,
+    [],
+    // tokenSellList,
     fiatBuyList,
-    fiatSellList,
+    [],
+    // fiatSellList,
     setTarget,
     target,
     setSource,
-    source,
+    source
   )
-
 
   // Gets the transaction limits for FIAT currencies depending on selected FIAT and CRYPTO currency.
   useGetLimits({ setFormError, clearErrors, type: order, watch })
@@ -148,17 +153,20 @@ export default function CreateOrder() {
   // fetches the price for source amount and target from banxa whenever the debounce value of the input fields changes
   const { setCurrencyChange, priceLoading, setAmountInput } = useGetPrice(setValue, setError, order, watch)
 
-  const listsLoaded = tokenBuyList && tokenSellList && fiatBuyList && fiatSellList
+  // const listsLoaded = tokenBuyList && tokenSellList && fiatBuyList && fiatSellList
+  const listsLoaded = tokenBuyList && fiatBuyList
 
   useEffect(() => {
     if (createOrderError) {
       //@ts-ignore
       setError(createOrderError.response.data.data.errors.title)
     }
-    if (fiatBuyListError || tokenBuyListError || fiatSellListError || tokenSellListError) {
+    // if (fiatBuyListError || tokenBuyListError || fiatSellListError || tokenSellListError) {
+
+    if (fiatBuyListError || tokenBuyListError) {
       setError('Unable to get currency lists. Please try again later')
     }
-  }, [createOrderError, fiatBuyListError, fiatSellListError, tokenBuyListError, tokenSellListError])
+  }, [createOrderError, fiatBuyListError, tokenBuyListError])
 
   useEffect(() => {
     if (createOrderData) {
@@ -218,8 +226,8 @@ export default function CreateOrder() {
         </div>
 
         <section className="mt-2 grow bg-white rounded-md p-4 overflow-auto">
-          <div className="flex  text-[#1D3E52] relative items-stretch">
-            <div className="grow text-base text-medium">
+          <div className="flex  text-[#1D3E52] relative justify-end">
+            {/* <div className="grow text-base text-medium">
               {listsLoaded && (
                 <div className="h-full rounded-md  border  mx-auto flex max-w-lg ">
                   <button
@@ -246,7 +254,7 @@ export default function CreateOrder() {
                   </button>
                 </div>
               )}
-            </div>
+            </div> */}
             <div className=" flex flex-shrink-1 md:mt-0 md:ml-4 justify-center items-cente ml-2">
               <button
                 type="button"
@@ -365,21 +373,20 @@ export default function CreateOrder() {
             </label>
             <select
               className="mt-1 py-1 text-black text-sm shadow-sm block w-full border-b border-t-0 border-x-0 border-gray-300 rounded-md md:text-2xl"
-              {...register("blockchain", { required: "Select a blockchain network" })}>
-
-              <option value="none" selected disabled hidden>Select a network</option>
-              {availableBlockchains && availableBlockchains.map((availableBlockchain: any, index: number) => (
-
-                <option key={index} value={availableBlockchain.code}>{availableBlockchain.description}</option>
-              ))}
-
+              {...register('blockchain', { required: 'Select a blockchain network' })}
+            >
+              <option value="none" selected disabled hidden>
+                Select a network
+              </option>
+              {availableBlockchains &&
+                availableBlockchains.map((availableBlockchain: any, index: number) => (
+                  <option key={index} value={availableBlockchain.code}>
+                    {availableBlockchain.description}
+                  </option>
+                ))}
             </select>
 
-            {errors && (
-              <p className="mt-2 text-sm text-red-400" >
-                {errors.blockchain?.message}
-              </p>
-            )}
+            {errors && <p className="mt-2 text-sm text-red-400">{errors.blockchain?.message}</p>}
             {order === 'BUY' && (
               <div className="mt-3">
                 <label htmlFor="source" className="block  font-medium text-gray-400  ">

@@ -23,7 +23,7 @@ export const PageContext = createContext<PageContextState>(defaultContextState);
 
 export const PageContextProvider: FC = ({ children }) => {
   const [page, setPage] = useState(UniswapPage.SWAP);
-  const [walletVisibility, setWalletVisibility] = useState(false);
+  const [walletVisibility, setWalletVisibility] = useState(true);
   const [addressVisibility, setAddressVisibility] = useState(false);
 
   return (

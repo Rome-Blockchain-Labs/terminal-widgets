@@ -9,7 +9,6 @@ import { WidgetLoader } from './components/loaders/WidgetLoader';
 import { FIREBASE_CHART_DATA_STORAGE, FIREBASE_WEB_API_KEY } from './config';
 import { NetworkName } from './constants/networkExchange';
 import { GtagContextProvider } from './contexts';
-import { WalletsContextProvider } from './contexts/WalletsContext/WalletContext';
 import WalletModal from './contexts/WalletsContext/WalletModal';
 import reportWebVitals from './reportWebVitals';
 import store from './store';

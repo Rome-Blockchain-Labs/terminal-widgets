@@ -11,10 +11,6 @@ const MessageWrapper = styled.div`
   height: 20rem;
 `;
 
-const Message = styled.h2`
-  color: ${({ theme }) => theme.secondary1};
-`;
-
 const Web3ReactManager: FC = ({ children }) => {
   const { isActive: active } = useWeb3React();
 

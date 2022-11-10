@@ -1,11 +1,7 @@
 import 'twin.macro';
 
 import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
-import {
-  getAddChainParameters,
-  useWallets,
-  useWeb3React,
-} from '@romeblockchain/wallet';
+import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useContext, useEffect, useState } from 'react';
@@ -24,12 +20,15 @@ import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
 import AddressModal from '../../dapps/uniswap-v2/components/AddressModal';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
-import { PageContextProvider } from '../../dapps/uniswap-v2/PageContext';
+import {
+  PageContext,
+  PageContextProvider,
+} from '../../dapps/uniswap-v2/PageContext';
 import { getStore } from '../../dapps/uniswap-v2/state';
 import { getTokenListUrlsByExchangeName } from '../../dapps/uniswap-v2/token-list';
 import { Token, WidgetCommonState } from '../../types';
 
-interface QueryParams {
+export interface QueryParams {
   network: NetworkName;
   exchange: ExchangeType;
   token_in?: string;
@@ -37,12 +36,12 @@ interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId, connector, isActivating } = useWeb3React();
+  const { chainId } = useWeb3React();
 
-  const { setSelectedWallet } = useWallets();
+  const { setWalletVisibility } = useContext(PageContext);
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
-  >();
+  >(1);
   const [targetChainID, setTargetChainID] = useState<number>();
 
   const { search } = useLocation();
@@ -75,7 +74,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     }
     return false;
   })?.icon;
-
   useEffect(() => {
     if (widget.network) {
       const targetChain = getChainIdByNetworkName(widget.network);
@@ -84,6 +82,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setChainParams(targetChainParams);
     }
   }, [widget.network]);
+
   useEffect(() => {
     const defaultListOfLists = getTokenListUrlsByExchangeName(
       exchangeName as any,
@@ -132,9 +131,12 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
     widget.token_out,
   ]);
 
-  if (!chainParams) {
-    return null;
-  }
+  useEffect(() => {
+    if (targetChainID !== chainId) {
+      setWalletVisibility(true);
+    }
+  }, [chainId, setWalletVisibility, targetChainID]);
+
   return (
     <div
       id={uid}

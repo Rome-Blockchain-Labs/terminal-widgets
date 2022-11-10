@@ -342,7 +342,11 @@ export default function Swap() {
   return (
     <>
       <TokenWarningModal
-        isOpen={importTokensNotInDefault.length > 0 && !dismissTokenWarning}
+        isOpen={
+          importTokensNotInDefault.length > 0 &&
+          !dismissTokenWarning &&
+          !!account
+        }
         tokens={importTokensNotInDefault}
         onConfirm={handleConfirmTokenWarning}
         onDismiss={handleDismissTokenWarning}

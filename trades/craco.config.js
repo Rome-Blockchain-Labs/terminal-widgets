@@ -3,6 +3,9 @@ const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
+  devServer: {
+    port: 3001,
+  },
   plugins: [
     {
       plugin: {

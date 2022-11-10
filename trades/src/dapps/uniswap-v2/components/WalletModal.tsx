@@ -1,17 +1,23 @@
 import 'twin.macro';
 
 import {
+  getAddChainParametersfromNetworkName,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
+  Wallet,
 } from '@romeblockchain/wallet';
+import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
+import queryString from 'query-string';
 import { useContext, useEffect, useState } from 'react';
-import { PulseLoader } from 'react-spinners';
+import { AlertCircle, X } from 'react-feather';
+import { useLocation } from 'react-router-dom';
 
-import { CloseIcon } from '../../../components/icons';
+import { CoinbaseIcon } from '../../../components/icons/Coinbase';
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
+import { getChainIdByNetworkName } from '../../../constants/networkExchange';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
 import { useIFrameContext } from './IFrameProvider/index';
@@ -22,78 +28,92 @@ const WalletModal = ({
   chainParams: number | AddEthereumChainParameter;
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
-  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
-  const { account, chainId } = useWeb3React();
+  const { handleConnect, selectedWallet } = useWallets();
+  const { account, chainId, connector, isActivating } = useWeb3React();
   const { widgetBridge } = useIFrameContext();
-  const [loading, setLoading] = useState(false);
+  const [error, setShowError] = useState(false);
 
-  const closeModal = () => {
-    setWalletVisibility(false);
-  };
+  const { search } = useLocation();
   useEffect(() => {
-    if (
-      !account ||
-      (typeof chainParams !== 'number' && chainId !== chainParams.chainId)
-    ) {
+    const widget = queryString.parse(search) as any;
+    const targetChain = getChainIdByNetworkName(widget.network);
+    if (chainId && chainId !== targetChain && selectedWallet) {
+      window.location.reload();
+    }
+  }, [account, chainId, connector, isActivating, search, selectedWallet]);
+
+  useEffect(() => {
+    if (connector instanceof Network) {
       setWalletVisibility(true);
     }
-  }, [account, setWalletVisibility, chainId, chainParams]);
+  }, [connector, setWalletVisibility]);
+
   if (!walletVisibility) {
     return null;
-  }
-  if (loading) {
-    return (
-      <>
-        <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
-        <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-          <PulseLoader color="#FFCC00" />
-        </div>
-      </>
-    );
   }
 
   return (
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div tw="mx-3 p-6 w-full h-1/2 min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 h-fit-content max-w-lg">
+        <div tw="mx-3 p-6 w-full min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 h-fit-content max-w-lg">
+          {error && (
+            <div
+              tw="fixed top-0 md:top-5 md:rounded-md bg-red-50 p-4 "
+              onClick={() => setShowError(false)}
+            >
+              <X tw="h-5 w-5 text-gray-700 absolute right-4 top-2" />
+              <div tw="flex">
+                <div tw="flex-shrink-0">
+                  <AlertCircle aria-hidden="true" tw="h-5 w-5 text-red-400" />
+                </div>
+                <div tw="ml-3">
+                  <h3 tw=" font-medium text-red-800 text-[16px]">
+                    Wallet connection error
+                  </h3>
+                  <div tw="mt-2 text-[14px] text-red-700">
+                    Unable to connect to the selected wallet. Please login to
+                    your wallet and try again.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <div tw="w-full text-yellow-400 flex">
-            <span>CONNECT / SWITCH TO A WALLET</span>
-            <button tw="ml-auto mr-3 " onClick={closeModal}>
-              <CloseIcon color="#C1FF00" height={17} width={17} />
-            </button>
+            <span> CONNECT / SWITCH TO A WALLET</span>
           </div>
           <hr tw="w-full bg-gray-50 mt-2" />
-          {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
-            const wallet = SUPPORTED_WALLETS[key];
-            const isActive = selectedWallet === wallet.wallet;
+          {Object.keys(SUPPORTED_WALLETS)
+            .filter((key) => key !== Wallet.COINBASE)
+            .map((key, index) => {
+              const wallet = SUPPORTED_WALLETS[key];
+              const isActive = selectedWallet === wallet.wallet;
 
-            return (
-              <WalletBox
-                key={index}
-                connectHandler={async () => {
-                  setLoading(true);
-                  await handleConnect(
-                    wallet.connector,
-                    setSelectedWallet,
-                    wallet.wallet,
-                    widgetBridge,
-                    chainParams
-                  );
-                  setLoading(false);
-                  closeModal();
-                }}
-                isActive={isActive}
-                walletName={wallet.wallet}
-              >
-                {wallet.wallet === 'METAMASK' ? (
-                  <MetamaskLogo size={30} />
-                ) : (
-                  <WalletConnectLogo size={30} />
-                )}
-              </WalletBox>
-            );
-          })}
+              return (
+                <WalletBox
+                  key={index}
+                  connectHandler={async () => {
+                    try {
+                      setShowError(false);
+                      await handleConnect(wallet, chainParams, widgetBridge);
+                      setWalletVisibility(false);
+                    } catch (error) {
+                      setShowError(true);
+                    }
+                  }}
+                  isActive={isActive}
+                  walletName={wallet.wallet}
+                >
+                  {wallet.wallet === 'METAMASK' ? (
+                    <MetamaskLogo size={30} />
+                  ) : wallet.wallet === Wallet.COINBASE ? (
+                    <CoinbaseIcon height={30} width={30} />
+                  ) : (
+                    <WalletConnectLogo size={30} />
+                  )}
+                </WalletBox>
+              );
+            })}
         </div>
       </div>
     </>
