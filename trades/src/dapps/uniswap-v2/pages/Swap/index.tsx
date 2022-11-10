@@ -339,7 +339,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
   return (
     <div tw="w-full max-w-sm">
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning && !!account}
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />

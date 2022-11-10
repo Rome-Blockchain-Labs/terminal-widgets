@@ -32,37 +32,42 @@ const WalletModal = () => {
             </button>
           </div>
           <hr tw="w-full bg-gray-50 mt-2" />
-          {Object.keys(SUPPORTED_WALLETS).map((key, index) => {
-            const wallet = SUPPORTED_WALLETS[key];
-            const isActive = selectedWallet === wallet.wallet;
+          {Object.keys(SUPPORTED_WALLETS)
+            .filter((key) => key !== 'COINBASE')
+            .map((key, index) => {
+              const wallet = SUPPORTED_WALLETS[key];
+              const isActive = selectedWallet === wallet.wallet;
 
-            return (
-              <WalletBox
-                key={index}
-                connectHandler={async () => {
-                  setSelectedWallet(wallet.wallet);
-                  sendStatelessEvent(
-                    'Wallet_Successful_Connection',
-                    EventGroups.WalletConnection
-                  );
-                  sendStatelessEvent(
-                    `${wallet.wallet.replace(' ', '_')}_Successful_Connection`,
-                    EventGroups.WalletConnection
-                  );
-                  await wallet.connector.activate();
-                  closeModal();
-                }}
-                isActive={isActive}
-                walletName={wallet.wallet}
-              >
-                {wallet.wallet === 'METAMASK' ? (
-                  <MetamaskLogo size={30} />
-                ) : (
-                  <WalletConnectLogo size={30} />
-                )}
-              </WalletBox>
-            );
-          })}
+              return (
+                <WalletBox
+                  key={index}
+                  connectHandler={async () => {
+                    setSelectedWallet(wallet.wallet);
+                    sendStatelessEvent(
+                      'Wallet_Successful_Connection',
+                      EventGroups.WalletConnection
+                    );
+                    sendStatelessEvent(
+                      `${wallet.wallet.replace(
+                        ' ',
+                        '_'
+                      )}_Successful_Connection`,
+                      EventGroups.WalletConnection
+                    );
+                    await wallet.connector.activate();
+                    closeModal();
+                  }}
+                  isActive={isActive}
+                  walletName={wallet.wallet}
+                >
+                  {wallet.wallet === 'METAMASK' ? (
+                    <MetamaskLogo size={30} />
+                  ) : (
+                    <WalletConnectLogo size={30} />
+                  )}
+                </WalletBox>
+              );
+            })}
         </div>
       </div>
     </>

@@ -21,7 +21,7 @@ const HeaderRow = tw.div`flex justify-between items-center py-4 text-yellow-400 
 export default function SettingsModal() {
   const open = useModalOpen(ApplicationModal.WALLET);
   const toggle = useWalletModalToggle();
-  const { handleConnect, selectedWallet, setSelectedWallet } = useWallets();
+  const { handleConnect, selectedWallet } = useWallets();
   const { widgetBridge } = useIFrameContext();
 
   return (
@@ -49,13 +49,7 @@ export default function SettingsModal() {
                 connectHandler={async () => {
                   const chainParams = getAddChainParameters(43114);
 
-                  await handleConnect(
-                    wallet.connector,
-                    setSelectedWallet,
-                    wallet.wallet,
-                    widgetBridge,
-                    chainParams
-                  );
+                  await handleConnect(wallet, chainParams, widgetBridge);
                   toggle();
                 }}
                 isActive={isActive}

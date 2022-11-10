@@ -101,6 +101,15 @@ export const styles = ({
     `;
   };
 
+  const getButtonFontFamily = (refVariant: Variant) => {
+    if (refVariant === 'market' || refVariant === 'tertiary' || refVariant === 'primary') {
+      return css`
+        font-family: Montserrat;
+      `;
+    }
+    return css``;
+  };
+
   return {
     getButton: ({ disabled }: { disabled: boolean }) => css`
       border-radius: 8px;
@@ -143,6 +152,8 @@ export const styles = ({
     label: css`
       font-weight: 600;
       color: inherit;
+
+      ${getButtonFontFamily(variant)}
     `,
   };
 };

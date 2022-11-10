@@ -1,4 +1,3 @@
-
 import * as ethers from 'ethers';
 import keyBy from 'lodash/keyBy';
 
@@ -167,10 +166,7 @@ const BINANCE_NETWORK_PARAM: NetworkParam = {
   blockExplorerUrl: 'https://bscscan.com/',
   chainHex: '0x38',
   chainId: NetworkChainId.BINANCE,
-  exchanges: [
-    {name: ExchangeType.MDEX},
-    { name: ExchangeType.PANCAKESWAP },
-  ],
+  exchanges: [{ name: ExchangeType.MDEX }, { name: ExchangeType.PANCAKESWAP }],
   name: NetworkName.BINANCE,
   nativeCurrency: {
     decimals: 18,
@@ -227,9 +223,7 @@ const METIS_NETWORK_PARAM: NetworkParam = {
   blockExplorerUrl: 'https://andromeda-explorer.metis.io/',
   chainHex: '0x440',
   chainId: NetworkChainId.METIS,
-  exchanges: [
-    { name: ExchangeType.NETSWAP },
-  ],
+  exchanges: [{ name: ExchangeType.NETSWAP }],
   name: NetworkName.METIS,
   nativeCurrency: {
     decimals: 18,
@@ -442,9 +436,7 @@ export const getBasePairByNetworkExchange = (
         binanceBasePair.address = '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16';
       } else if (exchange === ExchangeType.MDEX) {
         binanceBasePair.address = '0x340192D37d95fB609874B1db6145ED26d1e47744';
-      }  
-
-      else {
+      } else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
         );
@@ -555,6 +547,8 @@ export const getBasePairByNetworkExchange = (
         ethereumBasePair.address = '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc';
       } else if (exchange === ExchangeType.UNISWAPV3) {
         ethereumBasePair.address = '0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640'; //todo which pool should be used
+      } else if (exchange === ExchangeType.PANCAKESWAP) {
+        ethereumBasePair.address = '0x2E8135bE71230c6B1B4045696d41C09Db0414226';
       } else {
         throw new Error(
           `There's no valid base pair for ${exchange} in ${network} network`
@@ -626,4 +620,3 @@ export const getBasePairByNetworkExchange = (
       );
   }
 };
-

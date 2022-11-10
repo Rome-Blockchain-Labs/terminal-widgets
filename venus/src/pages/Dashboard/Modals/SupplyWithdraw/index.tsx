@@ -201,11 +201,7 @@ export const SupplyWithdrawUi: React.FC<ISupplyWithdrawUiProps & ISupplyWithdraw
   ];
 
   return (
-    <Modal
-      isOpened={!!assetId}
-      handleClose={onClose}
-      title={isSmDown ? 'Back to Dashboard' : undefined}
-    >
+    <Modal isOpened={!!assetId} handleClose={onClose} backText="Back to Dashboard">
       <Tabs tabsContent={tabsContent} css={styles.tabs} />
     </Modal>
   );
