@@ -13,7 +13,7 @@ export const Layout: React.FC<ILayoutProps> = ({ children }) => {
   const styles = useStyles();
   return (
     <div css={styles.layout}>
-      <Box display="flex" flexDirection="column" flex="1">
+      <Box display="flex" flexDirection="column" flex="1" alignItems="center">
         <Header />
         <PageContainer>{children}</PageContainer>
       </Box>
