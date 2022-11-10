@@ -4,7 +4,7 @@ import noop from 'noop-ts';
 import { Wallet } from '@romeblockchain/wallet';
 
 import { withCenterStory } from 'stories/decorators';
-import { Connector } from 'clients/web3';
+// import { Connector } from 'clients/web3';
 import { AuthModal } from '.';
 
 export default {
