@@ -9,7 +9,7 @@ export const useStyles = () => {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: ${theme.spacing(3)};
+      margin-bottom: ${theme.spacing(1.5)};
     `,
     inlineContainer: css`
       display: flex;

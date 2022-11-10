@@ -2,11 +2,12 @@
 import React from 'react';
 
 import { Asset } from 'types';
-import { Tabs, Modal, IModalProps, Token } from 'components';
+import { Tabs, Modal, IModalProps } from 'components';
 import { useTranslation } from 'translation';
 import { useStyles } from '../styles';
 import Borrow from './Borrow';
 import Repay from './Repay';
+import { useIsSmDown } from '../../../../hooks/responsive';
 
 export interface IBorrowRepayProps {
   onClose: IModalProps['handleClose'];
@@ -17,6 +18,7 @@ export interface IBorrowRepayProps {
 const BorrowRepay: React.FC<IBorrowRepayProps> = ({ onClose, asset, isXvsEnabled }) => {
   const { t } = useTranslation();
   const styles = useStyles();
+  const isSmDown = useIsSmDown();
 
   const tabsContent = [
     {
@@ -38,8 +40,8 @@ const BorrowRepay: React.FC<IBorrowRepayProps> = ({ onClose, asset, isXvsEnabled
   ];
 
   return (
-    <Modal isOpened title={<Token symbol={asset.id} variant="h4" />} handleClose={onClose}>
-      <Tabs tabsContent={tabsContent} />
+    <Modal isOpened title={isSmDown ? 'Back to Dashboard' : undefined} handleClose={onClose}>
+      <Tabs tabsContent={tabsContent} css={styles.tabs} />
     </Modal>
   );
 };

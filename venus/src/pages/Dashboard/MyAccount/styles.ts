@@ -7,6 +7,7 @@ export const useMyAccountStyles = () => {
     container: css`
       width: 100%;
       padding: ${theme.spacing(2)};
+      border-radius: 10px;
 
       ${theme.breakpoints.up('lg')} {
         padding: ${theme.spacing(6)};

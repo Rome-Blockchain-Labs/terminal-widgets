@@ -14,6 +14,7 @@ import Theme from 'theme';
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import mainTheme from 'theme/MuiThemeProvider/muiTheme';
 import { MuiThemeProvider } from 'theme/MuiThemeProvider/MuiThemeProvider';
+import { WalletProvider } from '@romeblockchain/wallet';
 
 export type DecoratorFunction = Parameters<typeof addDecorator>[0];
 
@@ -74,6 +75,12 @@ export const withQueryClientProvider: DecoratorFunction = Story => {
     </QueryClientProvider>
   );
 };
+
+export const withWalletProvider: DecoratorFunction = Story => (
+  <WalletProvider>
+    <Story />
+  </WalletProvider>
+);
 
 export const withCenterStory: (props: {
   width?: number | string;

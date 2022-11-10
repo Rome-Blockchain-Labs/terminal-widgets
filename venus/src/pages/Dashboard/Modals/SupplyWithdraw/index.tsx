@@ -7,7 +7,6 @@ import {
   Tabs,
   Modal,
   IModalProps,
-  Token,
   ILabeledInlineContentProps,
   IconName,
 } from 'components';
@@ -20,6 +19,7 @@ import {
 import { IAmountFormProps } from 'containers/AmountForm';
 import { AuthContext } from 'context/AuthContext';
 import useSupply from 'clients/api/mutations/useSupply';
+import { useIsSmDown } from 'hooks/responsive';
 import useSuccessfulTransactionModal from 'hooks/useSuccessfulTransactionModal';
 import { useTranslation } from 'translation';
 import { Asset, TokenId, VTokenId } from 'types';
@@ -62,6 +62,8 @@ export const SupplyWithdrawUi: React.FC<ISupplyWithdrawUiProps & ISupplyWithdraw
   isWithdrawLoading,
 }) => {
   const styles = useStyles();
+
+  const isSmDown = useIsSmDown();
 
   const { id: assetId, isEnabled, symbol } = asset || {};
   const { t } = useTranslation();
@@ -202,9 +204,9 @@ export const SupplyWithdrawUi: React.FC<ISupplyWithdrawUiProps & ISupplyWithdraw
     <Modal
       isOpened={!!assetId}
       handleClose={onClose}
-      title={assetId ? <Token symbol={assetId as TokenId} variant="h4" /> : undefined}
+      title={isSmDown ? 'Back to Dashboard' : undefined}
     >
-      <Tabs tabsContent={tabsContent} />
+      <Tabs tabsContent={tabsContent} css={styles.tabs} />
     </Modal>
   );
 };

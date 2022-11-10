@@ -157,7 +157,7 @@ export const SupplyWithdrawContent: React.FC<ISupplyWithdrawFormUiProps> = ({
       <Delimiter css={styles.getRow({ isLast: true })} />
 
       <BorrowBalanceAccountHealth
-        css={styles.getRow({ isLast: true })}
+        css={styles.getRow({ isLast: false })}
         borrowBalanceCents={userTotalBorrowBalanceCents.toNumber()}
         borrowLimitCents={
           hypotheticalBorrowLimitCents?.toNumber() || userTotalBorrowLimitCents.toNumber()
@@ -182,7 +182,7 @@ export const SupplyWithdrawContent: React.FC<ISupplyWithdrawFormUiProps> = ({
       </LabeledInlineContent>
       <LabeledInlineContent
         label={t('supplyWithdraw.supplyBalance')}
-        css={styles.bottomRow}
+        css={styles.getRow({ isLast: true })}
         className="info-row"
       >
         <ValueUpdate

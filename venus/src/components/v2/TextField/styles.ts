@@ -18,7 +18,7 @@ export const useStyles = () => {
       hasError: boolean;
       disabled: boolean | undefined;
     }) => {
-      let borderColor: undefined | string = 'transparent';
+      let borderColor: undefined | string = theme.palette.secondary.light;
 
       if (hasError) {
         borderColor = theme.palette.interactive.error;
@@ -30,9 +30,10 @@ export const useStyles = () => {
       return css`
         display: flex;
         align-items: center;
-        padding: ${theme.spacing(2, 2, 2, 4)};
+        padding: ${theme.spacing(1, 1, 1, 2)};
         border-radius: ${theme.spacing(3)};
         border: ${theme.spacing(0.5)} solid ${borderColor};
+        transition : border .2s ease-out;
         background-color: ${disabled
           ? theme.palette.background.default
           : theme.palette.background.paper};
@@ -44,7 +45,7 @@ export const useStyles = () => {
       `;
     },
     leftIcon: css`
-      margin-right: ${theme.spacing(2)};
+      margin-right: ${theme.spacing(1)};
     `,
     getInput: ({ hasRightAdornment }: { hasRightAdornment: boolean }) => css`
       background-color: transparent;

@@ -6,10 +6,7 @@ export const useStyles = () => {
 
   return {
     container: css`
-      margin-top: ${theme.spacing(10)};
-      ${theme.breakpoints.down('md')} {
-        margin-top: ${theme.spacing(8)};
-      }
+      margin-top: ${theme.spacing(3)};
     `,
     input: css`
       margin-bottom: ${theme.spacing(1)};
@@ -25,11 +22,9 @@ export const useStyles = () => {
       justify-content: space-between;
     `,
     getRow: ({ isLast }: { isLast: boolean }) => css`
-      margin-bottom: ${theme.spacing(isLast ? 8 : 3)};
+      margin-bottom: ${theme.spacing(isLast ? 3 : 1.5)};
 
       ${theme.breakpoints.down('md')} {
-        margin-bottom: ${theme.spacing(isLast ? 6 : 3)};
-
         span {
           font-size: 0.875rem;
         }
@@ -41,6 +36,14 @@ export const useStyles = () => {
       ${theme.breakpoints.down('md')} {
         margin-bottom: ${theme.spacing(8)};
       }
+    `,
+    tabs: css`
+      padding: 1px;
+      border: 1px solid ${theme.palette.secondary.light};
+      border-radius: 10px;
+      margin-bottom: 0;
+      width: 80%;
+      margin: 0 auto;
     `,
   };
 };

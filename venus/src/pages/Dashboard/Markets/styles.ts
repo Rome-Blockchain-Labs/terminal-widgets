@@ -13,6 +13,7 @@ export const useStyles = () => {
     tabletViewContainer: css`
       display: none;
       padding: 0;
+      border-radius: 10px;
 
       ${theme.breakpoints.down('lg')} {
         display: block;
@@ -26,6 +27,7 @@ export const useStyles = () => {
       display: none;
       background-color: transparent;
       padding: 0;
+      border-radius: 10px;
 
       ${theme.breakpoints.down('sm')} {
         display: block;
@@ -54,6 +56,7 @@ export const useStyles = () => {
     tableContainer: css`
       width: 100%;
       padding: 0;
+      border-radius: 10px;
 
       ${theme.breakpoints.down('sm')} {
         background-color: transparent;
