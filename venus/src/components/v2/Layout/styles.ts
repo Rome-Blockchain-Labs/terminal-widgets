@@ -11,6 +11,8 @@ export const useStyles = () => {
       height: 100vh;
       background-image: url(/background.jpg);
       overflow: auto;
+      background-repeat: no-repeat;
+      background-size: cover;
 
       ${theme.breakpoints.down('md')} {
         flex-direction: column;
