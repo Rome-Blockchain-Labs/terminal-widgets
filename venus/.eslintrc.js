@@ -49,7 +49,7 @@ module.exports = {
     ],
     // Custom
     'import/no-named-as-default': 0,
-    '@typescript-eslint/no-unused-vars': 2,
+    '@typescript-eslint/no-unused-vars': 1,
     '@typescript-eslint/member-delimiter-style': [
       'error',
       {

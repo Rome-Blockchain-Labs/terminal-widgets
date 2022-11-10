@@ -34,6 +34,7 @@ export const styles = ({
 
     if (refVariant === 'tertiary') {
       return css`
+        font-family: 'Montserrat';
         background-color: ${theme.palette.secondary.light};
         border-color: ${theme.palette.secondary.light};
 
@@ -66,6 +67,7 @@ export const styles = ({
 
     if (refVariant === 'market') {
       return css`
+        font-family: 'Montserrat';
         border-radius: 0;
         background-color: ${theme.palette.secondary.contrastText};
         border-color: ${theme.palette.secondary.contrastText};

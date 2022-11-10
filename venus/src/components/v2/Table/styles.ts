@@ -128,7 +128,6 @@ export const useStyles = () => {
       }
     `,
     cellWrapper: css`
-      overflow: hidden;
       text-overflow: ellipsis;
       padding: ${theme.spacing(2)};
 

@@ -40,7 +40,6 @@ const BorrowMarketTable: React.FC<IBorrowMarketTableProps> = ({
   // Format assets to rows
   const rows: ITableProps['data'] = assets.map(asset => {
     const borrowApy = isXvsEnabled ? asset.xvsBorrowApy.plus(asset.borrowApy) : asset.borrowApy;
-    //TODO copy SupplyMartketTable implementation of rows
     return [
       {
         key: 'asset',

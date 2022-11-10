@@ -9,7 +9,7 @@ export const useStyles = () => {
       flex: 1;
       flex-direction: row;
       height: 100vh;
-      background: #010101;
+      background-image: url(/background.jpg);
       overflow: auto;
 
       ${theme.breakpoints.down('md')} {
