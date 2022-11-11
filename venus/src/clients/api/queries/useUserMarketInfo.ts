@@ -1,6 +1,5 @@
 import { UseQueryResult } from 'react-query';
 import BigNumber from 'bignumber.js';
-import { GetMarketsOutput } from 'clients/api/queries/getMarkets';
 import { TREASURY_ADDRESS } from 'config';
 import { useVaiUser } from 'hooks/useVaiUser';
 import { Asset, Market } from 'types';

@@ -10,7 +10,10 @@ export const useStyles = () => {
       background-image: none;
       background-color: transparent;
       box-shadow: none;
-      padding: 0;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
     `,
     toolbar: css`
       padding: ${theme.spacing(8, 0, 0)} !important;

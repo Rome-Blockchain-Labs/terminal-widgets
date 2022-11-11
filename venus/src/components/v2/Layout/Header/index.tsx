@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 
 import { useIsMdDown } from 'hooks/responsive';
 import { ReactComponent as LogoDesktop } from 'assets/img/v2/venusLogoWithText.svg';
-import { ReactComponent as LogoMobile } from 'assets/img/v2/venusLogoMobile.svg';
 import Logo from 'assets/img/v-logo.png';
 import { Toolbar } from '../Toolbar';
 import ClaimXvsRewardButton from '../ClaimXvsRewardButton';
@@ -32,11 +31,7 @@ const Header = () => {
           ) : (
             <LogoDesktop width="auto" height="auto" css={styles.logo} />
           )}
-          {marketDetailsMatch && !isSmDown && (
-            <BackButton css={styles.backButton}>
-              BACK
-            </BackButton>
-          )}
+          {marketDetailsMatch && !isSmDown && <BackButton css={styles.backButton}>BACK</BackButton>}
         </Box>
 
         <div css={styles.ctaContainer}>

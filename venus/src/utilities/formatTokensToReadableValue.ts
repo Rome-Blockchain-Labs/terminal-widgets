@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import { Token } from 'types';
 
 import PLACEHOLDER_KEY from 'constants/placeholderKey';
 
