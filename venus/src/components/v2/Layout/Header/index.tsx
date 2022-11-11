@@ -13,11 +13,13 @@ import ClaimXvsRewardButton from '../ClaimXvsRewardButton';
 import ConnectButton from '../ConnectButton';
 import { useStyles } from './styles';
 import BackButton from '../BackButton';
+import { useIsSmDown } from '../../../../hooks/responsive';
 
 const Header = () => {
   const styles = useStyles();
 
   const isOnMobile = useIsMdDown();
+  const isSmDown = useIsSmDown();
 
   const marketDetailsMatch = useRouteMatch('/market/:vTokenId');
 
@@ -30,7 +32,7 @@ const Header = () => {
           ) : (
             <LogoDesktop width="auto" height="auto" css={styles.logo} />
           )}
-          {marketDetailsMatch && (
+          {marketDetailsMatch && !isSmDown && (
             <BackButton css={styles.backButton}>
               BACK
             </BackButton>

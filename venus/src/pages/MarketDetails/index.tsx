@@ -8,7 +8,7 @@ import {
   Spinner,
 } from 'components';
 import React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'translation';
 import {
   formatCentsToReadableValue,
@@ -23,12 +23,14 @@ import { useGetVTokenApySimulations } from 'clients/api';
 import PLACEHOLDER_KEY from 'constants/placeholderKey';
 import { TOKENS } from 'constants/tokens';
 
+import BackButton from 'components/v2/Layout/BackButton';
 import Card, { CardProps } from './Card';
 import MarketInfo, { MarketInfoProps } from './MarketInfo';
 import { useStyles } from './styles';
 import TEST_IDS from './testIds';
 import useGetChartData from './useGetChartData';
 import useGetMarketData from './useGetMarketData';
+import { useIsSmDown } from '../../hooks/responsive';
 
 export interface MarketDetailsUiProps {
   vTokenId: string;
@@ -88,7 +90,9 @@ export const MarketDetailsUi: React.FC<MarketDetailsUiProps> = ({
 
   const token = unsafelyGetToken(vTokenId);
   const vToken = unsafelyGetVToken(vTokenId);
+  const isSmDown = useIsSmDown();
 
+  const marketDetailsMatch = useRouteMatch('/market/:vTokenId');
   const supplyInfoStats: CardProps['stats'] = React.useMemo(
     () => [
       {
@@ -276,6 +280,7 @@ export const MarketDetailsUi: React.FC<MarketDetailsUiProps> = ({
 
   return (
     <Box>
+      {marketDetailsMatch && isSmDown && <BackButton>BACK</BackButton>}
       <Box css={styles.firstRow}>
         <Box css={styles.graphsColumn}>
           <Card
