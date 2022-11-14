@@ -24,5 +24,12 @@ export const useStyles = () => {
       width: ${theme.spacing(6)};
       height: ${theme.spacing(6)};
     `,
+    modalTitle: css`
+      display: flex;
+      align-items: center;
+    `,
+    modalBody: css`
+      font-size: 1.5rem;
+    `,
   };
 };
