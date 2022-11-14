@@ -1,5 +1,6 @@
-import { restService } from 'utilities/restService';
-import getMarkets from './getMarkets';
+import { restService } from 'utilities';
+
+import getMarkets from '.';
 
 jest.mock('utilities/restService');
 
@@ -69,9 +70,9 @@ describe('api/queries/getMarkets', () => {
       data: { data: { markets: [supportedMarket] } },
     }));
 
-    const response = await getMarkets();
+    const { markets } = await getMarkets();
 
-    expect(response).toHaveLength(1);
+    expect(markets).toHaveLength(1);
   });
 
   test('filters unsupported markets', async () => {
@@ -81,8 +82,8 @@ describe('api/queries/getMarkets', () => {
       data: { data: { markets: [unsupportedMarket] } },
     }));
 
-    const response = await getMarkets();
+    const { markets } = await getMarkets();
 
-    expect(response).toHaveLength(0);
+    expect(markets).toHaveLength(0);
   });
 });

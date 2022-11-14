@@ -1,4 +1,6 @@
-export * from './v2/ApyChart';
+export * from './charts/ApyChart';
+export * from './charts/InterestRateChart';
+export * from './Spinner';
 export * from './v2/AuthModal';
 export * from './v2/Button';
 export * from './v2/BscLink';

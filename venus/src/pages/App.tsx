@@ -19,7 +19,6 @@ import Vote from 'containers/Main/Vote';
 import XVS from 'containers/Main/XVS';
 import Market from 'containers/Main/Market';
 import Vault from 'containers/Main/Vault';
-import MarketDetailsV1 from 'containers/Main/MarketDetail';
 import VoteOverview from 'containers/Main/VoteOverview';
 import ProposerDetail from 'containers/Main/ProposerDetail';
 import VoterLeaderboard from 'containers/Main/VoterLeaderboard';
@@ -71,10 +70,8 @@ const App = () => {
                                 <Route exact path="/markets" component={Market} />
                                 <Route
                                   exact
-                                  path="/market/:assetId"
-                                  component={
-                                    process.env.REACT_APP_RUN_V2 ? MarketDetails : MarketDetailsV1
-                                  }
+                                  path="/market/:vTokenId"
+                                  component={MarketDetails}
                                 />
                                 <Route exact path="/transaction" component={Transaction} />
                                 <Route exact path="/vault" component={Vault} />
