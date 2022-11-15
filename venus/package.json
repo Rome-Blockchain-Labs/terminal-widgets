@@ -55,7 +55,7 @@
     "i18next": "^21.6.15",
     "lodash": "^4.17.21",
     "markdown-it": "^12.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "noop-ts": "^1.0.3",
     "react": "^16.9.6",
     "react-copy-to-clipboard": "^5.0.2",
