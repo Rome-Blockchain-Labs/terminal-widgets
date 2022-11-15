@@ -34,7 +34,7 @@
     "@mui/utils": "^5.4.4",
     "@romeblockchain/bridge": "^0.0.3",
     "@romeblockchain/wallet": "^0.1.13",
-    "@storybook/storybook-deployer": "^2.8.10",
+    "@storybook/storybook-deployer": "^2.8.16",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@types/comma-number": "^2.1.0",
