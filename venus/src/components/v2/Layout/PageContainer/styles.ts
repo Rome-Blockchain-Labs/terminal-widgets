@@ -7,6 +7,10 @@ export const useStyles = () => {
     main: css`
       flex-grow: 1;
       padding: ${theme.spacing(4)} ${theme.spacing(4)};
+      width: 100%;
+      ${theme.breakpoints.up('lg')} {
+        min-width: 1000px;
+      }
 
       ${theme.breakpoints.down('md')} {
         padding: ${theme.spacing(2)} ${theme.spacing(2)};

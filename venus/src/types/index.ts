@@ -34,6 +34,15 @@ export interface Asset {
   vsymbol: string;
 }
 
+export interface Token {
+  id: string; // TODO: remove (related to VEN-723)
+  symbol: Uppercase<string>;
+  decimals: number;
+  address: string | '';
+  asset: string;
+  isNative?: boolean;
+}
+
 export type TokenId = keyof typeof TOKENS;
 export type VTokenId = keyof typeof VBEP_TOKENS;
 
@@ -127,27 +136,28 @@ export interface Transaction {
 }
 
 export interface Market {
+  id: string;
   address: string;
-  borrowApy: number;
+  borrowApy: BigNumber;
   borrowCaps: string;
   borrowRatePerBlock: string;
-  borrowVenusApy: string;
+  borrowVenusApy: BigNumber;
   borrowerCount: number;
   borrowerDailyVenus: string;
   cash: string;
   collateralFactor: string;
   exchangeRate: string;
   lastCalculatedBlockNumber: number;
-  liquidity: string;
+  liquidity: BigNumber;
   name: string;
   reserveFactor: string;
   supplierCount: number;
   supplierDailyVenus: string;
-  supplyApy: string;
+  supplyApy: BigNumber;
   supplyRatePerBlock: string;
-  supplyVenusApy: string;
+  supplyVenusApy: BigNumber;
   symbol: string;
-  tokenPrice: string;
+  tokenPrice: BigNumber;
   totalBorrows: string;
   totalBorrows2: string;
   totalBorrowsUsd: string;
@@ -165,4 +175,23 @@ export interface Market {
   venusBorrowIndex: string;
   venusSpeeds: string;
   venusSupplyIndex: string;
+  treasuryTotalBorrowsCents: BigNumber;
+  treasuryTotalSupplyCents: BigNumber;
+}
+
+export interface MarketSnapshot {
+  asset: string;
+  blockNumber: number;
+  blockTimestamp: number;
+  borrowApy: string;
+  borrowVenusApy: string;
+  createdAt: string;
+  exchangeRate: string;
+  id: string;
+  priceUSD: string;
+  supplyApy: string;
+  supplyVenusApy: string;
+  totalBorrow: string;
+  totalSupply: string;
+  updatedAt: string;
 }

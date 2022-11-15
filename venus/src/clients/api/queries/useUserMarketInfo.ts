@@ -1,6 +1,5 @@
 import { UseQueryResult } from 'react-query';
 import BigNumber from 'bignumber.js';
-import { GetMarketsOutput } from 'clients/api/queries/getMarkets';
 import { TREASURY_ADDRESS } from 'config';
 import { useVaiUser } from 'hooks/useVaiUser';
 import { Asset, Market } from 'types';
@@ -30,7 +29,12 @@ const useUserMarketInfo = ({
   const vtAddresses = Object.values(VBEP_TOKENS)
     .filter(item => item.address)
     .map(item => item.address);
-  const { data: markets = [] } = useGetMarkets({ placeholderData: [] });
+  const { data: markets = { markets: [], dailyVenusWei: new BigNumber(0) } } = useGetMarkets({
+    placeholderData: {
+      markets: [],
+      dailyVenusWei: new BigNumber(0),
+    },
+  });
   const { data: assetsInAccount = [] } = useGetAssetsInAccount(
     { account: accountAddress },
     { placeholderData: [], enabled: Boolean(accountAddress) },
@@ -55,7 +59,7 @@ const useUserMarketInfo = ({
   );
   const marketsMap = indexBy(
     (item: Market) => item.underlyingSymbol.toLowerCase(),
-    markets as GetMarketsOutput,
+    markets.markets,
   );
 
   let assetList = Object.values(TOKENS).reduce((acc, item, index) => {
