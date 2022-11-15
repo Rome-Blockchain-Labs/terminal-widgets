@@ -10,7 +10,10 @@ export const useStyles = () => {
       background-image: none;
       background-color: transparent;
       box-shadow: none;
-      padding: 0;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
     `,
     toolbar: css`
       padding: ${theme.spacing(8, 0, 0)} !important;
@@ -39,6 +42,19 @@ export const useStyles = () => {
       height: 30px;
       width: auto;
       margin-right: ${theme.spacing(2)};
+    `,
+    backButton: css`
+      margin-left: ${theme.spacing(2)};
+
+      @media only screen and (max-width: 460px) {
+        margin-left: 0;
+        margin-top: ${theme.spacing(2)};
+      }
+    `,
+    logoBackButton: css`
+      @media only screen and (max-width: 460px) {
+        flex-direction: column;
+      }
     `,
   };
 };

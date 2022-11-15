@@ -85,7 +85,7 @@ export { default as useGetHypotheticalLiquidityQueries } from './queries/useGetH
 
 export { default as getMarkets } from './queries/getMarkets';
 export * from './queries/getMarkets';
-export { default as useGetMarkets } from './queries/useGetMarkets';
+export { default as useGetMarkets } from './queries/getMarkets/useGetMarkets';
 
 export { default as getVTokenBalancesAll } from './queries/getVTokenBalancesAll';
 export * from './queries/getVTokenBalancesAll';
@@ -138,3 +138,25 @@ export { default as useGetVrtConversionRatio } from './queries/useGetVrtConversi
 export { default as getXvsWithdrawableAmount } from './queries/getXvsWithdrawableAmount';
 export * from './queries/getXvsWithdrawableAmount';
 export { default as useGetXvsWithdrawableAmount } from './queries/getXvsWithdrawableAmount';
+
+export { default as getVTokenApySimulations } from './queries/getVTokenApySimulations';
+export * from './queries/getVTokenApySimulations';
+export { default as useGetVTokenApySimulations } from './queries/getVTokenApySimulations/useGetVTokenApySimulations';
+
+export { default as getVTokenInterestRateModel } from './queries/getVTokenInterestRateModel';
+export * from './queries/getVTokenInterestRateModel';
+export { default as useGetVTokenInterestRateModel } from './queries/getVTokenInterestRateModel/useGetVTokenInterestRateModel';
+
+export { default as getMarketHistory } from './queries/getMarketHistory';
+export * from './queries/getMarketHistory';
+export { default as useGetMarketHistory } from './queries/getMarketHistory/useGetMarketHistory';
+
+export { default as getVTokenCash } from './queries/getVTokenCash';
+export * from './queries/getVTokenCash';
+export { default as useGetVTokenCash } from './queries/getVTokenCash/useGetVTokenCash';
+
+export { default as getVTokenBorrowRate } from './queries/getVTokenBorrowRate';
+export * from './queries/getVTokenBorrowRate';
+
+export { default as getVTokenSupplyRate } from './queries/getVTokenSupplyRate';
+export * from './queries/getVTokenSupplyRate';
