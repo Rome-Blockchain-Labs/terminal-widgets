@@ -152,6 +152,8 @@ export const styles = ({
     label: css`
       font-weight: 600;
       color: inherit;
+      display: flex;
+      align-items: center;
 
       ${getButtonFontFamily(variant)}
     `,
