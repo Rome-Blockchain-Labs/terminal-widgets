@@ -82,6 +82,11 @@
     },
     "title": "<Icon/> Claim XVS"
   },
+  "claimXvsRewardModal": {
+    "title": "<Icon/> Claim XVS",
+    "body": "You can claim {{amount}}",
+    "submitButton": "Claim"
+  },
   "connectButton": {
     "title": "Connect wallet"
   },

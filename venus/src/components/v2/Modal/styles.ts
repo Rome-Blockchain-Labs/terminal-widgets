@@ -29,6 +29,8 @@ export const useModalStyles = ({
         transform: translate(-50%, -50%);
       }
       ${theme.breakpoints.down('sm')} {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         left: 0;
         top: 0;
@@ -98,7 +100,7 @@ export const useModalStyles = ({
       border-color: ${theme.palette.secondary.light};
       border-radius: 9px;
       color: ${theme.palette.text.secondary};
-      margin-bottom: ${hasTitleComponent ? theme.spacing(0) : theme.spacing(2)};
+      margin-bottom: ${theme.spacing(2)};
       text-transform: none;
 
       :hover:not(:disabled) {
@@ -124,6 +126,11 @@ export const useModalStyles = ({
       ${theme.breakpoints.down('md')} {
         padding-left: ${noHorizontalPadding ? 0 : theme.spacing(3)};
         padding-right: ${noHorizontalPadding ? 0 : theme.spacing(3)};
+      }
+      ${theme.breakpoints.down('sm')} {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
       }
     `,
   };

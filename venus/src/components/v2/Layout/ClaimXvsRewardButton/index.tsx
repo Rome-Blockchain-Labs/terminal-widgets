@@ -1,15 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import BigNumber from 'bignumber.js';
-
-import toast from 'components/Basic/Toast';
-import { AuthContext } from 'context/AuthContext';
-import useSuccessfulTransactionModal from 'hooks/useSuccessfulTransactionModal';
-import { useGetXvsReward, useClaimXvsReward } from 'clients/api';
 import { useTranslation } from 'translation';
-import { TokenId } from 'types';
+
+import { AuthContext } from 'context/AuthContext';
+import { useGetXvsReward, useClaimXvsReward } from 'clients/api';
 import { Icon } from '../../Icon';
 import { SecondaryButton, IButtonProps } from '../../Button';
+import ClaimRewardsModal from './ClaimRewardsModal';
 import { useStyles } from './styles';
 
 const XVS_SYMBOL = 'xvs';
@@ -29,47 +27,41 @@ export const ClaimXvsRewardButtonUi: React.FC<IClaimXvsRewardButton> = ({
   const { t, Trans } = useTranslation();
   const styles = useStyles();
 
-  const { openSuccessfulTransactionModal } = useSuccessfulTransactionModal();
+  const [isClaimRewardModalOpen, setIsClaimRewardModalOpen] = useState(false);
 
   if (!amountWei || amountWei.isEqualTo(0)) {
     return null;
   }
 
-  const handleClick = async () => {
-    try {
-      const transactionHash = await onClaim();
+  const closeClaimRewardModal = () => {
+    setIsClaimRewardModalOpen(false);
+  };
 
-      // Display successful transaction modal
-      openSuccessfulTransactionModal({
-        title: t('claimXvsRewardButton.successfulTransactionModal.title'),
-        message: t('claimXvsRewardButton.successfulTransactionModal.message'),
-        amount: {
-          valueWei: amountWei,
-          tokenId: 'xvs' as TokenId,
-        },
-        transactionHash,
-      });
-    } catch (error) {
-      toast.error({
-        title: (error as Error).message,
-      });
-    }
+  const handleClick = async () => {
+    setIsClaimRewardModalOpen(true);
   };
 
   return (
-    <SecondaryButton
-      data-testid={TEST_ID}
-      css={styles.button}
-      onClick={handleClick}
-      {...otherProps}
-    >
-      <Trans
-        i18nKey="claimXvsRewardButton.title"
-        components={{
-          Icon: <Icon css={styles.icon} name={XVS_SYMBOL} />,
-        }}
+    <>
+      <SecondaryButton
+        data-testid={TEST_ID}
+        css={styles.button}
+        onClick={handleClick}
+        {...otherProps}
+      >
+        <Trans
+          i18nKey="claimXvsRewardButton.title"
+          components={{
+            Icon: <Icon css={styles.icon} name={XVS_SYMBOL} />,
+          }}
+        />
+      </SecondaryButton>
+
+      <ClaimRewardsModal
+        isOpened={isClaimRewardModalOpen}
+        onClose={closeClaimRewardModal}
       />
-    </SecondaryButton>
+    </>
   );
 };
 
