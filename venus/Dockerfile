@@ -1,4 +1,4 @@
-FROM node:16-alpine AS builder
+FROM node:lts AS builder
 
 #RUN apk add --update --no-cache python3 git openssh
 RUN apk add --update openssh git
