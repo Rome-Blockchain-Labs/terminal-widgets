@@ -1,4 +1,4 @@
-FROM node:lts AS builder
+FROM node:18.12.1 AS builder
 
 #RUN apk add --update --no-cache python3 git openssh
 RUN apk add --update openssh git
