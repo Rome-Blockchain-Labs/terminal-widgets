@@ -1,7 +1,7 @@
-FROM node:18.12.1 AS builder
+FROM node:16-alpine AS builder
 
 #RUN apk add --update --no-cache python3 git openssh
-# RUN apk add --update openssh git
+RUN apk add --update openssh git
 WORKDIR /usr/app
 COPY . .
 ARG REACT_APP_RUN_V2=
@@ -15,7 +15,7 @@ RUN rm -rf node_modules
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
-FROM node:18.12.1 AS runner
+FROM node:16-alpine AS runner
 WORKDIR /app
 COPY --from=builder /usr/app/build ./build
 COPY --from=builder /usr/app/node_modules ./node_modules
