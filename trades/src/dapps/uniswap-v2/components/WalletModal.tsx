@@ -84,7 +84,8 @@ const WalletModal = ({
           </div>
           <hr tw="w-full bg-gray-50 mt-2" />
           {Object.keys(SUPPORTED_WALLETS)
-            .filter((key) => key !== Wallet.COINBASE)
+            // .filter((key) => key !== Wallet.COINBASE)
+
             .map((key, index) => {
               const wallet = SUPPORTED_WALLETS[key];
               const isActive = selectedWallet === wallet.wallet;

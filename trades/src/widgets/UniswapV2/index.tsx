@@ -136,6 +136,9 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setWalletVisibility(true);
     }
   }, [chainId, setWalletVisibility, targetChainID]);
+  useEffect(() => {
+    window.localStorage.clear();
+  }, []);
 
   return (
     <div
