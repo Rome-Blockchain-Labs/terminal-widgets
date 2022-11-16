@@ -9,6 +9,7 @@ import {
 import NetswapRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/netswap';
 import PangolinRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/pangolin';
 import UniswapRouter from '@rbl/velox-common/uniV2ClonesSDK/routers/uniswap';
+import {widgetBridge} from '@romeblockchain/bridge';
 import { useWeb3React } from '@romeblockchain/wallet';
 import { Contract } from 'ethers';
 import { useContext, useMemo } from 'react';
@@ -290,6 +291,14 @@ export function useSwapCallback(
             : { from: account }),
         })
           .then((response: any) => {
+            widgetBridge.sendAnalyticsEvent('uniswap_v2_swap', {
+              chain_id:(trade.inputAmount.currency as any)?.chainId,
+              exchange_router_address: contract.address,
+              input_address:(trade.inputAmount.currency as any)?.address,
+              input_amount:trade.inputAmount.toExact(),
+              output_address:(trade.outputAmount.currency as any)?.address,
+              output_amount:trade.outputAmount.toExact(),
+            })
             const inputSymbol = getDefaultCurrencySymbol(
               trade.inputAmount.currency
             );
