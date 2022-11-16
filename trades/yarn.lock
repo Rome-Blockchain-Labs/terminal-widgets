@@ -4902,6 +4902,15 @@
     tsup "^5.11.13"
     typescript "^4.6.3"
 
+"@romeblockchain/bridge@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/bridge/-/bridge-0.0.5.tgz#3db47132a22cb1a3ef3ac187a7d42c5b7b1970b7"
+  integrity sha512-/Vi/0AXqGdXSSIdG3eO16p303qfaFsCLCn2d5YVwwWkz8cY7csYHnhK0V/tyK9+C3owtar+W65fPIVjIDtreeA==
+  dependencies:
+    "@types/node" "^17.0.23"
+    tsup "^5.11.13"
+    typescript "^4.6.3"
+
 "@romeblockchain/wallet@^0.1.28":
   version "0.1.29"
   resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.29.tgz#348716e71b7b3d58b29615662540d3bb5e0c060f"
