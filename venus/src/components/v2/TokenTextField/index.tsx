@@ -65,7 +65,7 @@ export const TokenTextField: React.FC<ITokenTextFieldProps> = ({
       type="number"
       leftIconName={tokenId as IconName}
       rightAdornment={
-        rightMaxButton && onChange ? (
+        rightMaxButton ? (
           <TertiaryButton
             onClick={() => setMaxValue(rightMaxButton.valueOnClick)}
             small

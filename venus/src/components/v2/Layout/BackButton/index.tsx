@@ -18,7 +18,7 @@ const BackButton: React.FC<IBackButton> = ({ children, className }) => {
 
   return (
     <SecondaryButton
-      onClick={() => history.goBack()}
+      onClick={() => history.back()}
       className={className}
       css={styles.container}
       fullWidth={isSmDown}
