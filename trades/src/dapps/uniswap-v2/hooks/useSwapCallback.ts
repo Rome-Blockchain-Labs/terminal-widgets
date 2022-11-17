@@ -291,13 +291,15 @@ export function useSwapCallback(
             : { from: account }),
         })
           .then((response: any) => {
-            widgetBridge.sendAnalyticsEvent('uniswap_v2_swap', {
+            widgetBridge.sendAnalyticsTxEvent('uniswap_v2_swap', {
               chain_id:(trade.inputAmount.currency as any)?.chainId,
               exchange_router_address: contract.address,
-              input_address:(trade.inputAmount.currency as any)?.address,
-              input_amount:trade.inputAmount.toExact(),
               output_address:(trade.outputAmount.currency as any)?.address,
               output_amount:trade.outputAmount.toExact(),
+              token_address:(trade.inputAmount.currency as any)?.address,
+              token_amount_w_decimals:trade.inputAmount.toExact(),
+              tx_hash:response.hash,
+              user_address:account
             })
             const inputSymbol = getDefaultCurrencySymbol(
               trade.inputAmount.currency
