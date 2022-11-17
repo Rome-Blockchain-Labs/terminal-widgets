@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { uid } from 'react-uid';
 
-import { getToken } from 'utilities';
+import { convertPercentageFromSmartContract, getToken } from 'utilities';
 import {
   currencyFormatter,
   formatToReadablePercentage,
@@ -103,7 +103,7 @@ const TableWrapper = styled.div`
 
         @media (min-width: 510px) {
           gap: 15px;
-          grid-template-columns: 1fr 1fr auto;
+          grid-template-columns: 1fr 1fr 1fr auto;
         }
       }
 
@@ -294,6 +294,10 @@ function Market({ history, settings }: MarketProps) {
                       <span className={`item-title${item.totalBorrowApy.lt(0) ? ' red' : ' green'}`}>{formatToReadablePercentage(item.totalBorrowApy)} </span>
                       <span className="item-value">({formatToReadablePercentage(item.borrowVenusApy)})</span>
                     </p>
+                  </div>
+                  <div>
+                    <p>Collateral Factor</p>
+                    <p className="item-title">{formatToReadablePercentage(convertPercentageFromSmartContract(item.collateralFactor))}</p>
                   </div>
                   <div>
                     <p>Price</p>
