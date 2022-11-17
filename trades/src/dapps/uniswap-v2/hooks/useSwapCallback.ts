@@ -291,7 +291,7 @@ export function useSwapCallback(
             : { from: account }),
         })
           .then((response: any) => {
-            widgetBridge.sendAnalyticsTxEvent('uniswap_v2_swap', {
+            widgetBridge.sendAnalyticsTxEvent('Uniswap_V2_Swap', {
               chain_id:(trade.inputAmount.currency as any)?.chainId,
               exchange_router_address: contract.address,
               output_address:(trade.outputAmount.currency as any)?.address,
