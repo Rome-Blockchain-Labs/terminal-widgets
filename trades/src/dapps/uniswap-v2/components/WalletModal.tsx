@@ -95,7 +95,7 @@ const WalletModal = ({
                   connectHandler={async () => {
                     try {
                       setShowError(false);
-                      await handleConnect(wallet, chainParams, widgetBridge);
+                      await handleConnect(wallet, chainParams, widgetBridge as any);
                       setWalletVisibility(false);
                     } catch (error) {
                       setShowError(true);
