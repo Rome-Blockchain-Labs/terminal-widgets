@@ -10,6 +10,15 @@ module.exports = {
     project: './tsconfig.eslint.json',
   },
   rules: {
+    'spaced-comment': [
+      'error',
+      'always',
+      {
+        line: {
+          markers: ['/'],
+        },
+      },
+    ],
     // handled by prettier
     '@typescript-eslint/space-before-blocks': 0,
     '@typescript-eslint/indent': 0,

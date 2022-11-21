@@ -5,6 +5,9 @@ import supplyBnb, { ISupplyBnbInput, SupplyBnbOutput } from 'clients/api/mutatio
 import { useWeb3 } from 'clients/web3';
 import { useVTokenContract } from 'clients/contracts/hooks';
 import FunctionKey from 'constants/functionKey';
+import { useWeb3React } from '@romeblockchain/wallet';
+import { widgetBridge } from '@romeblockchain/bridge';
+import { getVBepToken } from 'utilities';
 
 export type SupplyBnbParams = Omit<ISupplyBnbInput, 'tokenContract' | 'account' | 'web3'>;
 
@@ -15,6 +18,9 @@ const useSupplyBnb = (
 ) => {
   const vBnbContract = useVTokenContract<'bnb'>('bnb');
   const web3 = useWeb3();
+  const { chainId } = useWeb3React();
+
+  const vBepTokenAddress = getVBepToken('bnb').address;
   return useMutation(
     FunctionKey.SUPPLY_BNB,
     params =>
@@ -27,6 +33,14 @@ const useSupplyBnb = (
     {
       ...options,
       onSuccess: (...onSuccessParams) => {
+        if (account && chainId && options?.variables?.amountWei) {
+          widgetBridge.sendAnalyticsTxEvent('Venus_Supply_BNB_Even', {
+            user_address: account,
+            chain_id: chainId.toString(),
+            token_address: vBepTokenAddress,
+            token_amount_w_decimals: options.variables.amountWei.toString(),
+          });
+        }
         queryClient.invalidateQueries(FunctionKey.GET_V_TOKEN_BALANCES_ALL);
         if (options?.onSuccess) {
           options.onSuccess(...onSuccessParams);
