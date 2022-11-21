@@ -19,6 +19,7 @@ import useGetPrice from 'hooks/useGetPrice'
 import useGetLimits from '../hooks/usePaymentMethod'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { AUTH_STATUS } from 'Context/AuthContext'
+import { widgetBridge } from '@romeblockchain/bridge'
 
 export interface FormValues {
   sourceAmount: number
@@ -170,7 +171,7 @@ export default function CreateOrder() {
 
   useEffect(() => {
     if (createOrderData) {
-      setCheckoutURL(createOrderData?.data.data.order.checkout_url)
+      widgetBridge.setCheckoutURL(createOrderData?.data.data.order.checkout_url)
     }
   }, [createOrderData])
 
