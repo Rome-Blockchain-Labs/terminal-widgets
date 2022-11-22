@@ -213,7 +213,7 @@ const Registration = ({
 
       <button
         onClick={() => router.push('/forgot-password')}
-        className="mt-2 text-sm hover:underline  text-left underline-offset-4"
+        className="mt-2 text-sm hover:underline  text-center underline-offset-4"
       >
         Forgot your password?
       </button>
