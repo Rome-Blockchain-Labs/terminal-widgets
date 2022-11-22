@@ -19,6 +19,7 @@ import useGetPrice from 'hooks/useGetPrice'
 import useGetLimits from '../hooks/usePaymentMethod'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { AUTH_STATUS } from 'Context/AuthContext'
+import { widgetBridge } from '@romeblockchain/bridge'
 
 export interface FormValues {
   sourceAmount: number
@@ -169,10 +170,16 @@ export default function CreateOrder() {
   }, [createOrderError, fiatBuyListError, tokenBuyListError])
 
   useEffect(() => {
+    const address = watch('wallet_address')
     if (createOrderData) {
       setCheckoutURL(createOrderData?.data.data.order.checkout_url)
+      if (address) {
+        widgetBridge.sendAnalyticsEvent(`banxa_${order}_order`, {
+          address,
+        })
+      }
     }
-  }, [createOrderData])
+  }, [createOrderData, order, watch])
 
   useEffect(() => {
     if (wg) {
