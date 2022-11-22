@@ -171,15 +171,23 @@ export default function CreateOrder() {
 
   useEffect(() => {
     const address = watch('wallet_address')
+    const source = watch('source')
+    const target = watch('target')
+    const source_amount = watch('source_amount')
+    const target_amount = watch('target_amount')
     if (createOrderData) {
       setCheckoutURL(createOrderData?.data.data.order.checkout_url)
-      if (address) {
+      if (address && source && target && source_amount && target_amount) {
         widgetBridge.sendAnalyticsEvent(`banxa_${order}_order`, {
           address,
+          source,
+          target,
+          source_amount: source_amount.toString(),
+          target_amount: target_amount.toString(),
         })
       }
     }
-  }, [createOrderData, order, watch])
+  }, [createOrderData, order, source, target, watch])
 
   useEffect(() => {
     if (wg) {
