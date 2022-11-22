@@ -31,6 +31,8 @@
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.2",
     "@mui/utils": "^5.4.4",
+    "@romeblockchain/bridge": "^0.0.6",
+    "@romeblockchain/wallet": "^0.1.13",
     "@storybook/storybook-deployer": "^2.8.10",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -76,9 +78,7 @@
     "web3": "^1.7.1",
     "web3-utils": "1.7.1",
     "yup": "^0.32.11",
-    "@lottiefiles/react-lottie-player": "3.4.9",
-    "@romeblockchain/bridge": "0.0.3",
-    "@romeblockchain/wallet": "0.1.13"
+    "@lottiefiles/react-lottie-player": "3.4.9"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.4.9",

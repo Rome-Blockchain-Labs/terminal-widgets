@@ -9,14 +9,15 @@ import {
   useGetXvsReward,
   useClaimXvsReward,
 } from 'clients/api';
+import { TOKENS } from 'constants/tokens';
 import { AuthContext } from 'context/AuthContext';
 import toast from 'components/Basic/Toast';
 import { IModalProps, Modal } from 'components/v2/Modal';
 import { Icon } from 'components/v2/Icon';
 import { SecondaryButton } from 'components/v2/Button';
 import useSuccessfulTransactionModal from 'hooks/useSuccessfulTransactionModal';
-import { convertWeiToCoins } from 'utilities/common';
-import { TokenId } from 'types';
+import useConvertWeiToReadableTokenString from 'hooks/useConvertWeiToReadableTokenString';
+import { Token, TokenId } from 'types';
 import { useStyles } from './styles';
 
 export interface IClaimRewardsUiProps {
@@ -47,10 +48,10 @@ export const ClaimRewardsUi: React.FC<IClaimRewardsUiProps> = ({
 
   const { openSuccessfulTransactionModal } = useSuccessfulTransactionModal();
 
-  const readableAmount = convertWeiToCoins({
-    value: amountWei!,
-    tokenId: XVS_SYMBOL,
-    returnInReadableFormat: true,
+  const readableAmount = useConvertWeiToReadableTokenString({
+    valueWei: amountWei!,
+    token: TOKENS.xvs as Token,
+    minimizeDecimals: true,
   });
 
   const handleClick = async () => {
