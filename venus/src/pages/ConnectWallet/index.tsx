@@ -27,19 +27,26 @@ function ConnectWallet() {
   };
 
   function getOptions() {
-    return Object.keys(SUPPORTED_WALLETS).map(key => {
-      const wallet = SUPPORTED_WALLETS[key];
-      const WalletLogo = WALLET_LOGO_MAP[wallet.wallet];
+    return Object.keys(SUPPORTED_WALLETS)
+      .filter(key => key !== 'COINBASE')
+      .map(key => {
+        const wallet = SUPPORTED_WALLETS[key];
+        const WalletLogo = WALLET_LOGO_MAP[wallet.wallet];
 
-      return (
-        <button key={key} type="button" onClick={connectWallet(wallet)} css={styles.connectButton}>
-          <WalletLogo css={styles.walletLogo} />
-          <Typography css={styles.walletName} component="span">
-            {wallet.name}
-          </Typography>
-        </button>
-      );
-    });
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={connectWallet(wallet)}
+            css={styles.connectButton}
+          >
+            <WalletLogo css={styles.walletLogo} />
+            <Typography css={styles.walletName} component="span">
+              {wallet.name}
+            </Typography>
+          </button>
+        );
+      });
   }
 
   return (
