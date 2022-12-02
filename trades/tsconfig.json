@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "declaration": false
   },
-  "include": ["src", "decs.d.ts"]
+  "include": ["src", "decs.d.ts", "twin.d.ts"]
 }
