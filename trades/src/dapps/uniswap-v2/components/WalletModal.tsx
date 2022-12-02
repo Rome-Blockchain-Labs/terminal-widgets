@@ -1,7 +1,6 @@
 import 'twin.macro';
 
 import {
-  getAddChainParametersfromNetworkName,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
@@ -51,12 +50,16 @@ const WalletModal = ({
   if (!walletVisibility) {
     return null;
   }
-
   return (
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
       <div tw="fixed top-0 w-full h-full z-30 flex justify-center items-center">
-        <div tw="mx-3 p-6 w-full min-h-[215px] md:mx-0 md:w-1/2 bg-dark-500 flex flex-wrap justify-center items-center rounded-10 h-fit-content max-w-lg">
+        <div tw="flex h-[110px] relative rounded-6">
+          <div tw="bg-[#7A808A] flex items-center justify-center w-8 rounded-l-6">
+            <span tw="-rotate-90 whitespace-nowrap text-[12px] text-[#00070E]">
+              Change Wallet
+            </span>
+          </div>
           {error && (
             <div
               tw="fixed top-0 md:top-5 md:rounded-md bg-red-50 p-4 "
@@ -79,41 +82,40 @@ const WalletModal = ({
               </div>
             </div>
           )}
-          <div tw="w-full text-yellow-400 flex">
-            <span> CONNECT / SWITCH TO A WALLET</span>
-          </div>
-          <hr tw="w-full bg-gray-50 mt-2" />
-          {Object.keys(SUPPORTED_WALLETS)
-            .filter((key) => key !== Wallet.COINBASE)
-            .map((key, index) => {
-              const wallet = SUPPORTED_WALLETS[key];
-              const isActive = selectedWallet === wallet.wallet;
 
-              return (
-                <WalletBox
-                  key={index}
-                  connectHandler={async () => {
-                    try {
-                      setShowError(false);
-                      await handleConnect(wallet, chainParams, widgetBridge);
-                      setWalletVisibility(false);
-                    } catch (error) {
-                      setShowError(true);
-                    }
-                  }}
-                  isActive={isActive}
-                  walletName={wallet.wallet}
-                >
-                  {wallet.wallet === 'METAMASK' ? (
-                    <MetamaskLogo size={30} />
-                  ) : wallet.wallet === Wallet.COINBASE ? (
-                    <CoinbaseIcon height={30} width={30} />
-                  ) : (
-                    <WalletConnectLogo size={30} />
-                  )}
-                </WalletBox>
-              );
-            })}
+          <div tw="bg-[#232C38] flex items-center px-6 gap-x-12 rounded-r-6">
+            {Object.keys(SUPPORTED_WALLETS)
+              .filter((key) => key !== Wallet.COINBASE)
+              .map((key, index) => {
+                const wallet = SUPPORTED_WALLETS[key];
+                const isActive = selectedWallet === wallet.wallet;
+
+                return (
+                  <WalletBox
+                    key={index}
+                    connectHandler={async () => {
+                      try {
+                        setShowError(false);
+                        await handleConnect(wallet, chainParams, widgetBridge);
+                        setWalletVisibility(false);
+                      } catch (error) {
+                        setShowError(true);
+                      }
+                    }}
+                    isActive={isActive}
+                    walletName={wallet.wallet}
+                  >
+                    {wallet.wallet === 'METAMASK' ? (
+                      <MetamaskLogo size={50} />
+                    ) : wallet.wallet === Wallet.COINBASE ? (
+                      <CoinbaseIcon height={50} width={50} />
+                    ) : (
+                      <WalletConnectLogo size={50} />
+                    )}
+                  </WalletBox>
+                );
+              })}
+          </div>
         </div>
       </div>
     </>
