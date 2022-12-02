@@ -1,6 +1,7 @@
 import 'twin.macro';
 
 import {
+  getAddChainParameters,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
@@ -90,6 +91,7 @@ const WalletModal = ({
                 const wallet = SUPPORTED_WALLETS[key];
                 const isActive = selectedWallet === wallet.wallet;
 
+                const chainParams = getAddChainParameters(43114);
                 return (
                   <WalletBox
                     key={index}
