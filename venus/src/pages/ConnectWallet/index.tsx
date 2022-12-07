@@ -28,7 +28,7 @@ function ConnectWallet() {
 
   function getOptions() {
     return Object.keys(SUPPORTED_WALLETS)
-      .filter(wallet => wallet !== 'COINBASE')
+      .filter(key => key !== 'COINBASE')
       .map(key => {
         const wallet = SUPPORTED_WALLETS[key];
         const WalletLogo = WALLET_LOGO_MAP[wallet.wallet];
