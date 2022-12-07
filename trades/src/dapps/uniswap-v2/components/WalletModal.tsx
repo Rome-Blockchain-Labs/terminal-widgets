@@ -30,7 +30,6 @@ const WalletModal = ({
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { handleConnect, selectedWallet } = useWallets();
   const { account, chainId, connector, isActivating } = useWeb3React();
-  const { widgetBridge } = useIFrameContext();
   const [error, setShowError] = useState(false);
 
   const { search } = useLocation();
@@ -98,7 +97,7 @@ const WalletModal = ({
                     connectHandler={async () => {
                       try {
                         setShowError(false);
-                        await handleConnect(wallet, chainParams, widgetBridge);
+                        await handleConnect(wallet, chainParams);
                         setWalletVisibility(false);
                       } catch (error) {
                         setShowError(true);
@@ -108,11 +107,11 @@ const WalletModal = ({
                     walletName={wallet.wallet}
                   >
                     {wallet.wallet === 'METAMASK' ? (
-                      <MetamaskLogo size={50} />
+                      <MetamaskLogo size={30} />
                     ) : wallet.wallet === Wallet.COINBASE ? (
-                      <CoinbaseIcon height={50} width={50} />
+                      <CoinbaseIcon height={30} width={30} />
                     ) : (
-                      <WalletConnectLogo size={50} />
+                      <WalletConnectLogo size={30} />
                     )}
                   </WalletBox>
                 );

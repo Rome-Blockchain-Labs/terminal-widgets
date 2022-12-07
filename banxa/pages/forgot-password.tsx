@@ -28,8 +28,8 @@ const ForgotPassword: NextPage = () => {
     <>
       {showModal && <ConfirmModal setShowModal={setShowModal} />}
       {isLoading && <Loader />}
-      <div className="h-full w-full  flex flex-col items-center justify-center text-white text-sm md:text-lg">
-        <img src="/logo.svg" className="h-[52px] w-auto mt-[50px] md:h-[10%]" alt="banxa_logo" />
+      <div className="  flex flex-col items-center justify-center text-white text-sm md:text-lg py-4">
+        <img src="/logo.svg" className="h-9 w-auto mt-5 md:h-[10%]" alt="banxa_logo" />
         <div className="mt-[21px] mb-[10px] w-full h-[1px]  bg-gradient-to-r from-[#d9d9d9]/0 via-[#d9d9d9] to-[#d9d9d9]/0" />
 
         <div>Trouble logging in?</div>

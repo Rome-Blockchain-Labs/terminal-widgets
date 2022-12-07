@@ -49,7 +49,7 @@ export default function SettingsModal() {
                 connectHandler={async () => {
                   const chainParams = getAddChainParameters(43114);
 
-                  await handleConnect(wallet, chainParams, widgetBridge);
+                  await handleConnect(wallet, chainParams, widgetBridge as any);
                   toggle();
                 }}
                 isActive={isActive}

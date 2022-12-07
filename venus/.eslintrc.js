@@ -3,13 +3,21 @@ module.exports = {
     browser: true,
     node: true,
   },
-  parser: '@typescript-eslint/parser',
   plugins: ['import', 'react', 'jsx-a11y', 'prettier'],
   extends: ['airbnb', 'airbnb-typescript', 'plugin:@typescript-eslint/recommended'],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
   rules: {
+    'spaced-comment': [
+      'error',
+      'always',
+      {
+        line: {
+          markers: ['/'],
+        },
+      },
+    ],
     // handled by prettier
     '@typescript-eslint/space-before-blocks': 0,
     '@typescript-eslint/indent': 0,
@@ -17,7 +25,7 @@ module.exports = {
     'object-curly-newline': 0,
     'no-confusing-arrow': 0,
     'react/jsx-one-expression-per-line': 0,
-
+    'react/no-unknown-property': 0,
     /* airbnb rules */
     'implicit-arrow-linebreak': 0,
     'import/prefer-default-export': 0,

@@ -45,7 +45,7 @@
     "@rbl/velox-common": "4.1.27",
     "@reach/portal": "^0.16.0",
     "@reduxjs/toolkit": "^1.6.1",
-    "@romeblockchain/bridge": "^0.0.3",
+    "@romeblockchain/bridge": "^0.0.6",
     "@romeblockchain/wallet": "^0.1.28",
     "@sushiswap/sdk": "5.0.0-canary.6",
     "@tailwindcss/aspect-ratio": "^0.4.0",
