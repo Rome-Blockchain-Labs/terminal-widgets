@@ -12,6 +12,7 @@ module.exports = {
     'react/jsx-indent-props': [2, 2],
     'react/jsx-max-props-per-line': [2, { maximum: 1, when: 'multiline' }],
     'react/jsx-pascal-case': 'off',
+    'react/no-unknown-property': 'off',
     'react/jsx-sort-props': [
       1,
       {

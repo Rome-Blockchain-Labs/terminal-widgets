@@ -4,7 +4,7 @@ import tw, { styled } from 'twin.macro';
 import { NetworkName } from '../../constants/networkExchange';
 
 const HoverContainer = styled.div<{ active: boolean }>`
-  ${tw`flex items-center w-28 h-28 rounded border border-solid  p-3 cursor-pointer justify-center text-center text-lg hover:bg-gray-400 hover:font-bold  grayscale-0 transition m-5`}
+  ${tw`h-full flex items-center  cursor-pointer justify-center text-center text-lg  hover:text-yellow-400  grayscale-0 transition `}
 
   ${({ active }) => (active ? tw`border-yellow-400` : tw`border-gray-400`)}
 `;
