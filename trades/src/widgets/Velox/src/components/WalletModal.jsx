@@ -1,23 +1,37 @@
 import 'twin.macro';
 
 import {
+  getAddChainParameters,
   SUPPORTED_WALLETS,
   useWallets,
   Wallet,
 } from '@romeblockchain/wallet';
+import queryString from 'query-string';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { AlertCircle, X } from 'react-feather';
+import { useLocation } from 'react-router-dom';
 
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
+import { getChainIdByNetworkName } from '../../../../constants/networkExchange';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
-import { useIFrameContext } from './IFrameProvider';
 
 const WalletModal = () => {
   const { handleConnect, selectedWallet } = useWallets();
-  const { widgetBridge } = useIFrameContext();
 
+  const { search } = useLocation();
+  const widget = queryString.parse(search);
   const [error, setShowError] = useState(false);
+  const [chainParams, setChainParams] = useState();
+
+  useEffect(() => {
+    if (widget.network) {
+      const targetChain = getChainIdByNetworkName(widget.network);
+      const targetChainParams = getAddChainParameters(targetChain);
+      setChainParams(targetChainParams);
+    }
+  }, [widget.network]);
   return (
     <>
       <div tw="fixed top-0 z-20 w-full h-full bg-black bg-opacity-80" />
@@ -64,8 +78,7 @@ const WalletModal = () => {
                     connectHandler={async () => {
                       try {
                         setShowError(false);
-                        await handleConnect(wallet, chainParams, widgetBridge);
-                        setWalletVisibility(false);
+                        await handleConnect(wallet, chainParams);
                       } catch (error) {
                         setShowError(true);
                       }
@@ -75,14 +88,12 @@ const WalletModal = () => {
                   >
                     {wallet.wallet === 'METAMASK' ? (
                       <MetamaskLogo size={50} />
-                    ) : wallet.wallet === Wallet.COINBASE ? (
-                      <CoinbaseIcon height={50} width={50} />
                     ) : (
                       <WalletConnectLogo size={50} />
                     )}
                   </WalletBox>
                 );
-              })}            
+              })}
           </div>
         </div>
       </div>
