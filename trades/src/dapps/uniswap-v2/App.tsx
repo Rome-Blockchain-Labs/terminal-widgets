@@ -60,7 +60,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
     settingsOpenOverride = false,
   }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { page, setAddressVisibility, setPage } = usePageContext();
+    const { page, setPage } = usePageContext();
     const toggle = useSettingsModalToggle();
     const [removeLiquidityCurrencies, setRemoveLiquidityCurrencies] = useState<
       string[]

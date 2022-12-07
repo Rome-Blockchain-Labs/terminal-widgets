@@ -1,7 +1,6 @@
 import 'twin.macro';
 
 import {
-  getAddChainParametersfromNetworkName,
   SUPPORTED_WALLETS,
   useWallets,
   useWeb3React,
@@ -20,7 +19,6 @@ import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { getChainIdByNetworkName } from '../../../constants/networkExchange';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
-import { useIFrameContext } from './IFrameProvider/index';
 
 const WalletModal = ({
   chainParams,
@@ -30,7 +28,6 @@ const WalletModal = ({
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { handleConnect, selectedWallet } = useWallets();
   const { account, chainId, connector, isActivating } = useWeb3React();
-  const { widgetBridge } = useIFrameContext();
   const [error, setShowError] = useState(false);
 
   const { search } = useLocation();
@@ -95,7 +92,7 @@ const WalletModal = ({
                   connectHandler={async () => {
                     try {
                       setShowError(false);
-                      await handleConnect(wallet, chainParams, widgetBridge);
+                      await handleConnect(wallet, chainParams);
                       setWalletVisibility(false);
                     } catch (error) {
                       setShowError(true);

@@ -54,7 +54,7 @@ export const UPCOMING_WALLETS: BaseWallet[] = [
 export const WALLET_LOGO_MAP: Record<WalletEnum, React.FC<React.SVGProps<SVGSVGElement>>> = {
   [WalletEnum.METAMASK]: MetaMaskLogo,
   [WalletEnum.WALLET_CONNECT]: WalletConnectLogo,
-  [WalletEnum.COINBASE_WALLET]: CoinbaseWalletLogo,
+  [WalletEnum.COINBASE]: CoinbaseWalletLogo,
   [WalletEnum.FORTMATIC]: CoinbaseWalletLogo,
   [WalletEnum.GNOSIS_SAFE]: CoinbaseWalletLogo,
   [WalletEnum.INJECTED]: CoinbaseWalletLogo,

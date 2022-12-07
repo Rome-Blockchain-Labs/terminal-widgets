@@ -1,7 +1,12 @@
 import 'twin.macro';
 
 import { NetworkName as VeloxNetworkName } from '@rbl/velox-common/multiChains';
-import { getAddChainParameters, useWeb3React } from '@romeblockchain/wallet';
+import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
+import {
+  getAddChainParameters,
+  useWallets,
+  useWeb3React,
+} from '@romeblockchain/wallet';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import React, { FC, memo, useContext, useEffect, useState } from 'react';
@@ -36,8 +41,8 @@ export interface QueryParams {
 }
 
 export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
-  const { chainId } = useWeb3React();
-
+  const { chainId, connector } = useWeb3React();
+  const { setSelectedWallet } = useWallets();
   const { setWalletVisibility } = useContext(PageContext);
   const [chainParams, setChainParams] = useState<
     number | AddEthereumChainParameter
@@ -136,6 +141,23 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
       setWalletVisibility(true);
     }
   }, [chainId, setWalletVisibility, targetChainID]);
+
+  useEffect(() => {
+    widgetBridge.subscribe(
+      RomeEventType.WIDGET_WALLET_DISCONNECT_EVENT,
+      async () => {
+        try {
+          if (connector && connector.deactivate) {
+            await connector.deactivate();
+          } else {
+            await connector.resetState();
+          }
+
+          setSelectedWallet(undefined);
+        } catch (error) {}
+      }
+    );
+  }, [connector, setSelectedWallet]);
 
   return (
     <div

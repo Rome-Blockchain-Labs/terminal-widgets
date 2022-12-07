@@ -9,7 +9,6 @@ import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { ModalWrapper } from '../../../../components/modals';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
-import { useIFrameContext } from '../../../../widgets/Dmm/IFrameProvider';
 import { ApplicationModal } from '../../state/application/actions';
 import {
   useModalOpen,
@@ -22,7 +21,6 @@ export default function SettingsModal() {
   const open = useModalOpen(ApplicationModal.WALLET);
   const toggle = useWalletModalToggle();
   const { handleConnect, selectedWallet } = useWallets();
-  const { widgetBridge } = useIFrameContext();
 
   return (
     <ModalWrapper noPadding isOpen={open} onDismiss={toggle}>
@@ -49,7 +47,7 @@ export default function SettingsModal() {
                 connectHandler={async () => {
                   const chainParams = getAddChainParameters(43114);
 
-                  await handleConnect(wallet, chainParams, widgetBridge);
+                  await handleConnect(wallet, chainParams);
                   toggle();
                 }}
                 isActive={isActive}
