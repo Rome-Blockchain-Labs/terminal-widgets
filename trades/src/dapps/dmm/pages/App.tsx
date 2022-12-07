@@ -11,8 +11,6 @@ import { KYBER_KRYSTAL_API } from '../../../config';
 import { AppDispatch } from '../../../store';
 import { DmmContext, DmmPage } from '../../../widgets/Dmm/DmmContext';
 import { defaultExchangeClient } from '../apollo/client';
-import Address from '../components/Address';
-import AddressModal from '../components/AddressModal/index';
 import Popups from '../components/Popups';
 import SettingsModal from '../components/SettingsModal';
 import WalletModal from '../components/WalletModal';
@@ -99,8 +97,6 @@ export default function App() {
 
             <Web3ReactManager>
               <BodyWrapper>
-                <AddressModal />
-                <Address />
                 <Popups />
                 {page === DmmPage.SWAP && <Swap />}
                 {page === DmmPage.POOL && <Pool />}

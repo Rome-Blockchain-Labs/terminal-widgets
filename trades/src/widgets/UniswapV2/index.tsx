@@ -22,7 +22,6 @@ import {
 } from '../../constants/networkExchange/index';
 import { getChainIdByNetworkName } from '../../constants/networkExchange/index';
 import UniswapV2Component, { UniswapPage } from '../../dapps/uniswap-v2/App';
-import AddressModal from '../../dapps/uniswap-v2/components/AddressModal';
 import IFrameProvider from '../../dapps/uniswap-v2/components/IFrameProvider';
 import WalletModal from '../../dapps/uniswap-v2/components/WalletModal';
 import {
@@ -168,7 +167,6 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
         <Provider store={store}>
           <IFrameProvider>
             <WalletModal chainParams={chainParams} />
-            <AddressModal />
             {targetChainID === chainId && (
               <UniswapV2Component
                 backgroundImage={
