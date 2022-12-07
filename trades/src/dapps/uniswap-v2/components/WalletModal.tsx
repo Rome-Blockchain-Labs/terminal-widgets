@@ -6,7 +6,6 @@ import {
   useWeb3React,
   Wallet,
 } from '@romeblockchain/wallet';
-import { Network } from '@web3-react/network';
 import { AddEthereumChainParameter } from '@web3-react/types';
 import queryString from 'query-string';
 import { useContext, useEffect, useState } from 'react';
@@ -27,7 +26,7 @@ const WalletModal = ({
 }) => {
   const { setWalletVisibility, walletVisibility } = useContext(PageContext);
   const { handleConnect, selectedWallet } = useWallets();
-  const { account, chainId, connector, isActivating } = useWeb3React();
+  const { chainId, connector } = useWeb3React();
   const [error, setShowError] = useState(false);
 
   const { search } = useLocation();
@@ -37,13 +36,7 @@ const WalletModal = ({
     if (chainId && chainId !== targetChain && selectedWallet) {
       window.location.reload();
     }
-  }, [account, chainId, connector, isActivating, search, selectedWallet]);
-
-  useEffect(() => {
-    if (connector instanceof Network) {
-      setWalletVisibility(true);
-    }
-  }, [connector, setWalletVisibility]);
+  }, [chainId, connector, search, selectedWallet, setWalletVisibility]);
 
   if (!walletVisibility) {
     return null;
