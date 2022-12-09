@@ -7,6 +7,7 @@ import Loader from 'components/Loader'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useRouter } from 'next/router'
 import { AUTH_STATUS } from 'Context/AuthContext'
+import { classNames } from 'utils/style'
 
 const Home: NextPage = () => {
   const [isLoginPage, setIsLoginPage] = useState(true)
@@ -23,11 +24,27 @@ const Home: NextPage = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="flex flex-col items-center justify-center text-white text-sm md:text-lg py-4">
-        <img src="/logo.svg" className="h-9 w-auto mt-5 md:h-[10%]" alt="banxa_logo" />
-        <div className="my-3 w-full h-[1px]  bg-gradient-to-r from-transparent via-[#d9d9d9] to-transparent" />
-        <div className="flex flex-col justify-center">
-          <div className="mt-[8%] flex flex-col w-[346px] ">
+      <div className="h-full w-full text-sm md:text-lg py-4 bg-gradient-to-br from-midnight to-november font-roboto grid place-items-center ">
+        <div
+          className={classNames(
+            isLoginPage ? 'w-[360px]' : ' w-[360px] wg:w-[510px]',
+            'flex flex-col justify-center mx-auto '
+          )}
+        >
+          <div className="bg-midnight flex h-16 px-11 items-center rounded-t-md ">
+            <img src="rt-logo.svg" />
+            <div className="text-sm text-white ml-auto text-right">
+              {isLoginPage ? (
+                <>
+                  <div>Login to your</div>
+                  <div>Rome Terminal account</div>
+                </>
+              ) : (
+                <div>Create your Rome Terminal Account</div>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col w-full mx-auto bg-midnight/50 px-11 py-3 rounded-b-md text-white">
             {isLoginPage ? (
               <Login setIsLoginPage={setIsLoginPage} setLoading={setLoading} />
             ) : (

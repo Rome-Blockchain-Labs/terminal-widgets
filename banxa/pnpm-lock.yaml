@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@headlessui/react': ^1.6.6
   '@heroicons/react': ^1.0.6
+  '@next/font': ^13.0.6
   '@romeblockchain/bridge': ^0.0.8
   '@romeblockchain/wallet': ^0.1.12
   '@sendgrid/mail': ^7.7.0
@@ -44,6 +45,7 @@ specifiers:
 dependencies:
   '@headlessui/react': 1.7.1_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 1.0.6_react@18.2.0
+  '@next/font': 13.0.6
   '@romeblockchain/bridge': 0.0.8_postcss@8.4.16
   '@romeblockchain/wallet': 0.1.12_reeldywbcxauyeyfi2tv2phkpe
   '@sendgrid/mail': 7.7.0
@@ -715,6 +717,10 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /@next/font/13.0.6:
+    resolution: {integrity: sha512-5vxNmvnV0CbYjQGtztD5Axft9C7npKihbQpiFhnDwdb99f9K/QSFfcJqxz0E5QBkf67O2niVGJ5lApJDu78w0w==}
+    dev: false
 
   /@next/swc-android-arm-eabi/12.2.5:
     resolution: {integrity: sha512-cPWClKxGhgn2dLWnspW+7psl3MoLQUcNqJqOHk2BhNcou9ARDtC0IjQkKe5qcn9qg7I7U83Gp1yh2aesZfZJMA==}
