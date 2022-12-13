@@ -34,17 +34,6 @@ export const TEST_NETWORKS: { [network: string]: NetworkParams } = {
     },
     rpcUrl: 'https://bsc-dataseed1.ninicoin.io',
   },
-  ethereum: {
-    blockExplorerUrl: 'https://rinkeby.etherscan.io',
-    chainId: 4,
-    chainName: 'Rinkeby Test Network',
-    nativeCurrency: {
-      decimals: 18,
-      name: 'Ethereum',
-      symbol: 'ETH',
-    },
-    rpcUrl: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-  },
 };
 
 export const MAIN_NETWORKS: { [network: string]: NetworkParams } = {

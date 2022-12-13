@@ -276,7 +276,7 @@ export default function FullPositionCard({
                   <CurrencyLogo
                     currency={currency1}
                     size="20px"
-                    style={{ marginLeft: '8px' }}
+                    tw="ml-2"
                   />
                 </RowFixed>
               ) : (

@@ -40,10 +40,12 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 `;
 
 export default function CurrencyLogo({
+  className,
   currency,
   size = '24px',
   style,
 }: {
+  className?: string;
   currency?: Currency;
   size?: string;
   style?: React.CSSProperties;
@@ -71,8 +73,9 @@ export default function CurrencyLogo({
   if (currency && currency.isNative) {
     const nativeCurrencyIcon = getNetworkIcon(network) as any;
     return (
-      <StyledEthereumLogo style={style}>
+      <StyledEthereumLogo className={className} style={style}>
         {React.cloneElement(nativeCurrencyIcon, {
+          active: true,
           height: size ? parseInt(size) : undefined,
           width: size ? parseInt(size) : undefined,
         })}
@@ -82,6 +85,7 @@ export default function CurrencyLogo({
     return (
       <StyledLogo
         alt={`${getDefaultCurrencySymbol(currency) ?? 'token'} logo`}
+        className={className}
         size={size}
         srcs={srcs}
         style={style}
