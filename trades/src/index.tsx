@@ -13,10 +13,10 @@ import reportWebVitals from './reportWebVitals';
 import store from './store';
 import GlobalStyles from './styles/GlobalStyles';
 
-// const DmmWidget = lazy(() =>
-//   import('./widgets/Dmm').then((module) => ({ default: module.DmmWidget }))
-// );
-// const VeloxWidget = lazy(() => import('./widgets/Velox'));
+const DmmWidget = lazy(() =>
+  import('./widgets/Dmm').then((module) => ({ default: module.DmmWidget }))
+);
+const VeloxWidget = lazy(() => import('./widgets/Velox'));
 
 const UniswapV2Widget = lazy(() =>
   import('./widgets/UniswapV2').then((module) => ({
@@ -59,13 +59,13 @@ ReactDOM.render(
                   uid={'univ2'}
                 />
               </Route>
-              {/* <Route path="/kyber">
+              <Route path="/kyber">
                 <DmmWidget blockchain={NetworkName.ETHEREUM} uid={'kyber'} />
               </Route>
 
               <Route path="/velox">
                 <VeloxWidget blockchain={NetworkName.ETHEREUM} uid={'velox'} />
-              </Route> */}
+              </Route>
             </Switch>
           </Router>
         </Suspense>
