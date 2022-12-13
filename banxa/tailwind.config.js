@@ -8,9 +8,10 @@ module.exports = {
     fontFamily: {
       ...fontFamily,
       sans: ['Montserrat', 'ui-sans-serif', 'system-ui', '-apple-system'],
+      roboto: ['Roboto'],
     },
     screens: {
-      wg: '430px',
+      wg: '510px',
       ...screens,
     },
     extend: {
@@ -23,6 +24,10 @@ module.exports = {
         'info-bg': '#E6F7FF',
         'error-border': '#FFCCC7',
         'error-bg': '#FFF2F0',
+        midnight: '#00070E',
+        november: '#7A808A',
+        sour: '#C1FF00',
+        winter: '#B4BBC7',
       },
     },
   },
