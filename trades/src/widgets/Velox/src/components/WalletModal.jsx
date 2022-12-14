@@ -1,6 +1,7 @@
 import 'twin.macro';
 
 import {
+  getAddChainParameters,
   SUPPORTED_WALLETS,
   useWallets,
   Wallet,
@@ -8,6 +9,7 @@ import {
 import { useState } from 'react';
 import { AlertCircle, X } from 'react-feather';
 
+import { CoinbaseIcon } from '../../../../components/icons/Coinbase';
 import MetamaskLogo from '../../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../../components/icons/WalletConnectLogo';
 import { WalletBox } from '../../../../contexts/WalletsContext/WalletSelectionModal';
@@ -57,6 +59,7 @@ const WalletModal = () => {
               .map((key, index) => {
                 const wallet = SUPPORTED_WALLETS[key];
                 const isActive = selectedWallet === wallet.wallet;
+                const chainParams = getAddChainParameters(43114);
 
                 return (
                   <WalletBox
@@ -65,7 +68,6 @@ const WalletModal = () => {
                       try {
                         setShowError(false);
                         await handleConnect(wallet, chainParams, widgetBridge);
-                        setWalletVisibility(false);
                       } catch (error) {
                         setShowError(true);
                       }
