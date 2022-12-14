@@ -4,12 +4,11 @@ import tw from 'twin.macro';
 import { IIconProps, TransitionPath } from '.';
 
 export const PangolinIcon: FC<IIconProps> = memo(
-  ({ active, height, isBackground, width }) => (
+  ({ active, height = 17, width = 17 }) => (
     <svg
-      css={[isBackground ? tw`absolute left-0` : '']}
-      height={isBackground ? '100%' : height ? height : 17}
+      height={height}
       viewBox="0 0 400 400"
-      width={isBackground ? '100%' : width ? width : 17}
+      width={width}
       xmlns="http://www.w3.org/2000/svg"
     >
       <TransitionPath
