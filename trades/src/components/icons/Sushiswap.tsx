@@ -1,17 +1,15 @@
 import React, { FC, memo, useRef } from 'react';
-import tw from 'twin.macro';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IIconProps, TransitionG, TransitionPath } from '.';
 
 export const SushiswapIcon: FC<IIconProps> = memo(
-  ({ className, grayscale, height = 14.585, isBackground, width = 15.925 }) => {
+  ({ className, grayscale, height = 14.585, width = 15.925 }) => {
     const uuid = useRef(uuidv4());
 
     return (
       <svg
         className={className}
-        css={[isBackground ? tw`absolute -left-1/2` : '']}
         height={height}
         viewBox="0 0 390.9 393.2"
         width={width}

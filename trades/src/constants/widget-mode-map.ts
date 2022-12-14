@@ -22,6 +22,7 @@ export const PROD_WIDGET_MODE_MAP: {
   [WidgetType.UNISWAPV2]: WidgetMode.NATIVE,
   [WidgetType.CHARTONLY]: WidgetMode.NATIVE,
   [WidgetType.CRYSTALVALE]: WidgetMode.NATIVE,
+  [WidgetType.SERENDALE]: WidgetMode.NATIVE,
   [WidgetType.VELOX]: WidgetMode.NATIVE,
   [WidgetType.MDEX]: WidgetMode.NATIVE,
 };

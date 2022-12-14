@@ -23,6 +23,7 @@ export enum NetworkName {
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
   DFK = 'dfk',
+  KLAYTN = 'klaytn',
 }
 
 export enum NetworkChainId {
@@ -37,6 +38,7 @@ export enum NetworkChainId {
   OPTIMISM = 10,
   POLYGON = 137,
   DFK = 53935,
+  KLAYTN = 8217,
 }
 export type NetworkChainHex = `0x${string}`;
 
@@ -61,6 +63,7 @@ export enum ExchangeType {
   UNISWAPV2 = 'uniswapv2',
   UNISWAPV3 = 'uniswapv3',
   CRYSTALVALE = 'crystalvale',
+  SERENDALE = 'serendale',
   NOTEXCHANGE = 'notexchange',
 }
 
@@ -96,26 +99,6 @@ const ETHEREUM_NETWORK_PARAM: NetworkParam = {
     'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161' //todo
   ),
   rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-  //todo
-  supportingWallets: ['metamask', 'coinbase'],
-};
-
-const ETHEREUM_TEST_NETWORK_PARAM: NetworkParam = {
-  blockExplorerUrl: 'https://rinkeby.etherscan.io',
-  chainHex: '0x4',
-  chainId: NetworkChainId.RINKEBY,
-  exchanges: [],
-  name: NetworkName.RINKEBY,
-  nativeCurrency: {
-    decimals: 18,
-    isNative: true,
-    name: 'Ethereum',
-    symbol: 'ETH',
-  },
-  provider: new ethers.providers.JsonRpcProvider(
-    'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161' //todo
-  ),
-  rpcUrl: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
   //todo
   supportingWallets: ['metamask', 'coinbase'],
 };
@@ -296,9 +279,27 @@ const DFK_NETWORK_PARAM: NetworkParam = {
   supportingWallets: ['metamask', 'coinbase'],
 };
 
+const KLAYTN_NETWORK_PARAM: NetworkParam = {
+  blockExplorerUrl: 'https://scope.klaytn.com/',
+  chainHex: '0x2019',
+  chainId: NetworkChainId.KLAYTN,
+  exchanges: [{ name: ExchangeType.SERENDALE }],
+  name: NetworkName.KLAYTN,
+  nativeCurrency: {
+    decimals: 18,
+    isNative: true,
+    name: 'Klay',
+    symbol: 'Klay',
+  },
+  provider: new ethers.providers.JsonRpcProvider(
+    'https://public-node-api.klaytnapi.com/v1/cypress'
+  ),
+  rpcUrl: 'https://public-node-api.klaytnapi.com/v1/cypress',
+  supportingWallets: ['metamask', 'coinbase'],
+};
+
 const networkParams: Array<NetworkParam> = [
   ETHEREUM_NETWORK_PARAM,
-  ETHEREUM_TEST_NETWORK_PARAM,
   AVALANCHE_NETWORK_PARAM,
   BINANCE_NETWORK_PARAM,
   AVALANCHE_TEST_NETWORK_PARAM,
@@ -308,6 +309,7 @@ const networkParams: Array<NetworkParam> = [
   OPTIMISM_NETWORK_PARAM,
   POLYGON_NETWORK_PARAM,
   DFK_NETWORK_PARAM,
+  KLAYTN_NETWORK_PARAM,
 ];
 
 /** Getters
@@ -614,6 +616,34 @@ export const getBasePairByNetworkExchange = (
       }
 
       return dfkBasePair;
+    case NetworkName.KLAYTN:
+      const klaytnBasePair = {
+        address: '',
+        blockchain: NetworkName.KLAYTN,
+        exchange,
+        token0: {
+          address: '0x30C103f8f5A3A732DFe2dCE1Cc9446f545527b43',
+          decimals: 18,
+          name: 'JEWEL',
+          symbol: 'JEWEL',
+        },
+        token1: {
+          address: '0x19Aac5f612f524B754CA7e7c41cbFa2E981A4432',
+          decimals: 18,
+          name: 'Wrapped KLAY',
+          symbol: 'WKLAY',
+        },
+      };
+
+      if (exchange === ExchangeType.SERENDALE) {
+        klaytnBasePair.address = '0x0d9d200720021F9de5C8413244f81087ecB4AdcC';
+      } else {
+        throw new Error(
+          `There's no valid base pair for ${exchange} in ${network} network`
+        );
+      }
+
+      return klaytnBasePair;
     default:
       throw new Error(
         `Invalid network: ${network} in getBasePairByNetworkExchange`

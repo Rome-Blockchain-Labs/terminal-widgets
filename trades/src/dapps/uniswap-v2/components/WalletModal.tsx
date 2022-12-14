@@ -20,7 +20,6 @@ import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { getChainIdByNetworkName } from '../../../constants/networkExchange';
 import { WalletBox } from '../../../contexts/WalletsContext/WalletSelectionModal';
 import { PageContext } from '../PageContext';
-import { useIFrameContext } from './IFrameProvider/index';
 
 const WalletModal = ({
   chainParams,
@@ -90,7 +89,6 @@ const WalletModal = ({
                 const wallet = SUPPORTED_WALLETS[key];
                 const isActive = selectedWallet === wallet.wallet;
 
-                const chainParams = getAddChainParameters(43114);
                 return (
                   <WalletBox
                     key={index}

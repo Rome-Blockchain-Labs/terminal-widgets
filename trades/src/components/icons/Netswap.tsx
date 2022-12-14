@@ -1,21 +1,18 @@
 
 import React, { FC } from 'react';
-import tw from 'twin.macro';
 
 import { IIconProps } from '.';
 export const NetswapIcon: FC<IIconProps> = ({
   active,
-  height,
-  isBackground,
-  width,
+  height = 34,
+  width = 28,
 }) => {
   return (
     <svg
-      css={isBackground ? [tw`absolute left-0`] : ['']}
-      height={isBackground ? '100%' : height ?? 34}
+      height={height}
       version="1.1"
       viewBox="0 0 111 91"
-      width={isBackground ? '100%' : width ?? 28}
+      width={width}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">

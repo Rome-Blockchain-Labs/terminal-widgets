@@ -49,6 +49,7 @@ export enum WidgetType {
   UNISWAPV2 = 'uniswapv2',
   CHARTONLY = 'non_existant_widget',
   CRYSTALVALE = 'crystalvale',
+  SERENDALE = 'serendale',
   VELOX = 'velox',
   MDEX = 'mdex',
 }

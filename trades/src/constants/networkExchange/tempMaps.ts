@@ -15,6 +15,8 @@ export const mapThisNetworkNameToMultiChainNetwork = (network: NetworkName) => {
       return 'POLYGON';
     case NetworkName.DFK:
       return 'DFK';
+    case NetworkName.KLAYTN:
+      return 'KLAYTN';
     default:
       return 'MOONRIVER';
   }
@@ -38,6 +40,8 @@ export const mapThisNetworkINIT_CODE_HASHNameToMultiChainNetwork = (
       return 'Polygon';
     case NetworkName.DFK:
       return 'DFK';
+    case NetworkName.KLAYTN:
+      return 'KLAYTN';
     default:
       return 'MoonRiver';
   }
@@ -57,6 +61,7 @@ export const mapThisNetworkMULTICHAINSNETWORKSNameToMultiChainNetwork: {
   [NetworkName.RINKEBY]: 'Rinkeby',
   [NetworkName.POLYGON]: 'Polygon',
   [NetworkName.DFK]: 'DFK',
+  [NetworkName.KLAYTN]: 'KLAYTN',
 };
 
 /**
