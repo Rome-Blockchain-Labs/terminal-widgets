@@ -1,17 +1,13 @@
 import 'twin.macro';
 
 import { getAddress } from '@ethersproject/address';
-import { useWallets, useWeb3React, Wallet } from '@romeblockchain/wallet';
+import { useWallets, useWeb3React } from '@romeblockchain/wallet';
 import { motion } from 'framer-motion';
-import { ReactNode, useRef } from 'react';
+import { useRef } from 'react';
 
 import MetamaskLogo from '../../../components/icons/MetamaskLogo';
 import WalletConnectLogo from '../../../components/icons/WalletConnectLogo';
 import { usePageContext } from '../PageContext';
-const WALLET_ICONS: { [id: string]: ReactNode } = {
-  METAMASK: <MetamaskLogo />,
-  WALLET_CONNECT: <WalletConnectLogo />,
-};
 
 const Address = () => {
   const { account } = useWeb3React();

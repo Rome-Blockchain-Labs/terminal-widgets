@@ -15,6 +15,7 @@ const withHeaderAndSigner = (WrappedComponent) => {
         dispatch(getWalletBalance({ provider }));
       }
     }, [active, dispatch, provider]);
+
     if (!account) {
       return <WalletModal />;
     }

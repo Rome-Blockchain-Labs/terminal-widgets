@@ -11,8 +11,6 @@ const MessageWrapper = styled.div`
   height: 20rem;
 `;
 
-const Message = styled.h2``;
-
 export default function Web3ReactManager({
   children,
 }: {

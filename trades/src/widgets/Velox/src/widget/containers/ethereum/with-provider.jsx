@@ -1,3 +1,4 @@
+import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
 import { useWeb3React } from '@romeblockchain/wallet';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -7,11 +8,27 @@ import {
   getWalletBalance,
   updateConnection,
 } from '../../../redux/wallet/walletSlice';
-
 const withHeaderAndSigner = (WrappedComponent) => {
   return (props) => {
     const dispatch = useDispatch();
-    const { account, isActive: active, provider } = useWeb3React();
+
+    const { account, connector, isActive: active, provider } = useWeb3React();
+
+    useEffect(() => {
+      const disconnectFromWallet = () => {
+        if (connector.deactivate) {
+          connector.deactivate();
+        } else {
+          connector.resetState();
+        }
+      };
+      widgetBridge.subscribe(
+        RomeEventType.WIDGET_WALLET_DISCONNECT_EVENT,
+        () => {
+          disconnectFromWallet();
+        }
+      );
+    }, [connector]);
 
     useEffect(() => {
       if (account && active && provider) {

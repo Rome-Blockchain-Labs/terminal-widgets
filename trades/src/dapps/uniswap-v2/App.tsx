@@ -9,7 +9,6 @@ import Web3ReactManager from '../../components/Web3ReactManager';
 import { NetworkName } from '../../constants/networkExchange';
 import { DappContextProvider } from '../../contexts';
 import { WidgetState } from '../../types';
-import Address from './components/Address';
 import { SwapPoolTabs } from './components/NavigationTab/index';
 import SettingsModal from './components/SettingsModal';
 import { usePageContext } from './PageContext';
@@ -60,7 +59,7 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
     settingsOpenOverride = false,
   }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { page, setAddressVisibility, setPage } = usePageContext();
+    const { page, setPage } = usePageContext();
     const toggle = useSettingsModalToggle();
     const [removeLiquidityCurrencies, setRemoveLiquidityCurrencies] = useState<
       string[]
@@ -114,7 +113,6 @@ export const UniswapApp: FC<UniswapV2Props> = memo(
             </div>
             <div tw="h-full relative">
               <div tw="flex flex-col justify-center items-center p-4 min-h-full relative">
-                <Address />
                 <Web3ReactManager>
                   {page === UniswapPage.SWAP && (
                     <Swap defaultPair={widget.pair} />
