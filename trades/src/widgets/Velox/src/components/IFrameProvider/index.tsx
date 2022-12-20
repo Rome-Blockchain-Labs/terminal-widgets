@@ -1,7 +1,7 @@
-import { RomeEventType, widgetBridge } from '@romeblockchain/bridge';
-import { NetworkName, useWeb3React } from '@romeblockchain/wallet';
+import { widgetBridge } from '@romeblockchain/bridge';
+// import { NetworkName, useWeb3React } from '@romeblockchain/wallet';
 import React, { ReactNode, useContext, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 interface IFrameContextState {
   widgetBridge: typeof widgetBridge | null;
@@ -13,33 +13,33 @@ export const IFrameContext = React.createContext<IFrameContextState>({
 
 // Do not extend provider with other variables to prevent rerenders
 const IFrameProvider = ({ children }: { children: ReactNode }) => {
-  const { chainId } = useWeb3React();
+  // const { chainId } = useWeb3React();
 
   useEffect(() => {
     widgetBridge.init();
   }, []);
 
-  useEffect(() => {
-    const getNetwork = () => {
-      switch (chainId) {
-        case 1:
-          return NetworkName.ETHEREUM;
-        case 43114:
-          return NetworkName.AVALANCHE;
-        case 56:
-          return NetworkName.BINANCE;
-        default:
-          break;
-      }
-    };
+  // useEffect(() => {
+  //   const getNetwork = () => {
+  //     switch (chainId) {
+  //       case 1:
+  //         return NetworkName.ETHEREUM;
+  //       case 43114:
+  //         return NetworkName.AVALANCHE;
+  //       case 56:
+  //         return NetworkName.BINANCE;
+  //       default:
+  //         break;
+  //     }
+  //   };
 
-    if (chainId) {
-      const currentNetwork = getNetwork();
-      widgetBridge.emit(RomeEventType.WIDGET_GENERIC_MESSAGE, {
-        blockchain: currentNetwork,
-      });
-    }
-  }, [chainId]);
+  //   if (chainId) {
+  //     const currentNetwork = getNetwork();
+  //     widgetBridge.emit(RomeEventType.WIDGET_GENERIC_MESSAGE, {
+  //       blockchain: currentNetwork,
+  //     });
+  //   }
+  // }, [chainId]);
 
   return (
     <IFrameContext.Provider value={{ widgetBridge }}>
