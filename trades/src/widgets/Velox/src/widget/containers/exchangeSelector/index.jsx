@@ -1,5 +1,7 @@
-import React from 'react';
+import queryString from 'query-string';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { NetworkName } from '../../../../../../constants/networkExchange';
@@ -46,11 +48,16 @@ const ExchangeSelector = (props) => {
   const { selectedExchange } = useSelector((state) => state?.velox?.strategy);
   const { chainHex } = useSelector((state) => state?.velox?.wallet.connection);
 
-  // useEffect(() => {
-  //   const defaultNetwork = getDefaultNetworkName();
-  //   const networkParams = getNetworkParams(defaultNetwork.toLowerCase());
-  //   switchNetwork(networkParams);
-  // }, [switchNetwork]);
+  const { search } = useLocation();
+  const widget = queryString.parse(search);
+
+  useEffect(() => {
+    if (widget) {
+      const network = widget.network;
+      switchNetwork(network);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [widget]);
 
   const switchToRinkeby = () => {
     switchNetwork(NetworkName.RINKEBY);
