@@ -123,7 +123,6 @@ function CurrencyCell({
   style: CSSProperties;
 }) {
   const { account, chainId } = useWeb3React();
-  const key = currencyKey(currency);
   const selectedTokenList = useSelectedTokenList();
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency);
   const customAdded = useIsUserAddedToken(currency);
@@ -135,15 +134,15 @@ function CurrencyCell({
   // only show add or remove buttons if not on selected list
   return (
     <MenuItem
-      className={`token-item-${key}`}
       disabled={isSelected}
       selected={otherSelected}
       style={style}
+      tw="px-2 py-1 flex"
       onClick={() => (isSelected ? null : onSelect())}
     >
-      <CurrencyLogo currency={currency} size={'24px'} />
+      <CurrencyLogo currency={currency} size={'24px'} tw="flex-shrink-0" />
       <Column>
-        <TokenSymbol>{getDefaultCurrencySymbol(currency)}</TokenSymbol>
+        <TokenSymbol title={getDefaultCurrencySymbol(currency)}>{getDefaultCurrencySymbol(currency)}</TokenSymbol>
         <FadedSpan>
           {!currency.isNative && !isOnSelectedList && customAdded ? (
             <TYPE.main fontWeight={500}>

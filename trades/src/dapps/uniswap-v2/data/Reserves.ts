@@ -50,6 +50,8 @@ const getExchangeNameFromExchange = (exchange: ExchangeName | undefined) => {
       return 'BeamSwap';
     case 'CRYSTALVALE':
       return 'Crystalvale';
+    case 'SERENDALE':
+      return 'Serendale';
     default:
       return '';
   }

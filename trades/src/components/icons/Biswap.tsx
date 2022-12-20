@@ -1,19 +1,17 @@
 import React, { FC, memo, useRef } from 'react';
-import tw from 'twin.macro';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IIconProps, TransitionPath } from '.';
 
 export const BiswapIcon: FC<IIconProps> = memo(
-  ({ grayscale, height, isBackground, width }) => {
+  ({ grayscale, height = 17, width = 17 }) => {
     const uuid = useRef(uuidv4());
 
     return (
       <svg
-        css={[isBackground ? tw`absolute -left-1/2` : '']}
-        height={isBackground ? '100%' : height ? height : 17}
+        height={height}
         viewBox="0 0 55 55"
-        width={isBackground ? '100%' : width ? width : 17}
+        width={width}
         xmlns="http://www.w3.org/2000/svg"
       >
         <TransitionPath

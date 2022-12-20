@@ -1,15 +1,13 @@
 import React, { FC, memo } from 'react';
-import tw from 'twin.macro';
 
 import { IIconProps, TransitionG, TransitionPath } from '.';
 
 export const MdexIcon: FC<IIconProps> = memo(
-  ({ grayscale, height, isBackground, width }) => (
+  ({ grayscale, height = 17, width = 17 }) => (
     <svg
-      css={[isBackground ? tw`absolute -left-1/2` : '']}
-      height={isBackground ? '100%' : height ? height : 17}
+      height={height}
       viewBox="0 0 400 400"
-      width={isBackground ? '100%' : width ? width : 17}
+      width={width}
       xmlns="http://www.w3.org/2000/svg"
     >
       <TransitionG>

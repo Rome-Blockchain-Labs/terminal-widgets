@@ -52,7 +52,7 @@ const Login = ({
         <div className="relative mt-1">
           <input
             type="email"
-            className="h-[47px] text-black  w-full rounded-md"
+            className="h-[47px] text-november  w-full rounded-md"
             placeholder="Enter your email"
             {...register('email', {
               required: 'Email address is required',
@@ -76,7 +76,7 @@ const Login = ({
         <div className="relative mt-1">
           <input
             type="password"
-            className="h-[47px] text-black  w-full rounded-md"
+            className="h-[47px] text-november w-full rounded-md"
             placeholder="Enter your password"
             {...register('password', {
               required: 'Password is required',
@@ -99,7 +99,7 @@ const Login = ({
         )}
         <button
           type="submit"
-          className="font-bold mt-[11px] h-[47px] w-full rounded-md bg-gradient-to-r from-[#0472c0] to-[#00d1c0] "
+          className="mt-[11px] h-[47px] w-full rounded-md bg-november text-sour hover:bg-midnight hover:text-white"
         >
           Continue
         </button>
@@ -108,10 +108,10 @@ const Login = ({
         onClick={() => router.push('/forgot-password')}
         className="mt-2 text-sm hover:underline  text-center underline-offset-4"
       >
-        Forgot your password?
+        Recover your password.
       </button>
-      <button onClick={() => setIsLoginPage(false)} className="mt-4 text-base hover:underline  underline-offset-4">
-        No RBL Account? Sign-Up Here
+      <button onClick={() => setIsLoginPage(false)} className="mt-2 mb-4 hover:underline  underline-offset-4 text-sm">
+        <span className="text-winter">No Rometerminal account? </span>Create one now.
       </button>
     </>
   )

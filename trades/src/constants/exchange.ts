@@ -1,6 +1,7 @@
 import {
   BeamSwap,
   MdexIcon,
+  NetswapIcon,
   PancakeswapIcon,
   PangolinIcon,
   Solarbeam,
@@ -9,6 +10,7 @@ import {
   UniswapIcon,
 } from '../components/icons';
 import { CrystalValeIcon } from '../components/icons/CrystalVale';
+import SerendaleIcon from '../components/icons/Serendale';
 import { WidgetType } from '../types';
 import { ExchangeType } from './networkExchange';
 
@@ -87,12 +89,28 @@ export const EXCHANGES: Array<Exchange> = [
     widgetType: WidgetType.UNISWAPV2,
   },
   {
+    exchangeType: ExchangeType.NETSWAP,
+    icon: NetswapIcon,
+    iconAlt: NetswapIcon,
+    name: ExchangeType.NETSWAP,
+    title: 'NETSWAP',
+    widgetType: WidgetType.NETSWAP,
+  },
+  {
     exchangeType: ExchangeType.CRYSTALVALE,
     icon: CrystalValeIcon,
     iconAlt: CrystalValeIcon,
     name: ExchangeType.CRYSTALVALE,
     title: 'CRYSTALVALE',
     widgetType: WidgetType.CRYSTALVALE,
+  },
+  {
+    exchangeType: ExchangeType.SERENDALE,
+    icon: SerendaleIcon,
+    iconAlt: SerendaleIcon,
+    name: ExchangeType.SERENDALE,
+    title: 'SERENDALE',
+    widgetType: WidgetType.SERENDALE,
   },
 ];
 

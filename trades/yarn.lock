@@ -4732,10 +4732,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@rbl/velox-common@4.1.27":
-  version "4.1.27"
-  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.27.tgz#e94eb163e31eb7f58c85e4ce6933096fdb01f19f"
-  integrity sha512-Yj+FjshQ9YimnVG/MlMnoFbtkjqzrK4IQQ44GZeLVU6W/m6oSYdf2o72R2Yf6zR+oCmEf2wmP8FjmNPrE6h5sA==
+"@rbl/velox-common@4.1.34":
+  version "4.1.34"
+  resolved "https://us-central1-npm.pkg.dev/rbl-common/rbl/@rbl/velox-common/-/@rbl/velox-common-4.1.34.tgz#86bfd78234714e903e9e2f1e739b65cd4dd0f291"
+  integrity sha512-y30WnPezkpQpIabjk8QD8MgPQpaGPJKmQHzUrTi0LEH1MQDfzlc18awO4UOBSK05y9NJF55w94NT+7oVxaNiRA==
   dependencies:
     "@ethersproject/providers" "^5.5.0"
     "@ethersproject/solidity" "^5.5.0"
@@ -4902,10 +4902,10 @@
     tsup "^5.11.13"
     typescript "^4.6.3"
 
-"@romeblockchain/wallet@^0.1.30":
-  version "0.1.30"
-  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.30.tgz#3a7792b6f627cc0fdd787c62f04e1ecb49094773"
-  integrity sha512-hKZQMyFmMMB6sPPRGtpByPoMJp2n5JFkeR54nkKlArdF1lq1cyG24s/XZ9gmFM57BMb8fqADYN9qOiXzcs0jYg==
+"@romeblockchain/wallet@^0.1.31":
+  version "0.1.31"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/wallet/-/wallet-0.1.31.tgz#1ac78ca3fdd42e9372757f3e25964535580a0c8c"
+  integrity sha512-dqkX5pDSBQtnd5cWJRV1SeD4IrJKvMgxpcn68GBXRVecqiUNBZ7WrRxJZOp9lwCpNvnL3nNVFFHcySNleGhLXg==
   dependencies:
     "@coinbase/wallet-sdk" "^3.5.4"
     "@romeblockchain/bridge" "^0.0.9"

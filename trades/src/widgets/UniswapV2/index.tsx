@@ -170,7 +170,7 @@ export const UniswapV2Widget: FC<WidgetCommonState> = memo(({ uid }) => {
             {targetChainID === chainId && (
               <UniswapV2Component
                 backgroundImage={
-                  Icon && <Icon isBackground height="100%" width="100%" />
+                  Icon && <Icon active height="100%" width="100%" />
                 }
                 defaultTokenList={defaultTokenList}
                 exchange={widget.exchange.toUpperCase() as any}

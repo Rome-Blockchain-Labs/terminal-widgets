@@ -126,6 +126,14 @@ export const NETWORKS = {
     NAME: 'DFK',
     NATIVE_TOKEN_NAME: 'JEWEL',
   },
+  [NetworkName.KLAYTN]: {
+    MAINNET: {
+      CHAIN_ID: '8217',
+      SERENDALE: { NAME: 'Serendale' },
+    },
+    NAME: 'KLAYTN',
+    NATIVE_TOKEN_NAME: 'KLAY',
+  },
 };
 
 const networks = [
@@ -447,6 +455,27 @@ const networks = [
       },
     ],
   },
+  {
+    id: 'KLAYTN',
+    key: 'KLAYTN',
+    subChains: [
+      {
+        USDTokenAddress: '0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167',
+        exchanges: [
+          {
+            ROUTER_ADDRESS: '0x9e987E5E9aB872598f601BE4aCC5ac23F484845E',
+            id: 'Serendale',
+            key: 'SERENDALE',
+          },
+        ],
+        id: '8217',
+        key: 'MAINNET',
+        nativeTokenAddress: '0xe4f05a66ec68b54a58b17c22107b02e0232cc817',
+        nativeTokenDecimals: 18,
+        veloxProxyAddress: '',
+      },
+    ],
+  },
 ];
 
 /** Inefficient helpers. This could be optimized by mapping data once and reading from a map
@@ -594,9 +623,13 @@ export type MoonRiverChainId = 1285;
 
 export type MoonBeamChainId = 1284;
 
+export type KlaytnChainId = 8217;
+
 export type ChainId =
   | EthereumChainId
   | AvalancheChainId
   | BSCChainId
   | MoonRiverChainId
-  | MoonBeamChainId;
+  | MoonBeamChainId
+  | KlaytnChainId
+;

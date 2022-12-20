@@ -1,23 +1,19 @@
 import React, { FC } from 'react';
-import tw from 'twin.macro';
 
 import { IIconProps } from '.';
 export const HermesProtocolIcon: FC<IIconProps> = ({
   className,
   color,
-  grayscale,
-  height,
-  isBackground,
-  width,
+  height = 28,
+  width = 28,
 }) => {
   return (
     <svg
       className={className}
-      css={isBackground ? [tw`absolute -left-1/2`] : ['']}
-      height={isBackground ? '100%' : height ?? 28}
+      height={height}
       version="1.1"
       viewBox="0 0 598.3 595.3"
-      width={isBackground ? '100%' : width ?? 28}
+      width={width}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g id="mgYk7y.tif">
