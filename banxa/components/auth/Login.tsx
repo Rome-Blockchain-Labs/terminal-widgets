@@ -24,7 +24,7 @@ const Login = ({
       password: '',
     },
   })
-  const { setIsLoggedIn } = useAuthContext()
+  const { setLoggedIn } = useAuthContext()
   const onSubmit = handleSubmit(async (formData) => {
     setLoading(true)
     try {
@@ -34,7 +34,7 @@ const Login = ({
           password: formData.password,
         },
       })
-      setIsLoggedIn(AUTH_STATUS.LOGGED_IN)
+      setLoggedIn()
       setLoading(false)
       router.push('/create-order')
     } catch (error: any) {
