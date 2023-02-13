@@ -6,7 +6,6 @@ import Login from 'components/auth/Login'
 import Loader from 'components/Loader'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useRouter } from 'next/router'
-import { AUTH_STATUS } from 'Context/AuthContext'
 import { classNames } from 'utils/style'
 
 const Home: NextPage = () => {
@@ -16,7 +15,7 @@ const Home: NextPage = () => {
   const { isLoggedIn } = useAuthContext()
 
   useEffect(() => {
-    if (isLoggedIn === AUTH_STATUS.LOGGED_IN) {
+    if (isLoggedIn) {
       router.push('/create-order')
     }
   }, [isLoggedIn, router])

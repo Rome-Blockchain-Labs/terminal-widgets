@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { deleteCookie } from 'cookies-next'
+import { ACCOUNT_REFERENCE_COOKIE } from 'constants/cookies'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  deleteCookie('account_reference', { req, res })
+  deleteCookie(ACCOUNT_REFERENCE_COOKIE, { req, res })
 
   deleteCookie('banxa', { req, res })
 

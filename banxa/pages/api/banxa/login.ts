@@ -3,6 +3,7 @@ import { db } from 'utils/firebase'
 import { stringToHash } from '../../../utils/hash'
 import bcrypt from 'bcrypt'
 import { setCookie } from 'cookies-next'
+import { ACCOUNT_REFERENCE_COOKIE, AUTH_COOKIES_MAX_AGE } from 'constants/cookies'
 
 const accountRef = db.collection('accounts')
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,11 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { password } = data
     const validPassword = await bcrypt.compare(req.body.params.password, password)
     if (validPassword) {
-      setCookie('account_reference', account_reference, {
+      setCookie(ACCOUNT_REFERENCE_COOKIE, account_reference, {
         req,
         res,
         httpOnly: true,
-        maxAge: 60 * 60 * 24,
+        maxAge: AUTH_COOKIES_MAX_AGE,
         sameSite: 'none',
         secure: true,
       })

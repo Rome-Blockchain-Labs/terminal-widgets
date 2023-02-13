@@ -85,11 +85,10 @@ const CurrencySelect = ({
           <fieldset className="pb-16 pl-1 pr-3 wg:pr-0 flex-grow overflow-scroll scrollbar-thin scrollbar-thumb-gray-700 ">
             <div className="space-y-2">
               {displayList &&
-                displayList.map((currency, index) => (
-                  <>
+                displayList.map((currency) => (
+                  <span key={currency.code}>
                     <hr />
                     <button
-                      key={index}
                       onClick={() => {
                         if (setCurrency) setCurrency(currency.code)
                         setCurrencyChange(true)
@@ -113,7 +112,7 @@ const CurrencySelect = ({
                         <span className="text-gray-500 ml-2">{currency.name}</span>
                       </div>
                     </button>
-                  </>
+                  </span>
                 ))}
             </div>
           </fieldset>

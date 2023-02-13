@@ -1,29 +1,37 @@
 import React, { createContext, ReactNode } from 'react'
-import useLocalStorage from 'utils/useLocalStorage'
+import { useCookies } from 'react-cookie'
 
-export enum AUTH_STATUS {
-  LOGGED_IN = 'logged-in',
-  LOGGGED_OUT = 'logged-out',
-}
+import { AUTH_COOKIES_MAX_AGE, LOGGED_IN } from 'constants/cookies'
 
 interface IAuthContext {
-  isLoggedIn: AUTH_STATUS
-  setIsLoggedIn: (val: AUTH_STATUS) => void
+  isLoggedIn: boolean
+  setLoggedIn: () => void
+  logout: () => void
 }
 export const AuthContext = createContext<IAuthContext>({
-  isLoggedIn: AUTH_STATUS.LOGGGED_OUT,
-  setIsLoggedIn: () => {},
+  isLoggedIn: false,
+  setLoggedIn: () => {},
+  logout: () => {},
 })
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('loggedin', AUTH_STATUS.LOGGGED_OUT)
+  const [cookies, setCookie, removeCookie] = useCookies([LOGGED_IN]);
 
   const context = {
-    isLoggedIn,
-    setIsLoggedIn,
+    isLoggedIn: LOGGED_IN in cookies,
+    setLoggedIn: () => {
+      setCookie(LOGGED_IN, true, {
+        maxAge: AUTH_COOKIES_MAX_AGE,
+      });
+    },
+    logout: () => {
+      removeCookie(LOGGED_IN);
+    },
   }
 
-  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  );
 }
 
 export default AuthContextProvider
