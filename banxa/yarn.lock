@@ -618,6 +618,11 @@
   dependencies:
     glob "7.1.7"
 
+"@next/font@^13.0.6":
+  version "13.1.6"
+  resolved "https://registry.yarnpkg.com/@next/font/-/font-13.1.6.tgz#2bf99e3321ec9b4d65781c0d0ebff072e8752e1a"
+  integrity sha512-AITjmeb1RgX1HKMCiA39ztx2mxeAyxl4ljv2UoSBUGAbFFMg8MO7YAvjHCgFhD39hL7YTbFjol04e/BPBH5RzQ==
+
 "@next/swc-android-arm-eabi@12.2.5":
   version "12.2.5"
   resolved "https://registry.yarnpkg.com/@next/swc-android-arm-eabi/-/swc-android-arm-eabi-12.2.5.tgz#903a5479ab4c2705d9c08d080907475f7bacf94d"
@@ -771,6 +776,15 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@romeblockchain/bridge/-/bridge-0.0.3.tgz#6ac938d1051c0806c26a5282d722c46a777f43eb"
   integrity sha512-VH5kQgHcQb6N831qLWOGtOu5FFssHtgzkxUz5fxRodi+fwiYyDE5A/8o5AWV6+kx140OQuLvWX17etdYaZJbow==
+  dependencies:
+    "@types/node" "^17.0.23"
+    tsup "^5.11.13"
+    typescript "^4.6.3"
+
+"@romeblockchain/bridge@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@romeblockchain/bridge/-/bridge-0.0.8.tgz#77f35eec5dfc32e481553fd412e3d03eec46d1e0"
+  integrity sha512-G08/d9Cu0A5UJzu1n1Ei1wRP8LoNz9H49b5EV5/6o3qSL7LQy+lWoSC2vZFIVHeH5VvRpdvbKyKoMUfVqsnDzA==
   dependencies:
     "@types/node" "^17.0.23"
     tsup "^5.11.13"
@@ -3440,9 +3454,9 @@ json-stable-stringify-without-jsonify@^1.0.1:
   integrity sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==
 
 json5@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
-  integrity sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.2.tgz#63d98d60f21b313b77c4d6da18bfa69d80e1d593"
+  integrity sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==
   dependencies:
     minimist "^1.2.0"
 
@@ -3749,9 +3763,9 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
     brace-expansion "^1.1.7"
 
 minimist@^1.2.0, minimist@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
-  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
+  integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
 minipass@^3.0.0:
   version "3.3.4"
