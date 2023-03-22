@@ -24,7 +24,7 @@ const Base = styled(RebassButton)<{
 `;
 
 export const ButtonPrimary = styled(Base)`
-  ${tw`bg-yellow-400 text-dark-400 text-xl`}
+  ${tw`bg-yellow-400 text-dark-400 text-xl hover:bg-gray-800`}
 
   &:disabled {
     ${tw`bg-gray-500 text-gray-300`}
