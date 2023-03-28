@@ -218,6 +218,7 @@ export function ButtonConfirmed({
   confirmed,
   ...rest
 }: { confirmed?: boolean; altDisabledStyle?: boolean } & ButtonProps) {
+  console.log(confirmed, altDisabledStyle, 'button');
   if (confirmed) {
     return <ButtonConfirmedStyle {...rest} />;
   } else {

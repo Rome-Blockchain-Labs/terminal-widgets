@@ -501,14 +501,14 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                 </ButtonError>
               ) : showApproveFlow ? (
                 <RowBetween>
-                  <ButtonConfirmed
-                    altDisabledStyle={approval === ApprovalState.PENDING}
-                    confirmed={approval === ApprovalState.APPROVED}
-                    disabled={
-                      approval !== ApprovalState.NOT_APPROVED ||
-                      approvalSubmitted
-                    }
-                    width="48%" // show solid button while waiting
+                  <button
+                    // altDisabledStyle={approval === ApprovalState.PENDING}
+                    // confirmed={approval === ApprovalState.APPROVED}
+                    // disabled={
+                    //   approval !== ApprovalState.NOT_APPROVED ||
+                    //   approvalSubmitted
+                    // }
+                    // width="48%" // show solid button while waiting
                     onClick={approveCallback}
                   >
                     <span tw="text-xl">
@@ -527,7 +527,7 @@ const Swap: FC<{ defaultPair?: Pair }> = ({ defaultPair }) => {
                         'Approve ' + currencies[Field.INPUT]?.symbol
                       )}
                     </span>
-                  </ButtonConfirmed>
+                  </button>
                   <ButtonError
                     disabled={
                       !isValid ||

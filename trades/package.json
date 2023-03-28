@@ -183,8 +183,5 @@
     "twin": {
       "preset": "styled-components"
     }
-  },
-  "engines": {
-    "node": "16.13.1"
   }
 }
